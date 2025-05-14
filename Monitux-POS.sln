@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monitux-POS", "Monitux-POS.csproj", "{EFE11B22-CE97-449D-93A6-2B3F70B0F522}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EFE11B22-CE97-449D-93A6-2B3F70B0F522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFE11B22-CE97-449D-93A6-2B3F70B0F522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFE11B22-CE97-449D-93A6-2B3F70B0F522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFE11B22-CE97-449D-93A6-2B3F70B0F522}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63F86BDF-0BE9-4D57-8D9A-C08255E8D09F}
+	EndGlobalSection
+EndGlobal
