@@ -16,7 +16,7 @@ namespace Monitux_POS.Clases
         public string? Direccion { get; set; }
         public string? Email { get; set; }
         public string? Contacto { get; set; }
-        public int? Tipo { get; set; }
+        public string? Tipo { get; set; }
 
         public string? Imagen { get; set; }
         public bool? Activo { get; set; } = true;

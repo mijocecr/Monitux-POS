@@ -37,14 +37,14 @@ namespace Monitux_POS.Ventanas
             comboBox1.Items.Add("Nombre");
             comboBox1.Items.Add("Descripcion");
             comboBox1.SelectedIndex = 0; // Selecciona el primer elemento por defecto
-
+            dataGridView1.ReadOnly = true; // Hace que el DataGridView sea de solo lectura
 
         }
 
 
         private void Cargar_Datos()
         {
-           
+
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
@@ -73,12 +73,6 @@ namespace Monitux_POS.Ventanas
 
 
             }
-
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
 
         }
@@ -145,7 +139,13 @@ namespace Monitux_POS.Ventanas
             if (res == DialogResult.Yes)
             {
                 // **DELETE**
-                pictureBox1.Image.Dispose(); // Libera la imagen del PictureBox antes de eliminarla
+                try
+                {
+                    if (pictureBox1.Image != null)
+                        pictureBox1.Image.Dispose(); // Libera la imagen del PictureBox antes de eliminarla
+                }
+                catch { }
+
                 SQLitePCL.Batteries.Init();
 
                 using var context = new Monitux_DB_Context();
@@ -158,7 +158,7 @@ namespace Monitux_POS.Ventanas
                     context.SaveChanges();
 
                     MessageBox.Show("Categoria eliminada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
+                    this.Dispose();
                 }
             }
         }
@@ -278,48 +278,19 @@ namespace Monitux_POS.Ventanas
             pictureBox1.Image = null; // Limpia la imagen del PictureBox
         }
 
-        private void dataGridView1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-
-
-        }
-
-        private void dataGridView1_KeyUp(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
-        {
-
-
-
-        }
-
         private void textBox1_TextChanged_1(object sender, EventArgs e)
         {
-            if (textBox1.Text == "")
-            {
+          //  if (textBox1.Text == "")
+           // {
 
-                Cargar_Datos();
-            }
-            else
-            {
+             //   Cargar_Datos();
+            //}
+            //else
+            //{
 
                 Filtrar(comboBox1.SelectedItem.ToString(), textBox1.Text);
 
-            }
+            //}
         }
 
 
@@ -401,7 +372,7 @@ namespace Monitux_POS.Ventanas
 
         private void button1_Click(object sender, EventArgs e)
         {
-          
+
 
 
 
@@ -409,6 +380,97 @@ namespace Monitux_POS.Ventanas
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void opcionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+
+
+
+
+        }
+
+        private void dataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+
+            try
+            {
+                if (dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value != null)
+                {
+                    this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
+                }
+
+                if (dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value != null)
+                {
+                    txtNombre.Text = dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
+                }
+
+                if (dataGridView1.Rows[e.RowIndex].Cells["Descripcion"].Value != null)
+                {
+                    txtDescripcion.Text = dataGridView1.Rows[e.RowIndex].Cells["Descripcion"].Value.ToString();
+                }
+
+                if (dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value != null &&
+                    !string.IsNullOrEmpty(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString()))
+                {
+                    try
+                    {
+                        pictureBox1.Load(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                        Imagen = dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString(); // Guarda la imagen seleccionada
+                    }
+                    catch
+                    {
+
+                        pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
+                    }
+
+                }
+                else
+                {
+                    Secuencial = 0;
+                    pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
+                    txtNombre.Text = "";
+                    txtDescripcion.Text = "";
+
+                }
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show("Error al cargar los datos: " + ex.Message);
+                pictureBox1.Image = null;
+            }
 
         }
     }

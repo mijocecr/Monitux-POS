@@ -59,13 +59,13 @@
             monituxDBContextBindingSource = new BindingSource(components);
             menuStrip1 = new MenuStrip();
             archivoToolStripMenuItem = new ToolStripMenuItem();
-            Menu_Agregar = new ToolStripMenuItem();
-            nuevoProveedorToolStripMenuItem = new ToolStripMenuItem();
-            categoriaToolStripMenuItem = new ToolStripMenuItem();
             Menu_Guardar = new ToolStripMenuItem();
             Menu_Eliminar = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             salirToolStripMenuItem = new ToolStripMenuItem();
+            nuevoProveedorToolStripMenuItem = new ToolStripMenuItem();
+            categoriaToolStripMenuItem = new ToolStripMenuItem();
+            Menu_Agregar = new ToolStripMenuItem();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -402,29 +402,6 @@
             archivoToolStripMenuItem.Text = "Opciones";
             archivoToolStripMenuItem.Click += archivoToolStripMenuItem_Click_1;
             // 
-            // Menu_Agregar
-            // 
-            Menu_Agregar.DropDownItems.AddRange(new ToolStripItem[] { nuevoProveedorToolStripMenuItem, categoriaToolStripMenuItem });
-            Menu_Agregar.Image = (Image)resources.GetObject("Menu_Agregar.Image");
-            Menu_Agregar.Name = "Menu_Agregar";
-            Menu_Agregar.Size = new Size(180, 22);
-            Menu_Agregar.Text = "Registrar";
-            // 
-            // nuevoProveedorToolStripMenuItem
-            // 
-            nuevoProveedorToolStripMenuItem.Image = (Image)resources.GetObject("nuevoProveedorToolStripMenuItem.Image");
-            nuevoProveedorToolStripMenuItem.Name = "nuevoProveedorToolStripMenuItem";
-            nuevoProveedorToolStripMenuItem.Size = new Size(128, 22);
-            nuevoProveedorToolStripMenuItem.Text = "Proveedor";
-            // 
-            // categoriaToolStripMenuItem
-            // 
-            categoriaToolStripMenuItem.Image = (Image)resources.GetObject("categoriaToolStripMenuItem.Image");
-            categoriaToolStripMenuItem.Name = "categoriaToolStripMenuItem";
-            categoriaToolStripMenuItem.Size = new Size(128, 22);
-            categoriaToolStripMenuItem.Text = "Categoria";
-            categoriaToolStripMenuItem.Click += categoriaToolStripMenuItem_Click;
-            // 
             // Menu_Guardar
             // 
             Menu_Guardar.ForeColor = Color.ForestGreen;
@@ -455,6 +432,30 @@
             salirToolStripMenuItem.Size = new Size(180, 22);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
+            // 
+            // nuevoProveedorToolStripMenuItem
+            // 
+            nuevoProveedorToolStripMenuItem.Image = (Image)resources.GetObject("nuevoProveedorToolStripMenuItem.Image");
+            nuevoProveedorToolStripMenuItem.Name = "nuevoProveedorToolStripMenuItem";
+            nuevoProveedorToolStripMenuItem.Size = new Size(180, 22);
+            nuevoProveedorToolStripMenuItem.Text = "Proveedor";
+            nuevoProveedorToolStripMenuItem.Click += nuevoProveedorToolStripMenuItem_Click;
+            // 
+            // categoriaToolStripMenuItem
+            // 
+            categoriaToolStripMenuItem.Image = (Image)resources.GetObject("categoriaToolStripMenuItem.Image");
+            categoriaToolStripMenuItem.Name = "categoriaToolStripMenuItem";
+            categoriaToolStripMenuItem.Size = new Size(180, 22);
+            categoriaToolStripMenuItem.Text = "Categoria";
+            categoriaToolStripMenuItem.Click += categoriaToolStripMenuItem_Click;
+            // 
+            // Menu_Agregar
+            // 
+            Menu_Agregar.DropDownItems.AddRange(new ToolStripItem[] { nuevoProveedorToolStripMenuItem, categoriaToolStripMenuItem });
+            Menu_Agregar.Image = (Image)resources.GetObject("Menu_Agregar.Image");
+            Menu_Agregar.Name = "Menu_Agregar";
+            Menu_Agregar.Size = new Size(180, 22);
+            Menu_Agregar.Text = "Registrar";
             // 
             // V_Producto
             // 
@@ -510,7 +511,6 @@
         private ComboBox comboProveedor;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem archivoToolStripMenuItem;
-        private ToolStripMenuItem Menu_Agregar;
         private ToolStripMenuItem Menu_Guardar;
         private ToolStripMenuItem Menu_Eliminar;
         private ToolStripSeparator toolStripSeparator1;
@@ -518,8 +518,9 @@
         private BindingSource monituxDBContextBindingSource;
         private TextBox txtCodigoFabricante;
         private Label label8;
+        private ComboBox comboCategoria;
+        private ToolStripMenuItem Menu_Agregar;
         private ToolStripMenuItem nuevoProveedorToolStripMenuItem;
         private ToolStripMenuItem categoriaToolStripMenuItem;
-        private ComboBox comboCategoria;
     }
 }

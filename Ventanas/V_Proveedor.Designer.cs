@@ -41,21 +41,24 @@
             label5 = new Label();
             label6 = new Label();
             checkBox1 = new CheckBox();
-            comboBox1 = new ComboBox();
+            combo_Tipo = new ComboBox();
             menuStrip1 = new MenuStrip();
             archivoToolStripMenuItem = new ToolStripMenuItem();
-            Menu_Agregar = new ToolStripMenuItem();
-            nuevoProveedorToolStripMenuItem = new ToolStripMenuItem();
-            categoriaToolStripMenuItem = new ToolStripMenuItem();
+            nuevoToolStripMenuItem = new ToolStripMenuItem();
             Menu_Guardar = new ToolStripMenuItem();
             Menu_Eliminar = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             salirToolStripMenuItem = new ToolStripMenuItem();
             pictureBox1 = new PictureBox();
             dataGridView1 = new DataGridView();
+            groupBox1 = new GroupBox();
+            label7 = new Label();
+            comboBox2 = new ComboBox();
+            textBox1 = new TextBox();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -156,21 +159,22 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(226, 182);
+            checkBox1.Location = new Point(322, 190);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(60, 19);
             checkBox1.TabIndex = 12;
             checkBox1.Text = "Activo";
             checkBox1.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // combo_Tipo
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Local", "Nacional", "Internacional", "Virtual" });
-            comboBox1.Location = new Point(81, 180);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(107, 23);
-            comboBox1.TabIndex = 13;
+            combo_Tipo.DropDownStyle = ComboBoxStyle.DropDownList;
+            combo_Tipo.FormattingEnabled = true;
+            combo_Tipo.Items.AddRange(new object[] { "Local", "Nacional", "Internacional", "Virtual" });
+            combo_Tipo.Location = new Point(81, 180);
+            combo_Tipo.Name = "combo_Tipo";
+            combo_Tipo.Size = new Size(107, 23);
+            combo_Tipo.TabIndex = 13;
             // 
             // menuStrip1
             // 
@@ -184,88 +188,127 @@
             // 
             // archivoToolStripMenuItem
             // 
-            archivoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { Menu_Agregar, Menu_Guardar, Menu_Eliminar, toolStripSeparator1, salirToolStripMenuItem });
+            archivoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { nuevoToolStripMenuItem, Menu_Guardar, Menu_Eliminar, toolStripSeparator1, salirToolStripMenuItem });
             archivoToolStripMenuItem.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             archivoToolStripMenuItem.ForeColor = Color.DarkViolet;
             archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
             archivoToolStripMenuItem.Size = new Size(69, 20);
             archivoToolStripMenuItem.Text = "Opciones";
+            archivoToolStripMenuItem.Click += archivoToolStripMenuItem_Click;
             // 
-            // Menu_Agregar
+            // nuevoToolStripMenuItem
             // 
-            Menu_Agregar.DropDownItems.AddRange(new ToolStripItem[] { nuevoProveedorToolStripMenuItem, categoriaToolStripMenuItem });
-            Menu_Agregar.Image = (Image)resources.GetObject("Menu_Agregar.Image");
-            Menu_Agregar.Name = "Menu_Agregar";
-            Menu_Agregar.Size = new Size(180, 22);
-            Menu_Agregar.Text = "Registrar";
-            // 
-            // nuevoProveedorToolStripMenuItem
-            // 
-            nuevoProveedorToolStripMenuItem.Image = (Image)resources.GetObject("nuevoProveedorToolStripMenuItem.Image");
-            nuevoProveedorToolStripMenuItem.Name = "nuevoProveedorToolStripMenuItem";
-            nuevoProveedorToolStripMenuItem.Size = new Size(128, 22);
-            nuevoProveedorToolStripMenuItem.Text = "Proveedor";
-            // 
-            // categoriaToolStripMenuItem
-            // 
-            categoriaToolStripMenuItem.Image = (Image)resources.GetObject("categoriaToolStripMenuItem.Image");
-            categoriaToolStripMenuItem.Name = "categoriaToolStripMenuItem";
-            categoriaToolStripMenuItem.Size = new Size(128, 22);
-            categoriaToolStripMenuItem.Text = "Categoria";
+            nuevoToolStripMenuItem.Image = (Image)resources.GetObject("nuevoToolStripMenuItem.Image");
+            nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
+            nuevoToolStripMenuItem.Size = new Size(117, 22);
+            nuevoToolStripMenuItem.Text = "Nuevo";
+            nuevoToolStripMenuItem.Click += nuevoToolStripMenuItem_Click;
             // 
             // Menu_Guardar
             // 
             Menu_Guardar.ForeColor = Color.ForestGreen;
             Menu_Guardar.Image = (Image)resources.GetObject("Menu_Guardar.Image");
             Menu_Guardar.Name = "Menu_Guardar";
-            Menu_Guardar.Size = new Size(180, 22);
+            Menu_Guardar.Size = new Size(117, 22);
             Menu_Guardar.Text = "Guardar";
+            Menu_Guardar.Click += Menu_Guardar_Click;
             // 
             // Menu_Eliminar
             // 
             Menu_Eliminar.ForeColor = Color.Red;
             Menu_Eliminar.Image = (Image)resources.GetObject("Menu_Eliminar.Image");
             Menu_Eliminar.Name = "Menu_Eliminar";
-            Menu_Eliminar.Size = new Size(180, 22);
+            Menu_Eliminar.Size = new Size(117, 22);
             Menu_Eliminar.Text = "Eliminar";
+            Menu_Eliminar.Click += Menu_Eliminar_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(114, 6);
             // 
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.Image = (Image)resources.GetObject("salirToolStripMenuItem.Image");
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(180, 22);
+            salirToolStripMenuItem.Size = new Size(117, 22);
             salirToolStripMenuItem.Text = "Salir";
+            salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(292, 39);
+            pictureBox1.BorderStyle = BorderStyle.FixedSingle;
+            pictureBox1.Location = new Point(292, 36);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(122, 135);
+            pictureBox1.Size = new Size(122, 138);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 15;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 238);
+            dataGridView1.Location = new Point(12, 224);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(402, 185);
+            dataGridView1.Size = new Size(402, 199);
             dataGridView1.TabIndex = 16;
+            dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.CellEnter += dataGridView1_CellEnter;
+            dataGridView1.CellLeave += dataGridView1_CellLeave;
+            dataGridView1.CellMouseLeave += dataGridView1_CellMouseLeave;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(label7);
+            groupBox1.Controls.Add(comboBox2);
+            groupBox1.Controls.Add(textBox1);
+            groupBox1.Location = new Point(12, 432);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(402, 55);
+            groupBox1.TabIndex = 17;
+            groupBox1.TabStop = false;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(8, 25);
+            label7.Name = "label7";
+            label7.Size = new Size(66, 15);
+            label7.TabIndex = 10;
+            label7.Text = "Buscar por:";
+            // 
+            // comboBox2
+            // 
+            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(80, 22);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(121, 23);
+            comboBox2.TabIndex = 9;
+            // 
+            // textBox1
+            // 
+            textBox1.ForeColor = Color.FromArgb(192, 0, 192);
+            textBox1.Location = new Point(229, 22);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(139, 23);
+            textBox1.TabIndex = 8;
+            textBox1.TextAlign = HorizontalAlignment.Center;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // V_Proveedor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(420, 435);
+            ClientSize = new Size(420, 499);
+            ControlBox = false;
+            Controls.Add(groupBox1);
             Controls.Add(dataGridView1);
             Controls.Add(pictureBox1);
             Controls.Add(menuStrip1);
-            Controls.Add(comboBox1);
+            Controls.Add(combo_Tipo);
             Controls.Add(checkBox1);
             Controls.Add(label6);
             Controls.Add(txt_Contacto);
@@ -278,13 +321,17 @@
             Controls.Add(label2);
             Controls.Add(txt_Nombre);
             Controls.Add(label1);
+            MaximizeBox = false;
             Name = "V_Proveedor";
-            Text = "V_Proveedor";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Proveedores";
             Load += V_Proveedor_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -303,17 +350,19 @@
         private Label label5;
         private Label label6;
         private CheckBox checkBox1;
-        private ComboBox comboBox1;
+        private ComboBox combo_Tipo;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem archivoToolStripMenuItem;
-        private ToolStripMenuItem Menu_Agregar;
-        private ToolStripMenuItem nuevoProveedorToolStripMenuItem;
-        private ToolStripMenuItem categoriaToolStripMenuItem;
         private ToolStripMenuItem Menu_Guardar;
         private ToolStripMenuItem Menu_Eliminar;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem salirToolStripMenuItem;
         private PictureBox pictureBox1;
         private DataGridView dataGridView1;
+        private GroupBox groupBox1;
+        private Label label7;
+        private ComboBox comboBox2;
+        private TextBox textBox1;
+        private ToolStripMenuItem nuevoToolStripMenuItem;
     }
 }

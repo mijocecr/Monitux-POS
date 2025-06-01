@@ -34,7 +34,7 @@ namespace Monitux_POS.Ventanas
 
 
         public Producto producto { get; set; } = new Producto();
-        public int Secuencial { get; set; } 
+        public int Secuencial { get; set; }
         public int Secuencial_Proveedor { get; set; } = 0;
         public int Secuencial_Categoria { get; set; } = 0;
 
@@ -68,7 +68,7 @@ namespace Monitux_POS.Ventanas
                 Secuencial_Proveedor = Vista_producto.Secuencial_Proveedor;
                 Secuencial_Categoria = Vista_producto.Secuencial_Categoria;
                 txtExistenciaMinima.Text = Vista_producto.Existencia_Minima.ToString();
-                
+
                 // Menu_Agregar.Visible = esNuevo;
                 // Menu_Eliminar.Visible = esNuevo;
                 try
@@ -115,9 +115,11 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
 
-            var proveedores = context.Proveedores.ToList();
+            //var proveedores = context.Proveedores.ToList();
 
-
+            var proveedores = context.Proveedores
+    .Where(p => (bool)p.Activo)
+    .ToList();
 
 
 
@@ -129,7 +131,7 @@ namespace Monitux_POS.Ventanas
 
 
             }
-
+          
             foreach (var item in comboProveedor.Items)
             {
                 if (item.ToString().Contains(this.Secuencial_Proveedor.ToString())) // Verifica si hay un número
@@ -275,6 +277,11 @@ namespace Monitux_POS.Ventanas
 
                     try
                     {
+                        if (comboProveedor.SelectedItem == null)
+                        {
+                            MessageBox.Show("Debe seleccionar un proveedor válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
                         producto.Secuencial_Proveedor = int.Parse(comboProveedor.SelectedItem.ToString().Substring(0, comboProveedor.SelectedItem.ToString().IndexOf("-")));
 
                     }
@@ -553,7 +560,7 @@ namespace Monitux_POS.Ventanas
 
                         if (!string.IsNullOrEmpty(rutaArchivo1) && File.Exists(rutaArchivo1))
                         {
-                           
+
                             File.Delete(rutaArchivo1);
                         }
 
@@ -574,7 +581,7 @@ namespace Monitux_POS.Ventanas
                 }
                 catch (Exception ex)
                 {
-                   
+
                     // MessageBox.Show($"Error al eliminar el producto: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -617,6 +624,12 @@ namespace Monitux_POS.Ventanas
         private void comboCategoria_MouseClick_1(object sender, MouseEventArgs e)
         {
             llenar_Combo_Categoria();
+        }
+
+        private void nuevoProveedorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            V_Proveedor proveedor = new V_Proveedor();
+            proveedor.ShowDialog();
         }
     }
 }

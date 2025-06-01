@@ -61,9 +61,10 @@
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.CellEnter += dataGridView1_CellEnter;
             dataGridView1.CellLeave += dataGridView1_CellLeave;
-            dataGridView1.CellMouseMove += dataGridView1_CellMouseMove;
-            dataGridView1.CellMouseUp += dataGridView1_CellMouseUp;
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
+            dataGridView1.KeyDown += dataGridView1_KeyDown;
             dataGridView1.KeyPress += dataGridView1_KeyPress;
             dataGridView1.KeyUp += dataGridView1_KeyUp;
             // 
@@ -105,7 +106,6 @@
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(185, 23);
             txtNombre.TabIndex = 4;
-            txtNombre.TextAlign = HorizontalAlignment.Center;
             txtNombre.TextChanged += textBox1_TextChanged;
             // 
             // menuStrip1
@@ -125,6 +125,7 @@
             opcionesToolStripMenuItem.Name = "opcionesToolStripMenuItem";
             opcionesToolStripMenuItem.Size = new Size(69, 20);
             opcionesToolStripMenuItem.Text = "Opciones";
+            opcionesToolStripMenuItem.Click += opcionesToolStripMenuItem_Click;
             // 
             // nuevoToolStripMenuItem1
             // 
@@ -175,7 +176,6 @@
             txtDescripcion.Name = "txtDescripcion";
             txtDescripcion.Size = new Size(245, 58);
             txtDescripcion.TabIndex = 6;
-            txtDescripcion.TextAlign = HorizontalAlignment.Center;
             // 
             // textBox1
             // 
