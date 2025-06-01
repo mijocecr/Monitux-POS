@@ -112,7 +112,7 @@ namespace Monitux_POS
             // 
             Menu.Items.AddRange(new ToolStripItem[] { cambiarImagenToolStripMenuItem, agregarComentarioToolStripMenuItem, inventarioToolStripMenuItem });
             Menu.Name = "Menu";
-            Menu.Size = new Size(181, 92);
+            Menu.Size = new Size(147, 70);
             // 
             // cambiarImagenToolStripMenuItem
             // 
@@ -120,7 +120,7 @@ namespace Monitux_POS
             cambiarImagenToolStripMenuItem.ForeColor = Color.Black;
             cambiarImagenToolStripMenuItem.Image = (Image)resources.GetObject("cambiarImagenToolStripMenuItem.Image");
             cambiarImagenToolStripMenuItem.Name = "cambiarImagenToolStripMenuItem";
-            cambiarImagenToolStripMenuItem.Size = new Size(180, 22);
+            cambiarImagenToolStripMenuItem.Size = new Size(146, 22);
             cambiarImagenToolStripMenuItem.Text = "Imagen";
             cambiarImagenToolStripMenuItem.Click += cambiarImagenToolStripMenuItem_Click;
             // 
@@ -147,7 +147,7 @@ namespace Monitux_POS
             agregarComentarioToolStripMenuItem.ForeColor = Color.Black;
             agregarComentarioToolStripMenuItem.Image = (Image)resources.GetObject("agregarComentarioToolStripMenuItem.Image");
             agregarComentarioToolStripMenuItem.Name = "agregarComentarioToolStripMenuItem";
-            agregarComentarioToolStripMenuItem.Size = new Size(180, 22);
+            agregarComentarioToolStripMenuItem.Size = new Size(146, 22);
             agregarComentarioToolStripMenuItem.Text = "Comentario...";
             agregarComentarioToolStripMenuItem.ToolTipText = "Agregar o actualizar comentario de este producto.";
             agregarComentarioToolStripMenuItem.Click += agregarComentarioToolStripMenuItem_Click;
@@ -158,7 +158,7 @@ namespace Monitux_POS
             inventarioToolStripMenuItem.ForeColor = Color.Black;
             inventarioToolStripMenuItem.Image = (Image)resources.GetObject("inventarioToolStripMenuItem.Image");
             inventarioToolStripMenuItem.Name = "inventarioToolStripMenuItem";
-            inventarioToolStripMenuItem.Size = new Size(180, 22);
+            inventarioToolStripMenuItem.Size = new Size(146, 22);
             inventarioToolStripMenuItem.Text = "Producto";
             inventarioToolStripMenuItem.Click += inventarioToolStripMenuItem_Click;
             // 
@@ -168,7 +168,7 @@ namespace Monitux_POS
             agregarUnidadesToolStripMenuItem.ForeColor = Color.Black;
             agregarUnidadesToolStripMenuItem.Image = (Image)resources.GetObject("agregarUnidadesToolStripMenuItem.Image");
             agregarUnidadesToolStripMenuItem.Name = "agregarUnidadesToolStripMenuItem";
-            agregarUnidadesToolStripMenuItem.Size = new Size(180, 22);
+            agregarUnidadesToolStripMenuItem.Size = new Size(168, 22);
             agregarUnidadesToolStripMenuItem.Text = "Agregar Unidades";
             agregarUnidadesToolStripMenuItem.TextImageRelation = TextImageRelation.TextBeforeImage;
             agregarUnidadesToolStripMenuItem.Click += agregarUnidadesToolStripMenuItem_Click;
@@ -179,14 +179,14 @@ namespace Monitux_POS
             retirarUnidadesToolStripMenuItem.ForeColor = Color.Black;
             retirarUnidadesToolStripMenuItem.Image = (Image)resources.GetObject("retirarUnidadesToolStripMenuItem.Image");
             retirarUnidadesToolStripMenuItem.Name = "retirarUnidadesToolStripMenuItem";
-            retirarUnidadesToolStripMenuItem.Size = new Size(180, 22);
+            retirarUnidadesToolStripMenuItem.Size = new Size(168, 22);
             retirarUnidadesToolStripMenuItem.Text = "Retirar Unidades";
             retirarUnidadesToolStripMenuItem.Click += retirarUnidadesToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(165, 6);
             // 
             // editarProductoToolStripMenuItem
             // 
@@ -194,7 +194,7 @@ namespace Monitux_POS
             editarProductoToolStripMenuItem.ForeColor = Color.Black;
             editarProductoToolStripMenuItem.Image = (Image)resources.GetObject("editarProductoToolStripMenuItem.Image");
             editarProductoToolStripMenuItem.Name = "editarProductoToolStripMenuItem";
-            editarProductoToolStripMenuItem.Size = new Size(180, 22);
+            editarProductoToolStripMenuItem.Size = new Size(168, 22);
             editarProductoToolStripMenuItem.Text = "Ver Producto";
             editarProductoToolStripMenuItem.Click += editarProductoToolStripMenuItem_Click;
             // 
@@ -223,7 +223,7 @@ namespace Monitux_POS
 
         #endregion
 
-        private PictureBox Item_Imagen;
+        public PictureBox Item_Imagen;
         private Label Item_Precio;
         private Label Item_Codigo;
         private CheckBox Item_Seleccionado;

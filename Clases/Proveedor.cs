@@ -19,7 +19,7 @@ namespace Monitux_POS.Clases
         public int? Tipo { get; set; }
 
         public string? Imagen { get; set; }
-        public bool? Activo { get; set; }
-        
+        public bool? Activo { get; set; } = true;
+
     }
 }

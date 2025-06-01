@@ -407,7 +407,7 @@
             Menu_Agregar.DropDownItems.AddRange(new ToolStripItem[] { nuevoProveedorToolStripMenuItem, categoriaToolStripMenuItem });
             Menu_Agregar.Image = (Image)resources.GetObject("Menu_Agregar.Image");
             Menu_Agregar.Name = "Menu_Agregar";
-            Menu_Agregar.Size = new Size(120, 22);
+            Menu_Agregar.Size = new Size(180, 22);
             Menu_Agregar.Text = "Registrar";
             // 
             // nuevoProveedorToolStripMenuItem
@@ -430,7 +430,7 @@
             Menu_Guardar.ForeColor = Color.ForestGreen;
             Menu_Guardar.Image = (Image)resources.GetObject("Menu_Guardar.Image");
             Menu_Guardar.Name = "Menu_Guardar";
-            Menu_Guardar.Size = new Size(120, 22);
+            Menu_Guardar.Size = new Size(180, 22);
             Menu_Guardar.Text = "Guardar";
             Menu_Guardar.Click += Menu_Guardar_Click;
             // 
@@ -439,21 +439,21 @@
             Menu_Eliminar.ForeColor = Color.Red;
             Menu_Eliminar.Image = (Image)resources.GetObject("Menu_Eliminar.Image");
             Menu_Eliminar.Name = "Menu_Eliminar";
-            Menu_Eliminar.Size = new Size(120, 22);
+            Menu_Eliminar.Size = new Size(180, 22);
             Menu_Eliminar.Text = "Eliminar";
             Menu_Eliminar.Click += Menu_Eliminar_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(117, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.Image = (Image)resources.GetObject("salirToolStripMenuItem.Image");
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(120, 22);
-            salirToolStripMenuItem.Text = "Cerrar";
+            salirToolStripMenuItem.Size = new Size(180, 22);
+            salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 
             // V_Producto

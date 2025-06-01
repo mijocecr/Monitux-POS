@@ -130,10 +130,12 @@ public double Existencia_Minima { get; set; } = 0;
 
 
                 }
-                catch { 
-                
-                   // MessageBox.Show("Error al cargar la imagen: " + Imagen, "Error de Carga");
-                }
+                catch {
+
+
+                    
+                        // MessageBox.Show("Error al cargar la imagen: " + Imagen, "Error de Carga");
+                    }
 
 
                 actualizarItem = false;
@@ -346,6 +348,11 @@ public double Existencia_Minima { get; set; } = 0;
             {
                 Item_Seleccionado.Checked = true;
             }
+
+            
+
+
+
         }
 
         private void Miniatura_Producto_MouseLeave(object sender, EventArgs e)
@@ -604,6 +611,7 @@ public double Existencia_Minima { get; set; } = 0;
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             cantidadSelecccionItem = (int)numericUpDown1.Value;
+            
         }
 
         public double getUnidadesAgregar()

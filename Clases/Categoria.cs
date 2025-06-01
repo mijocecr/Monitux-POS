@@ -14,8 +14,8 @@ namespace Monitux_POS.Clases
         public int Secuencial { get; set; }
         public string? Nombre { get; set; }
         public string? Descripcion { get; set; }
-        public string? Imagen { get; set; }  
-            
+        public string? Imagen { get; set; } = "Sin Imagen";
+
 
     }
 }

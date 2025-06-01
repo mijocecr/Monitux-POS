@@ -233,7 +233,11 @@ namespace Monitux_POS
                 miniatura_Producto1.Codigo_QR = item.Codigo_QR;
                 miniatura_Producto1.Secuencial_Proveedor = item.Secuencial_Proveedor;
                 miniatura_Producto1.Secuencial_Categoria = item.Secuencial_Categoria;
-                
+              
+                /* miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
+                {
+                    MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+                };*/
 
                 //miniatura_Producto1.vistaEditar = new V_Producto(false,item.getProducto());
                 /*

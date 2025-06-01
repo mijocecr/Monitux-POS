@@ -1,4 +1,5 @@
-﻿using Monitux_POS.Clases;
+﻿using Microsoft.EntityFrameworkCore;
+using Monitux_POS.Clases;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,7 +33,18 @@ namespace Monitux_POS.Ventanas
 
         private void V_Categoria_Load(object sender, EventArgs e)
         {
+            Cargar_Datos(); // Carga los datos al iniciar el formulario
+            comboBox1.Items.Add("Nombre");
+            comboBox1.Items.Add("Descripcion");
+            comboBox1.SelectedIndex = 0; // Selecciona el primer elemento por defecto
 
+
+        }
+
+
+        private void Cargar_Datos()
+        {
+           
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
@@ -94,7 +106,16 @@ namespace Monitux_POS.Ventanas
                 if (dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value != null &&
                     !string.IsNullOrEmpty(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString()))
                 {
-                    pictureBox1.Load(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                    try
+                    {
+                        pictureBox1.Load(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                    }
+                    catch
+                    {
+
+                        pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
+                    }
+
                 }
                 else
                 {
@@ -203,7 +224,16 @@ namespace Monitux_POS.Ventanas
                 categoria.Secuencial = context.Categorias.Any() ? context.Categorias.Max(c => c.Secuencial) + 1 : 1; // Asigna un nuevo secuencial
                 categoria.Nombre = txtNombre.Text;
                 categoria.Descripcion = txtDescripcion.Text;
-                categoria.Imagen = Imagen;
+                if (pictureBox1.Image != null)
+                {
+                    categoria.Imagen = Imagen;
+                }
+                else
+                {
+                    categoria.Imagen = "Sin Imagen"; // Asigna una imagen por defecto si no se ha seleccionado una imagen
+                }
+
+
                 context.Categorias.Add(categoria);
                 context.SaveChanges();
                 MessageBox.Show("Categoria creada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -273,7 +303,112 @@ namespace Monitux_POS.Ventanas
         private void dataGridView1_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
 
+
+
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+            if (textBox1.Text == "")
+            {
+
+                Cargar_Datos();
+            }
+            else
+            {
+
+                Filtrar(comboBox1.SelectedItem.ToString(), textBox1.Text);
+
+            }
+        }
+
+
+        private void Filtrar(string campo, string valor)
+        {
+
+
+
+
+
+            SQLitePCL.Batteries.Init();
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+            // Filtrar categorías antes de agregarlas al DataGridView
+            /*  string filtro = "eeee"; // Define el criterio de búsqueda
+              var categoriasFiltradas = context.Categorias
+                  .Where(c => c.Nombre.Contains(filtro)) // Aplica filtro en la consulta
+                  .ToList();*/
+
+
+
+
+
+            //-------------------Filtro que usare
+
+
+
+            string columnaSeleccionada = campo; // Cambia esto a la columna que desees filtrar
+
+            var categoriasFiltradas = context.Categorias
+                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor))
+                    .ToList();
+
+            dataGridView1.Rows.Clear();
+            foreach (var item in categoriasFiltradas)
+            {
+                dataGridView1.Rows.Add(item.Secuencial, item.Nombre, item.Descripcion, item.Imagen ?? "No Imagen");
+            }
+
+
+            //-------------------Filtro que usare
+
+
+
+
+
+
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
+
+            // Agregar columnas si no existen
+            if (dataGridView1.Columns.Count == 0)
+            {
+                dataGridView1.Columns.Add("Secuencial", "S");
+                dataGridView1.Columns["Secuencial"].Width = 20;
+                dataGridView1.Columns.Add("Nombre", "Nombre");
+                dataGridView1.Columns["Nombre"].Width = 80;
+                dataGridView1.Columns.Add("Descripcion", "Descripcion");
+                dataGridView1.Columns["Descripcion"].Width = 250;
+                dataGridView1.Columns.Add("Imagen", "Imagen");
+            }
+
+            // Limpiar filas antes de agregar nuevas
+            dataGridView1.Rows.Clear();
+
+            foreach (var item in categoriasFiltradas)
+            {
+                dataGridView1.Rows.Add(
+                    item.Secuencial,
+                    item.Nombre,
+                    item.Descripcion,
+                    item.Imagen ?? "No Imagen" // Maneja el caso donde Imagen sea null
+                );
+            }
+
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
           
+
+
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
     }
