@@ -49,6 +49,9 @@
     <Content Include="Resources\CAT\Default.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\CLI\Default.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Iconos\award_star_gold_2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

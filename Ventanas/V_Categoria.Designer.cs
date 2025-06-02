@@ -100,7 +100,7 @@
             // txtNombre
             // 
             txtNombre.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            txtNombre.ForeColor = SystemColors.MenuHighlight;
+            txtNombre.ForeColor = Color.Black;
             txtNombre.Location = new Point(72, 36);
             txtNombre.MaxLength = 20;
             txtNombre.Name = "txtNombre";
@@ -169,7 +169,7 @@
             // txtDescripcion
             // 
             txtDescripcion.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            txtDescripcion.ForeColor = SystemColors.MenuHighlight;
+            txtDescripcion.ForeColor = Color.Black;
             txtDescripcion.Location = new Point(12, 87);
             txtDescripcion.MaxLength = 110;
             txtDescripcion.Multiline = true;

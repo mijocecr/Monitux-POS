@@ -407,12 +407,13 @@ namespace Monitux_POS
 
         private void button10_Click(object sender, EventArgs e)
         {
-            
-            
 
-            
-            V_Producto ventana_Producto = new V_Producto();
-            ventana_Producto.ShowDialog();
+
+
+            V_Cliente cliente = new V_Cliente();
+            cliente.ShowDialog();
+           // V_Producto ventana_Producto = new V_Producto();
+            //ventana_Producto.ShowDialog();
 
             ///
 
