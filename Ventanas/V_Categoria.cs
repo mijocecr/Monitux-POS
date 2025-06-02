@@ -44,7 +44,7 @@ namespace Monitux_POS.Ventanas
 
         private void Cargar_Datos()
         {
-
+            dataGridView1.Rows.Clear(); // Limpia las filas del DataGridView antes de cargar los datos
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
@@ -158,7 +158,7 @@ namespace Monitux_POS.Ventanas
                     context.SaveChanges();
 
                     MessageBox.Show("Categoria eliminada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Dispose();
+                    Cargar_Datos();
                 }
             }
         }
@@ -196,7 +196,7 @@ namespace Monitux_POS.Ventanas
                     categoria.Imagen = Imagen;
                     context.SaveChanges();
                     MessageBox.Show("Categoria actualizada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Dispose();
+                    Cargar_Datos(); // Recarga los datos para mostrar la categoria actualizada
                 }
 
 
@@ -237,7 +237,7 @@ namespace Monitux_POS.Ventanas
                 context.Categorias.Add(categoria);
                 context.SaveChanges();
                 MessageBox.Show("Categoria creada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Dispose();
+                Cargar_Datos(); // Recarga los datos para mostrar la nueva categoria
 
 
             }

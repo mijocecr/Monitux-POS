@@ -47,7 +47,7 @@ namespace Monitux_POS.Ventanas
 
         private void Cargar_Datos()
         {
-
+            dataGridView1.Rows.Clear(); // Limpia las filas del DataGridView antes de cargar los datos
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
@@ -306,7 +306,7 @@ namespace Monitux_POS.Ventanas
                     proveedor.Imagen = Imagen;
                     context.SaveChanges();
                     MessageBox.Show("Proveedor actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Dispose();
+                    Cargar_Datos(); // Recarga los datos después de actualizar el proveedor
                 }
 
 
@@ -365,8 +365,8 @@ namespace Monitux_POS.Ventanas
                 context.Proveedores.Add(proveedor);
                 context.SaveChanges();
                 MessageBox.Show("Proveedor creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Dispose();
-
+Cargar_Datos(); // Recarga los datos después de crear el proveedor
+                
 
             }
 
@@ -431,7 +431,7 @@ namespace Monitux_POS.Ventanas
                     context.SaveChanges();
 
                     MessageBox.Show("Proveedor eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Dispose();
+                    Cargar_Datos(); // Recarga los datos después de eliminar el proveedor
                 }
             }
 

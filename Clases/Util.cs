@@ -341,6 +341,7 @@ namespace Monitux_POS.Clases
             Limpiar_Cache_Categoria();
             Limpiar_Cache_Proveedor();
             Limpiar_Cache_Cliente();
+            Limpiar_Cache_Usuario();
 
         }
 
@@ -539,6 +540,56 @@ namespace Monitux_POS.Clases
             }
 
         }
+
+
+
+
+        public static void Limpiar_Cache_Usuario()
+        {
+
+
+
+            // Inicializar SQLite
+            SQLitePCL.Batteries.Init();
+
+            // Crear el contexto de la base de datos
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+            // Obtener la lista de imágenes permitidas
+            List<string> listaImagenespermitidas = context.Usuarios
+                                                          .Select(p => Path.GetFileName(p.Imagen))
+                                                          .ToList();
+
+
+
+            // Definir la ruta de la carpeta de imágenes
+            string folderPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "USR"));
+
+            // Verificar si la carpeta existe antes de proceder
+            if (Directory.Exists(folderPath))
+            {
+                var filesInDirectory = Directory.GetFiles(folderPath);
+
+                foreach (var file in filesInDirectory)
+                {
+                    string fileName = Path.GetFileName(file);
+
+                    // Comparar directamente con la lista de imágenes permitidas
+                    if (!listaImagenespermitidas.Contains(fileName))
+                    {
+                        File.Delete(file);
+                        Console.WriteLine($"Eliminado: {fileName}");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("La carpeta de imágenes no existe.");
+            }
+
+        }
+
 
 
 

@@ -409,10 +409,9 @@ namespace Monitux_POS
         {
 
 
-
-            V_Cliente cliente = new V_Cliente();
-            cliente.ShowDialog();
-           // V_Producto ventana_Producto = new V_Producto();
+            V_Usuario ventana_Usuario = new V_Usuario();
+            ventana_Usuario.ShowDialog();
+            // V_Producto ventana_Producto = new V_Producto();
             //ventana_Producto.ShowDialog();
 
             ///

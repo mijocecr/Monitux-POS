@@ -284,7 +284,7 @@ namespace Monitux_POS.Ventanas
                     cliente.Imagen = Imagen;
                     context.SaveChanges();
                     MessageBox.Show("Cliente actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Dispose();
+                    Cargar_Datos(); // Recargar los datos después de actualizar el cliente
                 }
 
 
@@ -334,7 +334,7 @@ namespace Monitux_POS.Ventanas
                 context.Clientes.Add(cliente);
                 context.SaveChanges();
                 MessageBox.Show("Cliente creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Dispose();
+                Cargar_Datos(); // Recargar los datos después de crear el cliente
 
 
             }
@@ -497,7 +497,7 @@ namespace Monitux_POS.Ventanas
                     context.SaveChanges();
 
                     MessageBox.Show("Cliente eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Dispose();
+                    Cargar_Datos(); // Recargar los datos después de eliminar el cliente
                 }
             }
 
