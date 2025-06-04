@@ -25,6 +25,13 @@
 
         public DbSet<Kardex> Kardex { get; set; }
 
+        public DbSet<Venta> Ventas { get; set; }
+
+        public DbSet<Venta_Detalle> Venta_Detalles { get; set; }
+        public DbSet<Cuentas_Cobrar> CuentasxCobrar { get; set; }
+
+        public DbSet<Ingreso> Ingresos { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

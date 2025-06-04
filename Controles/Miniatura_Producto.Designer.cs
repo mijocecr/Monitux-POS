@@ -68,7 +68,7 @@ namespace Monitux_POS
             Item_Precio.AutoSize = true;
             Item_Precio.BackColor = Color.Transparent;
             Item_Precio.Font = new Font("Bahnschrift SemiCondensed", 11.25F);
-            Item_Precio.Location = new Point(21, 5);
+            Item_Precio.Location = new Point(25, 5);
             Item_Precio.Name = "Item_Precio";
             Item_Precio.Size = new Size(46, 18);
             Item_Precio.TabIndex = 1;
@@ -106,7 +106,6 @@ namespace Monitux_POS
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(33, 23);
             numericUpDown1.TabIndex = 4;
-            numericUpDown1.Visible = false;
             numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
             // 
             // Menu

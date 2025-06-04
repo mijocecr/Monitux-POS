@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Humanizer;
+using Microsoft.EntityFrameworkCore;
 using Monitux_POS.Clases;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,10 @@ namespace Monitux_POS.Ventanas
     {
 
         public int Secuencial_Usuario { get; set; } = 0;
-        List<int> indices = new List<int>();
+        //List<int> indices = new List<int>();
+
+        Dictionary<string, int> Lista_de_Indices = new Dictionary<string, int>();
+        Dictionary<string, Miniatura_Producto> Lista_de_Items = new Dictionary<string, Miniatura_Producto>();
 
         public V_Factura_Venta()
         {
@@ -32,7 +36,10 @@ namespace Monitux_POS.Ventanas
         {
 
             listBox1.Items.Clear();
-            indices.Clear();
+
+            Lista_de_Items.Clear();
+            dataGridView1.Rows.Clear();
+
             flowLayoutPanel1.Controls.Clear();
 
             SQLitePCL.Batteries.Init();
@@ -75,25 +82,78 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Fecha_Caducidad = item.Fecha_Caducidad;
 
 
-                miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
+                miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
                     // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
 
                     if (miniatura_Producto1.Seleccionado == true)
                     {
-                        listBox1.Items.Add(miniatura_Producto1.Codigo);
-                        indices.Add(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
+                        if (!listBox1.Items.Contains(miniatura_Producto1.Codigo))
+                        {
+
+                            listBox1.Items.Add(miniatura_Producto1.Codigo);
+
+                        }
+
+                        if (!Lista_de_Indices.ContainsKey(miniatura_Producto1.Codigo))
+                        {
+                            Lista_de_Indices.Add(miniatura_Producto1.Codigo, flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
+                        }
+
+                        if (!Lista_de_Items.ContainsKey(miniatura_Producto1.Codigo))
+                        {
+                            Lista_de_Items.Add(miniatura_Producto1.Codigo, miniatura_Producto1);
+                        }
+                        else
+                        {                             // Si ya existe, actualiza la cantidad seleccionada
+
+                            Lista_de_Items.Remove(miniatura_Producto1.Codigo);
+                            await Task.Delay(100); // Espera para evitar problemas de concurrencia
+                            Lista_de_Items.Add(miniatura_Producto1.Codigo, miniatura_Producto1);
+                            Lista_de_Items[miniatura_Producto1.Codigo].cantidadSelecccionItem = miniatura_Producto1.cantidadSelecccionItem;
+
+                        }
+
+
+
 
                     }
                     else
                     {
 
 
-                        listBox1.Items.Remove(miniatura_Producto1.Codigo);
-                        indices.Remove(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
+                        //  listBox1.Items.Remove(miniatura_Producto1.Codigo);
+                        //  indices.Remove(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
+                        //  Lista_de_Items.Remove(miniatura_Producto1.Codigo);
+
 
                     }
                 };
+
+
+
+                foreach (var clave in Lista_de_Indices.Keys)
+                {
+
+
+
+                    Lista_de_Indices.TryGetValue((clave), out int indices);
+
+                    if (indices == flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1))
+                    {
+                        miniatura_Producto1.Item_Seleccionado.Checked = true;
+                    }
+                    else
+                    {
+
+                        miniatura_Producto1.Item_Seleccionado.Checked = false;
+
+                    }
+
+
+                }
+
+
 
 
 
@@ -177,9 +237,30 @@ namespace Monitux_POS.Ventanas
             llenar_Combo_Cliente();
             comboBox2.SelectedIndex = 0;
             comboBox3.SelectedIndex = 0;
+            comboBox1.SelectedIndex = 0;
+            Configurar_DataGridView();
+
+
+
+
         }
 
+        public void Configurar_DataGridView()
+        {
+            // Configurar las columnas del DataGridView
+            dataGridView1.Columns.Clear();
+            dataGridView1.Columns.Add("Codigo", "Código");
+            dataGridView1.Columns.Add("Descripcion", "Descripción");
+            dataGridView1.Columns.Add("Cantidad", "Cantidad");
+            dataGridView1.Columns.Add("Precio_Venta", "Precio");
 
+            dataGridView1.Columns.Add("Total", "Total");
+
+            dataGridView1.AutoSizeColumnsMode
+                = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.ReadOnly = true;
+        }
 
 
 
@@ -254,79 +335,118 @@ namespace Monitux_POS.Ventanas
                 };*/
 
 
-                miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
+                miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
                     // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
 
+
+
                     if (miniatura_Producto1.Seleccionado == true)
                     {
-                        if (!indices.Contains(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1)))
+
+
+
+                        if (!listBox1.Items.Contains(miniatura_Producto1.Codigo))
                         {
+
                             listBox1.Items.Add(miniatura_Producto1.Codigo);
-                            indices.Add(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
+
+                        }
+
+                        if (!Lista_de_Indices.ContainsKey(miniatura_Producto1.Codigo))
+                        {
+                            Lista_de_Indices.Add(miniatura_Producto1.Codigo, flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
+                        }
+
+                        if (!Lista_de_Items.ContainsKey(miniatura_Producto1.Codigo))
+                        {
+                            Lista_de_Items.Add(miniatura_Producto1.Codigo, miniatura_Producto1);
                         }
                         else
-                        {
-                            if (indices.Contains(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1)) && miniatura_Producto1.Seleccionado != true)
-                            {
+                        {                             // Si ya existe, actualiza la cantidad seleccionada
 
-                                listBox1.Items.Remove(miniatura_Producto1.Codigo);
-                                indices.Remove(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
-                            }
-                            else
-                            {
-                                miniatura_Producto1.Item_Seleccionado.Checked = true;
-                            }
+                            Lista_de_Items.Remove(miniatura_Producto1.Codigo);
+                            await Task.Delay(100); // Espera para evitar problemas de concurrencia
+                            Lista_de_Items.Add(miniatura_Producto1.Codigo, miniatura_Producto1);
+                            Lista_de_Items[miniatura_Producto1.Codigo].cantidadSelecccionItem = miniatura_Producto1.cantidadSelecccionItem;
 
                         }
 
-                    }
+
+
+                        /*  else
+                          {
+                              if (indices.Contains(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1)) && miniatura_Producto1.Seleccionado != true)
+                              {
+
+                                  listBox1.Items.Remove(miniatura_Producto1.Codigo);
+                                  indices.Remove(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
+                                  Lista_de_Items.Remove(miniatura_Producto1.Codigo);
+                              }
+                              else
+                              {
+                                  miniatura_Producto1.Item_Seleccionado.Checked = true;
+                              }
+
+                          }*/
+
+                    }/*
                     else
                     {
                         if (indices.Contains(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1)))
 
                             listBox1.Items.Remove(miniatura_Producto1.Codigo);
                         indices.Remove(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
+                        Lista_de_Items.Remove(miniatura_Producto1.Codigo);
+                   
+                        
+                        }*/
 
-                    }
                 };
 
                 flowLayoutPanel1.Controls.Add(miniatura_Producto1);
 
+
+
+
+
+
+
                 foreach (Miniatura_Producto x in flowLayoutPanel1.Controls)
                 {
-                    if (indices.Contains(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1)))
-                    {
-                        miniatura_Producto1.Item_Seleccionado.Checked = true;
-                    }
-                    else
+
+
+
+                    foreach (var clave in Lista_de_Indices.Keys)
                     {
 
-                        miniatura_Producto1.Item_Seleccionado.Checked = false;
+
+
+                        Lista_de_Indices.TryGetValue((clave), out int indices);
+
+                        if (indices == flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1))
+                        {
+                            miniatura_Producto1.Item_Seleccionado.Checked = true;
+                        }
+                        else
+                        {
+
+                            miniatura_Producto1.Item_Seleccionado.Checked = false;
+
+                        }
+
 
                     }
+
+
+
+
+
                 }
             }
 
 
-            //-------------------Filtro que usare
-
-
-
-
-
-
-
-
-
-            // Limpiar filas antes de agregar nuevas
-            dataGridView1.Rows.Clear();
-
-            foreach (var item in productos)
-            {
-
-            }
-
+          
 
         }
 
@@ -364,21 +484,71 @@ namespace Monitux_POS.Ventanas
         private void button2_Click(object sender, EventArgs e)
         {
 
-            // Convertir la lista a un string separado por saltos de línea
-            string mensaje = string.Join("\n", indices);
+            dataGridView1.Rows.Clear();
 
-            // Mostrar en un MessageBox
-            MessageBox.Show(mensaje, "Lista de Productos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            foreach (var clave in Lista_de_Items.Keys)
+            {
+
+
+
+                Lista_de_Items.TryGetValue((clave), out Miniatura_Producto item);
+
+
+                if (item.cantidadSelecccionItem != 0)
+                {
+
+
+                    dataGridView1.Rows.Add(
+                    item.Codigo,
+                    item.Descripcion,
+                    item.cantidadSelecccionItem,
+                       item.Precio_Venta,
+                       item.Precio_Venta * item.cantidadSelecccionItem
+                    );
+
+
+
+
+
+                }
+                else
+                {
+
+                    MessageBox.Show("Revise la cantidad que desea agregar. -- " + item.Codigo + " --\n\nDescripcion: " + item.Descripcion, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
+
+
+            }
+
+
+
+
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            Filtrar(comboBox2.SelectedItem.ToString(), textBox1.Text);
+
             textBox1.Text = "";
+            Lista_de_Items.Clear();
+            listBox1.Items.Clear();
+            dataGridView1.Rows.Clear();
+            Cargar_Items();
+            //indices.Clear();
+
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+
+
+
+
+
 
         }
 
@@ -437,6 +607,94 @@ namespace Monitux_POS.Ventanas
 
 
 
+        }
+
+        private void cerrarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Util.Limpiar_Cache();
+            this.Dispose();
+        }
+
+        private void listBox1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+
+        }
+
+        private void listBox1_ControlAdded(object sender, ControlEventArgs e)
+        {
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
+            if (listBox1.SelectedItem == null)
+            {
+                MessageBox.Show("Escoja un item de la lista de seleccion para eliminarlo de la factura.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            foreach (DataGridViewRow fila in dataGridView1.Rows)
+            {
+
+
+
+                if (fila.Cells["Codigo"].Value != null && fila.Cells["Codigo"].Value== listBox1.SelectedItem.ToString())
+                {
+                    string codigo = fila.Cells["Codigo"].Value.ToString();
+
+                    if (listBox1.Items.Contains(codigo))
+                    {
+                        listBox1.Items.Remove(codigo);
+                        Lista_de_Items.Remove(codigo);
+                        Lista_de_Indices.Remove(codigo);
+                    }
+
+                    if (fila.Index < dataGridView1.Rows.Count)
+                    {
+                        dataGridView1.Rows.Remove(fila);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Índice fuera de rango.");
+                    }
+                }
+
+
+
+
+            }
+
+
+
+            Cargar_Items();
+
+            label5.Text = listBox1.Items.Count.ToString();
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+
+
+
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            label5.Text=listBox1.Items.Count.ToString();
         }
     }
 }

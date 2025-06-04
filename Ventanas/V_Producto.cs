@@ -296,7 +296,7 @@ namespace Monitux_POS.Ventanas
                         producto.Fecha_Caducidad = dateTimePicker1.Value.Date.ToShortDateString();
                     }
                     
-                    MessageBox.Show(dateTimePicker1.Value.Date.ToShortDateString());
+                  
                     producto.Precio_Venta = double.Parse(txtPrecioVenta.Text);
                     producto.Precio_Costo = double.Parse(txtPrecioCosto.Text);
                     producto.Codigo = txtCodigo.Text;

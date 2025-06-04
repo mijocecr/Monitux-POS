@@ -382,7 +382,7 @@ namespace Monitux_POS
             {
                 Seleccionado = true;
                 this.BackColor = Color.LightBlue;
-                numericUpDown1.Visible = true;
+                //numericUpDown1.Visible = true;
 
 
             }
@@ -390,7 +390,7 @@ namespace Monitux_POS
             else
             {
                 Seleccionado = false;
-                numericUpDown1.Visible = false;
+                //numericUpDown1.Visible = false;
                 numericUpDown1.Value = 0;
                 cantidadSelecccionItem = 0;
 
