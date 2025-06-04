@@ -298,6 +298,71 @@ namespace Monitux_POS.Clases
         }
 
 
+        public static void Registrar_Actividad(int secuencial_usuario,string descripcion)
+        {
+
+
+            // **Create**
+            SQLitePCL.Batteries.Init();
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+            var actividad = new Actividad();
+
+            
+            actividad.Secuencial_Usuario = secuencial_usuario;
+            actividad.Descripcion = descripcion;
+
+            context.Actividades.Add(actividad);
+            context.SaveChanges();
+
+
+        }
+
+
+        public static void Registrar_Movimiento_Kardex(int secuencial_producto,double existencia,
+            string descripcion,double cantidad_unidades,double costo,double venta, string movimiento)
+        {
+
+
+            // **Create**
+            SQLitePCL.Batteries.Init();
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+            var kardex = new Kardex();
+
+
+            kardex.Secuencial_Producto= secuencial_producto;
+            kardex.Descripcion = descripcion;
+            kardex.Cantidad = cantidad_unidades;
+            kardex.Costo = costo;
+            kardex.Venta = venta;
+            kardex.Movimiento = movimiento;
+            if (movimiento == "Entrada")
+            {
+                kardex.Saldo = existencia + cantidad_unidades;
+            }
+            else
+            {
+                kardex.Saldo = existencia - cantidad_unidades;
+            }
+            
+            kardex.Costo_Total = kardex.Saldo * costo;
+            kardex.Venta_Total = kardex.Saldo * venta;
+
+
+
+            context.Kardex.Add(kardex);
+            context.SaveChanges();
+
+
+        }
+
+
+
 
         public static Image Generar_Codigo_QR(int secuencial,string codigo)
         {

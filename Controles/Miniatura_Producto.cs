@@ -7,9 +7,10 @@ namespace Monitux_POS
 {
     public partial class Miniatura_Producto : UserControl
     {
-        public Producto Producto { get; set; } 
+        public Producto Producto { get; set; }
         public int Secuencial { get; set; }
         public int Secuencial_Proveedor { get; set; }
+        public int Secuencial_Usuario { get; set; } = 0;
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
         public double Cantidad { get; set; }
@@ -21,7 +22,9 @@ namespace Monitux_POS
         public string? Codigo_QR { get; set; }
         public string? Imagen { get; set; }
         public int Secuencial_Categoria { get; set; }
-public double Existencia_Minima { get; set; } = 0;
+        public double Existencia_Minima { get; set; } = 0;
+
+        public string? Fecha_Caducidad { get; set; }
 
         //Variables del Control
 
@@ -29,7 +32,7 @@ public double Existencia_Minima { get; set; } = 0;
         public bool actualizarItem { get; set; }
         public int cantidadSelecccionItem { get; set; } = 0;
 
-        
+
 
 
         System.Windows.Forms.ToolTip toolTip = new System.Windows.Forms.ToolTip();
@@ -51,9 +54,9 @@ public double Existencia_Minima { get; set; } = 0;
         private void Miniatura_Producto_Load(object sender, EventArgs e)
         {
             Item_Imagen.ContextMenuStrip = Menu;
-           
+
             Set_Item();
-            
+
 
             actualizarItem = false;
         }
@@ -80,11 +83,11 @@ public double Existencia_Minima { get; set; } = 0;
 
             //Filtrar
 
-            
+
 
             int secuencialItem = Secuencial;
 
-            
+
             var productosFiltrados = context.Productos
                                             .Where(p => p.Secuencial.Equals(secuencialItem))
                                             .ToList();
@@ -105,7 +108,8 @@ public double Existencia_Minima { get; set; } = 0;
                 Secuencial_Proveedor = item.Secuencial_Proveedor;
                 Codigo = item.Codigo;
                 Existencia_Minima = item.Existencia_Minima;
-                
+                Fecha_Caducidad = item.Fecha_Caducidad;
+
 
                 var comentarioFiltrado = context.Comentarios
                                               .FirstOrDefault(c => c.Secuencial_Producto == item.Secuencial);
@@ -122,7 +126,7 @@ public double Existencia_Minima { get; set; } = 0;
                 }
 
 
-                this.Producto=item.getProducto();
+                this.Producto = item.getProducto();
 
                 try
                 {
@@ -130,12 +134,13 @@ public double Existencia_Minima { get; set; } = 0;
 
 
                 }
-                catch {
+                catch
+                {
 
 
-                    
-                        // MessageBox.Show("Error al cargar la imagen: " + Imagen, "Error de Carga");
-                    }
+
+                    // MessageBox.Show("Error al cargar la imagen: " + Imagen, "Error de Carga");
+                }
 
 
                 actualizarItem = false;
@@ -178,7 +183,8 @@ public double Existencia_Minima { get; set; } = 0;
                 producto.Codigo_Fabricante,
                 producto.Codigo_QR,
                 producto.Imagen,
-                producto.Secuencial_Categoria
+                producto.Secuencial_Categoria,
+                producto.Fecha_Caducidad
             );
         }
 
@@ -209,7 +215,7 @@ public double Existencia_Minima { get; set; } = 0;
 
             else
             {
-               comentario= "";
+                comentario = "";
             }
 
             return comentario;
@@ -289,8 +295,8 @@ public double Existencia_Minima { get; set; } = 0;
 
             }
 
-            toolTip.SetToolTip(Item_Imagen, "Codigo: " + Codigo + "\nMarca: " + Marca + "\nPrecio: " + Precio_Venta + "\nStock: " + Cantidad + 
-                " -- [Minimo: "+Existencia_Minima+"]\n"+ Cargar_Comentario());
+            toolTip.SetToolTip(Item_Imagen, "Codigo: " + Codigo + "\nMarca: " + Marca + "\nPrecio: " + Precio_Venta + "\nStock: " + Cantidad +
+                " -- [Minimo: " + Existencia_Minima + "]" + "\nCaduca: " + Fecha_Caducidad +"\n"+ Cargar_Comentario());
         }
 
 
@@ -349,7 +355,7 @@ public double Existencia_Minima { get; set; } = 0;
                 Item_Seleccionado.Checked = true;
             }
 
-            
+
 
 
 
@@ -370,13 +376,14 @@ public double Existencia_Minima { get; set; } = 0;
 
         private void Item_Seleccionado_CheckedChanged(object sender, EventArgs e)
         {
+            
 
             if (Item_Seleccionado.Checked == true)
             {
                 Seleccionado = true;
                 this.BackColor = Color.LightBlue;
                 numericUpDown1.Visible = true;
-                
+
 
             }
 
@@ -386,7 +393,7 @@ public double Existencia_Minima { get; set; } = 0;
                 numericUpDown1.Visible = false;
                 numericUpDown1.Value = 0;
                 cantidadSelecccionItem = 0;
-                
+
             }
         }
 
@@ -422,7 +429,7 @@ public double Existencia_Minima { get; set; } = 0;
             {
                 Imagen = Util.Abrir_Dialogo_Seleccion_URL();
                 Item_Imagen.Load(Imagen);
-              
+
                 Item_Imagen.Image.Save(rutaGuardado, ImageFormat.Png);
                 Imagen = rutaGuardado;
 
@@ -430,7 +437,7 @@ public double Existencia_Minima { get; set; } = 0;
             }
             catch (Exception ex)
             {
-              //  MessageBox.Show("Error al guardar la imagen: " + ex.Message, "Error de Guardado");
+                //  MessageBox.Show("Error al guardar la imagen: " + ex.Message, "Error de Guardado");
                 return;
             }
             SQLitePCL.Batteries.Init();
@@ -443,10 +450,10 @@ public double Existencia_Minima { get; set; } = 0;
             var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
             if (producto != null)
             {
-                
-                
+
+
                 actualizarItem = true;
-                
+
                 Item_Imagen.Image.Save(rutaGuardado, ImageFormat.Png);
                 producto.Imagen = rutaGuardado;
                 context.SaveChanges();
@@ -459,7 +466,7 @@ public double Existencia_Minima { get; set; } = 0;
 
         private void actualizar_Imagen_Web()
         {
-            
+
 
 
 
@@ -481,7 +488,7 @@ public double Existencia_Minima { get; set; } = 0;
             }
             catch (Exception ex)
             {
-               // MessageBox.Show("Error al guardar la imagen: " + ex.Message, "Error de Guardado");
+                // MessageBox.Show("Error al guardar la imagen: " + ex.Message, "Error de Guardado");
                 return;
             }
             SQLitePCL.Batteries.Init();
@@ -531,7 +538,9 @@ public double Existencia_Minima { get; set; } = 0;
                 Codigo_QR = Codigo_QR,
                 Imagen = Imagen,
                 Secuencial_Categoria = Secuencial_Categoria,
-                Existencia_Minima = Existencia_Minima
+                Existencia_Minima = Existencia_Minima,
+                Fecha_Caducidad=Fecha_Caducidad
+                
             };
         }
 
@@ -611,7 +620,7 @@ public double Existencia_Minima { get; set; } = 0;
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             cantidadSelecccionItem = (int)numericUpDown1.Value;
-            
+
         }
 
         public double getUnidadesAgregar()
@@ -695,10 +704,15 @@ public double Existencia_Minima { get; set; } = 0;
             var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
             if (producto != null)
             {
-                producto.Cantidad = Cantidad + getUnidadesAgregar();
+                Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, getUnidadesAgregar(), producto.Precio_Costo, producto.Precio_Venta, "Entrada");
+
+                producto.Cantidad = Cantidad + unidadesAgregar;
                 context.SaveChanges();
                 MessageBox.Show("Se han agregado " + unidadesAgregar + " unidades al producto: " + Codigo, "Agregar Unidades");
                 actualizarItem = true;
+                
+
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha agregado " + unidadesAgregar + " unidades al producto: " + Codigo);
             }
 
 
@@ -725,10 +739,14 @@ public double Existencia_Minima { get; set; } = 0;
             var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
             if (producto != null)
             {
-                producto.Cantidad = Cantidad - getUnidadesRetirar();
+
+                Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, getUnidadesRetirar(), producto.Precio_Costo, producto.Precio_Venta, "Salida");
+
+                producto.Cantidad = Cantidad - unidadesRetirar;
                 context.SaveChanges();
                 MessageBox.Show("Se han retirado " + unidadesRetirar + " unidades al producto: " + Codigo, "Retirar Unidades");
                 actualizarItem = true;
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha retirado " + unidadesRetirar + " unidades al producto: " + Codigo);
             }
 
 
@@ -767,7 +785,7 @@ public double Existencia_Minima { get; set; } = 0;
 
         public void cargarVistaEditar() // Cambiar esto
         {
-            
+
 
 
 
@@ -784,7 +802,7 @@ public double Existencia_Minima { get; set; } = 0;
         private void editarProductoToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            
+
 
 
             cargarVistaEditar();
@@ -792,6 +810,9 @@ public double Existencia_Minima { get; set; } = 0;
 
         }
 
-      
+        private void Miniatura_Producto_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }//Fin de Clase
 }

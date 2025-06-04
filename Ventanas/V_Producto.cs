@@ -32,11 +32,15 @@ namespace Monitux_POS.Ventanas
     public partial class V_Producto : Form
     {
 
-
+        
         public Producto producto { get; set; } = new Producto();
+        public int Secuencial_Usuario { get; set; } = 0;
+
         public int Secuencial { get; set; }
         public int Secuencial_Proveedor { get; set; } = 0;
         public int Secuencial_Categoria { get; set; } = 0;
+
+        public string Fecha_Caducidad { get; set; }
 
         bool esNuevo = true;
 
@@ -63,19 +67,40 @@ namespace Monitux_POS.Ventanas
                 txtMarca.Text = Vista_producto.Marca ?? string.Empty;
                 txtCodigoBarra.Text = Vista_producto.Codigo_Barra;
                 txtCodigoFabricante.Text = Vista_producto.Codigo_Fabricante ?? string.Empty;
-                //txtCodigoQR.Text = Vista_producto.Codigo_QR ?? string.Empty;
+                Fecha_Caducidad = Vista_producto.Fecha_Caducidad;
                 Secuencial = Vista_producto.Secuencial;
                 Secuencial_Proveedor = Vista_producto.Secuencial_Proveedor;
                 Secuencial_Categoria = Vista_producto.Secuencial_Categoria;
                 txtExistenciaMinima.Text = Vista_producto.Existencia_Minima.ToString();
+              if(Vista_producto.Fecha_Caducidad!="No Caduca" && Vista_producto.Fecha_Caducidad !=null)
+                {
+
+                    dateTimePicker1.Value = DateTime.ParseExact(Vista_producto.Fecha_Caducidad, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+
+                }
+              /*  else
+                {
+                    dateTimePicker1.Value = DateTime.Today;
+                }*/
+
+
+
+
+                    llenar_Combo_Proveedor();
+                llenar_Combo_Categoria();
+
+               
+
+
+
 
                 // Menu_Agregar.Visible = esNuevo;
                 // Menu_Eliminar.Visible = esNuevo;
                 try
-                {
-                    pictureBox2.Image = Vista_producto.Codigo_QR != null ? Image.FromFile(Vista_producto.Codigo_QR) : null; // Asignar la imagen del código QR si existe
-                }
-                catch { }
+                    {
+                        pictureBox2.Image = Vista_producto.Codigo_QR != null ? Image.FromFile(Vista_producto.Codigo_QR) : null; // Asignar la imagen del código QR si existe
+                    }
+                    catch { }
                 Imagen = Vista_producto.Imagen ?? string.Empty; // Asignar la ruta de la imagen del producto
 
                 if (Vista_producto.Imagen != null)
@@ -96,6 +121,10 @@ namespace Monitux_POS.Ventanas
 
 
 
+            }
+            else
+            {
+                Secuencial = -1;
             }
 
 
@@ -122,24 +151,32 @@ namespace Monitux_POS.Ventanas
     .ToList();
 
 
-
-
-            foreach (var item in proveedores)
+            if (Secuencial != -1)
             {
-                comboProveedor.Items.Add(item.Secuencial + " - " + item.Nombre);
 
 
 
-            }
-          
-            foreach (var item in comboProveedor.Items)
-            {
-                if (item.ToString().Contains(this.Secuencial_Proveedor.ToString())) // Verifica si hay un número
+                foreach (var item in proveedores)
                 {
-                    comboProveedor.SelectedItem = item;
-                    break;
+                    comboProveedor.Items.Add(item.Secuencial + " - " + item.Nombre);
+
+
+
                 }
+
+
+                foreach (var item in comboProveedor.Items)
+                {
+                    if (item.ToString().Contains(this.Secuencial_Proveedor.ToString())) // Verifica si hay un número
+                    {
+                        comboProveedor.SelectedItem = item;
+                        break;
+                    }
+                }
+
             }
+
+
 
 
 
@@ -165,23 +202,31 @@ namespace Monitux_POS.Ventanas
 
 
 
-
-
-            foreach (var item in categorias)
+            if (Secuencial != -1)
             {
-                comboCategoria.Items.Add(item.Secuencial + " - " + item.Nombre);
 
 
 
-            }
 
-            foreach (var item in comboCategoria.Items)
-            {
-                if (item.ToString().Contains(this.Secuencial_Categoria.ToString())) // Verifica si hay un número
+                foreach (var item in categorias)
                 {
-                    comboCategoria.SelectedItem = item;
-                    break;
+                    comboCategoria.Items.Add(item.Secuencial + " - " + item.Nombre);
+
+
+
                 }
+
+                foreach (var item in comboCategoria.Items)
+                {
+                    if (item.ToString().Contains(this.Secuencial_Categoria.ToString())) // Verifica si hay un número
+                    {
+                        comboCategoria.SelectedItem = item;
+                        break;
+                    }
+                }
+
+
+
             }
 
 
@@ -200,8 +245,7 @@ namespace Monitux_POS.Ventanas
             {
                 Menu_Eliminar.Visible = false;
             }
-            llenar_Combo_Proveedor();
-            llenar_Combo_Categoria();
+         
 
 
         }
@@ -247,8 +291,12 @@ namespace Monitux_POS.Ventanas
                 var producto = context.Productos.FirstOrDefault(p => p.Secuencial == this.Secuencial);
                 if (producto != null)
                 {
-
-
+                    if (Fecha_Caducidad!="No Caduca")
+                    {
+                        producto.Fecha_Caducidad = dateTimePicker1.Value.Date.ToShortDateString();
+                    }
+                    
+                    MessageBox.Show(dateTimePicker1.Value.Date.ToShortDateString());
                     producto.Precio_Venta = double.Parse(txtPrecioVenta.Text);
                     producto.Precio_Costo = double.Parse(txtPrecioCosto.Text);
                     producto.Codigo = txtCodigo.Text;
@@ -296,11 +344,14 @@ namespace Monitux_POS.Ventanas
 
 
                     context.SaveChanges();
+
+
                 }
 
 
                 MessageBox.Show("Producto actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado el producto: " + producto.Codigo);
                 this.Dispose();
 
 
@@ -321,7 +372,19 @@ namespace Monitux_POS.Ventanas
                 var nuevoProducto = new Producto();
                 try
                 {
-                    nuevoProducto.Precio_Venta = double.Parse(txtPrecioVenta.Text);
+
+                    if (dateTimePicker1.Value.Date != DateTime.Today)
+                    {
+                        nuevoProducto.Fecha_Caducidad = dateTimePicker1.Value.ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        nuevoProducto.Fecha_Caducidad = "No Caduca";
+                    }
+
+
+
+                        nuevoProducto.Precio_Venta = double.Parse(txtPrecioVenta.Text);
                     nuevoProducto.Precio_Costo = double.Parse(txtPrecioCosto.Text);
                     nuevoProducto.Codigo = txtCodigo.Text;
                     nuevoProducto.Descripcion = txtDescripcion.Text;
@@ -368,15 +431,23 @@ namespace Monitux_POS.Ventanas
                 context.Productos.Add(nuevoProducto);
                 context.SaveChanges();
 
-                MessageBox.Show("Producto agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Dispose();
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado el producto: " + txtCodigo.Text);
 
+                MessageBox.Show("Producto agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                
+                this.Dispose();
+                
 
 
 
             }
 
+            ///
 
+
+
+            ////
 
 
 
@@ -493,36 +564,7 @@ namespace Monitux_POS.Ventanas
         private void Menu_Eliminar_Click(object sender, EventArgs e)
         {
 
-            /*   var res = MessageBox.Show("¿Está seguro de eliminar este producto?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2, MessageBoxOptions.DefaultDesktopOnly, false);
-
-               if (res == DialogResult.Yes)
-               {
-
-
-                   SQLitePCL.Batteries.Init();
-
-                   using var context = new Monitux_DB_Context();
-                   context.Database.EnsureCreated(); // Crea la base de datos si no existe
-                   pictureBox1.Image?.Dispose();
-                   var producto = context.Productos.FirstOrDefault(p => p.Secuencial == this.Secuencial);
-                   if (producto != null)
-                   {
-                       string rutaArchivo = producto.Imagen;
-
-
-                       context.Productos.Remove(producto);
-                       context.SaveChanges();
-
-                       MessageBox.Show("Producto eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                       this.Activate();
-                       this.Dispose();
-                   }
-
-
-               }
-            */
-
-
+           
 
 
             var res = MessageBox.Show("¿Está seguro de eliminar este producto?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -551,25 +593,7 @@ namespace Monitux_POS.Ventanas
                         context.Productos.Remove(producto);
                         context.SaveChanges();
 
-                        // Eliminar el archivo de imagen si existe
-                        if (!string.IsNullOrEmpty(rutaArchivo) && File.Exists(rutaArchivo))
-                        {
-                            pictureBox1.Image?.Dispose(); // Liberar la imagen antes de eliminar el archivo
-                            File.Delete(rutaArchivo);
-                        }
-
-                        if (!string.IsNullOrEmpty(rutaArchivo1) && File.Exists(rutaArchivo1))
-                        {
-
-                            File.Delete(rutaArchivo1);
-                        }
-
-                        if (!string.IsNullOrEmpty(rutaArchivo2) && File.Exists(rutaArchivo2))
-                        {
-
-                            File.Delete(rutaArchivo2);
-                        }
-
+                        Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado el producto: " + producto.Codigo);
 
                         MessageBox.Show("Producto eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Dispose();
@@ -579,7 +603,7 @@ namespace Monitux_POS.Ventanas
                         MessageBox.Show("El producto no existe en la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
 
                     // MessageBox.Show($"Error al eliminar el producto: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -630,6 +654,11 @@ namespace Monitux_POS.Ventanas
         {
             V_Proveedor proveedor = new V_Proveedor();
             proveedor.ShowDialog();
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            Fecha_Caducidad = dateTimePicker1.Value.ToShortDateString();
         }
     }
 }

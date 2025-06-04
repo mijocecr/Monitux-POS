@@ -23,6 +23,8 @@ namespace Monitux_POS.Clases
         public string? Codigo_Fabricante { get; set; }
         public string? Codigo_QR { get; set; }
         public string? Imagen { get; set; }
+        public string? Fecha_Caducidad { get; set; } 
+
         public int Secuencial_Categoria { get; set; }
 
         public double Existencia_Minima { get; set; } 
@@ -30,7 +32,7 @@ namespace Monitux_POS.Clases
             string? codigo, string? descripcion, double cantidad,
             double precio_Costo, double precio_Venta,
             string? marca, string? codigo_Barra, string? codigo_Fabricante,
-            string? codigo_QR, string? imagen, int secuencial_Categoria)
+            string? codigo_QR, string? imagen, int secuencial_Categoria,string fecha_caducidad)
         {
             Secuencial = secuencial;
             Secuencial_Proveedor = secuencial_Proveedor;
@@ -45,6 +47,7 @@ namespace Monitux_POS.Clases
             Codigo_QR = codigo_QR;
             Imagen = imagen;
             Secuencial_Categoria = secuencial_Categoria;
+            Fecha_Caducidad = fecha_caducidad;
         }
 
         public void setProducto(Producto producto)
@@ -62,6 +65,7 @@ namespace Monitux_POS.Clases
             Codigo_QR = producto.Codigo_QR;
             Imagen = producto.Imagen;
             Secuencial_Categoria = producto.Secuencial_Categoria;
+            Fecha_Caducidad = producto.Fecha_Caducidad;
         }
 
 
@@ -70,7 +74,7 @@ namespace Monitux_POS.Clases
             // Retorna una copia del objeto Producto actual
             return new Producto(Secuencial, Secuencial_Proveedor, Codigo, Descripcion, Cantidad,
                 Precio_Costo, Precio_Venta, Marca, Codigo_Barra, Codigo_Fabricante,
-                Codigo_QR, Imagen, Secuencial_Categoria);
+                Codigo_QR, Imagen, Secuencial_Categoria, Fecha_Caducidad);
         }
 
 

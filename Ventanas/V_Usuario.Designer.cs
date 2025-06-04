@@ -91,6 +91,7 @@
             textBox1.ForeColor = Color.FromArgb(192, 0, 192);
             textBox1.Location = new Point(229, 22);
             textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "Quiero encontrar...";
             textBox1.Size = new Size(139, 23);
             textBox1.TabIndex = 8;
             textBox1.TextAlign = HorizontalAlignment.Center;
@@ -213,7 +214,7 @@
             // 
             nuevoToolStripMenuItem.Image = (Image)resources.GetObject("nuevoToolStripMenuItem.Image");
             nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
-            nuevoToolStripMenuItem.Size = new Size(117, 22);
+            nuevoToolStripMenuItem.Size = new Size(180, 22);
             nuevoToolStripMenuItem.Text = "Nuevo";
             nuevoToolStripMenuItem.Click += nuevoToolStripMenuItem_Click;
             // 
@@ -222,7 +223,7 @@
             Menu_Guardar.ForeColor = Color.ForestGreen;
             Menu_Guardar.Image = (Image)resources.GetObject("Menu_Guardar.Image");
             Menu_Guardar.Name = "Menu_Guardar";
-            Menu_Guardar.Size = new Size(117, 22);
+            Menu_Guardar.Size = new Size(180, 22);
             Menu_Guardar.Text = "Guardar";
             Menu_Guardar.Click += Menu_Guardar_Click;
             // 
@@ -231,20 +232,20 @@
             Menu_Eliminar.ForeColor = Color.Red;
             Menu_Eliminar.Image = (Image)resources.GetObject("Menu_Eliminar.Image");
             Menu_Eliminar.Name = "Menu_Eliminar";
-            Menu_Eliminar.Size = new Size(117, 22);
+            Menu_Eliminar.Size = new Size(180, 22);
             Menu_Eliminar.Text = "Eliminar";
             Menu_Eliminar.Click += Menu_Eliminar_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(114, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.Image = (Image)resources.GetObject("salirToolStripMenuItem.Image");
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(117, 22);
+            salirToolStripMenuItem.Size = new Size(180, 22);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 

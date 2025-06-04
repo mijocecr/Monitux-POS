@@ -131,7 +131,7 @@
             // 
             nuevoToolStripMenuItem1.Image = (Image)resources.GetObject("nuevoToolStripMenuItem1.Image");
             nuevoToolStripMenuItem1.Name = "nuevoToolStripMenuItem1";
-            nuevoToolStripMenuItem1.Size = new Size(117, 22);
+            nuevoToolStripMenuItem1.Size = new Size(180, 22);
             nuevoToolStripMenuItem1.Text = "Nuevo";
             nuevoToolStripMenuItem1.Click += nuevoToolStripMenuItem1_Click;
             // 
@@ -140,7 +140,7 @@
             guardarToolStripMenuItem.ForeColor = Color.FromArgb(0, 192, 0);
             guardarToolStripMenuItem.Image = (Image)resources.GetObject("guardarToolStripMenuItem.Image");
             guardarToolStripMenuItem.Name = "guardarToolStripMenuItem";
-            guardarToolStripMenuItem.Size = new Size(117, 22);
+            guardarToolStripMenuItem.Size = new Size(180, 22);
             guardarToolStripMenuItem.Text = "Guardar";
             guardarToolStripMenuItem.Click += guardarToolStripMenuItem_Click;
             // 
@@ -149,20 +149,20 @@
             eliminarToolStripMenuItem.ForeColor = Color.Red;
             eliminarToolStripMenuItem.Image = (Image)resources.GetObject("eliminarToolStripMenuItem.Image");
             eliminarToolStripMenuItem.Name = "eliminarToolStripMenuItem";
-            eliminarToolStripMenuItem.Size = new Size(117, 22);
+            eliminarToolStripMenuItem.Size = new Size(180, 22);
             eliminarToolStripMenuItem.Text = "Eliminar";
             eliminarToolStripMenuItem.Click += eliminarToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(114, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // cerrarToolStripMenuItem
             // 
             cerrarToolStripMenuItem.Image = (Image)resources.GetObject("cerrarToolStripMenuItem.Image");
             cerrarToolStripMenuItem.Name = "cerrarToolStripMenuItem";
-            cerrarToolStripMenuItem.Size = new Size(117, 22);
+            cerrarToolStripMenuItem.Size = new Size(180, 22);
             cerrarToolStripMenuItem.Text = "Salir";
             cerrarToolStripMenuItem.Click += cerrarToolStripMenuItem_Click;
             // 
@@ -182,6 +182,7 @@
             textBox1.ForeColor = Color.FromArgb(192, 0, 192);
             textBox1.Location = new Point(223, 22);
             textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "Quiero encontrar...";
             textBox1.Size = new Size(118, 23);
             textBox1.TabIndex = 8;
             textBox1.TextAlign = HorizontalAlignment.Center;

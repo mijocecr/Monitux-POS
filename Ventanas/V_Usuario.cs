@@ -14,7 +14,7 @@ namespace Monitux_POS.Ventanas
 {
     public partial class V_Usuario : Form
     {
-
+        public int Secuencial_Usuario { get; set; } = 0;
         int Secuencial = 0;
         string Imagen = "";
         public V_Usuario()
@@ -292,6 +292,7 @@ namespace Monitux_POS.Ventanas
 
                     usuario.Imagen = Imagen;
                     context.SaveChanges();
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado al usuario: " + usuario.Nombre);
                     MessageBox.Show("Usuario actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Cargar_Datos();
                 }
@@ -352,6 +353,7 @@ namespace Monitux_POS.Ventanas
                 context.Usuarios.Add(usuario);
                 context.SaveChanges();
                 MessageBox.Show("Usuario creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado al usuario: " + txt_Nombre.Text);
                 Cargar_Datos();
 
 
@@ -404,7 +406,7 @@ namespace Monitux_POS.Ventanas
                 {
                     context.Usuarios.Remove(usuario);
                     context.SaveChanges();
-
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al usuario: " + usuario.Nombre);
                     MessageBox.Show("Usuario eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Cargar_Datos();
                 }

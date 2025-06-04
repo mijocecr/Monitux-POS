@@ -18,6 +18,7 @@ namespace Monitux_POS.Ventanas
 
         int Secuencial = 0;
         string Imagen = "";
+        public int Secuencial_Usuario { get; set; } = 0;
 
         public V_Cliente()
         {
@@ -30,7 +31,7 @@ namespace Monitux_POS.Ventanas
 
         private void Cargar_Datos()
         {
-
+            dataGridView1.Rows.Clear();
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
@@ -283,6 +284,7 @@ namespace Monitux_POS.Ventanas
 
                     cliente.Imagen = Imagen;
                     context.SaveChanges();
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado el cliente: " + cliente.Nombre);
                     MessageBox.Show("Cliente actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Cargar_Datos(); // Recargar los datos después de actualizar el cliente
                 }
@@ -334,6 +336,7 @@ namespace Monitux_POS.Ventanas
                 context.Clientes.Add(cliente);
                 context.SaveChanges();
                 MessageBox.Show("Cliente creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado el cliente: " + txt_Nombre.Text);
                 Cargar_Datos(); // Recargar los datos después de crear el cliente
 
 
@@ -495,7 +498,7 @@ namespace Monitux_POS.Ventanas
                 {
                     context.Clientes.Remove(cliente);
                     context.SaveChanges();
-
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al cliente: " + cliente.Nombre);
                     MessageBox.Show("Cliente eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Cargar_Datos(); // Recargar los datos después de eliminar el cliente
                 }

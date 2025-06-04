@@ -14,6 +14,7 @@ namespace Monitux_POS.Ventanas
 {
     public partial class V_Categoria : Form
     {
+        public int Secuencial_Usuario { get; set; } = 0;
         int Secuencial = 0; // Variable para almacenar el secuencial de la categoria seleccionada
         string Imagen = ""; // Variable para almacenar la imagen de la categoria seleccionada
         public V_Categoria()
@@ -156,7 +157,7 @@ namespace Monitux_POS.Ventanas
                 {
                     context.Categorias.Remove(categoria);
                     context.SaveChanges();
-
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado la categoria: " + categoria.Nombre);
                     MessageBox.Show("Categoria eliminada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Cargar_Datos();
                 }
@@ -195,6 +196,7 @@ namespace Monitux_POS.Ventanas
                     categoria.Descripcion = txtDescripcion.Text;
                     categoria.Imagen = Imagen;
                     context.SaveChanges();
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado la categoria: " + categoria.Nombre);
                     MessageBox.Show("Categoria actualizada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Cargar_Datos(); // Recarga los datos para mostrar la categoria actualizada
                 }
@@ -236,6 +238,7 @@ namespace Monitux_POS.Ventanas
 
                 context.Categorias.Add(categoria);
                 context.SaveChanges();
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado la categoria: " + txtNombre.Text);
                 MessageBox.Show("Categoria creada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Cargar_Datos(); // Recarga los datos para mostrar la nueva categoria
 

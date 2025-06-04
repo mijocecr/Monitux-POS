@@ -21,6 +21,9 @@
 
         public DbSet<Usuario> Usuarios { get; set; }
 
+        public DbSet<Actividad> Actividades { get; set; }
+
+        public DbSet<Kardex> Kardex { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

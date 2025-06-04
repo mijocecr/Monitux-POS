@@ -90,6 +90,7 @@ namespace Monitux_POS
             // 
             Item_Seleccionado.AutoSize = true;
             Item_Seleccionado.BackColor = Color.Transparent;
+            Item_Seleccionado.Enabled = false;
             Item_Seleccionado.Location = new Point(6, 9);
             Item_Seleccionado.Name = "Item_Seleccionado";
             Item_Seleccionado.Size = new Size(15, 14);
@@ -210,6 +211,7 @@ namespace Monitux_POS
             Controls.Add(Item_Imagen);
             Name = "Miniatura_Producto";
             Size = new Size(118, 156);
+            Load += Miniatura_Producto_Load_1;
             Paint += Miniatura_Producto_Paint;
             MouseLeave += Miniatura_Producto_MouseLeave;
             ((System.ComponentModel.ISupportInitialize)Item_Imagen).EndInit();
@@ -226,7 +228,7 @@ namespace Monitux_POS
         public PictureBox Item_Imagen;
         private Label Item_Precio;
         private Label Item_Codigo;
-        private CheckBox Item_Seleccionado;
+        public CheckBox Item_Seleccionado;
         private NumericUpDown numericUpDown1;
         private ContextMenuStrip Menu;
         private ToolStripMenuItem cambiarImagenToolStripMenuItem;

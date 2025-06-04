@@ -30,14 +30,17 @@
     <None Remove="Resources\Iconos\bricks.png" />
     <None Remove="Resources\Iconos\comment.png" />
     <None Remove="Resources\Iconos\comment_edit.png" />
+    <None Remove="Resources\Iconos\database_refresh.png" />
     <None Remove="Resources\Iconos\delete1.png" />
     <None Remove="Resources\Iconos\disk.png" />
     <None Remove="Resources\Iconos\door_in.png" />
     <None Remove="Resources\Iconos\door_out.png" />
+    <None Remove="Resources\Iconos\group.png" />
     <None Remove="Resources\Iconos\lorry.png" />
     <None Remove="Resources\Iconos\magnifier.png" />
     <None Remove="Resources\Iconos\page.png" />
     <None Remove="Resources\Iconos\page_white_edit.png" />
+    <None Remove="Resources\Iconos\page_white_put.png" />
     <None Remove="Resources\monitux.db" />
     <None Remove="Resources\QR\Default.PNG" />
   </ItemGroup>
@@ -61,6 +64,12 @@
     <Content Include="Resources\Iconos\bricks.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Iconos\database_refresh.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\group.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Iconos\lorry.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -71,6 +80,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Iconos\page_white_edit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\page_white_put.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PRO\Default.PNG">

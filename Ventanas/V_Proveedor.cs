@@ -15,6 +15,7 @@ namespace Monitux_POS.Ventanas
 {
     public partial class V_Proveedor : Form
     {
+        public int Secuencial_Usuario { get; set; } = 0;
 
         int Secuencial = 0;
         string Imagen = "";
@@ -305,6 +306,7 @@ namespace Monitux_POS.Ventanas
 
                     proveedor.Imagen = Imagen;
                     context.SaveChanges();
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado al proveedor: " + proveedor.Nombre);
                     MessageBox.Show("Proveedor actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Cargar_Datos(); // Recarga los datos después de actualizar el proveedor
                 }
@@ -364,6 +366,7 @@ namespace Monitux_POS.Ventanas
 
                 context.Proveedores.Add(proveedor);
                 context.SaveChanges();
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado al proveedor: " + txt_Nombre.Text);
                 MessageBox.Show("Proveedor creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 Cargar_Datos(); // Recarga los datos después de crear el proveedor
                 
@@ -429,7 +432,7 @@ Cargar_Datos(); // Recarga los datos después de crear el proveedor
                 {
                     context.Proveedores.Remove(proveedor);
                     context.SaveChanges();
-
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al proveedor: " + proveedor.Nombre);
                     MessageBox.Show("Proveedor eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Cargar_Datos(); // Recarga los datos después de eliminar el proveedor
                 }

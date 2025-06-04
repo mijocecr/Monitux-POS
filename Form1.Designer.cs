@@ -116,7 +116,7 @@
             // 
             // button6
             // 
-            button6.Location = new Point(166, 33);
+            button6.Location = new Point(87, 91);
             button6.Name = "button6";
             button6.Size = new Size(91, 36);
             button6.TabIndex = 8;
@@ -127,9 +127,9 @@
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.Location = new Point(457, 12);
+            flowLayoutPanel1.Location = new Point(457, 158);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(331, 455);
+            flowLayoutPanel1.Size = new Size(331, 309);
             flowLayoutPanel1.TabIndex = 9;
             // 
             // button7
@@ -193,6 +193,7 @@
             miniatura_Producto1.Secuencial = 0;
             miniatura_Producto1.Secuencial_Categoria = 0;
             miniatura_Producto1.Secuencial_Proveedor = 0;
+            miniatura_Producto1.Secuencial_Usuario = 0;
             miniatura_Producto1.Seleccionado = false;
             miniatura_Producto1.Size = new Size(118, 160);
             miniatura_Producto1.TabIndex = 11;

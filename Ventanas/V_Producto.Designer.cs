@@ -31,6 +31,8 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Producto));
             panel1 = new Panel();
+            dateTimePicker1 = new DateTimePicker();
+            label12 = new Label();
             comboCategoria = new ComboBox();
             txtCodigoFabricante = new TextBox();
             label8 = new Label();
@@ -59,13 +61,13 @@
             monituxDBContextBindingSource = new BindingSource(components);
             menuStrip1 = new MenuStrip();
             archivoToolStripMenuItem = new ToolStripMenuItem();
+            Menu_Agregar = new ToolStripMenuItem();
+            nuevoProveedorToolStripMenuItem = new ToolStripMenuItem();
+            categoriaToolStripMenuItem = new ToolStripMenuItem();
             Menu_Guardar = new ToolStripMenuItem();
             Menu_Eliminar = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             salirToolStripMenuItem = new ToolStripMenuItem();
-            nuevoProveedorToolStripMenuItem = new ToolStripMenuItem();
-            categoriaToolStripMenuItem = new ToolStripMenuItem();
-            Menu_Agregar = new ToolStripMenuItem();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -76,6 +78,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(dateTimePicker1);
+            panel1.Controls.Add(label12);
             panel1.Controls.Add(comboCategoria);
             panel1.Controls.Add(txtCodigoFabricante);
             panel1.Controls.Add(label8);
@@ -103,8 +107,26 @@
             panel1.Controls.Add(pictureBox1);
             panel1.Location = new Point(9, 26);
             panel1.Name = "panel1";
-            panel1.Size = new Size(402, 426);
+            panel1.Size = new Size(402, 448);
             panel1.TabIndex = 0;
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Format = DateTimePickerFormat.Short;
+            dateTimePicker1.Location = new Point(117, 330);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(110, 23);
+            dateTimePicker1.TabIndex = 27;
+            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(9, 332);
+            label12.Name = "label12";
+            label12.Size = new Size(110, 15);
+            label12.TabIndex = 26;
+            label12.Text = "Fecha Vencimiento:";
             // 
             // comboCategoria
             // 
@@ -124,7 +146,7 @@
             // 
             txtCodigoFabricante.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             txtCodigoFabricante.ForeColor = SystemColors.MenuHighlight;
-            txtCodigoFabricante.Location = new Point(117, 299);
+            txtCodigoFabricante.Location = new Point(117, 300);
             txtCodigoFabricante.MaxLength = 20;
             txtCodigoFabricante.Name = "txtCodigoFabricante";
             txtCodigoFabricante.Size = new Size(110, 23);
@@ -135,7 +157,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(5, 302);
+            label8.Location = new Point(5, 303);
             label8.Name = "label8";
             label8.Size = new Size(107, 15);
             label8.TabIndex = 24;
@@ -248,7 +270,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(76, 332);
+            label10.Location = new Point(76, 364);
             label10.Name = "label10";
             label10.Size = new Size(69, 15);
             label10.TabIndex = 13;
@@ -258,7 +280,7 @@
             // 
             txtDescripcion.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             txtDescripcion.ForeColor = SystemColors.MenuHighlight;
-            txtDescripcion.Location = new Point(9, 350);
+            txtDescripcion.Location = new Point(9, 385);
             txtDescripcion.MaxLength = 110;
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
@@ -309,7 +331,7 @@
             // 
             // pictureBox2
             // 
-            pictureBox2.Location = new Point(235, 272);
+            pictureBox2.Location = new Point(235, 290);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(159, 137);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -370,7 +392,7 @@
             // pictureBox1
             // 
             pictureBox1.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox1.Location = new Point(235, 71);
+            pictureBox1.Location = new Point(235, 76);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(159, 192);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -402,12 +424,36 @@
             archivoToolStripMenuItem.Text = "Opciones";
             archivoToolStripMenuItem.Click += archivoToolStripMenuItem_Click_1;
             // 
+            // Menu_Agregar
+            // 
+            Menu_Agregar.DropDownItems.AddRange(new ToolStripItem[] { nuevoProveedorToolStripMenuItem, categoriaToolStripMenuItem });
+            Menu_Agregar.Image = (Image)resources.GetObject("Menu_Agregar.Image");
+            Menu_Agregar.Name = "Menu_Agregar";
+            Menu_Agregar.Size = new Size(120, 22);
+            Menu_Agregar.Text = "Registrar";
+            // 
+            // nuevoProveedorToolStripMenuItem
+            // 
+            nuevoProveedorToolStripMenuItem.Image = (Image)resources.GetObject("nuevoProveedorToolStripMenuItem.Image");
+            nuevoProveedorToolStripMenuItem.Name = "nuevoProveedorToolStripMenuItem";
+            nuevoProveedorToolStripMenuItem.Size = new Size(128, 22);
+            nuevoProveedorToolStripMenuItem.Text = "Proveedor";
+            nuevoProveedorToolStripMenuItem.Click += nuevoProveedorToolStripMenuItem_Click;
+            // 
+            // categoriaToolStripMenuItem
+            // 
+            categoriaToolStripMenuItem.Image = (Image)resources.GetObject("categoriaToolStripMenuItem.Image");
+            categoriaToolStripMenuItem.Name = "categoriaToolStripMenuItem";
+            categoriaToolStripMenuItem.Size = new Size(128, 22);
+            categoriaToolStripMenuItem.Text = "Categoria";
+            categoriaToolStripMenuItem.Click += categoriaToolStripMenuItem_Click;
+            // 
             // Menu_Guardar
             // 
             Menu_Guardar.ForeColor = Color.ForestGreen;
             Menu_Guardar.Image = (Image)resources.GetObject("Menu_Guardar.Image");
             Menu_Guardar.Name = "Menu_Guardar";
-            Menu_Guardar.Size = new Size(180, 22);
+            Menu_Guardar.Size = new Size(120, 22);
             Menu_Guardar.Text = "Guardar";
             Menu_Guardar.Click += Menu_Guardar_Click;
             // 
@@ -416,52 +462,28 @@
             Menu_Eliminar.ForeColor = Color.Red;
             Menu_Eliminar.Image = (Image)resources.GetObject("Menu_Eliminar.Image");
             Menu_Eliminar.Name = "Menu_Eliminar";
-            Menu_Eliminar.Size = new Size(180, 22);
+            Menu_Eliminar.Size = new Size(120, 22);
             Menu_Eliminar.Text = "Eliminar";
             Menu_Eliminar.Click += Menu_Eliminar_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(117, 6);
             // 
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.Image = (Image)resources.GetObject("salirToolStripMenuItem.Image");
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(180, 22);
+            salirToolStripMenuItem.Size = new Size(120, 22);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
-            // 
-            // nuevoProveedorToolStripMenuItem
-            // 
-            nuevoProveedorToolStripMenuItem.Image = (Image)resources.GetObject("nuevoProveedorToolStripMenuItem.Image");
-            nuevoProveedorToolStripMenuItem.Name = "nuevoProveedorToolStripMenuItem";
-            nuevoProveedorToolStripMenuItem.Size = new Size(180, 22);
-            nuevoProveedorToolStripMenuItem.Text = "Proveedor";
-            nuevoProveedorToolStripMenuItem.Click += nuevoProveedorToolStripMenuItem_Click;
-            // 
-            // categoriaToolStripMenuItem
-            // 
-            categoriaToolStripMenuItem.Image = (Image)resources.GetObject("categoriaToolStripMenuItem.Image");
-            categoriaToolStripMenuItem.Name = "categoriaToolStripMenuItem";
-            categoriaToolStripMenuItem.Size = new Size(180, 22);
-            categoriaToolStripMenuItem.Text = "Categoria";
-            categoriaToolStripMenuItem.Click += categoriaToolStripMenuItem_Click;
-            // 
-            // Menu_Agregar
-            // 
-            Menu_Agregar.DropDownItems.AddRange(new ToolStripItem[] { nuevoProveedorToolStripMenuItem, categoriaToolStripMenuItem });
-            Menu_Agregar.Image = (Image)resources.GetObject("Menu_Agregar.Image");
-            Menu_Agregar.Name = "Menu_Agregar";
-            Menu_Agregar.Size = new Size(180, 22);
-            Menu_Agregar.Text = "Registrar";
             // 
             // V_Producto
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(420, 455);
+            ClientSize = new Size(420, 486);
             ControlBox = false;
             Controls.Add(panel1);
             Controls.Add(menuStrip1);
@@ -522,5 +544,7 @@
         private ToolStripMenuItem Menu_Agregar;
         private ToolStripMenuItem nuevoProveedorToolStripMenuItem;
         private ToolStripMenuItem categoriaToolStripMenuItem;
+        private DateTimePicker dateTimePicker1;
+        private Label label12;
     }
 }
