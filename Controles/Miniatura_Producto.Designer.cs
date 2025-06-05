@@ -35,7 +35,6 @@ namespace Monitux_POS
             Item_Precio = new Label();
             Item_Codigo = new Label();
             Item_Seleccionado = new CheckBox();
-            numericUpDown1 = new NumericUpDown();
             Menu = new ContextMenuStrip(components);
             cambiarImagenToolStripMenuItem = new ToolStripMenuItem();
             imagenLocalToolStripMenuItem = new ToolStripMenuItem();
@@ -46,8 +45,8 @@ namespace Monitux_POS
             retirarUnidadesToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             editarProductoToolStripMenuItem = new ToolStripMenuItem();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)Item_Imagen).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             Menu.SuspendLayout();
             SuspendLayout();
             // 
@@ -68,7 +67,7 @@ namespace Monitux_POS
             Item_Precio.AutoSize = true;
             Item_Precio.BackColor = Color.Transparent;
             Item_Precio.Font = new Font("Bahnschrift SemiCondensed", 11.25F);
-            Item_Precio.Location = new Point(25, 5);
+            Item_Precio.Location = new Point(47, 6);
             Item_Precio.Name = "Item_Precio";
             Item_Precio.Size = new Size(46, 18);
             Item_Precio.TabIndex = 1;
@@ -98,15 +97,6 @@ namespace Monitux_POS
             Item_Seleccionado.TextAlign = ContentAlignment.BottomCenter;
             Item_Seleccionado.UseVisualStyleBackColor = false;
             Item_Seleccionado.CheckedChanged += Item_Seleccionado_CheckedChanged;
-            // 
-            // numericUpDown1
-            // 
-            numericUpDown1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            numericUpDown1.Location = new Point(75, 3);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(33, 23);
-            numericUpDown1.TabIndex = 4;
-            numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
             // 
             // Menu
             // 
@@ -198,12 +188,23 @@ namespace Monitux_POS
             editarProductoToolStripMenuItem.Text = "Ver Producto";
             editarProductoToolStripMenuItem.Click += editarProductoToolStripMenuItem_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Bahnschrift SemiCondensed", 11.25F);
+            label1.Location = new Point(29, 6);
+            label1.Name = "label1";
+            label1.Size = new Size(18, 18);
+            label1.TabIndex = 4;
+            label1.Text = "P.";
+            // 
             // Miniatura_Producto
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BorderStyle = BorderStyle.FixedSingle;
-            Controls.Add(numericUpDown1);
+            Controls.Add(label1);
             Controls.Add(Item_Seleccionado);
             Controls.Add(Item_Codigo);
             Controls.Add(Item_Precio);
@@ -214,7 +215,6 @@ namespace Monitux_POS
             Paint += Miniatura_Producto_Paint;
             MouseLeave += Miniatura_Producto_MouseLeave;
             ((System.ComponentModel.ISupportInitialize)Item_Imagen).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             Menu.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
@@ -228,7 +228,6 @@ namespace Monitux_POS
         private Label Item_Precio;
         private Label Item_Codigo;
         public CheckBox Item_Seleccionado;
-        private NumericUpDown numericUpDown1;
         private ContextMenuStrip Menu;
         private ToolStripMenuItem cambiarImagenToolStripMenuItem;
         private ToolStripMenuItem imagenLocalToolStripMenuItem;
@@ -239,5 +238,6 @@ namespace Monitux_POS
         private ToolStripMenuItem retirarUnidadesToolStripMenuItem;
         private ToolStripMenuItem editarProductoToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
+        private Label label1;
     }
 }

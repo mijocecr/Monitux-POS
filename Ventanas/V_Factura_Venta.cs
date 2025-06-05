@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using Microsoft.EntityFrameworkCore;
 using Monitux_POS.Clases;
+using Monitux_POS.Controles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +23,7 @@ namespace Monitux_POS.Ventanas
         public int Secuencial_Usuario { get; set; } = 0;
         //List<int> indices = new List<int>();
 
-        Dictionary<string, int> Lista_de_Indices = new Dictionary<string, int>();
+        
         Dictionary<string, Miniatura_Producto> Lista_de_Items = new Dictionary<string, Miniatura_Producto>();
 
         public V_Factura_Venta()
@@ -35,10 +36,9 @@ namespace Monitux_POS.Ventanas
         public void Cargar_Items()
         {
 
-            listBox1.Items.Clear();
-
-            Lista_de_Items.Clear();
-            dataGridView1.Rows.Clear();
+          
+           // Lista_de_Items.Clear();
+           // dataGridView1.Rows.Clear();
 
             flowLayoutPanel1.Controls.Clear();
 
@@ -82,23 +82,46 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Fecha_Caducidad = item.Fecha_Caducidad;
 
 
+              
+
+
+
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
                     // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
 
+                    Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
+
+
+
+
+
+
+
+
+
+
+
+
+
                     if (miniatura_Producto1.Seleccionado == true)
                     {
-                        if (!listBox1.Items.Contains(miniatura_Producto1.Codigo))
-                        {
+                        //flowLayoutPanel2.Controls.Remove(selector_Cantidad);
 
-                            listBox1.Items.Add(miniatura_Producto1.Codigo);
+                        if (!flowLayoutPanel2.Controls.Contains(selector_Cantidad))
+                        {
+                            
+                            selector_Cantidad.SetCodigo(miniatura_Producto1.Codigo);
+                            selector_Cantidad.Tag = miniatura_Producto1.Codigo; // Asigna el código como Tag para referencia futura
+
+
+                            flowLayoutPanel2.Controls.Add(selector_Cantidad);
+
+                            
 
                         }
 
-                        if (!Lista_de_Indices.ContainsKey(miniatura_Producto1.Codigo))
-                        {
-                            Lista_de_Indices.Add(miniatura_Producto1.Codigo, flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
-                        }
+                     
 
                         if (!Lista_de_Items.ContainsKey(miniatura_Producto1.Codigo))
                         {
@@ -107,10 +130,15 @@ namespace Monitux_POS.Ventanas
                         else
                         {                             // Si ya existe, actualiza la cantidad seleccionada
 
+                            flowLayoutPanel2.Controls.Remove(selector_Cantidad);
                             Lista_de_Items.Remove(miniatura_Producto1.Codigo);
                             await Task.Delay(100); // Espera para evitar problemas de concurrencia
+                            
                             Lista_de_Items.Add(miniatura_Producto1.Codigo, miniatura_Producto1);
-                            Lista_de_Items[miniatura_Producto1.Codigo].cantidadSelecccionItem = miniatura_Producto1.cantidadSelecccionItem;
+
+                          
+
+
 
                         }
 
@@ -132,26 +160,8 @@ namespace Monitux_POS.Ventanas
 
 
 
-                foreach (var clave in Lista_de_Indices.Keys)
-                {
 
 
-
-                    Lista_de_Indices.TryGetValue((clave), out int indices);
-
-                    if (indices == flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1))
-                    {
-                        miniatura_Producto1.Item_Seleccionado.Checked = true;
-                    }
-                    else
-                    {
-
-                        miniatura_Producto1.Item_Seleccionado.Checked = false;
-
-                    }
-
-
-                }
 
 
 
@@ -160,7 +170,59 @@ namespace Monitux_POS.Ventanas
                 flowLayoutPanel1.Controls.Add(miniatura_Producto1);
 
 
+
+                var controlesMiniatura = flowLayoutPanel1.Controls.OfType<Miniatura_Producto>();
+
+                foreach (var control in controlesMiniatura)
+                {
+                    if (Lista_de_Items.ContainsKey(control.Codigo))
+                    {
+                        control.Item_Seleccionado.Checked = true; // Marca el checkbox si el item ya está en la lista
+
+                    }
+                    else
+                    {
+                        control.Item_Seleccionado.Checked = false; // Desmarca el checkbox si el item no está en la lista
+                    }
+                }
+
+
+
+
             }
+
+
+
+            // Ojo
+
+            var controlesEspeciales = flowLayoutPanel2.Controls.OfType<Selector_Cantidad>();
+
+            foreach (var control in controlesEspeciales)
+            {
+                if (Lista_de_Items.ContainsKey(control.label1.Text))
+                {
+                    // Si el código ya existe, actualiza la cantidad seleccionada
+                    Lista_de_Items[control.label1.Text].cantidadSelecccionItem = Convert.ToDouble(control.numericUpDown1.Value);
+                    control.numericUpDown1.Value = Convert.ToDecimal(Lista_de_Items[control.label1.Text].cantidadSelecccionItem);
+                    //control.checkBox1.Checked = true; // Asegura que el checkbox esté marcado si ya existe el item
+                }
+                else
+                {
+                    // Si no existe, lo agrega a la lista de items
+                    Lista_de_Items.Add(control.label1.Text, new Miniatura_Producto
+                    {
+                        Codigo = control.label1.Text,
+                        cantidadSelecccionItem = Convert.ToDouble(control.numericUpDown1.Value)
+                    });
+                }
+
+
+            }
+
+            //Ojo
+
+
+
 
 
         }
@@ -277,16 +339,7 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-            // Filtrar categorías antes de agregarlas al DataGridView
-            /*  string filtro = "eeee"; // Define el criterio de búsqueda
-              var categoriasFiltradas = context.Categorias
-                  .Where(c => c.Nombre.Contains(filtro)) // Aplica filtro en la consulta
-                  .ToList();*/
-
-
-
-
-
+          
             //-------------------Filtro que usare
 
 
@@ -335,28 +388,33 @@ namespace Monitux_POS.Ventanas
                 };*/
 
 
+
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
                     // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+
+                    Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
 
 
 
                     if (miniatura_Producto1.Seleccionado == true)
                     {
+                        flowLayoutPanel2.Controls.Remove(selector_Cantidad);
 
-
-
-                        if (!listBox1.Items.Contains(miniatura_Producto1.Codigo))
+                        if (!flowLayoutPanel2.Controls.Contains(selector_Cantidad))
                         {
+                            //selector_Cantidad.label1.Text = miniatura_Producto1.Codigo;
+                            selector_Cantidad.SetCodigo(miniatura_Producto1.Codigo);
+                            selector_Cantidad.Tag = miniatura_Producto1.Codigo; // Asigna el código como Tag para referencia futura
 
-                            listBox1.Items.Add(miniatura_Producto1.Codigo);
+
+                            flowLayoutPanel2.Controls.Add(selector_Cantidad);
+
+
 
                         }
 
-                        if (!Lista_de_Indices.ContainsKey(miniatura_Producto1.Codigo))
-                        {
-                            Lista_de_Indices.Add(miniatura_Producto1.Codigo, flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
-                        }
+                      
 
                         if (!Lista_de_Items.ContainsKey(miniatura_Producto1.Codigo))
                         {
@@ -365,88 +423,87 @@ namespace Monitux_POS.Ventanas
                         else
                         {                             // Si ya existe, actualiza la cantidad seleccionada
 
+                            flowLayoutPanel2.Controls.Remove(selector_Cantidad);
                             Lista_de_Items.Remove(miniatura_Producto1.Codigo);
                             await Task.Delay(100); // Espera para evitar problemas de concurrencia
                             Lista_de_Items.Add(miniatura_Producto1.Codigo, miniatura_Producto1);
-                            Lista_de_Items[miniatura_Producto1.Codigo].cantidadSelecccionItem = miniatura_Producto1.cantidadSelecccionItem;
+
+
 
                         }
 
 
-
-                        /*  else
-                          {
-                              if (indices.Contains(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1)) && miniatura_Producto1.Seleccionado != true)
-                              {
-
-                                  listBox1.Items.Remove(miniatura_Producto1.Codigo);
-                                  indices.Remove(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
-                                  Lista_de_Items.Remove(miniatura_Producto1.Codigo);
-                              }
-                              else
-                              {
-                                  miniatura_Producto1.Item_Seleccionado.Checked = true;
-                              }
-
-                          }*/
-
-                    }/*
-                    else
-                    {
-                        if (indices.Contains(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1)))
-
-                            listBox1.Items.Remove(miniatura_Producto1.Codigo);
-                        indices.Remove(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
-                        Lista_de_Items.Remove(miniatura_Producto1.Codigo);
-                   
-                        
-                        }*/
-
-                };
-
-                flowLayoutPanel1.Controls.Add(miniatura_Producto1);
-
-
-
-
-
-
-
-                foreach (Miniatura_Producto x in flowLayoutPanel1.Controls)
-                {
-
-
-
-                    foreach (var clave in Lista_de_Indices.Keys)
-                    {
-
-
-
-                        Lista_de_Indices.TryGetValue((clave), out int indices);
-
-                        if (indices == flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1))
-                        {
-                            miniatura_Producto1.Item_Seleccionado.Checked = true;
-                        }
-                        else
-                        {
-
-                            miniatura_Producto1.Item_Seleccionado.Checked = false;
-
-                        }
 
 
                     }
+                   
+                };
 
 
 
 
 
+
+
+
+                flowLayoutPanel1.Controls.Add(miniatura_Producto1);
+
+                
+
+
+
+                var controlesMiniatura = flowLayoutPanel1.Controls.OfType<Miniatura_Producto>();
+
+                foreach (var control in controlesMiniatura)
+                {
+                    if (Lista_de_Items.ContainsKey(control.Codigo))
+                    {
+                        control.Item_Seleccionado.Checked = true; // Marca el checkbox si el item ya está en la lista
+                       
+                    }
+                    else
+                    {
+                        control.Item_Seleccionado.Checked = false; // Desmarca el checkbox si el item no está en la lista
+                    }
                 }
+
+               
+
+
+            }            //---------------Fin del filtro que uso
+
+
+
+            // Ojo
+
+            var controlesEspeciales = flowLayoutPanel2.Controls.OfType<Selector_Cantidad>();
+
+            foreach (var control in controlesEspeciales)
+            {
+                if (Lista_de_Items.ContainsKey(control.label1.Text))
+                {
+                    // Si el código ya existe, actualiza la cantidad seleccionada
+                    Lista_de_Items[control.label1.Text].cantidadSelecccionItem = Convert.ToDouble(control.numericUpDown1.Value);
+                    control.numericUpDown1.Value = Convert.ToDecimal(Lista_de_Items[control.label1.Text].cantidadSelecccionItem);
+                   // control.checkBox1.Checked = true; // Asegura que el checkbox esté marcado si ya existe el item
+                }
+                else
+                {
+                    // Si no existe, lo agrega a la lista de items
+                    Lista_de_Items.Add(control.label1.Text, new Miniatura_Producto
+                    {
+                        Codigo = control.label1.Text,
+                        cantidadSelecccionItem = Convert.ToDouble(control.numericUpDown1.Value)
+                    });
+                }
+
+
             }
 
+            //Ojo
 
-          
+
+
 
         }
 
@@ -464,8 +521,7 @@ namespace Monitux_POS.Ventanas
             producto.Secuencial_Usuario = Secuencial_Usuario;
 
             producto.ShowDialog();
-
-
+            Cargar_Items();
 
         }
 
@@ -485,6 +541,26 @@ namespace Monitux_POS.Ventanas
         {
 
             dataGridView1.Rows.Clear();
+            lbl_sub_Total.Text = "0.00"; // Reiniciar el subtotal a 0.00
+
+
+
+            foreach (Selector_Cantidad selector in flowLayoutPanel2.Controls)
+            {
+                if (Lista_de_Items.ContainsKey(selector.GetCodigo()))
+                {
+                    Lista_de_Items[selector.GetCodigo()].cantidadSelecccionItem = Convert.ToDouble(selector.numericUpDown1.Value);
+                }
+                else
+                {
+                   // MessageBox.Show("El item " + selector.GetCodigo() + " no está en la lista de items seleccionados.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                   // return;
+                }
+            }
+
+
+
+
 
 
             foreach (var clave in Lista_de_Items.Keys)
@@ -493,6 +569,7 @@ namespace Monitux_POS.Ventanas
 
 
                 Lista_de_Items.TryGetValue((clave), out Miniatura_Producto item);
+
 
 
                 if (item.cantidadSelecccionItem != 0)
@@ -508,7 +585,7 @@ namespace Monitux_POS.Ventanas
                     );
 
 
-
+                    lbl_sub_Total.Text = (Convert.ToDouble(lbl_sub_Total.Text) + (item.Precio_Venta * item.cantidadSelecccionItem)).ToString("0.00");
 
 
                 }
@@ -534,10 +611,11 @@ namespace Monitux_POS.Ventanas
 
             textBox1.Text = "";
             Lista_de_Items.Clear();
-            listBox1.Items.Clear();
+            
             dataGridView1.Rows.Clear();
+            flowLayoutPanel2.Controls.Clear();
             Cargar_Items();
-            //indices.Clear();
+            
 
         }
 
@@ -628,48 +706,76 @@ namespace Monitux_POS.Ventanas
         private void button8_Click(object sender, EventArgs e)
         {
 
-            if (listBox1.SelectedItem == null)
+
+
+
+            
+
+            var controlesEspeciales1 = flowLayoutPanel2.Controls.OfType<Selector_Cantidad>();
+
+            foreach (var control in controlesEspeciales1)
             {
-                MessageBox.Show("Escoja un item de la lista de seleccion para eliminarlo de la factura.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                
+
+                if (Lista_de_Items.ContainsKey(control.label1.Text))
+                {
+                    // Si el código ya existe, actualiza la cantidad seleccionada
+                    Lista_de_Items[control.label1.Text].cantidadSelecccionItem = Convert.ToDouble(control.numericUpDown1.Value);
+                    control.numericUpDown1.Value = Convert.ToDecimal(Lista_de_Items[control.label1.Text].cantidadSelecccionItem);
+                   
+                }
+               
+
+
             }
 
-            foreach (DataGridViewRow fila in dataGridView1.Rows)
+          
+
+
+
+
+
+            //Doble Ojo
+
+
+
+            var controlesEspeciales = flowLayoutPanel2.Controls.OfType<Selector_Cantidad>();
+
+            foreach (var control in controlesEspeciales)
             {
 
-
-
-                if (fila.Cells["Codigo"].Value != null && fila.Cells["Codigo"].Value== listBox1.SelectedItem.ToString())
+                if (control.checkBox1.Checked == true)
                 {
-                    string codigo = fila.Cells["Codigo"].Value.ToString();
 
-                    if (listBox1.Items.Contains(codigo))
+                    if (Lista_de_Items.ContainsKey(control.label1.Text))
                     {
-                        listBox1.Items.Remove(codigo);
-                        Lista_de_Items.Remove(codigo);
-                        Lista_de_Indices.Remove(codigo);
-                    }
 
-                    if (fila.Index < dataGridView1.Rows.Count)
-                    {
-                        dataGridView1.Rows.Remove(fila);
+                        MessageBox.Show("El item " + control.label1.Text+" se removio de la factura");
+                        flowLayoutPanel2.Controls.Remove(control); // Elimina el control del FlowLayoutPanel
+                         Lista_de_Items.Remove(control.label1.Text); // Elimina el item de la lista de items
+                       
+                       
+                        flowLayoutPanel2.Refresh(); // Refresca el FlowLayoutPanel para que se actualice la vista
+
                     }
                     else
                     {
-                        MessageBox.Show("Índice fuera de rango.");
+                        control.BackColor = Color.Red; // Desmarca el checkbox si el item no está en la lista
                     }
+
                 }
 
-
-
-
+               
             }
+
+            
 
 
 
             Cargar_Items();
 
-            label5.Text = listBox1.Items.Count.ToString();
+            label5.Text = Lista_de_Items.Count.ToString();
+            button2_Click(sender, e); // Actualiza el DataGridView con los items seleccionados
 
         }
 
@@ -694,7 +800,73 @@ namespace Monitux_POS.Ventanas
 
         private void flowLayoutPanel1_MouseMove(object sender, MouseEventArgs e)
         {
-            label5.Text=listBox1.Items.Count.ToString();
+            label5.Text = Lista_de_Items.Count.ToString();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            /*Selector_Cantidad x = new Selector_Cantidad();
+
+            x.label1.Text = "1501199100511";
+            x.numericUpDown1.Value = 1;
+            x.checkBox1.Checked = true;
+            flowLayoutPanel2.Controls.Add(x);
+            */
+
+
+            // Ojo
+
+            var controlesEspeciales = flowLayoutPanel2.Controls.OfType<Selector_Cantidad>();
+
+            foreach (var control in controlesEspeciales)
+            {
+                if (Lista_de_Items.ContainsKey(control.label1.Text))
+                {
+                    // Si el código ya existe, actualiza la cantidad seleccionada
+                    Lista_de_Items[control.label1.Text].cantidadSelecccionItem = Convert.ToDouble(control.numericUpDown1.Value);
+                    control.numericUpDown1.Value = Convert.ToDecimal(Lista_de_Items[control.label1.Text].cantidadSelecccionItem);
+                    control.checkBox1.Checked = true; // Asegura que el checkbox esté marcado si ya existe el item
+                }
+                else
+                {
+                    // Si no existe, lo agrega a la lista de items
+                    Lista_de_Items.Add(control.label1.Text, new Miniatura_Producto
+                    {
+                        Codigo = control.label1.Text,
+                        cantidadSelecccionItem = Convert.ToDouble(control.numericUpDown1.Value)
+                    });
+                }
+
+
+            }
+
+            //Ojo
+
+
+
+            //Doble Ojo
+
+
+
+            var controlesMiniatura = flowLayoutPanel1.Controls.OfType<Miniatura_Producto>();
+
+            foreach (var control in controlesMiniatura)
+            {
+                if (Lista_de_Items.ContainsKey(control.Codigo))
+                {
+                    control.Item_Seleccionado.Checked = true; // Marca el checkbox si el item ya está en la lista
+                }
+                else
+                {
+                    control.Item_Seleccionado.Checked = false; // Desmarca el checkbox si el item no está en la lista
+                }
+            }
+
+                    //Doble Ojo
+
+
+
+
+                }
     }
 }

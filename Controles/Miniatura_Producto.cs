@@ -30,7 +30,7 @@ namespace Monitux_POS
 
 
         public bool actualizarItem { get; set; }
-        public int cantidadSelecccionItem { get; set; } = 0;
+        
 
 
 
@@ -41,10 +41,19 @@ namespace Monitux_POS
 
         public double unidadesAgregar { get; set; }
         public double unidadesRetirar { get; set; }
-
+        public double cantidadSelecccionItem { get; set; } = 0;
 
         public bool Seleccionado { get; set; } = false;
         public string Comentario { get; set; } = "";
+
+
+        public event EventHandler CustomClick;
+
+        public void SimularClick()
+        {
+            CustomClick?.Invoke(this, EventArgs.Empty); // Dispara el evento manualmente
+        }
+
 
         public Miniatura_Producto()
         {
@@ -374,6 +383,9 @@ namespace Monitux_POS
             }
         }
 
+
+
+
         private void Item_Seleccionado_CheckedChanged(object sender, EventArgs e)
         {
             
@@ -390,10 +402,7 @@ namespace Monitux_POS
             else
             {
                 Seleccionado = false;
-                //numericUpDown1.Visible = false;
-                numericUpDown1.Value = 0;
-                cantidadSelecccionItem = 0;
-
+               
             }
         }
 
@@ -619,7 +628,7 @@ namespace Monitux_POS
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            cantidadSelecccionItem = (int)numericUpDown1.Value;
+           // cantidadSelecccionItem = (int)numericUpDown1.Value;
 
         }
 

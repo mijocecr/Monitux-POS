@@ -175,7 +175,7 @@
             miniatura_Producto1.actualizarItem = false;
             miniatura_Producto1.BorderStyle = BorderStyle.FixedSingle;
             miniatura_Producto1.Cantidad = 0D;
-            miniatura_Producto1.cantidadSelecccionItem = 0;
+            
             miniatura_Producto1.Codigo = null;
             miniatura_Producto1.Codigo_Barra = null;
             miniatura_Producto1.Codigo_Fabricante = null;
