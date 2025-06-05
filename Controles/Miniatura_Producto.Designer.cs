@@ -67,7 +67,7 @@ namespace Monitux_POS
             Item_Precio.AutoSize = true;
             Item_Precio.BackColor = Color.Transparent;
             Item_Precio.Font = new Font("Bahnschrift SemiCondensed", 11.25F);
-            Item_Precio.Location = new Point(47, 6);
+            Item_Precio.Location = new Point(49, 6);
             Item_Precio.Name = "Item_Precio";
             Item_Precio.Size = new Size(46, 18);
             Item_Precio.TabIndex = 1;
@@ -193,11 +193,11 @@ namespace Monitux_POS
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Bahnschrift SemiCondensed", 11.25F);
-            label1.Location = new Point(29, 6);
+            label1.Location = new Point(23, 6);
             label1.Name = "label1";
-            label1.Size = new Size(18, 18);
+            label1.Size = new Size(29, 18);
             label1.TabIndex = 4;
-            label1.Text = "P.";
+            label1.Text = "P.U:";
             // 
             // Miniatura_Producto
             // 

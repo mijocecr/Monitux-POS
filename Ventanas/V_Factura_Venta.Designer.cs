@@ -54,11 +54,16 @@
             dateTimePicker1 = new DateTimePicker();
             label3 = new Label();
             groupBox2 = new GroupBox();
-            label16 = new Label();
+            label13 = new Label();
+            label12 = new Label();
+            txt_Descuento = new TextBox();
+            txt_Impuesto = new TextBox();
+            txt_OtrosCargos = new TextBox();
+            lbl_Descuento = new Label();
             lbl_Impuesto = new Label();
             lbl_OtrosCargos = new Label();
             lbl_sub_Total = new Label();
-            label12 = new Label();
+            lbl_Total = new Label();
             label11 = new Label();
             label10 = new Label();
             label9 = new Label();
@@ -187,7 +192,7 @@
             button2.Name = "button2";
             button2.Size = new Size(74, 88);
             button2.TabIndex = 12;
-            button2.Text = "Agregar a Factura";
+            button2.Text = "Actualizar Factura";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
@@ -278,6 +283,7 @@
             button6.TabIndex = 21;
             button6.Text = "Generar Factura";
             button6.UseVisualStyleBackColor = false;
+            button6.Click += button6_Click;
             // 
             // label2
             // 
@@ -320,11 +326,16 @@
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(label16);
+            groupBox2.Controls.Add(label13);
+            groupBox2.Controls.Add(label12);
+            groupBox2.Controls.Add(txt_Descuento);
+            groupBox2.Controls.Add(txt_Impuesto);
+            groupBox2.Controls.Add(txt_OtrosCargos);
+            groupBox2.Controls.Add(lbl_Descuento);
             groupBox2.Controls.Add(lbl_Impuesto);
             groupBox2.Controls.Add(lbl_OtrosCargos);
             groupBox2.Controls.Add(lbl_sub_Total);
-            groupBox2.Controls.Add(label12);
+            groupBox2.Controls.Add(lbl_Total);
             groupBox2.Controls.Add(label11);
             groupBox2.Controls.Add(label10);
             groupBox2.Controls.Add(label9);
@@ -352,18 +363,73 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Factura Actual";
             groupBox2.Enter += groupBox2_Enter;
+            groupBox2.MouseHover += groupBox2_MouseHover;
+            groupBox2.Move += groupBox2_Move;
             // 
-            // label16
+            // label13
             // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label16.ForeColor = Color.DodgerBlue;
-            label16.Location = new Point(111, 502);
-            label16.Name = "label16";
-            label16.Size = new Size(15, 17);
-            label16.TabIndex = 42;
-            label16.Text = "0";
-            label16.Visible = false;
+            label13.AutoSize = true;
+            label13.Location = new Point(167, 406);
+            label13.Name = "label13";
+            label13.Size = new Size(17, 15);
+            label13.TabIndex = 47;
+            label13.Text = "%";
+            label13.Visible = false;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(166, 380);
+            label12.Name = "label12";
+            label12.Size = new Size(17, 15);
+            label12.TabIndex = 46;
+            label12.Text = "%";
+            label12.Visible = false;
+            // 
+            // txt_Descuento
+            // 
+            txt_Descuento.Location = new Point(127, 403);
+            txt_Descuento.Name = "txt_Descuento";
+            txt_Descuento.Size = new Size(39, 23);
+            txt_Descuento.TabIndex = 45;
+            txt_Descuento.TextAlign = HorizontalAlignment.Center;
+            txt_Descuento.Visible = false;
+            txt_Descuento.TextChanged += txt_Descuento_TextChanged;
+            txt_Descuento.KeyDown += txt_Descuento_KeyDown;
+            // 
+            // txt_Impuesto
+            // 
+            txt_Impuesto.Location = new Point(126, 376);
+            txt_Impuesto.Name = "txt_Impuesto";
+            txt_Impuesto.Size = new Size(39, 23);
+            txt_Impuesto.TabIndex = 44;
+            txt_Impuesto.TextAlign = HorizontalAlignment.Center;
+            txt_Impuesto.Visible = false;
+            txt_Impuesto.TextChanged += txt_Impuesto_TextChanged;
+            txt_Impuesto.KeyDown += txt_Impuesto_KeyDown;
+            // 
+            // txt_OtrosCargos
+            // 
+            txt_OtrosCargos.Location = new Point(145, 350);
+            txt_OtrosCargos.Name = "txt_OtrosCargos";
+            txt_OtrosCargos.Size = new Size(47, 23);
+            txt_OtrosCargos.TabIndex = 43;
+            txt_OtrosCargos.TextAlign = HorizontalAlignment.Center;
+            txt_OtrosCargos.Visible = false;
+            txt_OtrosCargos.TextChanged += txt_OtrosCargos_TextChanged;
+            txt_OtrosCargos.KeyDown += txt_OtrosCargos_KeyDown;
+            // 
+            // lbl_Descuento
+            // 
+            lbl_Descuento.AutoSize = true;
+            lbl_Descuento.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_Descuento.ForeColor = Color.DodgerBlue;
+            lbl_Descuento.Location = new Point(111, 502);
+            lbl_Descuento.Name = "lbl_Descuento";
+            lbl_Descuento.Size = new Size(15, 17);
+            lbl_Descuento.TabIndex = 42;
+            lbl_Descuento.Text = "0";
+            lbl_Descuento.Visible = false;
             // 
             // lbl_Impuesto
             // 
@@ -394,22 +460,24 @@
             lbl_sub_Total.AutoSize = true;
             lbl_sub_Total.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_sub_Total.ForeColor = Color.DodgerBlue;
-            lbl_sub_Total.Location = new Point(286, 337);
+            lbl_sub_Total.Location = new Point(290, 331);
             lbl_sub_Total.Name = "lbl_sub_Total";
             lbl_sub_Total.Size = new Size(19, 21);
             lbl_sub_Total.TabIndex = 39;
             lbl_sub_Total.Text = "0";
+            lbl_sub_Total.TextChanged += lbl_sub_Total_TextChanged;
+            lbl_sub_Total.Click += lbl_sub_Total_Click;
             // 
-            // label12
+            // lbl_Total
             // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.ForeColor = Color.DodgerBlue;
-            label12.Location = new Point(286, 367);
-            label12.Name = "label12";
-            label12.Size = new Size(25, 30);
-            label12.TabIndex = 38;
-            label12.Text = "0";
+            lbl_Total.AutoSize = true;
+            lbl_Total.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_Total.ForeColor = Color.DodgerBlue;
+            lbl_Total.Location = new Point(271, 367);
+            lbl_Total.Name = "lbl_Total";
+            lbl_Total.Size = new Size(25, 30);
+            lbl_Total.TabIndex = 38;
+            lbl_Total.Text = "0";
             // 
             // label11
             // 
@@ -448,7 +516,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(195, 337);
+            label8.Location = new Point(199, 331);
             label8.Name = "label8";
             label8.Size = new Size(87, 21);
             label8.TabIndex = 34;
@@ -477,7 +545,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(215, 367);
+            label6.Location = new Point(200, 367);
             label6.Name = "label6";
             label6.Size = new Size(67, 30);
             label6.TabIndex = 31;
@@ -502,6 +570,7 @@
             linkLabel3.TabIndex = 28;
             linkLabel3.TabStop = true;
             linkLabel3.Text = "Agregar Otros Cargos";
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
             // 
             // linkLabel2
             // 
@@ -512,6 +581,7 @@
             linkLabel2.TabIndex = 27;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "Agregar Descuento";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // linkLabel1
             // 
@@ -522,13 +592,14 @@
             linkLabel1.TabIndex = 26;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Agregar Impuesto";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.DodgerBlue;
-            label5.Location = new Point(121, 472);
+            label5.Location = new Point(127, 472);
             label5.Name = "label5";
             label5.Size = new Size(15, 17);
             label5.TabIndex = 31;
@@ -537,11 +608,11 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(33, 473);
+            label4.Location = new Point(14, 473);
             label4.Name = "label4";
-            label4.Size = new Size(82, 15);
+            label4.Size = new Size(110, 15);
             label4.TabIndex = 29;
-            label4.Text = "Items en Lista:";
+            label4.Text = "Productos Selectos:";
             // 
             // button8
             // 
@@ -549,9 +620,9 @@
             button8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button8.ForeColor = Color.Red;
             button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(90, 495);
+            button8.Location = new Point(90, 491);
             button8.Name = "button8";
-            button8.Size = new Size(75, 72);
+            button8.Size = new Size(75, 76);
             button8.TabIndex = 30;
             button8.Text = "Quitar Elemento";
             button8.TextImageRelation = TextImageRelation.ImageAboveText;
@@ -564,9 +635,9 @@
             button7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button7.ForeColor = Color.Red;
             button7.Image = (Image)resources.GetObject("button7.Image");
-            button7.Location = new Point(12, 495);
+            button7.Location = new Point(12, 491);
             button7.Name = "button7";
-            button7.Size = new Size(76, 71);
+            button7.Size = new Size(76, 75);
             button7.TabIndex = 27;
             button7.Text = "Reset Factura";
             button7.TextImageRelation = TextImageRelation.ImageAboveText;
@@ -577,6 +648,7 @@
             // 
             flowLayoutPanel2.AutoScroll = true;
             flowLayoutPanel2.BackColor = SystemColors.Control;
+            flowLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             flowLayoutPanel2.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel2.Location = new Point(171, 478);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
@@ -662,11 +734,16 @@
         private Label label9;
         private Label label8;
         private Label lbl_sub_Total;
-        private Label label12;
+        private Label lbl_Total;
         private Label label11;
-        private Label label16;
+        private Label lbl_Descuento;
         private Label lbl_Impuesto;
         private Label lbl_OtrosCargos;
         private FlowLayoutPanel flowLayoutPanel2;
+        private TextBox txt_OtrosCargos;
+        private TextBox txt_Descuento;
+        private TextBox txt_Impuesto;
+        private Label label12;
+        private Label label13;
     }
 }

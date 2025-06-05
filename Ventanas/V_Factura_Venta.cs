@@ -21,9 +21,15 @@ namespace Monitux_POS.Ventanas
     {
 
         public int Secuencial_Usuario { get; set; } = 0;
-        //List<int> indices = new List<int>();
 
-        
+        double subTotal = 0.00; // Variable para almacenar el subtotal
+        double impuesto = 0.00; // Variable para almacenar el impuesto
+        double total = 0.00; // Variable para almacenar el total
+        double otrosCargos = 0.00; // Variable para almacenar otros cargos
+        double descuento = 0.00; // Variable para almacenar el descuento aplicado
+
+
+
         Dictionary<string, Miniatura_Producto> Lista_de_Items = new Dictionary<string, Miniatura_Producto>();
 
         public V_Factura_Venta()
@@ -36,9 +42,9 @@ namespace Monitux_POS.Ventanas
         public void Cargar_Items()
         {
 
-          
-           // Lista_de_Items.Clear();
-           // dataGridView1.Rows.Clear();
+
+            // Lista_de_Items.Clear();
+            // dataGridView1.Rows.Clear();
 
             flowLayoutPanel1.Controls.Clear();
 
@@ -82,7 +88,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Fecha_Caducidad = item.Fecha_Caducidad;
 
 
-              
+
 
 
 
@@ -110,18 +116,18 @@ namespace Monitux_POS.Ventanas
 
                         if (!flowLayoutPanel2.Controls.Contains(selector_Cantidad))
                         {
-                            
+
                             selector_Cantidad.SetCodigo(miniatura_Producto1.Codigo);
                             selector_Cantidad.Tag = miniatura_Producto1.Codigo; // Asigna el código como Tag para referencia futura
 
 
                             flowLayoutPanel2.Controls.Add(selector_Cantidad);
 
-                            
+
 
                         }
 
-                     
+
 
                         if (!Lista_de_Items.ContainsKey(miniatura_Producto1.Codigo))
                         {
@@ -133,10 +139,10 @@ namespace Monitux_POS.Ventanas
                             flowLayoutPanel2.Controls.Remove(selector_Cantidad);
                             Lista_de_Items.Remove(miniatura_Producto1.Codigo);
                             await Task.Delay(100); // Espera para evitar problemas de concurrencia
-                            
+
                             Lista_de_Items.Add(miniatura_Producto1.Codigo, miniatura_Producto1);
 
-                          
+
 
 
 
@@ -317,7 +323,7 @@ namespace Monitux_POS.Ventanas
             dataGridView1.Columns.Add("Precio_Venta", "Precio");
 
             dataGridView1.Columns.Add("Total", "Total");
-
+            dataGridView1.Columns.Add("Secuencial_Producto", "SP");
             dataGridView1.AutoSizeColumnsMode
                 = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -339,7 +345,7 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-          
+
             //-------------------Filtro que usare
 
 
@@ -414,7 +420,7 @@ namespace Monitux_POS.Ventanas
 
                         }
 
-                      
+
 
                         if (!Lista_de_Items.ContainsKey(miniatura_Producto1.Codigo))
                         {
@@ -436,7 +442,7 @@ namespace Monitux_POS.Ventanas
 
 
                     }
-                   
+
                 };
 
 
@@ -448,7 +454,7 @@ namespace Monitux_POS.Ventanas
 
                 flowLayoutPanel1.Controls.Add(miniatura_Producto1);
 
-                
+
 
 
 
@@ -459,7 +465,7 @@ namespace Monitux_POS.Ventanas
                     if (Lista_de_Items.ContainsKey(control.Codigo))
                     {
                         control.Item_Seleccionado.Checked = true; // Marca el checkbox si el item ya está en la lista
-                       
+
                     }
                     else
                     {
@@ -467,7 +473,7 @@ namespace Monitux_POS.Ventanas
                     }
                 }
 
-               
+
 
 
             }            //---------------Fin del filtro que uso
@@ -485,7 +491,7 @@ namespace Monitux_POS.Ventanas
                     // Si el código ya existe, actualiza la cantidad seleccionada
                     Lista_de_Items[control.label1.Text].cantidadSelecccionItem = Convert.ToDouble(control.numericUpDown1.Value);
                     control.numericUpDown1.Value = Convert.ToDecimal(Lista_de_Items[control.label1.Text].cantidadSelecccionItem);
-                   // control.checkBox1.Checked = true; // Asegura que el checkbox esté marcado si ya existe el item
+                    // control.checkBox1.Checked = true; // Asegura que el checkbox esté marcado si ya existe el item
                 }
                 else
                 {
@@ -530,6 +536,7 @@ namespace Monitux_POS.Ventanas
             V_Cliente cliente = new V_Cliente();
             cliente.Secuencial_Usuario = Secuencial_Usuario;
             cliente.ShowDialog();
+            llenar_Combo_Cliente();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -542,8 +549,19 @@ namespace Monitux_POS.Ventanas
 
             dataGridView1.Rows.Clear();
             lbl_sub_Total.Text = "0.00"; // Reiniciar el subtotal a 0.00
-
-
+            label10.Visible = false; // Ocultar la etiqueta de impuesto
+            label11.Visible = false; // Ocultar la etiqueta de descuento    
+            label12.Visible = false; // Ocultar la etiqueta de impuesto 
+            otrosCargos = 0.00; // Reiniciar otros cargos a 0.00
+            impuesto = 0.00; // Reiniciar impuesto a 0.00
+            descuento = 0.00; // Reiniciar descuento a 0.00 
+            label9.Visible = false; // Ocultar la etiqueta de otros cargos
+            lbl_OtrosCargos.Visible = false; // Ocultar la etiqueta de otros cargos
+            txt_Impuesto.Visible = false; // Ocultar el campo de impuesto
+            txt_Descuento.Visible = false; // Ocultar el campo de descuento
+            txt_OtrosCargos.Visible = false; // Ocultar el campo de otros cargos
+            lbl_Impuesto.Visible = false; // Ocultar la etiqueta de impuesto
+            lbl_Descuento.Visible = false; // Ocultar la etiqueta de descuento
 
             foreach (Selector_Cantidad selector in flowLayoutPanel2.Controls)
             {
@@ -553,8 +571,8 @@ namespace Monitux_POS.Ventanas
                 }
                 else
                 {
-                   // MessageBox.Show("El item " + selector.GetCodigo() + " no está en la lista de items seleccionados.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                   // return;
+                    // MessageBox.Show("El item " + selector.GetCodigo() + " no está en la lista de items seleccionados.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // return;
                 }
             }
 
@@ -581,12 +599,13 @@ namespace Monitux_POS.Ventanas
                     item.Descripcion,
                     item.cantidadSelecccionItem,
                        item.Precio_Venta,
-                       item.Precio_Venta * item.cantidadSelecccionItem
+                       item.Precio_Venta * item.cantidadSelecccionItem,
+                       item.Secuencial
                     );
 
 
                     lbl_sub_Total.Text = (Convert.ToDouble(lbl_sub_Total.Text) + (item.Precio_Venta * item.cantidadSelecccionItem)).ToString("0.00");
-
+                    subTotal = Convert.ToDouble(lbl_sub_Total.Text); // Actualizar el subtotal con el nuevo valor
 
                 }
                 else
@@ -602,20 +621,85 @@ namespace Monitux_POS.Ventanas
             }
 
 
+            Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
+
+        }
+
+
+
+        private void Actualizar_Numeros() {
+
+
+            // Actualizar los números en los labels correspondientes
+            lbl_sub_Total.Text = subTotal.ToString("0.00");
+            lbl_Impuesto.Text = impuesto.ToString("0.00");
+            lbl_OtrosCargos.Text = otrosCargos.ToString("0.00");
+            lbl_Descuento.Text = descuento.ToString("0.00");
+            total = subTotal + impuesto + otrosCargos - descuento; // Calcular el total
+            lbl_Total.Text = total.ToString("0.00"); // Mostrar el total en el label correspondiente
+          //  impuesto = (impuesto / 100) * subTotal; // Convertir el porcentaje a decimal
+          //  otrosCargos = double.Parse(txt_OtrosCargos.Text);
+
+
+            
+           // descuento = (descuento / 100) * subTotal; // Convertir el porcentaje a decimal
 
 
         }
 
+
+
+
         private void button7_Click(object sender, EventArgs e)
         {
-
-            textBox1.Text = "";
+            var x = MessageBox.Show("¿Está seguro de que desea limpiar la factura?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (x == DialogResult.No)
+            {
+                return; // Si el usuario selecciona "No", no se limpia la factura
+            }
+                textBox1.Text = "";
             Lista_de_Items.Clear();
-            
+
             dataGridView1.Rows.Clear();
             flowLayoutPanel2.Controls.Clear();
+
+            lbl_Impuesto.Text = "0.00";
+            lbl_sub_Total.Text = "0.00"; // Reiniciar el subtotal a 0.00
+            lbl_Total.Text = "0.00"; // Reiniciar el total a 0.00   
+            lbl_OtrosCargos.Text = "0.00"; // Reiniciar otros cargos a 0.00
+            lbl_Descuento.Text = "0.00"; // Reiniciar descuento a 0.00
+            lbl_Descuento.Visible = false; // Ocultar la etiqueta de descuento
+            lbl_Impuesto.Visible = false; // Ocultar la etiqueta de impuesto
+            lbl_OtrosCargos.Visible = false; // Ocultar la etiqueta de otros cargos
+            txt_Impuesto.Visible = false; // Ocultar el campo de impuesto
+            txt_Descuento.Visible = false; // Ocultar el campo de descuento
+            txt_OtrosCargos.Visible = false; // Ocultar el campo de otros cargos
+            label10.Visible = false; // Ocultar la etiqueta de impuesto
+            label11.Visible = false; // Ocultar la etiqueta de descuento
+            label12.Visible = false; // Ocultar la etiqueta de impuesto
+            label13.Visible = false; // Ocultar la etiqueta de descuento
+            label9.Visible = false; // Ocultar la etiqueta de otros cargos
+            txt_Impuesto.Text = "0.00"; // Reiniciar el campo de impuesto a 0.00
+
+
+            otrosCargos = 0.00; // Reiniciar otros cargos a 0.00
+            impuesto = 0.00; // Reiniciar impuesto a 0.00
+            descuento = 0.00; // Reiniciar descuento a 0.00
+
+            txt_OtrosCargos.Text = "0.00"; // Reiniciar el campo de otros cargos a 0.00
+            txt_OtrosCargos.Visible = false; // Ocultar el campo de otros cargos
+            lbl_OtrosCargos.Visible = false; // Ocultar la etiqueta de otros cargos
+            label9.Visible = false; // Ocultar la etiqueta de otros cargos
+
+            total = 0.00; // Reiniciar el total a 0.00
+            subTotal = 0.00; // Reiniciar el subtotal a 0.00
+
+            comboBox2.SelectedIndex = 0;
+            comboBox3.SelectedIndex = 0;
+            comboBox1.SelectedIndex = 0;
             Cargar_Items();
-            
+            llenar_Combo_Cliente();
+            comboCliente.SelectedIndex = -1; // Limpiar la selección del cliente
 
         }
 
@@ -709,27 +793,27 @@ namespace Monitux_POS.Ventanas
 
 
 
-            
+
 
             var controlesEspeciales1 = flowLayoutPanel2.Controls.OfType<Selector_Cantidad>();
 
             foreach (var control in controlesEspeciales1)
             {
-                
+
 
                 if (Lista_de_Items.ContainsKey(control.label1.Text))
                 {
                     // Si el código ya existe, actualiza la cantidad seleccionada
                     Lista_de_Items[control.label1.Text].cantidadSelecccionItem = Convert.ToDouble(control.numericUpDown1.Value);
                     control.numericUpDown1.Value = Convert.ToDecimal(Lista_de_Items[control.label1.Text].cantidadSelecccionItem);
-                   
+
                 }
-               
+
 
 
             }
 
-          
+
 
 
 
@@ -750,11 +834,11 @@ namespace Monitux_POS.Ventanas
                     if (Lista_de_Items.ContainsKey(control.label1.Text))
                     {
 
-                        MessageBox.Show("El item " + control.label1.Text+" se removio de la factura");
+                        MessageBox.Show("El item " + control.label1.Text + " se removio de la factura");
                         flowLayoutPanel2.Controls.Remove(control); // Elimina el control del FlowLayoutPanel
-                         Lista_de_Items.Remove(control.label1.Text); // Elimina el item de la lista de items
-                       
-                       
+                        Lista_de_Items.Remove(control.label1.Text); // Elimina el item de la lista de items
+
+
                         flowLayoutPanel2.Refresh(); // Refresca el FlowLayoutPanel para que se actualice la vista
 
                     }
@@ -765,10 +849,10 @@ namespace Monitux_POS.Ventanas
 
                 }
 
-               
+
             }
 
-            
+
 
 
 
@@ -805,68 +889,151 @@ namespace Monitux_POS.Ventanas
 
         private void button5_Click(object sender, EventArgs e)
         {
-            /*Selector_Cantidad x = new Selector_Cantidad();
-
-            x.label1.Text = "1501199100511";
-            x.numericUpDown1.Value = 1;
-            x.checkBox1.Checked = true;
-            flowLayoutPanel2.Controls.Add(x);
-            */
 
 
-            // Ojo
 
-            var controlesEspeciales = flowLayoutPanel2.Controls.OfType<Selector_Cantidad>();
 
-            foreach (var control in controlesEspeciales)
+
+
+        }
+
+        private void lbl_sub_Total_TextChanged(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            txt_OtrosCargos.Visible = true;
+            txt_OtrosCargos.Focus();
+            txt_OtrosCargos.Text = "";
+        }
+
+        private void txt_OtrosCargos_TextChanged(object sender, EventArgs e)
+        {
+            try
             {
-                if (Lista_de_Items.ContainsKey(control.label1.Text))
-                {
-                    // Si el código ya existe, actualiza la cantidad seleccionada
-                    Lista_de_Items[control.label1.Text].cantidadSelecccionItem = Convert.ToDouble(control.numericUpDown1.Value);
-                    control.numericUpDown1.Value = Convert.ToDecimal(Lista_de_Items[control.label1.Text].cantidadSelecccionItem);
-                    control.checkBox1.Checked = true; // Asegura que el checkbox esté marcado si ya existe el item
-                }
-                else
-                {
-                    // Si no existe, lo agrega a la lista de items
-                    Lista_de_Items.Add(control.label1.Text, new Miniatura_Producto
-                    {
-                        Codigo = control.label1.Text,
-                        cantidadSelecccionItem = Convert.ToDouble(control.numericUpDown1.Value)
-                    });
-                }
-
+                otrosCargos = double.Parse(txt_OtrosCargos.Text);
 
             }
-
-            //Ojo
-
-
-
-            //Doble Ojo
-
-
-
-            var controlesMiniatura = flowLayoutPanel1.Controls.OfType<Miniatura_Producto>();
-
-            foreach (var control in controlesMiniatura)
+            catch
             {
-                if (Lista_de_Items.ContainsKey(control.Codigo))
-                {
-                    control.Item_Seleccionado.Checked = true; // Marca el checkbox si el item ya está en la lista
-                }
-                else
-                {
-                    control.Item_Seleccionado.Checked = false; // Desmarca el checkbox si el item no está en la lista
-                }
+                otrosCargos = 0.00; // Si hay un error al convertir, se establece en 0.00
             }
 
-                    //Doble Ojo
+        }
+
+        private void txt_OtrosCargos_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txt_OtrosCargos.Visible = false;
+                lbl_OtrosCargos.Visible = true;
+                label9.Visible = true;
+
+                lbl_OtrosCargos.Text = otrosCargos.ToString("0.00");
+            }
+        }
+
+        private void groupBox2_Move(object sender, EventArgs e)
+        {
 
 
+        }
 
+        private void groupBox2_MouseHover(object sender, EventArgs e)
+        {
+            txt_OtrosCargos.Visible = false; // Asegurarse de que el campo de otros cargos esté oculto al mover el grupo
+            txt_Descuento.Visible = false; // Asegurarse de que el campo de descuento esté oculto al mover el grupo
+            txt_Impuesto.Visible = false;
+            label12.Visible = false; // Asegurarse de que la etiqueta de impuesto esté oculta al mover el grupo
+            label13.Visible = false; // Asegurarse de que la etiqueta de descuento esté oculta al mover el grupo
+            
 
-                }
+            Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            txt_Impuesto.Visible = true;
+            txt_Impuesto.Text = "";
+            txt_Impuesto.Focus();
+            label12.Visible = true; // Mostrar la etiqueta de impuesto al hacer clic en el enlace
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            txt_Descuento.Visible = true;
+            txt_Descuento.Focus();
+            txt_Descuento.Text = "";
+            label13.Visible = true; // Mostrar la etiqueta de descuento al hacer clic en el enlace
+        }
+
+        private void txt_Impuesto_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                impuesto = double.Parse(txt_Impuesto.Text);
+                impuesto = (impuesto / 100)*subTotal; // Convertir el porcentaje a decimal
+
+            }
+            catch
+            {
+                impuesto = 0.00; // Si hay un error al convertir, se establece en 0.00
+            }
+        }
+
+        private void txt_Impuesto_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                txt_Impuesto.Visible = false;
+                lbl_Impuesto.Visible = true;
+                label10.Visible = true;
+                label12.Visible = false; // Ocultar la etiqueta de impuesto al presionar Enter
+                lbl_Impuesto.Text = impuesto.ToString("0.00");
+            }
+        }
+
+        private void txt_Descuento_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                descuento = double.Parse(txt_Descuento.Text);
+                descuento = (descuento / 100)*subTotal; // Convertir el porcentaje a decimal
+
+            }
+            catch
+            {
+                descuento = 0.00; // Si hay un error al convertir, se establece en 0.00
+            }
+        }
+
+        private void txt_Descuento_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txt_Descuento.Visible = false;
+                label13.Visible = false; // Ocultar la etiqueta de descuento al presionar Enter 
+                label11.Visible = true;
+
+                lbl_Descuento.Text = descuento.ToString("0.00");
+                lbl_Descuento.Visible = true; // Mostrar la etiqueta de descuento al presionar Enter
+            }
+        }
+
+        private void lbl_sub_Total_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+        
+            Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
+
+        }
     }
 }
