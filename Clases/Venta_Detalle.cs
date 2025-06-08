@@ -10,7 +10,7 @@ namespace Monitux_POS.Clases
    public class Venta_Detalle
     {
         [Key]
-        public int Secuencial { get; set; }
+        public int Secuencial { get; set; } = 0;
         public int Secuencial_Factura { get; set; } = 0;
         public int Secuencial_Cliente { get; set; } = 0;
         public int Secuencial_Producto { get; set; } = 0;

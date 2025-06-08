@@ -58,7 +58,7 @@ namespace Monitux_POS.Ventanas
             if (esNuevo == false)
             {
 
-
+                txtCantidad.Enabled = false; // Deshabilitar el campo Cantidad para edición
                 txtCodigo.Text = Vista_producto.Codigo;
                 txtDescripcion.Text = Vista_producto.Descripcion;
                 txtCantidad.Text = Vista_producto.Cantidad.ToString();
@@ -302,6 +302,7 @@ namespace Monitux_POS.Ventanas
                     producto.Codigo = txtCodigo.Text;
                     producto.Descripcion = txtDescripcion.Text;
                     producto.Cantidad = double.Parse(txtCantidad.Text);
+                    
                     producto.Marca = txtMarca.Text;
                     producto.Codigo_Barra = txtCodigoBarra.Text;
                     producto.Codigo_Fabricante = txtCodigoFabricante.Text;
@@ -382,9 +383,9 @@ namespace Monitux_POS.Ventanas
                         nuevoProducto.Fecha_Caducidad = "No Caduca";
                     }
 
-
-
-                        nuevoProducto.Precio_Venta = double.Parse(txtPrecioVenta.Text);
+                    int secuencialn = context.Productos.Any() ? context.Productos.Max(p => p.Secuencial) + 1 : 1;
+                    nuevoProducto.Secuencial = secuencialn;
+                    nuevoProducto.Precio_Venta = double.Parse(txtPrecioVenta.Text);
                     nuevoProducto.Precio_Costo = double.Parse(txtPrecioCosto.Text);
                     nuevoProducto.Codigo = txtCodigo.Text;
                     nuevoProducto.Descripcion = txtDescripcion.Text;
@@ -395,6 +396,8 @@ namespace Monitux_POS.Ventanas
                     nuevoProducto.Codigo_QR = pictureBox2.Image != null ? Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\" + "QR-" + Secuencial + ".PNG") : string.Empty; // Ruta del código QR   
                     nuevoProducto.Imagen = this.Imagen; // Ruta de la imagen del producto
                     nuevoProducto.Existencia_Minima = double.Parse(txtExistenciaMinima.Text);
+                    
+                    Util.Registrar_Movimiento_Kardex(nuevoProducto.Secuencial,nuevoProducto.Cantidad, nuevoProducto.Descripcion, 0, nuevoProducto.Precio_Costo, nuevoProducto.Precio_Venta, "Entrada");
                 }
                 catch
                 {
@@ -594,7 +597,7 @@ namespace Monitux_POS.Ventanas
                         context.SaveChanges();
 
                         Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado el producto: " + producto.Codigo);
-
+                        Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, producto.Cantidad,producto.Precio_Costo, producto.Precio_Venta, "Salida");
                         MessageBox.Show("Producto eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Dispose();
                     }

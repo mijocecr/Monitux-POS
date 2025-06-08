@@ -80,6 +80,7 @@
             button8 = new Button();
             button7 = new Button();
             flowLayoutPanel2 = new FlowLayoutPanel();
+            label14 = new Label();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
@@ -155,13 +156,13 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(6, 122);
+            dataGridView1.Location = new Point(6, 143);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridView1.RowHeadersWidth = 10;
-            dataGridView1.Size = new Size(365, 202);
+            dataGridView1.Size = new Size(365, 181);
             dataGridView1.TabIndex = 8;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
@@ -192,7 +193,7 @@
             button2.Name = "button2";
             button2.Size = new Size(74, 88);
             button2.TabIndex = 12;
-            button2.Text = "Actualizar Factura";
+            button2.Text = "Actualizar Detalle";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
@@ -273,6 +274,7 @@
             button1.TabIndex = 20;
             button1.Text = "Generar Cotizacion";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click_1;
             // 
             // button6
             // 
@@ -326,6 +328,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label14);
             groupBox2.Controls.Add(label13);
             groupBox2.Controls.Add(label12);
             groupBox2.Controls.Add(txt_Descuento);
@@ -460,7 +463,7 @@
             lbl_sub_Total.AutoSize = true;
             lbl_sub_Total.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_sub_Total.ForeColor = Color.DodgerBlue;
-            lbl_sub_Total.Location = new Point(290, 331);
+            lbl_sub_Total.Location = new Point(288, 331);
             lbl_sub_Total.Name = "lbl_sub_Total";
             lbl_sub_Total.Size = new Size(19, 21);
             lbl_sub_Total.TabIndex = 39;
@@ -471,9 +474,9 @@
             // lbl_Total
             // 
             lbl_Total.AutoSize = true;
-            lbl_Total.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_Total.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
             lbl_Total.ForeColor = Color.DodgerBlue;
-            lbl_Total.Location = new Point(271, 367);
+            lbl_Total.Location = new Point(279, 365);
             lbl_Total.Name = "lbl_Total";
             lbl_Total.Size = new Size(25, 30);
             lbl_Total.TabIndex = 38;
@@ -516,7 +519,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(199, 331);
+            label8.Location = new Point(203, 331);
             label8.Name = "label8";
             label8.Size = new Size(87, 21);
             label8.TabIndex = 34;
@@ -526,7 +529,7 @@
             // 
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Otro" });
+            comboBox1.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Otro", "Ninguno" });
             comboBox1.Location = new Point(111, 94);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(91, 23);
@@ -545,7 +548,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(200, 367);
+            label6.Location = new Point(210, 367);
             label6.Name = "label6";
             label6.Size = new Size(67, 30);
             label6.TabIndex = 31;
@@ -610,9 +613,9 @@
             label4.AutoSize = true;
             label4.Location = new Point(14, 473);
             label4.Name = "label4";
-            label4.Size = new Size(110, 15);
+            label4.Size = new Size(107, 15);
             label4.TabIndex = 29;
-            label4.Text = "Productos Selectos:";
+            label4.Text = "Productos en Lista:";
             // 
             // button8
             // 
@@ -655,6 +658,15 @@
             flowLayoutPanel2.Size = new Size(159, 88);
             flowLayoutPanel2.TabIndex = 32;
             flowLayoutPanel2.WrapContents = false;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(167, 125);
+            label14.Name = "label14";
+            label14.Size = new Size(46, 15);
+            label14.TabIndex = 48;
+            label14.Text = "Detalle:";
             // 
             // V_Factura_Venta
             // 
@@ -704,7 +716,7 @@
         public FlowLayoutPanel flowLayoutPanel1;
         private DataGridView dataGridView1;
         private ComboBox comboCliente;
-        private Label label1;
+        public Label label1;
         private Button button2;
         private TextBox textBox1;
         private ComboBox comboBox2;
@@ -745,5 +757,6 @@
         private TextBox txt_Impuesto;
         private Label label12;
         private Label label13;
+        private Label label14;
     }
 }

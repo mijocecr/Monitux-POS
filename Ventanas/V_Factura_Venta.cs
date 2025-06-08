@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Monitux_POS.Clases;
 using Monitux_POS.Controles;
@@ -27,7 +28,7 @@ namespace Monitux_POS.Ventanas
         double total = 0.00; // Variable para almacenar el total
         double otrosCargos = 0.00; // Variable para almacenar otros cargos
         double descuento = 0.00; // Variable para almacenar el descuento aplicado
-
+        string moneda= "USD"; // Variable para almacenar la moneda utilizada en la factura
 
 
         Dictionary<string, Miniatura_Producto> Lista_de_Items = new Dictionary<string, Miniatura_Producto>();
@@ -87,6 +88,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Secuencial_Usuario = 1;//Quitar esto
                 miniatura_Producto1.Fecha_Caducidad = item.Fecha_Caducidad;
 
+                miniatura_Producto1.moneda= moneda; // Asignar la moneda a la miniatura del producto
 
 
 
@@ -385,7 +387,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Secuencial_Usuario = 1;//Quitar esto
                 miniatura_Producto1.Fecha_Caducidad = item.Fecha_Caducidad;
 
-
+                miniatura_Producto1.moneda = moneda; // Asignar la moneda a la miniatura del producto
 
 
                 /* miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
@@ -547,6 +549,7 @@ namespace Monitux_POS.Ventanas
         private void button2_Click(object sender, EventArgs e)
         {
 
+
             dataGridView1.Rows.Clear();
             lbl_sub_Total.Text = "0.00"; // Reiniciar el subtotal a 0.00
             label10.Visible = false; // Ocultar la etiqueta de impuesto
@@ -627,7 +630,8 @@ namespace Monitux_POS.Ventanas
 
 
 
-        private void Actualizar_Numeros() {
+        private void Actualizar_Numeros()
+        {
 
 
             // Actualizar los números en los labels correspondientes
@@ -637,12 +641,12 @@ namespace Monitux_POS.Ventanas
             lbl_Descuento.Text = descuento.ToString("0.00");
             total = subTotal + impuesto + otrosCargos - descuento; // Calcular el total
             lbl_Total.Text = total.ToString("0.00"); // Mostrar el total en el label correspondiente
-          //  impuesto = (impuesto / 100) * subTotal; // Convertir el porcentaje a decimal
-          //  otrosCargos = double.Parse(txt_OtrosCargos.Text);
+                                                     //  impuesto = (impuesto / 100) * subTotal; // Convertir el porcentaje a decimal
+                                                     //  otrosCargos = double.Parse(txt_OtrosCargos.Text);
 
 
-            
-           // descuento = (descuento / 100) * subTotal; // Convertir el porcentaje a decimal
+
+            // descuento = (descuento / 100) * subTotal; // Convertir el porcentaje a decimal
 
 
         }
@@ -657,7 +661,16 @@ namespace Monitux_POS.Ventanas
             {
                 return; // Si el usuario selecciona "No", no se limpia la factura
             }
-                textBox1.Text = "";
+
+            Limpiar_Factura(); // Llama al método para limpiar la factura
+
+        }
+
+
+        private void Limpiar_Factura()
+        {
+            dateTimePicker1.Value = DateTime.Now; // Reiniciar la fecha al valor actual
+            textBox1.Text = "";
             Lista_de_Items.Clear();
 
             dataGridView1.Rows.Clear();
@@ -702,6 +715,7 @@ namespace Monitux_POS.Ventanas
             comboCliente.SelectedIndex = -1; // Limpiar la selección del cliente
 
         }
+
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -834,7 +848,7 @@ namespace Monitux_POS.Ventanas
                     if (Lista_de_Items.ContainsKey(control.label1.Text))
                     {
 
-                        MessageBox.Show("El item " + control.label1.Text + " se removio de la factura");
+                        MessageBox.Show("El item " + control.label1.Text + " se removio de la factura", "Ventas");
                         flowLayoutPanel2.Controls.Remove(control); // Elimina el control del FlowLayoutPanel
                         Lista_de_Items.Remove(control.label1.Text); // Elimina el item de la lista de items
 
@@ -890,7 +904,8 @@ namespace Monitux_POS.Ventanas
         private void button5_Click(object sender, EventArgs e)
         {
 
-
+            V_Importar_Cotizacion importar_Cotizacion = new V_Importar_Cotizacion();
+            importar_Cotizacion.ShowDialog();
 
 
 
@@ -933,6 +948,7 @@ namespace Monitux_POS.Ventanas
                 label9.Visible = true;
 
                 lbl_OtrosCargos.Text = otrosCargos.ToString("0.00");
+                Actualizar_Numeros();
             }
         }
 
@@ -949,7 +965,7 @@ namespace Monitux_POS.Ventanas
             txt_Impuesto.Visible = false;
             label12.Visible = false; // Asegurarse de que la etiqueta de impuesto esté oculta al mover el grupo
             label13.Visible = false; // Asegurarse de que la etiqueta de descuento esté oculta al mover el grupo
-            
+
 
             Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
         }
@@ -975,7 +991,7 @@ namespace Monitux_POS.Ventanas
             try
             {
                 impuesto = double.Parse(txt_Impuesto.Text);
-                impuesto = (impuesto / 100)*subTotal; // Convertir el porcentaje a decimal
+                impuesto = (impuesto / 100) * subTotal; // Convertir el porcentaje a decimal
 
             }
             catch
@@ -994,6 +1010,7 @@ namespace Monitux_POS.Ventanas
                 label10.Visible = true;
                 label12.Visible = false; // Ocultar la etiqueta de impuesto al presionar Enter
                 lbl_Impuesto.Text = impuesto.ToString("0.00");
+                Actualizar_Numeros();
             }
         }
 
@@ -1002,7 +1019,7 @@ namespace Monitux_POS.Ventanas
             try
             {
                 descuento = double.Parse(txt_Descuento.Text);
-                descuento = (descuento / 100)*subTotal; // Convertir el porcentaje a decimal
+                descuento = (descuento / 100) * subTotal; // Convertir el porcentaje a decimal
 
             }
             catch
@@ -1021,6 +1038,7 @@ namespace Monitux_POS.Ventanas
 
                 lbl_Descuento.Text = descuento.ToString("0.00");
                 lbl_Descuento.Visible = true; // Mostrar la etiqueta de descuento al presionar Enter
+                Actualizar_Numeros();
             }
         }
 
@@ -1031,8 +1049,312 @@ namespace Monitux_POS.Ventanas
 
         private void button6_Click(object sender, EventArgs e)
         {
-        
+
             Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
+
+
+            if (comboBox3.SelectedItem == "Credito")
+            {
+                comboBox1.SelectedItem = "Ninguno";
+                if (dateTimePicker1.Value <= DateTime.Now)
+                {
+                    MessageBox.Show("La fecha de vencimiento no es valida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return; // Si la fecha de vencimiento es anterior a la fecha actual, no se puede registrar la venta
+                }
+            }
+
+
+            if (Lista_de_Items.Count == 0)
+            {
+                MessageBox.Show("No hay items seleccionados para registrar la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Si no hay items seleccionados, no se puede registrar la venta
+            }
+
+            if (comboCliente.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe seleccionar un cliente para registrar la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Si no se ha seleccionado un cliente, no se puede registrar la venta
+            }
+
+            if (comboBox3.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe seleccionar un tipo de venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Si no se ha seleccionado un tipo de venta, no se puede registrar la venta
+            }
+
+            if (comboBox1.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe seleccionar una forma de pago.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Si no se ha seleccionado una forma de pago, no se puede registrar la venta
+            }
+            if (total <= 0)
+            {
+                MessageBox.Show("El total de la venta debe ser mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Si el total es menor o igual a cero, no se puede registrar la venta
+            }
+
+
+
+
+            Venta venta = new Venta();
+
+            Kardex kardex = new Kardex(); // Crear una instancia de Kardex para registrar el movimiento de inventario
+            Ingreso ingreso = new Ingreso(); // Crear una instancia de Ingreso para registrar el ingreso de productos
+
+
+            SQLitePCL.Batteries.Init();
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+
+
+            int secuencial = context.Ventas.Any() ? context.Ventas.Max(p => p.Secuencial) + 1 : 1;
+
+            venta.Secuencial = secuencial;
+            venta.Secuencial_Cliente = comboCliente.SelectedIndex != -1 ? int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()) : 0; // Obtener el secuencial del cliente seleccionado
+
+            venta.Secuencial_Usuario = Secuencial_Usuario; // Asignar el secuencial del usuario que está realizando la venta
+            venta.Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"); // Asignar la fecha y hora actual de la venta
+            venta.Tipo = comboBox3.SelectedItem.ToString(); // Obtener el tipo de venta seleccionado
+            venta.Total = subTotal; // Asignar el total de la venta
+            venta.Forma_Pago = comboBox1.SelectedItem.ToString(); // Obtener la forma de pago seleccionada
+            venta.Gran_Total= total; // Asignar el gran total de la venta
+
+            venta.Impuesto = impuesto; // Asignar el impuesto de la venta
+            venta.Otros_Cargos = otrosCargos; // Asignar los otros cargos de la venta
+            venta.Descuento = descuento; // Asignar el descuento de la venta    
+            context.Add(venta);
+            context.SaveChanges(); // Guardar los cambios en la base de datos
+
+
+            foreach (var pro in Lista_de_Items.Values)
+            {
+
+                SQLitePCL.Batteries.Init();
+
+                using var context1 = new Monitux_DB_Context();
+                context1.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+                Venta_Detalle venta_detalle = new Venta_Detalle(); // Crear una nueva instancia de Ventas_Detalles para cada producto en la venta
+
+
+                venta_detalle.Secuencial_Factura = venta.Secuencial; // Asignar el secuencial de la venta al detalle de la venta
+                venta_detalle.Secuencial_Cliente = venta.Secuencial_Cliente; // Asignar el secuencial del cliente al detalle de la venta
+                venta_detalle.Secuencial_Usuario = venta.Secuencial_Usuario; // Asignar el secuencial del usuario al detalle de la venta
+
+                venta_detalle.Fecha = venta.Fecha; // Asignar la fecha de la venta al detalle de la venta
+
+                venta_detalle.Secuencial_Producto = pro.Secuencial; // Asignar el secuencial del producto al detalle de la venta
+                venta_detalle.Codigo = pro.Codigo; // Asignar el código del producto al detalle de la venta
+                venta_detalle.Descripcion = pro.Descripcion; // Asignar la descripción del producto al detalle de la venta
+                venta_detalle.Cantidad = pro.cantidadSelecccionItem; // Asignar la cantidad del producto al detalle de la venta
+                venta_detalle.Precio = pro.Precio_Venta; // Asignar el precio de venta del producto al detalle de la venta
+                venta_detalle.Total = pro.cantidadSelecccionItem * pro.Precio_Venta; // Calcular el total del detalle de la venta
+                context1.Add(venta_detalle); // Agregar el detalle de la venta al contexto
+                context1.SaveChanges(); // Guardar los cambios en la base de datos
+
+                Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion, pro.cantidadSelecccionItem, pro.Precio_Costo, pro.Precio_Venta, "Salida");
+
+
+
+
+
+
+
+
+
+
+                SQLitePCL.Batteries.Init();
+
+                using var context2 = new Monitux_DB_Context();
+                context2.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+
+                var producto = context2.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
+                if (producto != null)
+                {
+
+
+
+                    producto.Cantidad = pro.Cantidad - pro.cantidadSelecccionItem;
+                    context2.SaveChanges();
+
+                }
+
+
+
+
+
+
+
+
+                if (comboBox3.SelectedItem == "Credito")
+                {
+
+
+                    SQLitePCL.Batteries.Init();
+
+                    using var context3 = new Monitux_DB_Context();
+                    context3.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+
+                    Cuentas_Cobrar cta_cobrar = new Cuentas_Cobrar();
+
+
+
+
+                    cta_cobrar.Secuencial_Factura = secuencial;
+                    cta_cobrar.Secuencial_Cliente = venta.Secuencial_Cliente; // Asignar el secuencial del cliente al detalle de la venta
+                    cta_cobrar.Secuencial_Usuario = venta.Secuencial_Usuario; // Asignar el secuencial del usuario al detalle de la venta
+                    cta_cobrar.Fecha = venta.Fecha; // Asignar la fecha de la venta al detalle de la venta
+                    cta_cobrar.Total = total; // Asignar el total de la venta
+                    cta_cobrar.Saldo = total; // Asignar el saldo de la cuenta por cobrar
+                    cta_cobrar.Fecha_Vencimiento = dateTimePicker1.Value.ToString("dd/MM/yyyy"); // Asignar la fecha de vencimiento de la cuenta por cobrar
+                    cta_cobrar.Pagado = 0.00; // Asignar el pagado de la cuenta por cobrar
+
+                    context3.Add(cta_cobrar);
+                    context3.SaveChanges();
+
+
+
+
+
+                }
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+            MessageBox.Show("Venta registrada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // Limpiar los campos y controles después de registrar la venta
+            Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una venta segun factura: " + secuencial + "\nPor valor de: " + Math.Round(total,2));
+            Limpiar_Factura(); // Llama al método para limpiar la factura después de registrar la venta
+
+
+
+
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
+
+
+
+
+
+
+
+
+            Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
+
+
+
+            if (Lista_de_Items.Count == 0)
+            {
+                MessageBox.Show("No hay items seleccionados para registrar la cotizacion.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Si no hay items seleccionados, no se puede registrar la venta
+            }
+
+            if (comboCliente.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debe seleccionar un cliente para registrar la cotizacion.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Si no se ha seleccionado un cliente, no se puede registrar la venta
+            }
+
+           
+
+            if (total <= 0)
+            {
+                MessageBox.Show("El total de la cotizacion debe ser mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Si el total es menor o igual a cero, no se puede registrar la venta
+            }
+
+
+
+
+            Cotizacion cotizacion = new Cotizacion();
+
+
+            SQLitePCL.Batteries.Init();
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+
+
+            int secuencial = context.Cotizaciones.Any() ? context.Cotizaciones.Max(p => p.Secuencial) + 1 : 1;
+
+            cotizacion.Secuencial = secuencial;
+            cotizacion.Secuencial_Cliente = comboCliente.SelectedIndex != -1 ? int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()) : 0; // Obtener el secuencial del cliente seleccionado
+
+            cotizacion.Secuencial_Usuario = Secuencial_Usuario; // Asignar el secuencial del usuario que está realizando la venta
+            cotizacion.Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"); // Asignar la fecha y hora actual de la venta
+           
+            cotizacion.Total = subTotal; // Asignar el total de la venta
+            
+            cotizacion.Gran_Total = total; // Asignar el gran total de la venta
+            cotizacion.Descuento= descuento; // Asignar el descuento de la cotizacion
+            cotizacion.Impuesto = impuesto; // Asignar el impuesto de la cotizacion
+            cotizacion.Otros_Cargos = otrosCargos; // Asignar los otros cargos de la cotizacion
+            context.Add(cotizacion);
+            context.SaveChanges(); // Guardar los cambios en la base de datos
+
+
+            foreach (var pro in Lista_de_Items.Values)
+            {
+
+                SQLitePCL.Batteries.Init();
+
+                using var context1 = new Monitux_DB_Context();
+                context1.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+                Cotizacion_Detalle cotizacion_detalle = new Cotizacion_Detalle(); 
+
+
+                cotizacion_detalle.Secuencial_Cotizacion = cotizacion.Secuencial; 
+                cotizacion_detalle.Secuencial_Cliente = cotizacion.Secuencial_Cliente; 
+                cotizacion_detalle.Secuencial_Usuario = cotizacion.Secuencial_Usuario; 
+
+                cotizacion_detalle.Fecha = cotizacion.Fecha; 
+
+                cotizacion_detalle.Secuencial_Producto = pro.Secuencial;
+                cotizacion_detalle.Codigo = pro.Codigo; 
+                cotizacion_detalle.Descripcion = pro.Descripcion; 
+                cotizacion_detalle.Cantidad = pro.cantidadSelecccionItem; 
+                cotizacion_detalle.Precio = pro.Precio_Venta; 
+                cotizacion_detalle.Total = pro.cantidadSelecccionItem * pro.Precio_Venta; 
+                context1.Add(cotizacion_detalle); 
+                context1.SaveChanges(); // Guardar los cambios en la base de datos
+
+
+
+            }
+
+
+
+
+            MessageBox.Show("Cotizacion registrada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // Limpiar los campos y controles después de registrar la venta
+            Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una cotizacion segun Numero: " + secuencial + "\nPor valor de: " + Math.Round(total,2));
+            Limpiar_Factura(); // Llama al método para limpiar la factura después de registrar la venta
+
+
 
         }
     }

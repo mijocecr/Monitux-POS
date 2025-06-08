@@ -28,7 +28,7 @@ namespace Monitux_POS
 
         //Variables del Control
 
-
+        public string ?moneda { get; set; } // Moneda por defecto, puede ser cambiada en el formulario principal
         public bool actualizarItem { get; set; }
         
 
@@ -118,7 +118,7 @@ namespace Monitux_POS
                 Codigo = item.Codigo;
                 Existencia_Minima = item.Existencia_Minima;
                 Fecha_Caducidad = item.Fecha_Caducidad;
-
+                Item_Moneda.Text = moneda ?? "$"; // Asignar la moneda por defecto si no se ha establecido
 
                 var comentarioFiltrado = context.Comentarios
                                               .FirstOrDefault(c => c.Secuencial_Producto == item.Secuencial);
@@ -304,7 +304,7 @@ namespace Monitux_POS
 
             }
 
-            toolTip.SetToolTip(Item_Imagen, "Codigo: " + Codigo + "\nMarca: " + Marca + "\nPrecio: " + Precio_Venta + "\nStock: " + Cantidad +
+            toolTip.SetToolTip(Item_Imagen, "Codigo: " + Codigo + "\nMarca: " + Marca + "\nPrecio: " + Precio_Venta +" "+Item_Moneda.Text + "\nStock: " + Cantidad +
                 " -- [Minimo: " + Existencia_Minima + "]" + "\nCaduca: " + Fecha_Caducidad +"\n"+ Cargar_Comentario());
         }
 
@@ -821,7 +821,7 @@ namespace Monitux_POS
 
         private void Miniatura_Producto_Load_1(object sender, EventArgs e)
         {
-
+            Item_Moneda.Text= moneda ?? "$"; // Asignar la moneda por defecto si no se ha establecido
         }
     }//Fin de Clase
 }

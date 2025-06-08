@@ -27,11 +27,14 @@
 
         public DbSet<Venta> Ventas { get; set; }
 
-        public DbSet<Venta_Detalle> Venta_Detalles { get; set; }
-        public DbSet<Cuentas_Cobrar> CuentasxCobrar { get; set; }
+        public DbSet<Venta_Detalle> Ventas_Detalles { get; set; }
+        public DbSet<Cuentas_Cobrar> Cuentas_Cobrar { get; set; }
 
         public DbSet<Ingreso> Ingresos { get; set; }
 
+        public DbSet<Cotizacion> Cotizaciones { get; set; }
+
+        public DbSet<Cotizacion_Detalle> Cotizaciones_Detalles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
