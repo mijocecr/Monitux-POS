@@ -36,26 +36,37 @@
             label2 = new Label();
             button1 = new Button();
             button2 = new Button();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 48);
+            dataGridView1.Location = new Point(12, 63);
+            dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 10;
             dataGridView1.Size = new Size(363, 138);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.CellEnter += dataGridView1_CellEnter;
             // 
             // dataGridView2
             // 
+            dataGridView2.AllowUserToAddRows = false;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(12, 214);
+            dataGridView2.Enabled = false;
+            dataGridView2.Location = new Point(12, 229);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.RowHeadersWidth = 10;
             dataGridView2.Size = new Size(363, 150);
             dataGridView2.TabIndex = 1;
+            dataGridView2.CellContentClick += dataGridView2_CellContentClick;
+            dataGridView2.CellEnter += dataGridView2_CellEnter;
             // 
             // textBox2
             // 
@@ -75,6 +86,7 @@
             comboCliente.Name = "comboCliente";
             comboCliente.Size = new Size(222, 23);
             comboCliente.TabIndex = 31;
+            comboCliente.SelectedIndexChanged += comboCliente_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -88,7 +100,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(168, 196);
+            label2.Location = new Point(168, 210);
             label2.Name = "label2";
             label2.Size = new Size(46, 15);
             label2.TabIndex = 34;
@@ -113,12 +125,22 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(148, 45);
+            label3.Name = "label3";
+            label3.Size = new Size(77, 15);
+            label3.TabIndex = 37;
+            label3.Text = "Cotizaciones:";
+            // 
             // V_Importar_Cotizacion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(387, 426);
             ControlBox = false;
+            Controls.Add(label3);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label2);
@@ -148,5 +170,6 @@
         private Label label2;
         private Button button1;
         private Button button2;
+        private Label label3;
     }
 }

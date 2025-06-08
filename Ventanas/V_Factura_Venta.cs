@@ -124,6 +124,9 @@ namespace Monitux_POS.Ventanas
 
 
                             flowLayoutPanel2.Controls.Add(selector_Cantidad);
+                            
+                            // Hacer scroll automáticamente al último control agregado
+                            flowLayoutPanel2.AutoScrollPosition = new Point(0, flowLayoutPanel2.DisplayRectangle.Height);
 
 
 
@@ -317,6 +320,13 @@ namespace Monitux_POS.Ventanas
 
         public void Configurar_DataGridView()
         {
+
+            //dataGridView1.Enabled = false;
+
+            dataGridView1.DefaultCellStyle.SelectionBackColor = dataGridView1.DefaultCellStyle.BackColor;
+            dataGridView1.DefaultCellStyle.SelectionForeColor = dataGridView1.DefaultCellStyle.ForeColor;
+
+
             // Configurar las columnas del DataGridView
             dataGridView1.Columns.Clear();
             dataGridView1.Columns.Add("Codigo", "Código");
@@ -417,7 +427,7 @@ namespace Monitux_POS.Ventanas
 
 
                             flowLayoutPanel2.Controls.Add(selector_Cantidad);
-
+                            flowLayoutPanel2.AutoScrollPosition = new Point(0, flowLayoutPanel2.DisplayRectangle.Height);
 
 
                         }
