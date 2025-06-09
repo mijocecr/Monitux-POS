@@ -7,6 +7,7 @@ namespace Monitux_POS
 {
     public partial class Miniatura_Producto : UserControl
     {
+        public bool Expira { get; set; } 
         public Producto Producto { get; set; }
         public int Secuencial { get; set; }
         public int Secuencial_Proveedor { get; set; }
@@ -24,7 +25,7 @@ namespace Monitux_POS
         public int Secuencial_Categoria { get; set; }
         public double Existencia_Minima { get; set; } = 0;
 
-        public string? Fecha_Caducidad { get; set; }
+        public string? Fecha_Caducidad { get; set; } = "No Expira";
 
         //Variables del Control
 
@@ -118,6 +119,7 @@ namespace Monitux_POS
                 Codigo = item.Codigo;
                 Existencia_Minima = item.Existencia_Minima;
                 Fecha_Caducidad = item.Fecha_Caducidad;
+                Expira = item.Expira; // Asignar el valor de Expira desde el producto
                 Item_Moneda.Text = moneda ?? "$"; // Asignar la moneda por defecto si no se ha establecido
 
                 var comentarioFiltrado = context.Comentarios
@@ -305,7 +307,7 @@ namespace Monitux_POS
             }
 
             toolTip.SetToolTip(Item_Imagen, "Codigo: " + Codigo + "\nMarca: " + Marca + "\nPrecio: " + Precio_Venta +" "+Item_Moneda.Text + "\nStock: " + Cantidad +
-                " -- [Minimo: " + Existencia_Minima + "]" + "\nCaduca: " + Fecha_Caducidad +"\n"+ Cargar_Comentario());
+                " -- [Minimo: " + Existencia_Minima + "]" + "\nExpira: " + Fecha_Caducidad +"\n"+ Cargar_Comentario());
         }
 
 
@@ -548,8 +550,9 @@ namespace Monitux_POS
                 Imagen = Imagen,
                 Secuencial_Categoria = Secuencial_Categoria,
                 Existencia_Minima = Existencia_Minima,
-                Fecha_Caducidad=Fecha_Caducidad
-                
+                Fecha_Caducidad=Fecha_Caducidad,
+                Expira = Expira
+
             };
         }
 

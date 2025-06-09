@@ -29,6 +29,7 @@ namespace Monitux_POS.Ventanas
 
         private void cerrarToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Util.Limpiar_Cache(); // Limpia el caché al cerrar el formulario
             this.Dispose();
         }
 

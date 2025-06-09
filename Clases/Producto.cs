@@ -23,10 +23,11 @@ namespace Monitux_POS.Clases
         public string? Codigo_Fabricante { get; set; }
         public string? Codigo_QR { get; set; }
         public string? Imagen { get; set; }
-        public string? Fecha_Caducidad { get; set; } 
+        public string? Fecha_Caducidad { get; set; } = "No Expira";
 
         public int Secuencial_Categoria { get; set; }
 
+        public bool Expira { get; set; } = false; // Indica si el producto tiene fecha de caducidad
         public double Existencia_Minima { get; set; } 
         public Producto(int secuencial, int secuencial_Proveedor,
             string? codigo, string? descripcion, double cantidad,

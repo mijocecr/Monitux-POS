@@ -32,7 +32,7 @@ namespace Monitux_POS.Ventanas
     public partial class V_Producto : Form
     {
 
-        
+
         public Producto producto { get; set; } = new Producto();
         public int Secuencial_Usuario { get; set; } = 0;
 
@@ -72,24 +72,24 @@ namespace Monitux_POS.Ventanas
                 Secuencial_Proveedor = Vista_producto.Secuencial_Proveedor;
                 Secuencial_Categoria = Vista_producto.Secuencial_Categoria;
                 txtExistenciaMinima.Text = Vista_producto.Existencia_Minima.ToString();
-              if(Vista_producto.Fecha_Caducidad!="No Caduca" && Vista_producto.Fecha_Caducidad !=null)
+               checkBox1.Checked = Vista_producto.Expira; // Marcar el checkbox según el estado de expiración del producto
+                
+                // Marcar el checkbox según el estado de expiración del producto
+                if (Vista_producto.Expira!=false && Vista_producto.Fecha_Caducidad != "No Expira")
                 {
-
+                    checkBox1.Checked = true; // Marcar el checkbox si el producto tiene fecha de caducidad
                     dateTimePicker1.Value = DateTime.ParseExact(Vista_producto.Fecha_Caducidad, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
                 }
-              /*  else
-                {
-                    dateTimePicker1.Value = DateTime.Today;
-                }*/
+                 
 
 
 
 
-                    llenar_Combo_Proveedor();
+                llenar_Combo_Proveedor();
                 llenar_Combo_Categoria();
 
-               
+
 
 
 
@@ -97,10 +97,10 @@ namespace Monitux_POS.Ventanas
                 // Menu_Agregar.Visible = esNuevo;
                 // Menu_Eliminar.Visible = esNuevo;
                 try
-                    {
-                        pictureBox2.Image = Vista_producto.Codigo_QR != null ? Image.FromFile(Vista_producto.Codigo_QR) : null; // Asignar la imagen del código QR si existe
-                    }
-                    catch { }
+                {
+                    pictureBox2.Image = Vista_producto.Codigo_QR != null ? Image.FromFile(Vista_producto.Codigo_QR) : null; // Asignar la imagen del código QR si existe
+                }
+                catch { }
                 Imagen = Vista_producto.Imagen ?? string.Empty; // Asignar la ruta de la imagen del producto
 
                 if (Vista_producto.Imagen != null)
@@ -245,7 +245,7 @@ namespace Monitux_POS.Ventanas
             {
                 Menu_Eliminar.Visible = false;
             }
-         
+
 
 
         }
@@ -254,9 +254,10 @@ namespace Monitux_POS.Ventanas
         {
             pictureBox1.Image?.Dispose();
             System.GC.Collect();
-
+            V_Factura_Venta.Cargar_Items();
+            Util.Limpiar_Cache(); // Limpiar la caché de imágenes y otros recursos
             this.Close();
-            System.GC.Collect();
+            
         }
 
 
@@ -291,18 +292,26 @@ namespace Monitux_POS.Ventanas
                 var producto = context.Productos.FirstOrDefault(p => p.Secuencial == this.Secuencial);
                 if (producto != null)
                 {
-                    if (Fecha_Caducidad!="No Caduca")
+                    if (checkBox1.Checked==true)
                     {
+                        producto.Expira = true; // Marcar como expirado si el checkbox está seleccionado
                         producto.Fecha_Caducidad = dateTimePicker1.Value.Date.ToShortDateString();
+                        checkBox1.Checked = true; // Asegurarse de que el checkbox esté marcado
                     }
-                    
-                  
+                    else {
+                    producto.Expira = false; // Marcar como no expirado si el checkbox no está seleccionado
+                        producto.Fecha_Caducidad = "No Expira";
+                        checkBox1.Checked = false; // Asegurarse de que el checkbox esté desmarcado
+                        // Asignar un valor predeterminado si no expira
+                    }
+
+
                     producto.Precio_Venta = double.Parse(txtPrecioVenta.Text);
                     producto.Precio_Costo = double.Parse(txtPrecioCosto.Text);
                     producto.Codigo = txtCodigo.Text;
                     producto.Descripcion = txtDescripcion.Text;
                     producto.Cantidad = double.Parse(txtCantidad.Text);
-                    
+
                     producto.Marca = txtMarca.Text;
                     producto.Codigo_Barra = txtCodigoBarra.Text;
                     producto.Codigo_Fabricante = txtCodigoFabricante.Text;
@@ -310,7 +319,7 @@ namespace Monitux_POS.Ventanas
                     producto.Imagen = this.Imagen; // Ruta de la imagen del producto
                     producto.Existencia_Minima = double.Parse(txtExistenciaMinima.Text);
                     producto.Codigo_QR = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\" + "QR-" + producto.Secuencial + ".PNG");
-
+                    producto.Expira = checkBox1.Checked; // Actualizar el estado de expiración según el checkbox
 
                     try
                     {
@@ -353,6 +362,8 @@ namespace Monitux_POS.Ventanas
                 MessageBox.Show("Producto actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado el producto: " + producto.Codigo);
+
+                V_Factura_Venta.Cargar_Items();
                 this.Dispose();
 
 
@@ -374,13 +385,14 @@ namespace Monitux_POS.Ventanas
                 try
                 {
 
-                    if (dateTimePicker1.Value.Date != DateTime.Today)
+                    if (checkBox1.Checked==true)
                     {
                         nuevoProducto.Fecha_Caducidad = dateTimePicker1.Value.ToString("dd/MM/yyyy");
+
                     }
                     else
                     {
-                        nuevoProducto.Fecha_Caducidad = "No Caduca";
+                        nuevoProducto.Fecha_Caducidad = "No Expira";
                     }
 
                     int secuencialn = context.Productos.Any() ? context.Productos.Max(p => p.Secuencial) + 1 : 1;
@@ -396,8 +408,8 @@ namespace Monitux_POS.Ventanas
                     nuevoProducto.Codigo_QR = pictureBox2.Image != null ? Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\" + "QR-" + Secuencial + ".PNG") : string.Empty; // Ruta del código QR   
                     nuevoProducto.Imagen = this.Imagen; // Ruta de la imagen del producto
                     nuevoProducto.Existencia_Minima = double.Parse(txtExistenciaMinima.Text);
-                    
-                    Util.Registrar_Movimiento_Kardex(nuevoProducto.Secuencial,nuevoProducto.Cantidad, nuevoProducto.Descripcion, 0, nuevoProducto.Precio_Costo, nuevoProducto.Precio_Venta, "Entrada");
+                    nuevoProducto.Expira= checkBox1.Checked; // Estado de expiración según el checkbox
+                    Util.Registrar_Movimiento_Kardex(nuevoProducto.Secuencial, nuevoProducto.Cantidad, nuevoProducto.Descripcion, 0, nuevoProducto.Precio_Costo, nuevoProducto.Precio_Venta, "Entrada");
                 }
                 catch
                 {
@@ -437,10 +449,10 @@ namespace Monitux_POS.Ventanas
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado el producto: " + txtCodigo.Text);
 
                 MessageBox.Show("Producto agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                V_Factura_Venta.Cargar_Items();
 
-                
                 this.Dispose();
-                
+
 
 
 
@@ -567,7 +579,7 @@ namespace Monitux_POS.Ventanas
         private void Menu_Eliminar_Click(object sender, EventArgs e)
         {
 
-           
+
 
 
             var res = MessageBox.Show("¿Está seguro de eliminar este producto?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -597,7 +609,7 @@ namespace Monitux_POS.Ventanas
                         context.SaveChanges();
 
                         Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado el producto: " + producto.Codigo);
-                        Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, producto.Cantidad,producto.Precio_Costo, producto.Precio_Venta, "Salida");
+                        Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, producto.Cantidad, producto.Precio_Costo, producto.Precio_Venta, "Salida");
                         MessageBox.Show("Producto eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Dispose();
                     }
@@ -662,6 +674,11 @@ namespace Monitux_POS.Ventanas
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             Fecha_Caducidad = dateTimePicker1.Value.ToShortDateString();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            dateTimePicker1.Visible = checkBox1.Checked; // Mostrar u ocultar el DateTimePicker según el estado del CheckBox
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Monitux_POS.Ventanas
 {
-   public partial class V_Factura_Venta
+   public partial class V_Factura_Venta:Form
     {
         /// <summary>
         /// Required designer variable.
@@ -54,6 +54,7 @@
             dateTimePicker1 = new DateTimePicker();
             label3 = new Label();
             groupBox2 = new GroupBox();
+            label14 = new Label();
             label13 = new Label();
             label12 = new Label();
             txt_Descuento = new TextBox();
@@ -80,7 +81,6 @@
             button8 = new Button();
             button7 = new Button();
             flowLayoutPanel2 = new FlowLayoutPanel();
-            label14 = new Label();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
@@ -107,37 +107,34 @@
             // 
             // nuevoToolStripMenuItem1
             // 
-            nuevoToolStripMenuItem1.Image = (Image)resources.GetObject("nuevoToolStripMenuItem1.Image");
+            nuevoToolStripMenuItem1.ForeColor = Color.Black;
             nuevoToolStripMenuItem1.Name = "nuevoToolStripMenuItem1";
-            nuevoToolStripMenuItem1.Size = new Size(117, 22);
-            nuevoToolStripMenuItem1.Text = "Nuevo";
+            nuevoToolStripMenuItem1.Size = new Size(181, 22);
+            nuevoToolStripMenuItem1.Text = "Facturas Registradas";
             // 
             // guardarToolStripMenuItem
             // 
-            guardarToolStripMenuItem.ForeColor = Color.FromArgb(0, 192, 0);
-            guardarToolStripMenuItem.Image = (Image)resources.GetObject("guardarToolStripMenuItem.Image");
+            guardarToolStripMenuItem.ForeColor = Color.Black;
             guardarToolStripMenuItem.Name = "guardarToolStripMenuItem";
-            guardarToolStripMenuItem.Size = new Size(117, 22);
-            guardarToolStripMenuItem.Text = "Guardar";
+            guardarToolStripMenuItem.Size = new Size(181, 22);
+            guardarToolStripMenuItem.Text = "Cuentas por Cobrar";
             // 
             // eliminarToolStripMenuItem
             // 
-            eliminarToolStripMenuItem.ForeColor = Color.Red;
-            eliminarToolStripMenuItem.Image = (Image)resources.GetObject("eliminarToolStripMenuItem.Image");
+            eliminarToolStripMenuItem.ForeColor = Color.Black;
             eliminarToolStripMenuItem.Name = "eliminarToolStripMenuItem";
-            eliminarToolStripMenuItem.Size = new Size(117, 22);
-            eliminarToolStripMenuItem.Text = "Eliminar";
+            eliminarToolStripMenuItem.Size = new Size(181, 22);
+            eliminarToolStripMenuItem.Text = "Inventario";
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(114, 6);
+            toolStripSeparator1.Size = new Size(178, 6);
             // 
             // cerrarToolStripMenuItem
             // 
-            cerrarToolStripMenuItem.Image = (Image)resources.GetObject("cerrarToolStripMenuItem.Image");
             cerrarToolStripMenuItem.Name = "cerrarToolStripMenuItem";
-            cerrarToolStripMenuItem.Size = new Size(117, 22);
+            cerrarToolStripMenuItem.Size = new Size(181, 22);
             cerrarToolStripMenuItem.Text = "Salir";
             cerrarToolStripMenuItem.Click += cerrarToolStripMenuItem_Click;
             // 
@@ -248,7 +245,7 @@
             button4.Name = "button4";
             button4.Size = new Size(75, 90);
             button4.TabIndex = 18;
-            button4.Text = "Nuevo Cliente";
+            button4.Text = "Gestionar Clientes";
             button4.TextImageRelation = TextImageRelation.ImageAboveText;
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
@@ -368,6 +365,15 @@
             groupBox2.Enter += groupBox2_Enter;
             groupBox2.MouseHover += groupBox2_MouseHover;
             groupBox2.Move += groupBox2_Move;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(167, 125);
+            label14.Name = "label14";
+            label14.Size = new Size(46, 15);
+            label14.TabIndex = 48;
+            label14.Text = "Detalle:";
             // 
             // label13
             // 
@@ -659,19 +665,11 @@
             flowLayoutPanel2.TabIndex = 32;
             flowLayoutPanel2.WrapContents = false;
             // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Location = new Point(167, 125);
-            label14.Name = "label14";
-            label14.Size = new Size(46, 15);
-            label14.TabIndex = 48;
-            label14.Text = "Detalle:";
-            // 
             // V_Factura_Venta
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(806, 578);
             ControlBox = false;
             Controls.Add(flowLayoutPanel2);
@@ -693,6 +691,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ventas";
             Load += V_Factura_Venta_Load;
+            ChangeUICues += V_Factura_Venta_ChangeUICues;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -713,7 +712,7 @@
         private ToolStripMenuItem eliminarToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem cerrarToolStripMenuItem;
-        public FlowLayoutPanel flowLayoutPanel1;
+        public static FlowLayoutPanel flowLayoutPanel1;
         private DataGridView dataGridView1;
         private ComboBox comboCliente;
         public Label label1;
@@ -723,7 +722,7 @@
         private GroupBox groupBox1;
         private Button button3;
         private Button button4;
-        private Button button5;
+        public static Button button5;
         private Button button1;
         private Button button6;
         private Label label2;
@@ -751,7 +750,7 @@
         private Label lbl_Descuento;
         private Label lbl_Impuesto;
         private Label lbl_OtrosCargos;
-        private FlowLayoutPanel flowLayoutPanel2;
+        public static FlowLayoutPanel flowLayoutPanel2;
         private TextBox txt_OtrosCargos;
         private TextBox txt_Descuento;
         private TextBox txt_Impuesto;

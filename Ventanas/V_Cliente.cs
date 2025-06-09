@@ -467,6 +467,7 @@ namespace Monitux_POS.Ventanas
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Util.Limpiar_Cache();
             this.Dispose();
 
         }

@@ -31,8 +31,8 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Producto));
             panel1 = new Panel();
+            checkBox1 = new CheckBox();
             dateTimePicker1 = new DateTimePicker();
-            label12 = new Label();
             comboCategoria = new ComboBox();
             txtCodigoFabricante = new TextBox();
             label8 = new Label();
@@ -78,8 +78,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(checkBox1);
             panel1.Controls.Add(dateTimePicker1);
-            panel1.Controls.Add(label12);
             panel1.Controls.Add(comboCategoria);
             panel1.Controls.Add(txtCodigoFabricante);
             panel1.Controls.Add(label8);
@@ -110,23 +110,26 @@
             panel1.Size = new Size(402, 448);
             panel1.TabIndex = 0;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(9, 335);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(109, 19);
+            checkBox1.TabIndex = 28;
+            checkBox1.Text = "Producto Expira";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
             // dateTimePicker1
             // 
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(117, 330);
+            dateTimePicker1.Location = new Point(124, 331);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(110, 23);
+            dateTimePicker1.Size = new Size(103, 23);
             dateTimePicker1.TabIndex = 27;
+            dateTimePicker1.Visible = false;
             dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Location = new Point(9, 332);
-            label12.Name = "label12";
-            label12.Size = new Size(110, 15);
-            label12.TabIndex = 26;
-            label12.Text = "Fecha Vencimiento:";
             // 
             // comboCategoria
             // 
@@ -545,6 +548,6 @@
         private ToolStripMenuItem nuevoProveedorToolStripMenuItem;
         private ToolStripMenuItem categoriaToolStripMenuItem;
         private DateTimePicker dateTimePicker1;
-        private Label label12;
+        private CheckBox checkBox1;
     }
 }
