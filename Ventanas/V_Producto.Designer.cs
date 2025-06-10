@@ -31,6 +31,8 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Producto));
             panel1 = new Panel();
+            label12 = new Label();
+            comboBox1 = new ComboBox();
             checkBox1 = new CheckBox();
             dateTimePicker1 = new DateTimePicker();
             comboCategoria = new ComboBox();
@@ -78,6 +80,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(label12);
+            panel1.Controls.Add(comboBox1);
             panel1.Controls.Add(checkBox1);
             panel1.Controls.Add(dateTimePicker1);
             panel1.Controls.Add(comboCategoria);
@@ -109,6 +113,26 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(402, 448);
             panel1.TabIndex = 0;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(248, 275);
+            label12.Name = "label12";
+            label12.Size = new Size(34, 15);
+            label12.TabIndex = 30;
+            label12.Text = "Tipo:";
+            // 
+            // comboBox1
+            // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Producto", "Servicio" });
+            comboBox1.Location = new Point(288, 272);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(91, 23);
+            comboBox1.TabIndex = 29;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // checkBox1
             // 
@@ -334,9 +358,9 @@
             // 
             // pictureBox2
             // 
-            pictureBox2.Location = new Point(235, 290);
+            pictureBox2.Location = new Point(235, 305);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(159, 137);
+            pictureBox2.Size = new Size(159, 140);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 6;
             pictureBox2.TabStop = false;
@@ -395,7 +419,7 @@
             // pictureBox1
             // 
             pictureBox1.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox1.Location = new Point(235, 76);
+            pictureBox1.Location = new Point(235, 73);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(159, 192);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -549,5 +573,7 @@
         private ToolStripMenuItem categoriaToolStripMenuItem;
         private DateTimePicker dateTimePicker1;
         private CheckBox checkBox1;
+        private Label label12;
+        private ComboBox comboBox1;
     }
 }

@@ -101,6 +101,8 @@ namespace Monitux_POS.Ventanas
 
             dataGridView2.Columns.Add("Total", "Total");
             dataGridView2.Columns.Add("Secuencial_Producto", "SP");
+            dataGridView2.Columns.Add("Tipo", "Tipo");
+
             dataGridView2.AutoSizeColumnsMode
                 = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -153,7 +155,13 @@ namespace Monitux_POS.Ventanas
             Configurar_DataGridView_Detalle();
             Configurar_DataGridView_Cotizacion();
             Cargar_Datos_Cotizacion();
-            comboCliente.SelectedIndex = 0; 
+            if (comboCliente.Items.Count > 0)
+            {
+                // Seleccionar el primer cliente por defecto
+                comboCliente.SelectedIndex = 0;
+            }
+            
+            
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -261,7 +269,8 @@ namespace Monitux_POS.Ventanas
                     item.Precio,
                     Math.Round((double)item.Total, 2),
 
-                    item.Secuencial_Producto
+                    item.Secuencial_Producto,
+                    item.Tipo
 
 
 
@@ -303,7 +312,7 @@ namespace Monitux_POS.Ventanas
                    item.Precio,
                    item.Total,
 
-                   item.Secuencial_Producto);
+                   item.Secuencial_Producto,item.Tipo);
             }
 
 
@@ -456,7 +465,8 @@ namespace Monitux_POS.Ventanas
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            Lista.Clear();
+            V_Factura_Venta.Lista_de_Items.Clear();
             if (dataGridView1.Rows.Count == 0)
             {
                 MessageBox.Show("No hay cotizaciones disponibles para importar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

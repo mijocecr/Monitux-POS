@@ -23,7 +23,7 @@ namespace Monitux_POS.Clases
         public double ? Cantidad { get; set; } = 0;
 
         public double? Precio { get; set; } = 0;
-
+        public string? Tipo { get; set; } // Puede ser Producto o Servicio
         public double? Total { get; set; } = 0;
 
 

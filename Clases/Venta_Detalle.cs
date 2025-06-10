@@ -22,6 +22,7 @@ namespace Monitux_POS.Clases
         public double? Precio { get; set; } = 0.0;
         public double? Total { get; set; } = 0.0;
 
+        public string? Tipo { get; set; } // Puede ser Producto o Servicio
         public Venta_Detalle()
         {
             // Constructor por defecto

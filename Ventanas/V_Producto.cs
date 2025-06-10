@@ -72,16 +72,17 @@ namespace Monitux_POS.Ventanas
                 Secuencial_Proveedor = Vista_producto.Secuencial_Proveedor;
                 Secuencial_Categoria = Vista_producto.Secuencial_Categoria;
                 txtExistenciaMinima.Text = Vista_producto.Existencia_Minima.ToString();
-               checkBox1.Checked = Vista_producto.Expira; // Marcar el checkbox según el estado de expiración del producto
-                
+                checkBox1.Checked = Vista_producto.Expira; // Marcar el checkbox según el estado de expiración del producto
+                comboBox1.SelectedItem = Vista_producto.Tipo; // Asignar el tipo de producto al ComboBox
                 // Marcar el checkbox según el estado de expiración del producto
-                if (Vista_producto.Expira!=false && Vista_producto.Fecha_Caducidad != "No Expira")
+                comboBox1.Enabled = false;
+                if (Vista_producto.Expira != false && Vista_producto.Fecha_Caducidad != "No Expira")
                 {
                     checkBox1.Checked = true; // Marcar el checkbox si el producto tiene fecha de caducidad
                     dateTimePicker1.Value = DateTime.ParseExact(Vista_producto.Fecha_Caducidad, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
 
                 }
-                 
+
 
 
 
@@ -239,7 +240,7 @@ namespace Monitux_POS.Ventanas
 
         private void V_Producto_Load(object sender, EventArgs e)
         {
-
+            
 
             if (esNuevo == true)
             {
@@ -257,7 +258,7 @@ namespace Monitux_POS.Ventanas
             V_Factura_Venta.Cargar_Items();
             Util.Limpiar_Cache(); // Limpiar la caché de imágenes y otros recursos
             this.Close();
-            
+
         }
 
 
@@ -292,14 +293,15 @@ namespace Monitux_POS.Ventanas
                 var producto = context.Productos.FirstOrDefault(p => p.Secuencial == this.Secuencial);
                 if (producto != null)
                 {
-                    if (checkBox1.Checked==true)
+                    if (checkBox1.Checked == true)
                     {
                         producto.Expira = true; // Marcar como expirado si el checkbox está seleccionado
                         producto.Fecha_Caducidad = dateTimePicker1.Value.Date.ToShortDateString();
                         checkBox1.Checked = true; // Asegurarse de que el checkbox esté marcado
                     }
-                    else {
-                    producto.Expira = false; // Marcar como no expirado si el checkbox no está seleccionado
+                    else
+                    {
+                        producto.Expira = false; // Marcar como no expirado si el checkbox no está seleccionado
                         producto.Fecha_Caducidad = "No Expira";
                         checkBox1.Checked = false; // Asegurarse de que el checkbox esté desmarcado
                         // Asignar un valor predeterminado si no expira
@@ -317,37 +319,66 @@ namespace Monitux_POS.Ventanas
                     producto.Codigo_Fabricante = txtCodigoFabricante.Text;
                     producto.Codigo_QR =
                     producto.Imagen = this.Imagen; // Ruta de la imagen del producto
-                    producto.Existencia_Minima = double.Parse(txtExistenciaMinima.Text);
+                    
+                    
                     producto.Codigo_QR = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\" + "QR-" + producto.Secuencial + ".PNG");
                     producto.Expira = checkBox1.Checked; // Actualizar el estado de expiración según el checkbox
+                    producto.Tipo = comboBox1.SelectedItem.ToString(); // Actualizar el tipo de producto según la selección del ComboBox
+                    
+                        if (comboBox1.SelectedItem != "Servicio")
+                        {
+                        if (txtExistenciaMinima.Text != "")
+                        {
+                            producto.Existencia_Minima = double.Parse(txtExistenciaMinima.Text);
+                        }
+                        else
+                        {
+                            txtExistenciaMinima.Text = "0"; // Asignar un valor predeterminado si no se proporciona
+                        }
+                        
+                        
+                        if (comboProveedor.SelectedItem == null || comboCategoria.SelectedItem == null)
+                        {
+                            MessageBox.Show("Debe seleccionar un proveedor y una categoría válidos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        else
+                        {
 
-                    try
-                    {
+                            producto.Secuencial_Categoria = int.Parse(comboCategoria.SelectedItem.ToString().Substring(0, comboCategoria.SelectedItem.ToString().IndexOf("-")));
 
-                        producto.Secuencial_Categoria = int.Parse(comboCategoria.SelectedItem.ToString().Substring(0, comboCategoria.SelectedItem.ToString().IndexOf("-")));
+                            producto.Secuencial_Proveedor = int.Parse(comboProveedor.SelectedItem.ToString().Substring(0, comboProveedor.SelectedItem.ToString().IndexOf("-")));
+
+
+                        }
+
+
 
                     }
-                    catch
-                    {
-                        MessageBox.Show("Debe seleccionar una categoría válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
 
-                    try
+
+
+                    else
                     {
-                        if (comboProveedor.SelectedItem == null)
+                        if (comboCategoria.SelectedItem == null&& comboBox1.SelectedItem != "Servicio")
+                        {
+                            MessageBox.Show("Debe seleccionar una categoría válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        if (comboProveedor.SelectedItem == null && comboBox1.SelectedItem != "Servicio")
                         {
                             MessageBox.Show("Debe seleccionar un proveedor válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
-                        producto.Secuencial_Proveedor = int.Parse(comboProveedor.SelectedItem.ToString().Substring(0, comboProveedor.SelectedItem.ToString().IndexOf("-")));
 
                     }
-                    catch
-                    {
-                        MessageBox.Show("Debe seleccionar un proveedor válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+
+                  
+
+
+
+
 
 
 
@@ -385,7 +416,7 @@ namespace Monitux_POS.Ventanas
                 try
                 {
 
-                    if (checkBox1.Checked==true)
+                    if (checkBox1.Checked == true)
                     {
                         nuevoProducto.Fecha_Caducidad = dateTimePicker1.Value.ToString("dd/MM/yyyy");
 
@@ -401,15 +432,37 @@ namespace Monitux_POS.Ventanas
                     nuevoProducto.Precio_Costo = double.Parse(txtPrecioCosto.Text);
                     nuevoProducto.Codigo = txtCodigo.Text;
                     nuevoProducto.Descripcion = txtDescripcion.Text;
-                    nuevoProducto.Cantidad = double.Parse(txtCantidad.Text);
+                    
                     nuevoProducto.Marca = txtMarca.Text;
                     nuevoProducto.Codigo_Barra = txtCodigoBarra.Text;
                     nuevoProducto.Codigo_Fabricante = txtCodigoFabricante.Text;
                     nuevoProducto.Codigo_QR = pictureBox2.Image != null ? Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\" + "QR-" + Secuencial + ".PNG") : string.Empty; // Ruta del código QR   
                     nuevoProducto.Imagen = this.Imagen; // Ruta de la imagen del producto
-                    nuevoProducto.Existencia_Minima = double.Parse(txtExistenciaMinima.Text);
-                    nuevoProducto.Expira= checkBox1.Checked; // Estado de expiración según el checkbox
-                    Util.Registrar_Movimiento_Kardex(nuevoProducto.Secuencial, nuevoProducto.Cantidad, nuevoProducto.Descripcion, 0, nuevoProducto.Precio_Costo, nuevoProducto.Precio_Venta, "Entrada");
+                 
+                    
+                    nuevoProducto.Expira = checkBox1.Checked; // Estado de expiración según el checkbox
+
+
+                    if (comboBox1.SelectedIndex != -1 || comboBox1.SelectedItem != null)
+                    {
+                        nuevoProducto.Tipo = comboBox1.SelectedItem.ToString(); // Tipo de producto según la selección del ComboBox
+
+                        if (nuevoProducto.Tipo != "Servicio")
+                        {
+                            Util.Registrar_Movimiento_Kardex(nuevoProducto.Secuencial, nuevoProducto.Cantidad, nuevoProducto.Descripcion, 0, nuevoProducto.Precio_Costo, nuevoProducto.Precio_Venta, "Entrada");
+                            nuevoProducto.Existencia_Minima = double.Parse(txtExistenciaMinima.Text);
+                            nuevoProducto.Cantidad = double.Parse(txtCantidad.Text);
+                        }
+
+
+                    }
+                    else { 
+                        MessageBox.Show("Debe seleccionar un tipo de producto válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+
+
                 }
                 catch
                 {
@@ -420,8 +473,14 @@ namespace Monitux_POS.Ventanas
 
                 try
                 {
-
-                    nuevoProducto.Secuencial_Categoria = int.Parse(comboCategoria.SelectedItem.ToString().Substring(0, comboCategoria.SelectedItem.ToString().IndexOf("-")));
+                    if (comboBox1.SelectedItem != "Servicio")
+                    {
+                        nuevoProducto.Secuencial_Categoria = int.Parse(comboCategoria.SelectedItem.ToString().Substring(0, comboCategoria.SelectedItem.ToString().IndexOf("-")));
+                    }
+                    else { 
+                    nuevoProducto.Secuencial_Categoria = 0; // Si es un servicio, no asignar categoría
+                    }
+                    
 
                 }
                 catch
@@ -432,7 +491,16 @@ namespace Monitux_POS.Ventanas
 
                 try
                 {
-                    nuevoProducto.Secuencial_Proveedor = int.Parse(comboProveedor.SelectedItem.ToString().Substring(0, comboProveedor.SelectedItem.ToString().IndexOf("-")));
+                    if (comboBox1.SelectedItem != "Servicio")
+                    {
+                        nuevoProducto.Secuencial_Proveedor = int.Parse(comboProveedor.SelectedItem.ToString().Substring(0, comboProveedor.SelectedItem.ToString().IndexOf("-")));
+                    }
+
+                    else
+                    {
+                        nuevoProducto.Secuencial_Proveedor = 0; // Si es un servicio, no asignar categoría
+                    }
+
 
                 }
                 catch
@@ -605,12 +673,22 @@ namespace Monitux_POS.Ventanas
                         string rutaArchivo = producto.Imagen;
                         string rutaArchivo1 = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\BC-" + producto.Secuencial + "-" + producto.Codigo_Barra + ".PNG");
                         string rutaArchivo2 = producto.Codigo_QR;
+                       
+                        Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado el producto: " + producto.Codigo);
+
+                        if (producto.Tipo != "Servicio")
+                        {
+
+                            Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, producto.Cantidad, producto.Precio_Costo, producto.Precio_Venta, "Salida");
+                        
+                        }
                         context.Productos.Remove(producto);
                         context.SaveChanges();
 
-                        Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado el producto: " + producto.Codigo);
-                        Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, producto.Cantidad, producto.Precio_Costo, producto.Precio_Venta, "Salida");
+
+
                         MessageBox.Show("Producto eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                       V_Factura_Venta.Cargar_Items();
                         this.Dispose();
                     }
                     else
@@ -679,6 +757,55 @@ namespace Monitux_POS.Ventanas
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             dateTimePicker1.Visible = checkBox1.Checked; // Mostrar u ocultar el DateTimePicker según el estado del CheckBox
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex == 1)
+            {
+                checkBox1.Checked=false;
+                checkBox1.Enabled = false; // Deshabilitar el checkbox si el tipo es "Servicio"
+                comboCategoria.Enabled = false; // Deshabilitar el ComboBox de categoría si el tipo es "Servicio"
+                txtCodigoFabricante.Text ="No Aplica"; // Establecer el campo Código Fabricante a "No Aplica" si el tipo es "Servicio"
+
+                comboProveedor.Enabled = false; // Deshabilitar el ComboBox de proveedor si el tipo es "Servicio"
+                txtCantidad.Enabled = false; // Deshabilitar el campo Cantidad si el tipo es "Servicio"
+                txtExistenciaMinima.Text = "0"; // Establecer la existencia mínima a 0 si el tipo es "Servicio"
+                txtExistenciaMinima.Enabled = false; // Deshabilitar el campo de existencia mínima si el tipo es "Servicio"
+              txtCantidad.Text = "0"; // Establecer la cantidad a 0 si el tipo es "Servicio"
+
+                txtMarca.Enabled = false; // Deshabilitar el campo Marca si el tipo es "Servicio"
+                txtCodigoFabricante.Enabled = false; // Deshabilitar el campo Código Fabricante si el tipo es "Servicio"
+                txtExistenciaMinima.Text = "0"; // Establecer la existencia mínima a 0 si el tipo es "Servicio"
+            }
+            else
+            {
+
+
+                //checkBox1.Checked = false;
+                checkBox1.Enabled = true; // Deshabilitar el checkbox si el tipo es "Servicio"
+                comboCategoria.Enabled = true; // Deshabilitar el ComboBox de categoría si el tipo es "Servicio"
+               
+
+                comboProveedor.Enabled = true; // Deshabilitar el ComboBox de proveedor si el tipo es "Servicio"
+
+                if (Secuencial == 0) {
+                    txtCantidad.Enabled = true; // Deshabilitar el campo Cantidad si el tipo es "Servicio"
+
+                }
+
+                txtExistenciaMinima.Enabled = true; // Deshabilitar el campo de existencia mínima si el tipo es "Servicio"
+
+               
+                txtMarca.Enabled = true; // Deshabilitar el campo Marca si el tipo es "Servicio"
+                txtCodigoFabricante.Enabled = true; // Deshabilitar el campo Código Fabricante si el tipo es "Servicio"
+               
+
+
+
+            }
+
+
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Monitux_POS
         public string? Imagen { get; set; }
         public int Secuencial_Categoria { get; set; }
         public double Existencia_Minima { get; set; } = 0;
-
+        public string Tipo { get; set; } = "Producto"; // Tipo de producto, por defecto es "Producto"
         public string? Fecha_Caducidad { get; set; } = "No Expira";
 
         //Variables del Control
@@ -121,7 +121,7 @@ namespace Monitux_POS
                 Fecha_Caducidad = item.Fecha_Caducidad;
                 Expira = item.Expira; // Asignar el valor de Expira desde el producto
                 Item_Moneda.Text = moneda ?? "$"; // Asignar la moneda por defecto si no se ha establecido
-
+                Tipo = item.Tipo; // Asignar el tipo de producto (Producto o Servicio)
                 var comentarioFiltrado = context.Comentarios
                                               .FirstOrDefault(c => c.Secuencial_Producto == item.Secuencial);
 
@@ -195,7 +195,9 @@ namespace Monitux_POS
                 producto.Codigo_QR,
                 producto.Imagen,
                 producto.Secuencial_Categoria,
-                producto.Fecha_Caducidad
+                producto.Fecha_Caducidad,
+                producto.Expira,
+                producto.Tipo
             );
         }
 
@@ -551,7 +553,8 @@ namespace Monitux_POS
                 Secuencial_Categoria = Secuencial_Categoria,
                 Existencia_Minima = Existencia_Minima,
                 Fecha_Caducidad=Fecha_Caducidad,
-                Expira = Expira
+                Expira = Expira,
+                Tipo = Tipo
 
             };
         }
@@ -703,6 +706,12 @@ namespace Monitux_POS
         public void Actualizar_Producto_Agregar_Unidades()
         {
 
+            if (Tipo == "Servicio")
+            {
+                                MessageBox.Show("No se pueden agregar unidades a un servicio.", "Error");
+                return;
+            }
+
             //getUnidadesAgregar(Secuencial);   
             SQLitePCL.Batteries.Init();
 
@@ -737,6 +746,13 @@ namespace Monitux_POS
 
         public void Actualizar_Producto_Retirar_Unidades()
         {
+
+
+            if (Tipo == "Servicio")
+            {
+                MessageBox.Show("No se pueden retirar unidades a un servicio.", "Error");
+                return;
+            }
 
             //getUnidadesAgregar(Secuencial);   
             SQLitePCL.Batteries.Init();

@@ -15,16 +15,17 @@ namespace Monitux_POS.Clases
         public int Secuencial_Proveedor { get; set; }
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
-        public double Cantidad { get; set; }
-        public double Precio_Costo { get; set; }
-        public double Precio_Venta { get; set; }
+        public double Cantidad { get; set; } = 0;
+        public double Precio_Costo { get; set; } = 0;
+        public double Precio_Venta { get; set; } = 0;
         public string? Marca { get; set; }
         public string? Codigo_Barra { get; set; }
         public string? Codigo_Fabricante { get; set; }
         public string? Codigo_QR { get; set; }
         public string? Imagen { get; set; }
-        public string? Fecha_Caducidad { get; set; } = "No Expira";
 
+        public string? Fecha_Caducidad { get; set; } = "No Expira";
+        public string? Tipo { get; set; } = "Producto"; // Puede ser Producto o Servicio
         public int Secuencial_Categoria { get; set; }
 
         public bool Expira { get; set; } = false; // Indica si el producto tiene fecha de caducidad
@@ -33,7 +34,7 @@ namespace Monitux_POS.Clases
             string? codigo, string? descripcion, double cantidad,
             double precio_Costo, double precio_Venta,
             string? marca, string? codigo_Barra, string? codigo_Fabricante,
-            string? codigo_QR, string? imagen, int secuencial_Categoria,string fecha_caducidad)
+            string? codigo_QR, string? imagen, int secuencial_Categoria,string fecha_caducidad, bool expira,string tipo)
         {
             Secuencial = secuencial;
             Secuencial_Proveedor = secuencial_Proveedor;
@@ -49,7 +50,11 @@ namespace Monitux_POS.Clases
             Imagen = imagen;
             Secuencial_Categoria = secuencial_Categoria;
             Fecha_Caducidad = fecha_caducidad;
+            Expira = expira;
+            Tipo = tipo; // Por defecto, el tipo es Producto
         }
+
+       
 
         public void setProducto(Producto producto)
         {
@@ -73,9 +78,25 @@ namespace Monitux_POS.Clases
         public Producto getProducto()
         {
             // Retorna una copia del objeto Producto actual
-            return new Producto(Secuencial, Secuencial_Proveedor, Codigo, Descripcion, Cantidad,
-                Precio_Costo, Precio_Venta, Marca, Codigo_Barra, Codigo_Fabricante,
-                Codigo_QR, Imagen, Secuencial_Categoria, Fecha_Caducidad);
+           return new Producto
+            {
+                Secuencial = this.Secuencial,
+                Secuencial_Proveedor = this.Secuencial_Proveedor,
+                Codigo = this.Codigo,
+                Descripcion = this.Descripcion,
+                Cantidad = this.Cantidad,
+                Precio_Costo = this.Precio_Costo,
+                Precio_Venta = this.Precio_Venta,
+                Marca = this.Marca,
+                Codigo_Barra = this.Codigo_Barra,
+                Codigo_Fabricante = this.Codigo_Fabricante,
+                Codigo_QR = this.Codigo_QR,
+                Imagen = this.Imagen,
+                Secuencial_Categoria = this.Secuencial_Categoria,
+                Fecha_Caducidad = this.Fecha_Caducidad,
+                Expira = this.Expira,
+                Tipo = this.Tipo
+            };
         }
 
 

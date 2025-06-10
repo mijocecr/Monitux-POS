@@ -21,7 +21,7 @@ namespace Monitux_POS.Ventanas
     public partial class V_Factura_Venta : Form
     {
 
-        public int Secuencial_Usuario { get; set; } = 0;
+        public static int Secuencial_Usuario { get; set; } = 0;
 
         double subTotal = 0.00; // Variable para almacenar el subtotal
         double impuesto = 0.00; // Variable para almacenar el impuesto
@@ -86,11 +86,11 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Codigo_QR = item.Codigo_QR;
                 miniatura_Producto1.Secuencial_Proveedor = item.Secuencial_Proveedor;
                 miniatura_Producto1.Secuencial_Categoria = item.Secuencial_Categoria;
-                miniatura_Producto1.Secuencial_Usuario = 1;//Quitar esto
+                miniatura_Producto1.Secuencial_Usuario = Secuencial_Usuario;
                 miniatura_Producto1.Fecha_Caducidad = item.Fecha_Caducidad;
                 miniatura_Producto1.Expira = Convert.ToBoolean(item.Expira);
                 miniatura_Producto1.moneda = moneda; // Asignar la moneda a la miniatura del producto
-
+                miniatura_Producto1.Tipo= item.Tipo; // Asignar el tipo de producto (si es necesario)
 
 
 
@@ -119,6 +119,10 @@ namespace Monitux_POS.Ventanas
 
                         if (!flowLayoutPanel2.Controls.Contains(selector_Cantidad))
                         {
+                            if (miniatura_Producto1.Tipo == "Servicio") {
+                                selector_Cantidad.BackColor = Color.LightGray;
+                                
+                            }
 
                             selector_Cantidad.SetCodigo(miniatura_Producto1.Codigo);
                             selector_Cantidad.Tag = miniatura_Producto1.Codigo; // Asigna el código como Tag para referencia futura
@@ -168,16 +172,7 @@ namespace Monitux_POS.Ventanas
 
 
                     }
-                    else
-                    {
-
-
-                        //  listBox1.Items.Remove(miniatura_Producto1.Codigo);
-                        //  indices.Remove(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1));
-                        //  Lista_de_Items.Remove(miniatura_Producto1.Codigo);
-
-
-                    }
+                   
                 };
 
 
@@ -296,7 +291,7 @@ namespace Monitux_POS.Ventanas
         falta darle un par de vueltas a la logica de como se agregara el producto a la factura, pero creo que es un buen comienzo.
 
          */
-        public  void Importar_Cotizacion(Dictionary<string, double> Lista,string cliente)
+        public  async Task Importar_Cotizacion(Dictionary<string, double> Lista,string cliente)
         {
 
             comboCliente.SelectedItem = cliente; // Seleccionar el cliente en el comboBox
@@ -339,7 +334,7 @@ namespace Monitux_POS.Ventanas
                     miniatura_Producto.Codigo_QR = item.Codigo_QR;
                     miniatura_Producto.Secuencial_Proveedor = item.Secuencial_Proveedor;
                     miniatura_Producto.Secuencial_Categoria = item.Secuencial_Categoria;
-                    miniatura_Producto.Secuencial_Usuario = 1;//Quitar esto
+                    miniatura_Producto.Secuencial_Usuario = Secuencial_Usuario;
                     miniatura_Producto.Fecha_Caducidad = item.Fecha_Caducidad;
                     miniatura_Producto.Item_Seleccionado.Checked = true;
                    // miniatura_Producto.moneda = moneda; // Asignar la moneda a la miniatura del producto
@@ -351,8 +346,9 @@ namespace Monitux_POS.Ventanas
                     if (Lista_de_Items.ContainsKey(miniatura_Producto.Codigo))
                     {
                         // Si el código ya existe, actualiza la cantidad seleccionada
-                        Lista_de_Items[miniatura_Producto.Codigo].cantidadSelecccionItem = miniatura_Producto.cantidadSelecccionItem;
-
+                       // Lista_de_Items[miniatura_Producto.Codigo].cantidadSelecccionItem = miniatura_Producto.cantidadSelecccionItem;
+                       Lista_de_Items.Remove(miniatura_Producto.Codigo);
+                        Lista_de_Items.Add(miniatura_Producto.Codigo, miniatura_Producto);//Ojo Aquii
                             selector_Cantidad.numericUpDown1.Value = Convert.ToDecimal(Lista_de_Items[selector_Cantidad.label1.Text].cantidadSelecccionItem);
                            
                         }
@@ -475,11 +471,11 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Codigo_QR = item.Codigo_QR;
                 miniatura_Producto1.Secuencial_Proveedor = item.Secuencial_Proveedor;
                 miniatura_Producto1.Secuencial_Categoria = item.Secuencial_Categoria;
-                miniatura_Producto1.Secuencial_Usuario = 1;//Quitar esto
+                miniatura_Producto1.Secuencial_Usuario = Secuencial_Usuario;
                 miniatura_Producto1.Fecha_Caducidad = item.Fecha_Caducidad;
                 miniatura_Producto1.Expira = Convert.ToBoolean(item.Expira); 
                 miniatura_Producto1.moneda = moneda; // Asignar la moneda a la miniatura del producto
-
+                miniatura_Producto1.Tipo= item.Tipo; // Asignar el tipo de producto (si es necesario)
 
                 /* miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
                 {
@@ -502,6 +498,11 @@ namespace Monitux_POS.Ventanas
 
                         if (!flowLayoutPanel2.Controls.Contains(selector_Cantidad))
                         {
+                            if (miniatura_Producto1.Tipo == "Servicio") {
+                                selector_Cantidad.BackColor = Color.LightGray;
+                                
+                            }
+
                             //selector_Cantidad.label1.Text = miniatura_Producto1.Codigo;
                             selector_Cantidad.SetCodigo(miniatura_Producto1.Codigo);
                             selector_Cantidad.Tag = miniatura_Producto1.Codigo; // Asigna el código como Tag para referencia futura
@@ -517,6 +518,7 @@ namespace Monitux_POS.Ventanas
 
                         if (!Lista_de_Items.ContainsKey(miniatura_Producto1.Codigo))
                         {
+
                             Lista_de_Items.Add(miniatura_Producto1.Codigo, miniatura_Producto1);
                         }
                         else
@@ -651,9 +653,11 @@ namespace Monitux_POS.Ventanas
         private void button2_Click(object sender, EventArgs e)
         {
 
-
+            subTotal = 0;
+            total = 0;
             dataGridView1.Rows.Clear();
             lbl_sub_Total.Text = "0.00"; // Reiniciar el subtotal a 0.00
+            lbl_Total.Text = "0.00";
             label10.Visible = false; // Ocultar la etiqueta de impuesto
             label11.Visible = false; // Ocultar la etiqueta de descuento    
             label12.Visible = false; // Ocultar la etiqueta de impuesto 
@@ -674,11 +678,7 @@ namespace Monitux_POS.Ventanas
                 {
                     Lista_de_Items[selector.GetCodigo()].cantidadSelecccionItem = Convert.ToDouble(selector.numericUpDown1.Value);
                 }
-                else
-                {
-                    // MessageBox.Show("El item " + selector.GetCodigo() + " no está en la lista de items seleccionados.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    // return;
-                }
+               
             }
 
 
@@ -711,7 +711,7 @@ namespace Monitux_POS.Ventanas
 
                     lbl_sub_Total.Text = (Convert.ToDouble(lbl_sub_Total.Text) + (item.Precio_Venta * item.cantidadSelecccionItem)).ToString("0.00");
                     subTotal = Convert.ToDouble(lbl_sub_Total.Text); // Actualizar el subtotal con el nuevo valor
-
+                    Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
                 }
                 else
                 {
@@ -726,7 +726,7 @@ namespace Monitux_POS.Ventanas
             }
 
 
-            Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
+           
 
         }
 
@@ -737,18 +737,12 @@ namespace Monitux_POS.Ventanas
 
 
             // Actualizar los números en los labels correspondientes
-            lbl_sub_Total.Text = subTotal.ToString("0.00");
-            lbl_Impuesto.Text = impuesto.ToString("0.00");
-            lbl_OtrosCargos.Text = otrosCargos.ToString("0.00");
-            lbl_Descuento.Text = descuento.ToString("0.00");
+          
             total = subTotal + impuesto + otrosCargos - descuento; // Calcular el total
-            lbl_Total.Text = total.ToString("0.00"); // Mostrar el total en el label correspondiente
-                                                     //  impuesto = (impuesto / 100) * subTotal; // Convertir el porcentaje a decimal
-                                                     //  otrosCargos = double.Parse(txt_OtrosCargos.Text);
-
-
-
-            // descuento = (descuento / 100) * subTotal; // Convertir el porcentaje a decimal
+            lbl_Total.Text = total.ToString("0.00");
+            lbl_sub_Total.Text=subTotal.ToString("0.00");
+            
+          
 
 
         }
@@ -771,6 +765,8 @@ namespace Monitux_POS.Ventanas
 
         private void Limpiar_Factura()
         {
+            
+            V_Importar_Cotizacion.Lista.Clear();
             button5.Enabled = true;
             dateTimePicker1.Value = DateTime.Now; // Reiniciar la fecha al valor actual
             textBox1.Text = "";
@@ -778,6 +774,7 @@ namespace Monitux_POS.Ventanas
 
             dataGridView1.Rows.Clear();
             flowLayoutPanel2.Controls.Clear();
+            lbl_Total.Text = total.ToString("0.00"); // Mostrar el total en el label correspondiente
 
             lbl_Impuesto.Text = "0.00";
             lbl_sub_Total.Text = "0.00"; // Reiniciar el subtotal a 0.00
@@ -809,6 +806,11 @@ namespace Monitux_POS.Ventanas
 
             total = 0.00; // Reiniciar el total a 0.00
             subTotal = 0.00; // Reiniciar el subtotal a 0.00
+
+            lbl_sub_Total.Text = subTotal.ToString("0.00");
+            lbl_Impuesto.Text = impuesto.ToString("0.00");
+            lbl_OtrosCargos.Text = otrosCargos.ToString("0.00");
+            lbl_Descuento.Text = descuento.ToString("0.00");
 
             comboBox2.SelectedIndex = 0;
             comboBox3.SelectedIndex = 0;
@@ -1003,6 +1005,7 @@ namespace Monitux_POS.Ventanas
 
         private void button5_Click(object sender, EventArgs e)
         {
+            V_Importar_Cotizacion.Lista.Clear();
             button5.Enabled = false; // Deshabilitar el botón para evitar múltiples clics
             Lista_de_Items.Clear(); // Limpiar la lista de items seleccionados
             flowLayoutPanel2.Controls.Clear(); // Limpiar el FlowLayoutPanel de selectores de cantidad
@@ -1253,36 +1256,46 @@ namespace Monitux_POS.Ventanas
                 venta_detalle.Cantidad = pro.cantidadSelecccionItem; // Asignar la cantidad del producto al detalle de la venta
                 venta_detalle.Precio = pro.Precio_Venta; // Asignar el precio de venta del producto al detalle de la venta
                 venta_detalle.Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Venta,2); // Calcular el total del detalle de la venta
+               venta_detalle.Tipo=pro.Tipo; // Asignar el tipo de producto al detalle de la venta
                 context1.Add(venta_detalle); // Agregar el detalle de la venta al contexto
                 context1.SaveChanges(); // Guardar los cambios en la base de datos
 
-                Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion, pro.cantidadSelecccionItem, pro.Precio_Costo, pro.Precio_Venta, "Salida");
-
-
-
-
-
-
-
-
-
-
-                SQLitePCL.Batteries.Init();
-
-                using var context2 = new Monitux_DB_Context();
-                context2.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-
-                var producto = context2.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
-                if (producto != null)
+                if (venta_detalle.Tipo != "Servicio")
                 {
+                    Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion, pro.cantidadSelecccionItem, pro.Precio_Costo, pro.Precio_Venta, "Salida");
 
 
 
-                    producto.Cantidad = pro.Cantidad - pro.cantidadSelecccionItem;
-                    context2.SaveChanges();
+
+
+                    SQLitePCL.Batteries.Init();
+
+                    using var context2 = new Monitux_DB_Context();
+                    context2.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+
+                    var producto = context2.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
+                    if (producto != null)
+                    {
+
+
+
+                        producto.Cantidad = pro.Cantidad - pro.cantidadSelecccionItem;
+                        context2.SaveChanges();
+
+                    }
+
+
+
+
 
                 }
+
+
+
+
+
+
 
 
 
@@ -1441,6 +1454,7 @@ namespace Monitux_POS.Ventanas
                 cotizacion_detalle.Cantidad = pro.cantidadSelecccionItem;
                 cotizacion_detalle.Precio = pro.Precio_Venta;
                 cotizacion_detalle.Total = pro.cantidadSelecccionItem * pro.Precio_Venta;
+                cotizacion_detalle.Tipo = pro.Tipo; // Asignar el tipo de producto al detalle de la cotizacion
                 context1.Add(cotizacion_detalle);
                 context1.SaveChanges(); // Guardar los cambios en la base de datos
 

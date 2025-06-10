@@ -233,7 +233,7 @@ namespace Monitux_POS
                 miniatura_Producto1.Codigo_QR = item.Codigo_QR;
                 miniatura_Producto1.Secuencial_Proveedor = item.Secuencial_Proveedor;
                 miniatura_Producto1.Secuencial_Categoria = item.Secuencial_Categoria;
-                miniatura_Producto1.Secuencial_Usuario = 1;//Quitar esto
+                miniatura_Producto1.Secuencial_Usuario = 1;
                 miniatura_Producto1.Fecha_Caducidad = item.Fecha_Caducidad;
               
                 /* miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
