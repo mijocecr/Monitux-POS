@@ -12,7 +12,7 @@ namespace Monitux_POS.Clases
         [Key]
 
         public int Secuencial { get; set; }
-        public int Secuencial_Factura { get; set; } = 0;
+        public int? Secuencial_Factura { get; set; } = 0;
         public int Secuencial_Usuario { get; set; } = 0;
         public string Fecha { get; set; } = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
         public string Tipo_Ingreso { get; set; } = "";

@@ -36,6 +36,16 @@
 
         public DbSet<Cotizacion_Detalle> Cotizaciones_Detalles { get; set; }
 
+        public DbSet<Abono_Compra> Abonos_Compras { get; set; }
+
+        public DbSet<Abono_Venta> Abonos_Ventas { get; set; }
+
+        public DbSet<Compra> Compras { get; set; }
+
+        public DbSet<Compra_Detalle> Compras_Detalles { get; set; }
+
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             

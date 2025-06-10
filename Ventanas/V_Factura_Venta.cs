@@ -62,7 +62,7 @@ namespace Monitux_POS.Ventanas
             var productos = context.Productos.ToList();
             int i = 0;
             Console.WriteLine("Lista de productos:");
-            ImageList imageList = new ImageList();
+            
             foreach (var item in productos)
             {
 
@@ -310,7 +310,7 @@ namespace Monitux_POS.Ventanas
 
 
                     var productos = context.Productos
-                            .Where(c => EF.Property<string>(c, "Codigo").Contains(item_C.Key))
+                            .Where(c => EF.Property<string>(c, "Codigo").Equals(item_C.Key))
                             .ToList();
 
                 foreach (var item in productos)
@@ -340,6 +340,7 @@ namespace Monitux_POS.Ventanas
                    // miniatura_Producto.moneda = moneda; // Asignar la moneda a la miniatura del producto
                     miniatura_Producto.Expira = item.Expira; // Asignar si el producto expira o no
                     miniatura_Producto.cantidadSelecccionItem= Lista.TryGetValue(item_C.Key, out double cantidad) ? cantidad : 0.0; // Asignar la cantidad seleccionada desde el diccionario, o 0.0 si no se encuentra
+                    miniatura_Producto.Tipo = item.Tipo;
                     Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
                     selector_Cantidad.SetCodigo(miniatura_Producto.Codigo);
                     selector_Cantidad.numericUpDown1.Value = Convert.ToDecimal(miniatura_Producto.cantidadSelecccionItem);
@@ -652,7 +653,7 @@ namespace Monitux_POS.Ventanas
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            
             subTotal = 0;
             total = 0;
             dataGridView1.Rows.Clear();
@@ -1222,7 +1223,7 @@ namespace Monitux_POS.Ventanas
             venta.Secuencial_Usuario = Secuencial_Usuario; // Asignar el secuencial del usuario que está realizando la venta
             venta.Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"); // Asignar la fecha y hora actual de la venta
             venta.Tipo = comboBox3.SelectedItem.ToString(); // Obtener el tipo de venta seleccionado
-            venta.Total = subTotal; // Asignar el total de la venta
+            venta.Total = Math.Round(subTotal,2); // Asignar el total de la venta
             venta.Forma_Pago = comboBox1.SelectedItem.ToString(); // Obtener la forma de pago seleccionada
             venta.Gran_Total = Math.Round(total,2); // Asignar el gran total de la venta
 
@@ -1254,7 +1255,7 @@ namespace Monitux_POS.Ventanas
                 venta_detalle.Codigo = pro.Codigo; // Asignar el código del producto al detalle de la venta
                 venta_detalle.Descripcion = pro.Descripcion; // Asignar la descripción del producto al detalle de la venta
                 venta_detalle.Cantidad = pro.cantidadSelecccionItem; // Asignar la cantidad del producto al detalle de la venta
-                venta_detalle.Precio = pro.Precio_Venta; // Asignar el precio de venta del producto al detalle de la venta
+                venta_detalle.Precio = Math.Round(pro.Precio_Venta,2); // Asignar el precio de venta del producto al detalle de la venta
                 venta_detalle.Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Venta,2); // Calcular el total del detalle de la venta
                venta_detalle.Tipo=pro.Tipo; // Asignar el tipo de producto al detalle de la venta
                 context1.Add(venta_detalle); // Agregar el detalle de la venta al contexto
@@ -1452,8 +1453,8 @@ namespace Monitux_POS.Ventanas
                 cotizacion_detalle.Codigo = pro.Codigo;
                 cotizacion_detalle.Descripcion = pro.Descripcion;
                 cotizacion_detalle.Cantidad = pro.cantidadSelecccionItem;
-                cotizacion_detalle.Precio = pro.Precio_Venta;
-                cotizacion_detalle.Total = pro.cantidadSelecccionItem * pro.Precio_Venta;
+                cotizacion_detalle.Precio = Math.Round(pro.Precio_Venta,2);
+                cotizacion_detalle.Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Venta,2);
                 cotizacion_detalle.Tipo = pro.Tipo; // Asignar el tipo de producto al detalle de la cotizacion
                 context1.Add(cotizacion_detalle);
                 context1.SaveChanges(); // Guardar los cambios en la base de datos
