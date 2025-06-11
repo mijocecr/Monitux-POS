@@ -43,8 +43,8 @@ namespace Monitux_POS.Controles
 
             InitializeComponent();
 
-            this.BackColor = Color.LightGreen;
-            label1.ForeColor = Color.Blue;
+            this.BackColor = Color.LightBlue;
+            label1.ForeColor = Color.Fuchsia;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)

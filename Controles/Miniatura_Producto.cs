@@ -274,87 +274,60 @@ namespace Monitux_POS
 
             if (Seleccionado != true)
             {
-                this.BorderStyle = BorderStyle.Fixed3D;
-                Item_Codigo.Text = Codigo;
-                Item_Precio.Text = Precio_Venta.ToString();
-                Item_Codigo.Font = new Font(Item_Codigo.Font, FontStyle.Bold);
-                Item_Precio.ForeColor = Item_Codigo.ForeColor;
-
-                if (Cantidad == 0 || Cantidad < Existencia_Minima)
-                {
-                    this.BackColor = Color.Red;
-                    Item_Codigo.ForeColor = Color.White;
-                    Item_Precio.ForeColor = Color.White;
-                }
-
-
-                else if (Cantidad > 0 && Cantidad == Existencia_Minima)
-                {
-                    this.BackColor = Color.Yellow;
-                    Item_Codigo.ForeColor = Color.Coral;
-                    Item_Precio.ForeColor = Color.Coral;
-                }
-
-                else
-                {
-
-                    this.BackColor = Color.LightGreen;
-                    Item_Codigo.ForeColor = Color.BlueViolet;
-                    Item_Precio.ForeColor = Color.BlueViolet;
-
-                }
-
-
-
+                AplicarFormato();
+               
             }
 
-            toolTip.SetToolTip(Item_Imagen, "Codigo: " + Codigo + "\nMarca: " + Marca + "\nPrecio: " + Precio_Venta +" "+Item_Moneda.Text + "\nStock: " + Cantidad +
+                toolTip.SetToolTip(Item_Imagen, "Codigo: " + Codigo + "\nMarca: " + Marca + "\nPrecio: " + Precio_Venta +" "+Item_Moneda.Text + "\nStock: " + Cantidad +
                 " -- [Minimo: " + Existencia_Minima + "]" + "\nExpira: " + Fecha_Caducidad +"\n"+ Cargar_Comentario());
         }
 
 
 
 
-        private void Miniatura_Producto_MouseHover(object sender, EventArgs e)
-        {
-            if (Seleccionado != true)
-            {
-                //this.BorderStyle = BorderStyle.Fixed3D;
-                Item_Codigo.Text = Codigo;
-                Item_Precio.Text = Precio_Venta.ToString();
-                Item_Codigo.Font = new Font(Item_Codigo.Font, FontStyle.Bold);
-                Item_Precio.ForeColor = Item_Codigo.ForeColor;
+       
 
-                if (Cantidad == 0 || Cantidad < 0)
+
+        private void AplicarFormato()
+        {
+            Item_Codigo.Text = Codigo;
+            Item_Precio.Text = Precio_Venta.ToString();
+            Item_Codigo.Font = new Font(Item_Codigo.Font, FontStyle.Bold);
+            Item_Precio.ForeColor = Item_Codigo.ForeColor;
+
+            if (Tipo == "Producto")
+            {
+                if (Cantidad < Existencia_Minima)
                 {
                     this.BackColor = Color.Red;
                     Item_Codigo.ForeColor = Color.White;
                     Item_Precio.ForeColor = Color.White;
                 }
-
-
-                else if (Cantidad > 0 && Cantidad <= 3)
+                else if (Cantidad <= Existencia_Minima)
                 {
                     this.BackColor = Color.Yellow;
                     Item_Codigo.ForeColor = Color.Coral;
                     Item_Precio.ForeColor = Color.Coral;
                 }
-
                 else
                 {
-
                     this.BackColor = Color.LightGreen;
                     Item_Codigo.ForeColor = Color.BlueViolet;
                     Item_Precio.ForeColor = Color.BlueViolet;
                 }
             }
-
-
-
-
-            Item_Seleccionado.BackColor = Color.Transparent;
-            Item_Seleccionado.Checked = Seleccionado;
+            else if (Tipo == "Servicio" && Cantidad == 0 && Existencia_Minima == 0)
+            {
+                this.BackColor = Color.LightGray;
+                Item_Codigo.ForeColor = Color.Blue;
+                Item_Precio.ForeColor = Color.White;
+            }
         }
+
+
+
+
+
 
         private void Item_Imagen_Click(object sender, EventArgs e)
         {

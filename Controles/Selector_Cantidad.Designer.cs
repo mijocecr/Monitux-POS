@@ -37,9 +37,9 @@
             // label1
             // 
             label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(3, 4);
+            label1.Location = new Point(16, 3);
             label1.Name = "label1";
-            label1.Size = new Size(63, 17);
+            label1.Size = new Size(86, 19);
             label1.TabIndex = 0;
             label1.Text = "Codigo";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -48,16 +48,16 @@
             // 
             numericUpDown1.BorderStyle = BorderStyle.None;
             numericUpDown1.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            numericUpDown1.Location = new Point(72, 3);
+            numericUpDown1.Location = new Point(108, 2);
             numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(37, 21);
+            numericUpDown1.Size = new Size(28, 21);
             numericUpDown1.TabIndex = 1;
             numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
             // 
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(113, 6);
+            checkBox1.Location = new Point(3, 5);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(15, 14);
             checkBox1.TabIndex = 2;
@@ -68,11 +68,12 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
             Controls.Add(checkBox1);
             Controls.Add(numericUpDown1);
             Controls.Add(label1);
             Name = "Selector_Cantidad";
-            Size = new Size(132, 24);
+            Size = new Size(138, 24);
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
             PerformLayout();

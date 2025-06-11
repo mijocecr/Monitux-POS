@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using Monitux_POS.Clases;
 using Monitux_POS.Controles;
 using System;
@@ -1155,7 +1156,7 @@ namespace Monitux_POS.Ventanas
 
         private void button6_Click(object sender, EventArgs e)
         {
-
+            
             Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
 
 
@@ -1305,38 +1306,6 @@ namespace Monitux_POS.Ventanas
 
 
 
-                if (comboBox3.SelectedItem == "Credito")
-                {
-
-
-                    SQLitePCL.Batteries.Init();
-
-                    using var context3 = new Monitux_DB_Context();
-                    context3.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-
-                    Cuentas_Cobrar cta_cobrar = new Cuentas_Cobrar();
-
-
-
-
-                    cta_cobrar.Secuencial_Factura = secuencial;
-                    cta_cobrar.Secuencial_Cliente = venta.Secuencial_Cliente; // Asignar el secuencial del cliente al detalle de la venta
-                    cta_cobrar.Secuencial_Usuario = venta.Secuencial_Usuario; // Asignar el secuencial del usuario al detalle de la venta
-                    cta_cobrar.Fecha = venta.Fecha; // Asignar la fecha de la venta al detalle de la venta
-                    cta_cobrar.Total = Math.Round(total,2); // Asignar el total de la venta
-                    cta_cobrar.Saldo = Math.Round(total,2); // Asignar el saldo de la cuenta por cobrar
-                    cta_cobrar.Fecha_Vencimiento = dateTimePicker1.Value.ToString("dd/MM/yyyy"); // Asignar la fecha de vencimiento de la cuenta por cobrar
-                    cta_cobrar.Pagado = 0.00; // Asignar el pagado de la cuenta por cobrar
-
-                    context3.Add(cta_cobrar);
-                    context3.SaveChanges();
-
-
-
-
-
-                }
 
 
 
@@ -1346,8 +1315,73 @@ namespace Monitux_POS.Ventanas
 
 
 
+            if (comboBox3.SelectedItem == "Credito")
+            {
 
 
+                SQLitePCL.Batteries.Init();
+
+                using var context3 = new Monitux_DB_Context();
+                context3.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+
+                Cuentas_Cobrar cta_cobrar = new Cuentas_Cobrar();
+
+
+
+
+                cta_cobrar.Secuencial_Factura = secuencial;
+                cta_cobrar.Secuencial_Cliente = venta.Secuencial_Cliente; // Asignar el secuencial del cliente al detalle de la venta
+                cta_cobrar.Secuencial_Usuario = venta.Secuencial_Usuario; // Asignar el secuencial del usuario al detalle de la venta
+                cta_cobrar.Fecha = venta.Fecha; // Asignar la fecha de la venta al detalle de la venta
+                cta_cobrar.Total = Math.Round(total, 2); // Asignar el total de la venta
+                cta_cobrar.Saldo = Math.Round(total, 2); // Asignar el saldo de la cuenta por cobrar
+                cta_cobrar.Fecha_Vencimiento = dateTimePicker1.Value.ToString("dd/MM/yyyy"); // Asignar la fecha de vencimiento de la cuenta por cobrar
+                cta_cobrar.Pagado = 0.00; // Asignar el pagado de la cuenta por cobrar
+                cta_cobrar.Otros_Cargos = venta.Otros_Cargos;
+                cta_cobrar.Descuento = venta.Descuento;
+                cta_cobrar.Impuesto = venta.Impuesto;
+                cta_cobrar.Gran_Total = venta.Gran_Total;
+                context3.Add(cta_cobrar);
+                context3.SaveChanges();
+
+
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado un credito segun factura: " + secuencial + "\nPor valor de: " + Math.Round(total, 2));
+
+
+            }
+
+
+
+
+            if (checkBox1.Checked == true)
+            {
+
+
+                double cambio = 0;
+                string dinero_recibido = Interaction.InputBox("Escriba la cantidad en números del dinero recibido por esta venta.", "Cálculo del Cambio");
+
+                if (Double.TryParse(dinero_recibido, out double numero))
+                {
+                    cambio = numero - total; // Calculamos la diferencia directamente
+
+                    if (cambio >= 0)
+                    {
+                        MessageBox.Show("El CAMBIO A FAVOR DEL CLIENTE ES: " + cambio + "\n\n" + Util.Convertir_Numeros_Palabras(cambio.ToString()) + " " + moneda, "Ventas");
+                    }
+                    else
+                    {
+                        MessageBox.Show("FALTA DINERO: " + Math.Abs(cambio) + "\n\n" + Util.Convertir_Numeros_Palabras(Math.Abs(cambio).ToString()) + " " + moneda, "Ventas");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Error: Solo se permiten números.", "Ventas");
+                }
+
+
+
+            }
 
 
 
@@ -1363,7 +1397,9 @@ namespace Monitux_POS.Ventanas
 
 
 
+            
 
+           
         }
 
         private void button1_Click_1(object sender, EventArgs e)

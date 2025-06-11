@@ -54,6 +54,7 @@
             dateTimePicker1 = new DateTimePicker();
             label3 = new Label();
             groupBox2 = new GroupBox();
+            checkBox1 = new CheckBox();
             label14 = new Label();
             label13 = new Label();
             label12 = new Label();
@@ -186,9 +187,9 @@
             // 
             // button2
             // 
-            button2.Location = new Point(336, 478);
+            button2.Location = new Point(336, 474);
             button2.Name = "button2";
-            button2.Size = new Size(74, 88);
+            button2.Size = new Size(74, 92);
             button2.TabIndex = 12;
             button2.Text = "Actualizar Detalle";
             button2.UseVisualStyleBackColor = true;
@@ -325,6 +326,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(checkBox1);
             groupBox2.Controls.Add(label14);
             groupBox2.Controls.Add(label13);
             groupBox2.Controls.Add(label12);
@@ -365,6 +367,18 @@
             groupBox2.Enter += groupBox2_Enter;
             groupBox2.MouseHover += groupBox2_MouseHover;
             groupBox2.Move += groupBox2_Move;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Checked = true;
+            checkBox1.CheckState = CheckState.Checked;
+            checkBox1.Location = new Point(256, 407);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(112, 19);
+            checkBox1.TabIndex = 49;
+            checkBox1.Text = "Calcular cambio";
+            checkBox1.UseVisualStyleBackColor = true;
             // 
             // label14
             // 
@@ -629,9 +643,9 @@
             button8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button8.ForeColor = Color.Red;
             button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(90, 491);
+            button8.Location = new Point(85, 493);
             button8.Name = "button8";
-            button8.Size = new Size(75, 76);
+            button8.Size = new Size(74, 74);
             button8.TabIndex = 30;
             button8.Text = "Quitar Elemento";
             button8.TextImageRelation = TextImageRelation.ImageAboveText;
@@ -644,9 +658,9 @@
             button7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button7.ForeColor = Color.Red;
             button7.Image = (Image)resources.GetObject("button7.Image");
-            button7.Location = new Point(12, 491);
+            button7.Location = new Point(10, 493);
             button7.Name = "button7";
-            button7.Size = new Size(76, 75);
+            button7.Size = new Size(74, 73);
             button7.TabIndex = 27;
             button7.Text = "Reset Factura";
             button7.TextImageRelation = TextImageRelation.ImageAboveText;
@@ -659,9 +673,9 @@
             flowLayoutPanel2.BackColor = SystemColors.Control;
             flowLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             flowLayoutPanel2.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel2.Location = new Point(171, 478);
+            flowLayoutPanel2.Location = new Point(163, 478);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
-            flowLayoutPanel2.Size = new Size(159, 88);
+            flowLayoutPanel2.Size = new Size(168, 88);
             flowLayoutPanel2.TabIndex = 32;
             flowLayoutPanel2.WrapContents = false;
             // 
@@ -712,7 +726,6 @@
         private ToolStripMenuItem eliminarToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem cerrarToolStripMenuItem;
-        public static FlowLayoutPanel flowLayoutPanel1;
         private DataGridView dataGridView1;
         private ComboBox comboCliente;
         public Label label1;
@@ -722,7 +735,6 @@
         private GroupBox groupBox1;
         private Button button3;
         private Button button4;
-        public static Button button5;
         private Button button1;
         private Button button6;
         private Label label2;
@@ -750,12 +762,15 @@
         private Label lbl_Descuento;
         private Label lbl_Impuesto;
         private Label lbl_OtrosCargos;
-        public static FlowLayoutPanel flowLayoutPanel2;
         private TextBox txt_OtrosCargos;
         private TextBox txt_Descuento;
         private TextBox txt_Impuesto;
         private Label label12;
         private Label label13;
         private Label label14;
+        private CheckBox checkBox1;
+        public static FlowLayoutPanel flowLayoutPanel1;
+        public static Button button5;
+        public static FlowLayoutPanel flowLayoutPanel2;
     }
 }
