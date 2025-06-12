@@ -46,10 +46,12 @@
             comboBox1 = new ComboBox();
             groupBox1 = new GroupBox();
             label3 = new Label();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridView1
@@ -57,7 +59,7 @@
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 168);
+            dataGridView1.Location = new Point(11, 143);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(361, 161);
             dataGridView1.TabIndex = 0;
@@ -73,7 +75,8 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 39);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(11, 14);
             label1.Name = "label1";
             label1.Size = new Size(54, 15);
             label1.TabIndex = 1;
@@ -82,7 +85,8 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(95, 69);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(94, 44);
             label2.Name = "label2";
             label2.Size = new Size(72, 15);
             label2.TabIndex = 2;
@@ -91,7 +95,7 @@
             // pictureBox1
             // 
             pictureBox1.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox1.Location = new Point(263, 31);
+            pictureBox1.Location = new Point(262, 6);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(110, 114);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -103,7 +107,7 @@
             // 
             txtNombre.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             txtNombre.ForeColor = Color.Black;
-            txtNombre.Location = new Point(72, 36);
+            txtNombre.Location = new Point(71, 11);
             txtNombre.MaxLength = 20;
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(185, 23);
@@ -112,18 +116,18 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.BackColor = Color.White;
+            menuStrip1.BackColor = Color.FromArgb(11, 8, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { opcionesToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(385, 24);
+            menuStrip1.Size = new Size(390, 24);
             menuStrip1.TabIndex = 5;
             menuStrip1.Text = "menuStrip1";
             // 
             // opcionesToolStripMenuItem
             // 
             opcionesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { nuevoToolStripMenuItem1, guardarToolStripMenuItem, eliminarToolStripMenuItem, toolStripSeparator1, cerrarToolStripMenuItem });
-            opcionesToolStripMenuItem.ForeColor = Color.DarkViolet;
+            opcionesToolStripMenuItem.ForeColor = Color.FromArgb(128, 255, 128);
             opcionesToolStripMenuItem.Name = "opcionesToolStripMenuItem";
             opcionesToolStripMenuItem.Size = new Size(69, 20);
             opcionesToolStripMenuItem.Text = "Opciones";
@@ -172,7 +176,7 @@
             // 
             txtDescripcion.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             txtDescripcion.ForeColor = Color.Black;
-            txtDescripcion.Location = new Point(12, 87);
+            txtDescripcion.Location = new Point(11, 62);
             txtDescripcion.MaxLength = 110;
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
@@ -204,7 +208,7 @@
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(comboBox1);
             groupBox1.Controls.Add(textBox1);
-            groupBox1.Location = new Point(12, 335);
+            groupBox1.Location = new Point(11, 310);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(361, 55);
             groupBox1.TabIndex = 10;
@@ -213,30 +217,43 @@
             // label3
             // 
             label3.AutoSize = true;
+            label3.ForeColor = Color.White;
             label3.Location = new Point(24, 25);
             label3.Name = "label3";
             label3.Size = new Size(66, 15);
             label3.TabIndex = 10;
             label3.Text = "Buscar por:";
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(35, 32, 40);
+            panel1.Controls.Add(txtDescripcion);
+            panel1.Controls.Add(groupBox1);
+            panel1.Controls.Add(dataGridView1);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(txtNombre);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(pictureBox1);
+            panel1.Location = new Point(4, 25);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(382, 375);
+            panel1.TabIndex = 11;
+            // 
             // V_Categoria
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(385, 402);
+            BackColor = Color.FromArgb(11, 8, 20);
+            ClientSize = new Size(390, 409);
             ControlBox = false;
-            Controls.Add(groupBox1);
-            Controls.Add(txtDescripcion);
-            Controls.Add(txtNombre);
-            Controls.Add(pictureBox1);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(dataGridView1);
+            Controls.Add(panel1);
             Controls.Add(menuStrip1);
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "V_Categoria";
+            ShowIcon = false;
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Categoria";
             Load += V_Categoria_Load;
@@ -246,6 +263,8 @@
             menuStrip1.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -270,5 +289,6 @@
         private ComboBox comboBox1;
         private GroupBox groupBox1;
         private Label label3;
+        private Panel panel1;
     }
 }

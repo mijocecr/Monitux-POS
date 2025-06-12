@@ -763,7 +763,18 @@ namespace Monitux_POS.Clases
 
         }
 
+        internal static string Obtener_Mensaje_Cinta()
+        {
+            //Revisar esto y Mejorar la logica de mensajes
+            Dictionary<int, string> mensajes = new Dictionary<int, string>();
+            mensajes.Add(mensajes.Count + 1, "Monitux-Pos by:" + Environment.UserName + " - " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
 
 
+
+
+
+            mensajes.TryGetValue(mensajes.Count, out string mensaje);// "Monitux-Pos by: miguel.cerrato.es@gmail.com";
+            return mensaje;
+        }
     }//Fin de Clase
 }//NameSpace

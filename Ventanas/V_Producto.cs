@@ -253,10 +253,14 @@ namespace Monitux_POS.Ventanas
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            V_Factura_Venta x= new V_Factura_Venta();
+            x.Cargar_Items(x);
+            x.Dispose();
             pictureBox1.Image?.Dispose();
             System.GC.Collect();
-            V_Factura_Venta.Cargar_Items();
+            
             Util.Limpiar_Cache(); // Limpiar la caché de imágenes y otros recursos
+           
             this.Close();
 
         }
@@ -394,7 +398,11 @@ namespace Monitux_POS.Ventanas
 
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado el producto: " + producto.Codigo);
 
-                V_Factura_Venta.Cargar_Items();
+
+                V_Factura_Venta x = new V_Factura_Venta();
+                x.Cargar_Items(x);
+                x.Dispose();
+
                 this.Dispose();
 
 
@@ -517,7 +525,14 @@ namespace Monitux_POS.Ventanas
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado el producto: " + txtCodigo.Text);
 
                 MessageBox.Show("Producto agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                V_Factura_Venta.Cargar_Items();
+
+                V_Factura_Venta x = new V_Factura_Venta();
+                x.Cargar_Items(x);
+                x.Dispose();
+
+                V_Factura_Compra y = new V_Factura_Compra();
+                y.Cargar_Items(y);
+                y.Dispose();
 
                 this.Dispose();
 
@@ -688,7 +703,11 @@ namespace Monitux_POS.Ventanas
 
 
                         MessageBox.Show("Producto eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                       V_Factura_Venta.Cargar_Items();
+
+                        V_Factura_Venta x = new V_Factura_Venta();
+                        x.Cargar_Items(x);
+                        x.Dispose();
+
                         this.Dispose();
                     }
                     else

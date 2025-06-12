@@ -65,6 +65,7 @@ namespace Monitux_POS.Ventanas
         private void button1_Click(object sender, EventArgs e)
         {
             Mostrar_SubMenu(panel6);
+            label3.Text = "Registre: Compra, Venta, Cotizacion, Orden | Gestione sus Facturas";
 
             /*V_Factura_Venta x = new V_Factura_Venta();
             x.TopLevel=false;
@@ -88,8 +89,9 @@ namespace Monitux_POS.Ventanas
         {
             Abrir_Ventana(new V_Factura_Venta());
             lbl_Titulo.Text = "Factura de Venta";
-        lbl_Titulo.ForeColor=Color.FromArgb(96, 223, 84);
-        
+            lbl_Titulo.ForeColor = Color.FromArgb(96, 223, 84);
+            label3.Text = "Aqui puede registrarse: Venta, Producto, Cliente, Cotizacion de Venta.";
+
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -122,7 +124,7 @@ namespace Monitux_POS.Ventanas
             Abrir_Ventana(new V_Factura_Compra());
             lbl_Titulo.Text = "Factura de Compra";
             lbl_Titulo.ForeColor = Color.FromArgb(128, 255, 255);
-
+            label3.Text = "Aqui puede registrarse: Compra, Producto, Proveedor, Orden de Compra. ";
 
 
         }
@@ -164,7 +166,7 @@ namespace Monitux_POS.Ventanas
 
         private void button9_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -205,6 +207,33 @@ namespace Monitux_POS.Ventanas
         {
             this.ShowIcon = true;
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void pictureBox3_MouseHover(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox3_MouseLeave(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lbl_Cinta.Left -= 3; // Mueve el texto hacia la izquierda
+
+            // Si el texto se sale de la izquierda, lo reinicia a la derecha
+            if (lbl_Cinta.Left < -900)
+            {
+                lbl_Cinta.Left = panel10.Right;
+                lbl_Cinta.Text = Util.Obtener_Mensaje_Cinta(); // Actualiza el texto
+            }
+        }
+
+        private void lbl_Cinta_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(lbl_Cinta.Left.ToString());
         }
     }
 }

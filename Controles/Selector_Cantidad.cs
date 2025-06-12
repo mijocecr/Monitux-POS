@@ -43,7 +43,7 @@ namespace Monitux_POS.Controles
 
             InitializeComponent();
 
-            this.BackColor = Color.LightBlue;
+            this.BackColor = Color.FromArgb(11,8,20);
             label1.ForeColor = Color.Fuchsia;
         }
 
@@ -61,8 +61,9 @@ namespace Monitux_POS.Controles
             }
             else
             {
-                this.BackColor=Color.LightGreen;
-                label1.ForeColor = Color.Blue;
+                this.BackColor=Color.
+                    FromArgb(11, 8, 20);
+                label1.ForeColor = Color.Fuchsia;
                 //this.BackColor = SystemColors.Control;
                 //label1.ForeColor = SystemColors.ControlText;
             }

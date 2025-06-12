@@ -639,5 +639,10 @@ namespace Monitux_POS.Ventanas
 
 
         }
+
+        private void txt_Codigo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

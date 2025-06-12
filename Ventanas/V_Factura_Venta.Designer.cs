@@ -2,7 +2,7 @@
 
 namespace Monitux_POS.Ventanas
 {
-   public partial class V_Factura_Venta:Form
+   public  partial class V_Factura_Venta:Form
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace Monitux_POS.Ventanas
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(V_Factura_Venta));
             flowLayoutPanel1 = new FlowLayoutPanel();
             dataGridView1 = new DataGridView();
@@ -90,7 +90,7 @@ namespace Monitux_POS.Ventanas
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.BackColor = Color.FromArgb(35, 32, 45);
             flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
-            flowLayoutPanel1.Location = new Point(8, 105);
+            flowLayoutPanel1.Location = new Point(8, 104);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(396, 342);
             flowLayoutPanel1.TabIndex = 7;
@@ -101,14 +101,14 @@ namespace Monitux_POS.Ventanas
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Window;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
             dataGridView1.Location = new Point(6, 143);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
@@ -143,8 +143,10 @@ namespace Monitux_POS.Ventanas
             // 
             // button2
             // 
+            button2.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 0, 192);
+            button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button2.FlatStyle = FlatStyle.Flat;
-            button2.ForeColor = Color.DodgerBlue;
+            button2.ForeColor = Color.White;
             button2.Location = new Point(332, 455);
             button2.Name = "button2";
             button2.Size = new Size(74, 88);
@@ -187,6 +189,7 @@ namespace Monitux_POS.Ventanas
             // 
             // button3
             // 
+            button3.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button3.FlatStyle = FlatStyle.Flat;
             button3.ForeColor = Color.White;
             button3.Image = (Image)resources.GetObject("button3.Image");
@@ -202,6 +205,7 @@ namespace Monitux_POS.Ventanas
             // 
             // button4
             // 
+            button4.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button4.FlatStyle = FlatStyle.Flat;
             button4.ForeColor = Color.White;
             button4.Image = (Image)resources.GetObject("button4.Image");
@@ -216,6 +220,7 @@ namespace Monitux_POS.Ventanas
             // 
             // button5
             // 
+            button5.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button5.FlatStyle = FlatStyle.Flat;
             button5.ForeColor = Color.White;
             button5.Image = (Image)resources.GetObject("button5.Image");
@@ -230,9 +235,8 @@ namespace Monitux_POS.Ventanas
             // 
             // button1
             // 
-            button1.BackColor = Color.FromArgb(255, 255, 128);
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.ForeColor = Color.Black;
+            button1.BackColor = Color.FromArgb(35, 32, 45);
+            button1.ForeColor = Color.Yellow;
             button1.Location = new Point(215, 438);
             button1.Name = "button1";
             button1.Size = new Size(75, 90);
@@ -243,9 +247,8 @@ namespace Monitux_POS.Ventanas
             // 
             // button6
             // 
-            button6.BackColor = Color.FromArgb(128, 255, 128);
-            button6.FlatStyle = FlatStyle.Flat;
-            button6.ForeColor = Color.Black;
+            button6.BackColor = Color.FromArgb(35, 32, 45);
+            button6.ForeColor = Color.Lime;
             button6.Location = new Point(296, 438);
             button6.Name = "button6";
             button6.Size = new Size(75, 90);
@@ -331,9 +334,9 @@ namespace Monitux_POS.Ventanas
             groupBox2.Controls.Add(comboBox3);
             groupBox2.Controls.Add(label2);
             groupBox2.ForeColor = Color.Black;
-            groupBox2.Location = new Point(412, -1);
+            groupBox2.Location = new Point(412, -8);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(379, 544);
+            groupBox2.Size = new Size(379, 550);
             groupBox2.TabIndex = 26;
             groupBox2.TabStop = false;
             groupBox2.Enter += groupBox2_Enter;
@@ -352,6 +355,7 @@ namespace Monitux_POS.Ventanas
             checkBox1.TabIndex = 49;
             checkBox1.Text = "Calcular cambio";
             checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // label14
             // 
@@ -366,6 +370,7 @@ namespace Monitux_POS.Ventanas
             // label13
             // 
             label13.AutoSize = true;
+            label13.ForeColor = Color.White;
             label13.Location = new Point(167, 406);
             label13.Name = "label13";
             label13.Size = new Size(17, 15);
@@ -376,6 +381,7 @@ namespace Monitux_POS.Ventanas
             // label12
             // 
             label12.AutoSize = true;
+            label12.ForeColor = Color.White;
             label12.Location = new Point(166, 380);
             label12.Name = "label12";
             label12.Size = new Size(17, 15);
@@ -532,6 +538,7 @@ namespace Monitux_POS.Ventanas
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(91, 23);
             comboBox1.TabIndex = 33;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label7
             // 
@@ -640,11 +647,13 @@ namespace Monitux_POS.Ventanas
             // button7
             // 
             button7.BackColor = Color.FromArgb(35, 32, 45);
+            button7.FlatAppearance.BorderColor = Color.FromArgb(252, 114, 95);
+            button7.FlatAppearance.MouseDownBackColor = Color.FromArgb(252, 114, 95);
             button7.FlatStyle = FlatStyle.Flat;
             button7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button7.ForeColor = Color.Red;
+            button7.ForeColor = Color.White;
             button7.Image = (Image)resources.GetObject("button7.Image");
-            button7.Location = new Point(5, 470);
+            button7.Location = new Point(5, 469);
             button7.Name = "button7";
             button7.Size = new Size(74, 73);
             button7.TabIndex = 27;
@@ -667,7 +676,7 @@ namespace Monitux_POS.Ventanas
             // 
             // panel1
             // 
-            panel1.BackColor = Color.FromArgb(35, 32, 45);
+            panel1.BackColor = Color.FromArgb(11, 8, 20);
             panel1.Controls.Add(groupBox2);
             panel1.Controls.Add(flowLayoutPanel2);
             panel1.Controls.Add(button7);
@@ -756,8 +765,8 @@ namespace Monitux_POS.Ventanas
         private Label label14;
         private CheckBox checkBox1;
         private Panel panel1;
-        public static FlowLayoutPanel flowLayoutPanel1;
-        public static Button button5;
-        public static FlowLayoutPanel flowLayoutPanel2;
+        public FlowLayoutPanel flowLayoutPanel1;
+        public FlowLayoutPanel flowLayoutPanel2;
+        public Button button5;
     }
 }

@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Monitux_POS.Clases
+{
+    public class Orden_Detalle
+    {
+
+
+
+        [Key] public int Secuencial { get; set; }
+        public int Secuencial_Orden { get; set; } = 0;
+
+        public int Secuencial_Usuario { get; set; } = 0;
+
+        public int Secuencial_Proveedor { get; set; } = 0;
+        public int Secuencial_Producto { get; set; } = 0;
+        public string? Fecha { get; set; }
+        public string? Codigo { get; set; } = ""; //Código del producto
+        public string? Descripcion { get; set; }
+        public double? Cantidad { get; set; } = 0;
+
+        public double? Precio { get; set; } = 0;
+        public string? Tipo { get; set; } // Puede ser Producto o Servicio
+        public double? Total { get; set; } = 0;
+
+
+
+
+
+    }
+}

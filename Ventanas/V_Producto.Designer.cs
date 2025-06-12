@@ -80,6 +80,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.FromArgb(35, 32, 40);
             panel1.Controls.Add(label12);
             panel1.Controls.Add(comboBox1);
             panel1.Controls.Add(checkBox1);
@@ -117,6 +118,7 @@
             // label12
             // 
             label12.AutoSize = true;
+            label12.ForeColor = Color.White;
             label12.Location = new Point(248, 275);
             label12.Name = "label12";
             label12.Size = new Size(34, 15);
@@ -137,6 +139,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
+            checkBox1.ForeColor = Color.White;
             checkBox1.Location = new Point(9, 335);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(109, 19);
@@ -184,6 +187,7 @@
             // label8
             // 
             label8.AutoSize = true;
+            label8.ForeColor = Color.White;
             label8.Location = new Point(5, 303);
             label8.Name = "label8";
             label8.Size = new Size(107, 15);
@@ -287,6 +291,7 @@
             // label11
             // 
             label11.AutoSize = true;
+            label11.ForeColor = Color.White;
             label11.Location = new Point(6, 277);
             label11.Name = "label11";
             label11.Size = new Size(105, 15);
@@ -297,6 +302,7 @@
             // label10
             // 
             label10.AutoSize = true;
+            label10.ForeColor = Color.White;
             label10.Location = new Point(76, 364);
             label10.Name = "label10";
             label10.Size = new Size(69, 15);
@@ -318,6 +324,7 @@
             // label9
             // 
             label9.AutoSize = true;
+            label9.ForeColor = Color.White;
             label9.Location = new Point(9, 139);
             label9.Name = "label9";
             label9.Size = new Size(58, 15);
@@ -328,6 +335,7 @@
             // label7
             // 
             label7.AutoSize = true;
+            label7.ForeColor = Color.White;
             label7.Location = new Point(9, 192);
             label7.Name = "label7";
             label7.Size = new Size(84, 15);
@@ -339,6 +347,7 @@
             // label6
             // 
             label6.AutoSize = true;
+            label6.ForeColor = Color.White;
             label6.Location = new Point(9, 95);
             label6.Name = "label6";
             label6.Size = new Size(61, 15);
@@ -369,6 +378,7 @@
             // label5
             // 
             label5.AutoSize = true;
+            label5.ForeColor = Color.White;
             label5.Location = new Point(6, 38);
             label5.Name = "label5";
             label5.Size = new Size(58, 15);
@@ -379,6 +389,7 @@
             // label4
             // 
             label4.AutoSize = true;
+            label4.ForeColor = Color.White;
             label4.Location = new Point(9, 251);
             label4.Name = "label4";
             label4.Size = new Size(75, 15);
@@ -389,6 +400,7 @@
             // label3
             // 
             label3.AutoSize = true;
+            label3.ForeColor = Color.White;
             label3.Location = new Point(9, 223);
             label3.Name = "label3";
             label3.Size = new Size(77, 15);
@@ -399,6 +411,7 @@
             // label2
             // 
             label2.AutoSize = true;
+            label2.ForeColor = Color.White;
             label2.Location = new Point(9, 67);
             label2.Name = "label2";
             label2.Size = new Size(43, 15);
@@ -409,6 +422,7 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.ForeColor = Color.White;
             label1.Location = new Point(9, 11);
             label1.Name = "label1";
             label1.Size = new Size(49, 15);
@@ -433,7 +447,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.BackColor = SystemColors.ControlLightLight;
+            menuStrip1.BackColor = Color.FromArgb(11, 8, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
@@ -445,7 +459,7 @@
             // 
             archivoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { Menu_Agregar, Menu_Guardar, Menu_Eliminar, toolStripSeparator1, salirToolStripMenuItem });
             archivoToolStripMenuItem.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            archivoToolStripMenuItem.ForeColor = Color.DarkViolet;
+            archivoToolStripMenuItem.ForeColor = Color.FromArgb(128, 255, 128);
             archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
             archivoToolStripMenuItem.Size = new Size(69, 20);
             archivoToolStripMenuItem.Text = "Opciones";
@@ -453,7 +467,9 @@
             // 
             // Menu_Agregar
             // 
+            Menu_Agregar.BackColor = SystemColors.Control;
             Menu_Agregar.DropDownItems.AddRange(new ToolStripItem[] { nuevoProveedorToolStripMenuItem, categoriaToolStripMenuItem });
+            Menu_Agregar.ForeColor = Color.Black;
             Menu_Agregar.Image = (Image)resources.GetObject("Menu_Agregar.Image");
             Menu_Agregar.Name = "Menu_Agregar";
             Menu_Agregar.Size = new Size(120, 22);
@@ -477,6 +493,7 @@
             // 
             // Menu_Guardar
             // 
+            Menu_Guardar.BackColor = SystemColors.Control;
             Menu_Guardar.ForeColor = Color.ForestGreen;
             Menu_Guardar.Image = (Image)resources.GetObject("Menu_Guardar.Image");
             Menu_Guardar.Name = "Menu_Guardar";
@@ -486,6 +503,7 @@
             // 
             // Menu_Eliminar
             // 
+            Menu_Eliminar.BackColor = SystemColors.Control;
             Menu_Eliminar.ForeColor = Color.Red;
             Menu_Eliminar.Image = (Image)resources.GetObject("Menu_Eliminar.Image");
             Menu_Eliminar.Name = "Menu_Eliminar";
@@ -495,11 +513,13 @@
             // 
             // toolStripSeparator1
             // 
+            toolStripSeparator1.BackColor = Color.FromArgb(35, 32, 40);
             toolStripSeparator1.Name = "toolStripSeparator1";
             toolStripSeparator1.Size = new Size(117, 6);
             // 
             // salirToolStripMenuItem
             // 
+            salirToolStripMenuItem.BackColor = SystemColors.Control;
             salirToolStripMenuItem.Image = (Image)resources.GetObject("salirToolStripMenuItem.Image");
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
             salirToolStripMenuItem.Size = new Size(120, 22);
@@ -510,14 +530,17 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(11, 8, 20);
             ClientSize = new Size(420, 486);
             ControlBox = false;
             Controls.Add(panel1);
             Controls.Add(menuStrip1);
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "V_Producto";
+            ShowIcon = false;
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Producto";
             Load += V_Producto_Load;

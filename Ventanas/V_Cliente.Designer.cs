@@ -53,10 +53,12 @@
             Menu_Eliminar = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             salirToolStripMenuItem = new ToolStripMenuItem();
+            panel1 = new Panel();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -64,7 +66,7 @@
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(comboBox2);
             groupBox1.Controls.Add(textBox1);
-            groupBox1.Location = new Point(7, 409);
+            groupBox1.Location = new Point(7, 382);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(402, 55);
             groupBox1.TabIndex = 33;
@@ -73,6 +75,7 @@
             // label7
             // 
             label7.AutoSize = true;
+            label7.ForeColor = Color.White;
             label7.Location = new Point(8, 25);
             label7.Name = "label7";
             label7.Size = new Size(66, 15);
@@ -104,7 +107,7 @@
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(6, 204);
+            dataGridView1.Location = new Point(6, 177);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(402, 199);
@@ -116,7 +119,7 @@
             // pictureBox1
             // 
             pictureBox1.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox1.Location = new Point(287, 35);
+            pictureBox1.Location = new Point(287, 8);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(122, 138);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -127,7 +130,8 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(317, 179);
+            checkBox1.ForeColor = Color.White;
+            checkBox1.Location = new Point(317, 152);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(60, 19);
             checkBox1.TabIndex = 29;
@@ -136,7 +140,7 @@
             // 
             // txt_Email
             // 
-            txt_Email.Location = new Point(76, 150);
+            txt_Email.Location = new Point(76, 123);
             txt_Email.Name = "txt_Email";
             txt_Email.Size = new Size(205, 23);
             txt_Email.TabIndex = 27;
@@ -144,7 +148,8 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(22, 153);
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(22, 126);
             label5.Name = "label5";
             label5.Size = new Size(39, 15);
             label5.TabIndex = 26;
@@ -153,7 +158,7 @@
             // 
             // txt_Direccion
             // 
-            txt_Direccion.Location = new Point(76, 122);
+            txt_Direccion.Location = new Point(76, 95);
             txt_Direccion.Name = "txt_Direccion";
             txt_Direccion.Size = new Size(205, 23);
             txt_Direccion.TabIndex = 25;
@@ -161,7 +166,8 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(4, 125);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(4, 98);
             label4.Name = "label4";
             label4.Size = new Size(60, 15);
             label4.TabIndex = 24;
@@ -170,7 +176,7 @@
             // 
             // txt_Telefono
             // 
-            txt_Telefono.Location = new Point(76, 92);
+            txt_Telefono.Location = new Point(76, 65);
             txt_Telefono.Name = "txt_Telefono";
             txt_Telefono.Size = new Size(205, 23);
             txt_Telefono.TabIndex = 23;
@@ -178,7 +184,8 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(7, 95);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(7, 68);
             label3.Name = "label3";
             label3.Size = new Size(56, 15);
             label3.TabIndex = 22;
@@ -187,7 +194,7 @@
             // 
             // txt_Nombre
             // 
-            txt_Nombre.Location = new Point(76, 64);
+            txt_Nombre.Location = new Point(76, 37);
             txt_Nombre.Name = "txt_Nombre";
             txt_Nombre.Size = new Size(205, 23);
             txt_Nombre.TabIndex = 21;
@@ -195,7 +202,8 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 67);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(12, 40);
             label2.Name = "label2";
             label2.Size = new Size(54, 15);
             label2.TabIndex = 20;
@@ -204,7 +212,7 @@
             // 
             // txt_Codigo
             // 
-            txt_Codigo.Location = new Point(76, 35);
+            txt_Codigo.Location = new Point(76, 8);
             txt_Codigo.Name = "txt_Codigo";
             txt_Codigo.Size = new Size(205, 23);
             txt_Codigo.TabIndex = 19;
@@ -212,7 +220,8 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 38);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(12, 11);
             label1.Name = "label1";
             label1.Size = new Size(49, 15);
             label1.TabIndex = 18;
@@ -221,11 +230,11 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.BackColor = SystemColors.ControlLightLight;
+            menuStrip1.BackColor = Color.FromArgb(11, 8, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(420, 24);
+            menuStrip1.Size = new Size(429, 24);
             menuStrip1.TabIndex = 34;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -233,7 +242,7 @@
             // 
             archivoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { nuevoToolStripMenuItem, Menu_Guardar, Menu_Eliminar, toolStripSeparator1, salirToolStripMenuItem });
             archivoToolStripMenuItem.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            archivoToolStripMenuItem.ForeColor = Color.DarkViolet;
+            archivoToolStripMenuItem.ForeColor = Color.FromArgb(128, 255, 128);
             archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
             archivoToolStripMenuItem.Size = new Size(69, 20);
             archivoToolStripMenuItem.Text = "Opciones";
@@ -242,7 +251,7 @@
             // 
             nuevoToolStripMenuItem.Image = (Image)resources.GetObject("nuevoToolStripMenuItem.Image");
             nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
-            nuevoToolStripMenuItem.Size = new Size(117, 22);
+            nuevoToolStripMenuItem.Size = new Size(180, 22);
             nuevoToolStripMenuItem.Text = "Nuevo";
             nuevoToolStripMenuItem.Click += nuevoToolStripMenuItem_Click;
             // 
@@ -277,30 +286,42 @@
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(35, 32, 40);
+            panel1.Controls.Add(pictureBox1);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(groupBox1);
+            panel1.Controls.Add(txt_Codigo);
+            panel1.Controls.Add(dataGridView1);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(txt_Nombre);
+            panel1.Controls.Add(checkBox1);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(txt_Email);
+            panel1.Controls.Add(txt_Telefono);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(txt_Direccion);
+            panel1.Location = new Point(6, 25);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(417, 447);
+            panel1.TabIndex = 35;
+            // 
             // V_Cliente
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(420, 472);
+            BackColor = Color.FromArgb(11, 8, 20);
+            ClientSize = new Size(429, 478);
             ControlBox = false;
+            Controls.Add(panel1);
             Controls.Add(menuStrip1);
-            Controls.Add(groupBox1);
-            Controls.Add(dataGridView1);
-            Controls.Add(pictureBox1);
-            Controls.Add(checkBox1);
-            Controls.Add(txt_Email);
-            Controls.Add(label5);
-            Controls.Add(txt_Direccion);
-            Controls.Add(label4);
-            Controls.Add(txt_Telefono);
-            Controls.Add(label3);
-            Controls.Add(txt_Nombre);
-            Controls.Add(label2);
-            Controls.Add(txt_Codigo);
-            Controls.Add(label1);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "V_Cliente";
+            ShowIcon = false;
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Clientes";
             Load += V_Cliente_Load;
@@ -310,6 +331,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -340,5 +363,6 @@
         private ToolStripMenuItem Menu_Eliminar;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem salirToolStripMenuItem;
+        private Panel panel1;
     }
 }

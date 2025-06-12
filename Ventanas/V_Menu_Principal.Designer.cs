@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Menu_Principal));
             panel1 = new Panel();
             panel5 = new Panel();
@@ -61,14 +62,18 @@
             button1 = new Button();
             panel4 = new Panel();
             panel3 = new Panel();
+            label4 = new Label();
             label2 = new Label();
             pictureBox2 = new PictureBox();
             lbl_Monitux = new Label();
             panel7 = new Panel();
+            label3 = new Label();
             lbl_Titulo = new Label();
             pictureBox4 = new PictureBox();
             pictureBox3 = new PictureBox();
             panel10 = new Panel();
+            lbl_Cinta = new Label();
+            timer1 = new System.Windows.Forms.Timer(components);
             panel1.SuspendLayout();
             panel5.SuspendLayout();
             panel8.SuspendLayout();
@@ -80,6 +85,7 @@
             panel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            panel10.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -205,7 +211,7 @@
             button24.Padding = new Padding(35, 0, 0, 0);
             button24.Size = new Size(166, 27);
             button24.TabIndex = 1;
-            button24.Text = "Registrar Usuario";
+            button24.Text = "Usuarios";
             button24.TextAlign = ContentAlignment.MiddleLeft;
             button24.UseVisualStyleBackColor = false;
             // 
@@ -416,7 +422,6 @@
             button12.BackColor = Color.FromArgb(11, 8, 20);
             button12.Cursor = Cursors.Hand;
             button12.Dock = DockStyle.Top;
-            button12.Enabled = false;
             button12.FlatAppearance.BorderSize = 0;
             button12.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button12.FlatStyle = FlatStyle.Flat;
@@ -620,6 +625,7 @@
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(11, 8, 20);
+            panel3.Controls.Add(label4);
             panel3.Controls.Add(label2);
             panel3.Controls.Add(pictureBox2);
             panel3.Controls.Add(lbl_Monitux);
@@ -628,11 +634,20 @@
             panel3.Size = new Size(163, 193);
             panel3.TabIndex = 3;
             // 
+            // label4
+            // 
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(15, 136);
+            label4.Name = "label4";
+            label4.Size = new Size(119, 17);
+            label4.TabIndex = 5;
+            label4.Text = "Usuario";
+            // 
             // label2
             // 
             label2.AutoSize = true;
             label2.ForeColor = Color.White;
-            label2.Location = new Point(24, 109);
+            label2.Location = new Point(26, 109);
             label2.Name = "label2";
             label2.Size = new Size(110, 15);
             label2.TabIndex = 3;
@@ -641,7 +656,7 @@
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(34, 12);
+            pictureBox2.Location = new Point(36, 12);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(88, 69);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -653,7 +668,7 @@
             lbl_Monitux.AutoSize = true;
             lbl_Monitux.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Monitux.ForeColor = Color.FromArgb(192, 255, 192);
-            lbl_Monitux.Location = new Point(33, 84);
+            lbl_Monitux.Location = new Point(35, 84);
             lbl_Monitux.Name = "lbl_Monitux";
             lbl_Monitux.Size = new Size(89, 25);
             lbl_Monitux.TabIndex = 2;
@@ -662,6 +677,7 @@
             // panel7
             // 
             panel7.BackColor = Color.FromArgb(35, 32, 45);
+            panel7.Controls.Add(label3);
             panel7.Controls.Add(lbl_Titulo);
             panel7.Controls.Add(pictureBox4);
             panel7.Controls.Add(pictureBox3);
@@ -671,6 +687,16 @@
             panel7.Size = new Size(954, 42);
             panel7.TabIndex = 4;
             panel7.MouseMove += panel7_MouseMove;
+            // 
+            // label3
+            // 
+            label3.ForeColor = Color.FromArgb(192, 255, 192);
+            label3.Location = new Point(159, 24);
+            label3.Name = "label3";
+            label3.Size = new Size(451, 16);
+            label3.TabIndex = 3;
+            label3.Text = "Ventana Activa";
+            label3.TextAlign = ContentAlignment.BottomLeft;
             // 
             // lbl_Titulo
             // 
@@ -706,14 +732,34 @@
             pictureBox3.TabIndex = 0;
             pictureBox3.TabStop = false;
             pictureBox3.Click += pictureBox3_Click;
+            pictureBox3.MouseLeave += pictureBox3_MouseLeave;
+            pictureBox3.MouseHover += pictureBox3_MouseHover;
             // 
             // panel10
             // 
-            panel10.BackColor = SystemColors.ActiveCaption;
+            panel10.BackColor = Color.FromArgb(11, 8, 20);
+            panel10.Controls.Add(lbl_Cinta);
             panel10.Location = new Point(159, 587);
             panel10.Name = "panel10";
-            panel10.Size = new Size(795, 100);
+            panel10.Size = new Size(795, 77);
             panel10.TabIndex = 5;
+            // 
+            // lbl_Cinta
+            // 
+            lbl_Cinta.AutoSize = true;
+            lbl_Cinta.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbl_Cinta.ForeColor = Color.FromArgb(128, 255, 255);
+            lbl_Cinta.Location = new Point(776, 27);
+            lbl_Cinta.Name = "lbl_Cinta";
+            lbl_Cinta.Size = new Size(524, 32);
+            lbl_Cinta.TabIndex = 0;
+            lbl_Cinta.Text = "¡Bienvenido a tu cinta LED personalizada en C#!";
+            lbl_Cinta.Click += lbl_Cinta_Click;
+            // 
+            // timer1
+            // 
+            timer1.Enabled = true;
+            timer1.Tick += timer1_Tick;
             // 
             // V_Menu_Principal
             // 
@@ -744,6 +790,8 @@
             panel7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            panel10.ResumeLayout(false);
+            panel10.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -789,5 +837,9 @@
         private Label label2;
         private Panel panel10;
         private Label lbl_Titulo;
+        private Label label3;
+        private Label label4;
+        private Label lbl_Cinta;
+        private System.Windows.Forms.Timer timer1;
     }
 }

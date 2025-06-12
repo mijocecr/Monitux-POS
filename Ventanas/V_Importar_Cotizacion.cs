@@ -29,7 +29,7 @@ namespace Monitux_POS.Ventanas
         private void button2_Click(object sender, EventArgs e)
         {
             Util.Limpiar_Cache();
-            V_Factura_Venta.button5.Enabled=true;
+           // V_Factura_Venta.button5.Enabled=true;
             this.Dispose();
         }
 

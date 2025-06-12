@@ -55,16 +55,19 @@
             label7 = new Label();
             comboBox2 = new ComboBox();
             textBox1 = new TextBox();
+            panel1 = new Panel();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(17, 39);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(12, 12);
             label1.Name = "label1";
             label1.Size = new Size(54, 15);
             label1.TabIndex = 0;
@@ -73,14 +76,14 @@
             // 
             // txt_Nombre
             // 
-            txt_Nombre.Location = new Point(81, 36);
+            txt_Nombre.Location = new Point(76, 9);
             txt_Nombre.Name = "txt_Nombre";
             txt_Nombre.Size = new Size(205, 23);
             txt_Nombre.TabIndex = 1;
             // 
             // txt_Telefono
             // 
-            txt_Telefono.Location = new Point(81, 65);
+            txt_Telefono.Location = new Point(76, 38);
             txt_Telefono.Name = "txt_Telefono";
             txt_Telefono.Size = new Size(205, 23);
             txt_Telefono.TabIndex = 3;
@@ -88,7 +91,8 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(17, 68);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(12, 41);
             label2.Name = "label2";
             label2.Size = new Size(56, 15);
             label2.TabIndex = 2;
@@ -97,7 +101,7 @@
             // 
             // txt_Direccion
             // 
-            txt_Direccion.Location = new Point(81, 93);
+            txt_Direccion.Location = new Point(76, 66);
             txt_Direccion.Name = "txt_Direccion";
             txt_Direccion.Size = new Size(205, 23);
             txt_Direccion.TabIndex = 5;
@@ -105,7 +109,8 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(12, 96);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(7, 69);
             label3.Name = "label3";
             label3.Size = new Size(60, 15);
             label3.TabIndex = 4;
@@ -114,7 +119,7 @@
             // 
             // txt_Email
             // 
-            txt_Email.Location = new Point(81, 123);
+            txt_Email.Location = new Point(76, 96);
             txt_Email.Name = "txt_Email";
             txt_Email.Size = new Size(205, 23);
             txt_Email.TabIndex = 7;
@@ -122,7 +127,8 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(27, 126);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(22, 99);
             label4.Name = "label4";
             label4.Size = new Size(39, 15);
             label4.TabIndex = 6;
@@ -131,7 +137,7 @@
             // 
             // txt_Contacto
             // 
-            txt_Contacto.Location = new Point(81, 151);
+            txt_Contacto.Location = new Point(76, 124);
             txt_Contacto.Name = "txt_Contacto";
             txt_Contacto.Size = new Size(205, 23);
             txt_Contacto.TabIndex = 9;
@@ -139,7 +145,8 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(12, 154);
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(7, 127);
             label5.Name = "label5";
             label5.Size = new Size(59, 15);
             label5.TabIndex = 8;
@@ -149,7 +156,8 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(32, 183);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(27, 156);
             label6.Name = "label6";
             label6.Size = new Size(34, 15);
             label6.TabIndex = 10;
@@ -159,7 +167,8 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(322, 190);
+            checkBox1.ForeColor = Color.White;
+            checkBox1.Location = new Point(317, 163);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(60, 19);
             checkBox1.TabIndex = 12;
@@ -171,18 +180,18 @@
             combo_Tipo.DropDownStyle = ComboBoxStyle.DropDownList;
             combo_Tipo.FormattingEnabled = true;
             combo_Tipo.Items.AddRange(new object[] { "Local", "Nacional", "Internacional", "Virtual" });
-            combo_Tipo.Location = new Point(81, 180);
+            combo_Tipo.Location = new Point(76, 153);
             combo_Tipo.Name = "combo_Tipo";
             combo_Tipo.Size = new Size(107, 23);
             combo_Tipo.TabIndex = 13;
             // 
             // menuStrip1
             // 
-            menuStrip1.BackColor = SystemColors.ControlLightLight;
+            menuStrip1.BackColor = Color.FromArgb(11, 8, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(420, 24);
+            menuStrip1.Size = new Size(432, 24);
             menuStrip1.TabIndex = 14;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -190,7 +199,7 @@
             // 
             archivoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { nuevoToolStripMenuItem, Menu_Guardar, Menu_Eliminar, toolStripSeparator1, salirToolStripMenuItem });
             archivoToolStripMenuItem.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            archivoToolStripMenuItem.ForeColor = Color.DarkViolet;
+            archivoToolStripMenuItem.ForeColor = Color.FromArgb(128, 255, 128);
             archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
             archivoToolStripMenuItem.Size = new Size(69, 20);
             archivoToolStripMenuItem.Text = "Opciones";
@@ -200,7 +209,7 @@
             // 
             nuevoToolStripMenuItem.Image = (Image)resources.GetObject("nuevoToolStripMenuItem.Image");
             nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
-            nuevoToolStripMenuItem.Size = new Size(180, 22);
+            nuevoToolStripMenuItem.Size = new Size(117, 22);
             nuevoToolStripMenuItem.Text = "Nuevo";
             nuevoToolStripMenuItem.Click += nuevoToolStripMenuItem_Click;
             // 
@@ -209,7 +218,7 @@
             Menu_Guardar.ForeColor = Color.ForestGreen;
             Menu_Guardar.Image = (Image)resources.GetObject("Menu_Guardar.Image");
             Menu_Guardar.Name = "Menu_Guardar";
-            Menu_Guardar.Size = new Size(180, 22);
+            Menu_Guardar.Size = new Size(117, 22);
             Menu_Guardar.Text = "Guardar";
             Menu_Guardar.Click += Menu_Guardar_Click;
             // 
@@ -218,27 +227,27 @@
             Menu_Eliminar.ForeColor = Color.Red;
             Menu_Eliminar.Image = (Image)resources.GetObject("Menu_Eliminar.Image");
             Menu_Eliminar.Name = "Menu_Eliminar";
-            Menu_Eliminar.Size = new Size(180, 22);
+            Menu_Eliminar.Size = new Size(117, 22);
             Menu_Eliminar.Text = "Eliminar";
             Menu_Eliminar.Click += Menu_Eliminar_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(114, 6);
             // 
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.Image = (Image)resources.GetObject("salirToolStripMenuItem.Image");
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(180, 22);
+            salirToolStripMenuItem.Size = new Size(117, 22);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 
             // pictureBox1
             // 
             pictureBox1.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox1.Location = new Point(292, 36);
+            pictureBox1.Location = new Point(287, 9);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(122, 138);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -251,7 +260,7 @@
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 224);
+            dataGridView1.Location = new Point(7, 197);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(402, 199);
             dataGridView1.TabIndex = 16;
@@ -266,7 +275,7 @@
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(comboBox2);
             groupBox1.Controls.Add(textBox1);
-            groupBox1.Location = new Point(12, 432);
+            groupBox1.Location = new Point(7, 405);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(402, 55);
             groupBox1.TabIndex = 17;
@@ -275,6 +284,7 @@
             // label7
             // 
             label7.AutoSize = true;
+            label7.ForeColor = Color.White;
             label7.Location = new Point(8, 25);
             label7.Name = "label7";
             label7.Size = new Size(66, 15);
@@ -301,31 +311,44 @@
             textBox1.TextAlign = HorizontalAlignment.Center;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(35, 32, 40);
+            panel1.Controls.Add(dataGridView1);
+            panel1.Controls.Add(groupBox1);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(txt_Nombre);
+            panel1.Controls.Add(pictureBox1);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(txt_Telefono);
+            panel1.Controls.Add(combo_Tipo);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(checkBox1);
+            panel1.Controls.Add(txt_Direccion);
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(txt_Contacto);
+            panel1.Controls.Add(txt_Email);
+            panel1.Controls.Add(label5);
+            panel1.Location = new Point(6, 29);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(419, 475);
+            panel1.TabIndex = 18;
+            // 
             // V_Proveedor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(420, 499);
+            BackColor = Color.FromArgb(11, 8, 20);
+            ClientSize = new Size(432, 513);
             ControlBox = false;
-            Controls.Add(groupBox1);
-            Controls.Add(dataGridView1);
-            Controls.Add(pictureBox1);
+            Controls.Add(panel1);
             Controls.Add(menuStrip1);
-            Controls.Add(combo_Tipo);
-            Controls.Add(checkBox1);
-            Controls.Add(label6);
-            Controls.Add(txt_Contacto);
-            Controls.Add(label5);
-            Controls.Add(txt_Email);
-            Controls.Add(label4);
-            Controls.Add(txt_Direccion);
-            Controls.Add(label3);
-            Controls.Add(txt_Telefono);
-            Controls.Add(label2);
-            Controls.Add(txt_Nombre);
-            Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "V_Proveedor";
+            ShowIcon = false;
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Proveedores";
             Load += V_Proveedor_Load;
@@ -335,6 +358,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -367,5 +392,6 @@
         private ComboBox comboBox2;
         private TextBox textBox1;
         private ToolStripMenuItem nuevoToolStripMenuItem;
+        private Panel panel1;
     }
 }

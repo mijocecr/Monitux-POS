@@ -97,14 +97,14 @@
             panel1.Controls.Add(button3);
             panel1.Controls.Add(button5);
             panel1.Controls.Add(button4);
-            panel1.Location = new Point(1, 1);
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(798, 548);
+            panel1.Size = new Size(798, 554);
             panel1.TabIndex = 35;
             // 
             // groupBox2
             // 
-            groupBox2.BackColor = Color.FromArgb(11, 8, 20);
+            groupBox2.BackColor = Color.FromArgb(35, 32, 45);
             groupBox2.Controls.Add(checkBox1);
             groupBox2.Controls.Add(label14);
             groupBox2.Controls.Add(label13);
@@ -138,11 +138,13 @@
             groupBox2.Controls.Add(comboBox3);
             groupBox2.Controls.Add(label2);
             groupBox2.ForeColor = Color.Black;
-            groupBox2.Location = new Point(412, 1);
+            groupBox2.Location = new Point(412, -7);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(379, 542);
+            groupBox2.Size = new Size(379, 550);
             groupBox2.TabIndex = 26;
             groupBox2.TabStop = false;
+            groupBox2.Enter += groupBox2_Enter;
+            groupBox2.MouseHover += groupBox2_MouseHover;
             // 
             // checkBox1
             // 
@@ -156,6 +158,7 @@
             checkBox1.TabIndex = 49;
             checkBox1.Text = "Calcular cambio";
             checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // label14
             // 
@@ -170,6 +173,7 @@
             // label13
             // 
             label13.AutoSize = true;
+            label13.ForeColor = Color.White;
             label13.Location = new Point(167, 406);
             label13.Name = "label13";
             label13.Size = new Size(17, 15);
@@ -180,6 +184,7 @@
             // label12
             // 
             label12.AutoSize = true;
+            label12.ForeColor = Color.White;
             label12.Location = new Point(166, 380);
             label12.Name = "label12";
             label12.Size = new Size(17, 15);
@@ -195,6 +200,8 @@
             txt_Descuento.TabIndex = 45;
             txt_Descuento.TextAlign = HorizontalAlignment.Center;
             txt_Descuento.Visible = false;
+            txt_Descuento.TextChanged += txt_Descuento_TextChanged;
+            txt_Descuento.KeyDown += txt_Descuento_KeyDown;
             // 
             // txt_Impuesto
             // 
@@ -204,6 +211,8 @@
             txt_Impuesto.TabIndex = 44;
             txt_Impuesto.TextAlign = HorizontalAlignment.Center;
             txt_Impuesto.Visible = false;
+            txt_Impuesto.TextChanged += txt_Impuesto_TextChanged;
+            txt_Impuesto.KeyDown += txt_Impuesto_KeyDown;
             // 
             // txt_OtrosCargos
             // 
@@ -213,6 +222,8 @@
             txt_OtrosCargos.TabIndex = 43;
             txt_OtrosCargos.TextAlign = HorizontalAlignment.Center;
             txt_OtrosCargos.Visible = false;
+            txt_OtrosCargos.TextChanged += txt_OtrosCargos_TextChanged;
+            txt_OtrosCargos.KeyDown += txt_OtrosCargos_KeyDown;
             // 
             // lbl_Descuento
             // 
@@ -328,6 +339,7 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(91, 23);
             comboBox1.TabIndex = 33;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label7
             // 
@@ -358,6 +370,7 @@
             textBox2.PlaceholderText = "Telefono...";
             textBox2.Size = new Size(75, 23);
             textBox2.TabIndex = 30;
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // linkLabel3
             // 
@@ -369,6 +382,7 @@
             linkLabel3.TabIndex = 28;
             linkLabel3.TabStop = true;
             linkLabel3.Text = "Agregar Otros Cargos";
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
             // 
             // linkLabel2
             // 
@@ -380,6 +394,7 @@
             linkLabel2.TabIndex = 27;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "Agregar Descuento";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // linkLabel1
             // 
@@ -391,6 +406,7 @@
             linkLabel1.TabIndex = 26;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Agregar Impuesto";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // dataGridView1
             // 
@@ -407,15 +423,17 @@
             // 
             // button6
             // 
-            button6.BackColor = Color.FromArgb(128, 255, 128);
-            button6.FlatStyle = FlatStyle.Flat;
-            button6.ForeColor = Color.Black;
+            button6.BackColor = Color.FromArgb(35, 32, 45);
+            button6.FlatAppearance.BorderColor = Color.White;
+            button6.FlatAppearance.BorderSize = 0;
+            button6.ForeColor = Color.FromArgb(128, 255, 255);
             button6.Location = new Point(296, 438);
             button6.Name = "button6";
             button6.Size = new Size(75, 90);
             button6.TabIndex = 21;
             button6.Text = "Generar Compra";
             button6.UseVisualStyleBackColor = false;
+            button6.Click += button6_Click;
             // 
             // label3
             // 
@@ -430,15 +448,17 @@
             // 
             // button1
             // 
-            button1.BackColor = Color.FromArgb(255, 255, 128);
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.ForeColor = Color.Black;
+            button1.BackColor = Color.FromArgb(35, 32, 45);
+            button1.FlatAppearance.BorderColor = Color.White;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.ForeColor = Color.Yellow;
             button1.Location = new Point(215, 440);
             button1.Name = "button1";
             button1.Size = new Size(75, 88);
             button1.TabIndex = 20;
             button1.Text = "Generar Orden";
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // comboCliente
             // 
@@ -477,6 +497,7 @@
             comboBox3.Name = "comboBox3";
             comboBox3.Size = new Size(91, 23);
             comboBox3.TabIndex = 23;
+            comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -484,9 +505,9 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(7, 72);
             label2.Name = "label2";
-            label2.Size = new Size(82, 15);
+            label2.Size = new Size(96, 15);
             label2.TabIndex = 22;
-            label2.Text = "Tipo de Venta:";
+            label2.Text = "Tipo de Compra:";
             // 
             // flowLayoutPanel2
             // 
@@ -503,17 +524,21 @@
             // button7
             // 
             button7.BackColor = Color.FromArgb(11, 8, 20);
+            button7.FlatAppearance.BorderColor = Color.FromArgb(252, 114, 95);
+            button7.FlatAppearance.MouseDownBackColor = Color.FromArgb(252, 114, 95);
+            button7.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button7.FlatStyle = FlatStyle.Flat;
             button7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button7.ForeColor = Color.Red;
+            button7.ForeColor = Color.White;
             button7.Image = (Image)resources.GetObject("button7.Image");
-            button7.Location = new Point(5, 470);
+            button7.Location = new Point(5, 469);
             button7.Name = "button7";
-            button7.Size = new Size(74, 73);
+            button7.Size = new Size(74, 74);
             button7.TabIndex = 27;
             button7.Text = "Reset Factura";
             button7.TextImageRelation = TextImageRelation.ImageAboveText;
             button7.UseVisualStyleBackColor = false;
+            button7.Click += button7_Click;
             // 
             // label5
             // 
@@ -531,10 +556,11 @@
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.BackColor = Color.FromArgb(35, 32, 45);
             flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
-            flowLayoutPanel1.Location = new Point(8, 105);
+            flowLayoutPanel1.Location = new Point(8, 104);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(396, 342);
             flowLayoutPanel1.TabIndex = 7;
+            flowLayoutPanel1.MouseMove += flowLayoutPanel1_MouseMove;
             // 
             // button8
             // 
@@ -543,24 +569,28 @@
             button8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button8.ForeColor = Color.White;
             button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(81, 470);
+            button8.Location = new Point(81, 469);
             button8.Name = "button8";
             button8.Size = new Size(74, 74);
             button8.TabIndex = 30;
             button8.Text = "Quitar Elemento";
             button8.TextImageRelation = TextImageRelation.ImageAboveText;
             button8.UseVisualStyleBackColor = false;
+            button8.Click += button8_Click;
             // 
             // button2
             // 
+            button2.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 0, 192);
+            button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button2.FlatStyle = FlatStyle.Flat;
-            button2.ForeColor = Color.DodgerBlue;
+            button2.ForeColor = Color.White;
             button2.Location = new Point(332, 455);
             button2.Name = "button2";
             button2.Size = new Size(74, 88);
             button2.TabIndex = 12;
             button2.Text = "Actualizar Detalle";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click_1;
             // 
             // groupBox1
             // 
@@ -592,6 +622,7 @@
             textBox1.PlaceholderText = "Quiero encontrar...";
             textBox1.Size = new Size(146, 23);
             textBox1.TabIndex = 13;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label4
             // 
@@ -605,10 +636,11 @@
             // 
             // button3
             // 
+            button3.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button3.FlatStyle = FlatStyle.Flat;
-            button3.ForeColor = Color.FromArgb(128, 255, 128);
+            button3.ForeColor = Color.White;
             button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(175, 9);
+            button3.Location = new Point(175, 8);
             button3.Name = "button3";
             button3.Size = new Size(75, 90);
             button3.TabIndex = 17;
@@ -616,13 +648,15 @@
             button3.TextAlign = ContentAlignment.BottomCenter;
             button3.TextImageRelation = TextImageRelation.ImageAboveText;
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // button5
             // 
+            button5.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button5.FlatStyle = FlatStyle.Flat;
-            button5.ForeColor = Color.FromArgb(128, 255, 128);
+            button5.ForeColor = Color.White;
             button5.Image = (Image)resources.GetObject("button5.Image");
-            button5.Location = new Point(331, 9);
+            button5.Location = new Point(331, 8);
             button5.Name = "button5";
             button5.Size = new Size(75, 90);
             button5.TabIndex = 19;
@@ -633,26 +667,29 @@
             // 
             // button4
             // 
+            button4.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button4.FlatStyle = FlatStyle.Flat;
-            button4.ForeColor = Color.FromArgb(128, 255, 128);
+            button4.ForeColor = Color.White;
             button4.Image = (Image)resources.GetObject("button4.Image");
-            button4.Location = new Point(253, 9);
+            button4.Location = new Point(253, 8);
             button4.Name = "button4";
             button4.Size = new Size(75, 90);
             button4.TabIndex = 18;
             button4.Text = "Gestionar Proveedor";
             button4.TextImageRelation = TextImageRelation.ImageAboveText;
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // V_Factura_Compra
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(801, 552);
+            ClientSize = new Size(798, 550);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "V_Factura_Compra";
             Text = "V_Factura_Compra";
+            Load += V_Factura_Compra_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -699,10 +736,8 @@
         public Label label1;
         private ComboBox comboBox3;
         private Label label2;
-        public FlowLayoutPanel flowLayoutPanel2;
         private Button button7;
         private Label label5;
-        public FlowLayoutPanel flowLayoutPanel1;
         private Button button8;
         private Button button2;
         private GroupBox groupBox1;
@@ -710,7 +745,9 @@
         private TextBox textBox1;
         private Label label4;
         private Button button3;
-        public Button button5;
         private Button button4;
+        public  FlowLayoutPanel flowLayoutPanel2;
+        public  FlowLayoutPanel flowLayoutPanel1;
+        public Button button5;
     }
 }

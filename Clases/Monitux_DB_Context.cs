@@ -44,7 +44,11 @@
 
         public DbSet<Compra_Detalle> Compras_Detalles { get; set; }
 
+        public DbSet<Orden> Ordenes { get; set; }
 
+        public DbSet<Orden_Detalle> Ordenes_Detalles { get; set; }
+
+        public DbSet<Cuentas_Pagar> Cuentas_Pagar { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
