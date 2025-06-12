@@ -1,4 +1,6 @@
-﻿namespace Monitux_POS.Ventanas
+﻿using System.ComponentModel;
+
+namespace Monitux_POS.Ventanas
 {
    public partial class V_Factura_Venta:Form
     {
@@ -28,14 +30,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Factura_Venta));
-            menuStrip1 = new MenuStrip();
-            opcionesToolStripMenuItem = new ToolStripMenuItem();
-            nuevoToolStripMenuItem1 = new ToolStripMenuItem();
-            guardarToolStripMenuItem = new ToolStripMenuItem();
-            eliminarToolStripMenuItem = new ToolStripMenuItem();
-            toolStripSeparator1 = new ToolStripSeparator();
-            cerrarToolStripMenuItem = new ToolStripMenuItem();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(V_Factura_Venta));
             flowLayoutPanel1 = new FlowLayoutPanel();
             dataGridView1 = new DataGridView();
             comboCliente = new ComboBox();
@@ -82,68 +78,19 @@
             button8 = new Button();
             button7 = new Button();
             flowLayoutPanel2 = new FlowLayoutPanel();
-            menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            panel1 = new Panel();
+            ((ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // menuStrip1
-            // 
-            menuStrip1.BackColor = Color.White;
-            menuStrip1.Items.AddRange(new ToolStripItem[] { opcionesToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(806, 24);
-            menuStrip1.TabIndex = 6;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // opcionesToolStripMenuItem
-            // 
-            opcionesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { nuevoToolStripMenuItem1, guardarToolStripMenuItem, eliminarToolStripMenuItem, toolStripSeparator1, cerrarToolStripMenuItem });
-            opcionesToolStripMenuItem.ForeColor = Color.DarkViolet;
-            opcionesToolStripMenuItem.Name = "opcionesToolStripMenuItem";
-            opcionesToolStripMenuItem.Size = new Size(69, 20);
-            opcionesToolStripMenuItem.Text = "Opciones";
-            // 
-            // nuevoToolStripMenuItem1
-            // 
-            nuevoToolStripMenuItem1.ForeColor = Color.Black;
-            nuevoToolStripMenuItem1.Name = "nuevoToolStripMenuItem1";
-            nuevoToolStripMenuItem1.Size = new Size(181, 22);
-            nuevoToolStripMenuItem1.Text = "Facturas Registradas";
-            // 
-            // guardarToolStripMenuItem
-            // 
-            guardarToolStripMenuItem.ForeColor = Color.Black;
-            guardarToolStripMenuItem.Name = "guardarToolStripMenuItem";
-            guardarToolStripMenuItem.Size = new Size(181, 22);
-            guardarToolStripMenuItem.Text = "Cuentas por Cobrar";
-            // 
-            // eliminarToolStripMenuItem
-            // 
-            eliminarToolStripMenuItem.ForeColor = Color.Black;
-            eliminarToolStripMenuItem.Name = "eliminarToolStripMenuItem";
-            eliminarToolStripMenuItem.Size = new Size(181, 22);
-            eliminarToolStripMenuItem.Text = "Inventario";
-            // 
-            // toolStripSeparator1
-            // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(178, 6);
-            // 
-            // cerrarToolStripMenuItem
-            // 
-            cerrarToolStripMenuItem.Name = "cerrarToolStripMenuItem";
-            cerrarToolStripMenuItem.Size = new Size(181, 22);
-            cerrarToolStripMenuItem.Text = "Salir";
-            cerrarToolStripMenuItem.Click += cerrarToolStripMenuItem_Click;
             // 
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.BackColor = Color.FromArgb(35, 32, 45);
             flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
-            flowLayoutPanel1.Location = new Point(12, 128);
+            flowLayoutPanel1.Location = new Point(8, 105);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(396, 342);
             flowLayoutPanel1.TabIndex = 7;
@@ -154,6 +101,14 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.Location = new Point(6, 143);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
@@ -179,6 +134,7 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.ForeColor = Color.White;
             label1.Location = new Point(7, 38);
             label1.Name = "label1";
             label1.Size = new Size(47, 15);
@@ -187,9 +143,11 @@
             // 
             // button2
             // 
-            button2.Location = new Point(336, 474);
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.ForeColor = Color.DodgerBlue;
+            button2.Location = new Point(332, 455);
             button2.Name = "button2";
-            button2.Size = new Size(74, 92);
+            button2.Size = new Size(74, 88);
             button2.TabIndex = 12;
             button2.Text = "Actualizar Detalle";
             button2.UseVisualStyleBackColor = true;
@@ -219,7 +177,8 @@
             // 
             groupBox1.Controls.Add(comboBox2);
             groupBox1.Controls.Add(textBox1);
-            groupBox1.Location = new Point(12, 32);
+            groupBox1.ForeColor = Color.White;
+            groupBox1.Location = new Point(8, 9);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(159, 90);
             groupBox1.TabIndex = 16;
@@ -228,8 +187,10 @@
             // 
             // button3
             // 
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.ForeColor = Color.White;
             button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(179, 32);
+            button3.Location = new Point(175, 8);
             button3.Name = "button3";
             button3.Size = new Size(75, 90);
             button3.TabIndex = 17;
@@ -241,20 +202,24 @@
             // 
             // button4
             // 
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.ForeColor = Color.White;
             button4.Image = (Image)resources.GetObject("button4.Image");
-            button4.Location = new Point(257, 31);
+            button4.Location = new Point(253, 8);
             button4.Name = "button4";
             button4.Size = new Size(75, 90);
             button4.TabIndex = 18;
-            button4.Text = "Gestionar Clientes";
+            button4.Text = "Gestionar Cliente";
             button4.TextImageRelation = TextImageRelation.ImageAboveText;
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
             // button5
             // 
+            button5.FlatStyle = FlatStyle.Flat;
+            button5.ForeColor = Color.White;
             button5.Image = (Image)resources.GetObject("button5.Image");
-            button5.Location = new Point(335, 32);
+            button5.Location = new Point(331, 8);
             button5.Name = "button5";
             button5.Size = new Size(75, 90);
             button5.TabIndex = 19;
@@ -266,9 +231,11 @@
             // button1
             // 
             button1.BackColor = Color.FromArgb(255, 255, 128);
-            button1.Location = new Point(215, 440);
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = Color.Black;
+            button1.Location = new Point(215, 438);
             button1.Name = "button1";
-            button1.Size = new Size(75, 88);
+            button1.Size = new Size(75, 90);
             button1.TabIndex = 20;
             button1.Text = "Generar Cotizacion";
             button1.UseVisualStyleBackColor = false;
@@ -277,17 +244,20 @@
             // button6
             // 
             button6.BackColor = Color.FromArgb(128, 255, 128);
+            button6.FlatStyle = FlatStyle.Flat;
+            button6.ForeColor = Color.Black;
             button6.Location = new Point(296, 438);
             button6.Name = "button6";
             button6.Size = new Size(75, 90);
             button6.TabIndex = 21;
-            button6.Text = "Generar Factura";
+            button6.Text = "Generar Venta";
             button6.UseVisualStyleBackColor = false;
             button6.Click += button6_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
+            label2.ForeColor = Color.White;
             label2.Location = new Point(7, 72);
             label2.Name = "label2";
             label2.Size = new Size(82, 15);
@@ -317,6 +287,7 @@
             // label3
             // 
             label3.AutoSize = true;
+            label3.ForeColor = Color.White;
             label3.Location = new Point(226, 72);
             label3.Name = "label3";
             label3.Size = new Size(56, 15);
@@ -326,6 +297,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.BackColor = Color.FromArgb(35, 32, 45);
             groupBox2.Controls.Add(checkBox1);
             groupBox2.Controls.Add(label14);
             groupBox2.Controls.Add(label13);
@@ -358,12 +330,12 @@
             groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(comboBox3);
             groupBox2.Controls.Add(label2);
-            groupBox2.Location = new Point(414, 34);
+            groupBox2.ForeColor = Color.Black;
+            groupBox2.Location = new Point(412, -1);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(379, 534);
+            groupBox2.Size = new Size(379, 544);
             groupBox2.TabIndex = 26;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Factura Actual";
             groupBox2.Enter += groupBox2_Enter;
             groupBox2.MouseHover += groupBox2_MouseHover;
             groupBox2.Move += groupBox2_Move;
@@ -373,6 +345,7 @@
             checkBox1.AutoSize = true;
             checkBox1.Checked = true;
             checkBox1.CheckState = CheckState.Checked;
+            checkBox1.ForeColor = Color.White;
             checkBox1.Location = new Point(256, 407);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(112, 19);
@@ -383,6 +356,7 @@
             // label14
             // 
             label14.AutoSize = true;
+            label14.ForeColor = Color.White;
             label14.Location = new Point(167, 125);
             label14.Name = "label14";
             label14.Size = new Size(46, 15);
@@ -506,6 +480,7 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label11.ForeColor = Color.White;
             label11.Location = new Point(33, 502);
             label11.Name = "label11";
             label11.Size = new Size(77, 17);
@@ -517,6 +492,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label10.ForeColor = Color.White;
             label10.Location = new Point(40, 473);
             label10.Name = "label10";
             label10.Size = new Size(70, 17);
@@ -528,6 +504,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label9.ForeColor = Color.White;
             label9.Location = new Point(18, 444);
             label9.Name = "label9";
             label9.Size = new Size(92, 17);
@@ -539,6 +516,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.White;
             label8.Location = new Point(203, 331);
             label8.Name = "label8";
             label8.Size = new Size(87, 21);
@@ -558,6 +536,7 @@
             // label7
             // 
             label7.AutoSize = true;
+            label7.ForeColor = Color.White;
             label7.Location = new Point(6, 97);
             label7.Name = "label7";
             label7.Size = new Size(98, 15);
@@ -568,6 +547,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.White;
             label6.Location = new Point(210, 367);
             label6.Name = "label6";
             label6.Size = new Size(67, 30);
@@ -587,6 +567,7 @@
             // linkLabel3
             // 
             linkLabel3.AutoSize = true;
+            linkLabel3.LinkColor = Color.FromArgb(192, 255, 192);
             linkLabel3.Location = new Point(18, 353);
             linkLabel3.Name = "linkLabel3";
             linkLabel3.Size = new Size(121, 15);
@@ -598,6 +579,7 @@
             // linkLabel2
             // 
             linkLabel2.AutoSize = true;
+            linkLabel2.LinkColor = Color.FromArgb(192, 255, 192);
             linkLabel2.Location = new Point(18, 406);
             linkLabel2.Name = "linkLabel2";
             linkLabel2.Size = new Size(108, 15);
@@ -609,6 +591,7 @@
             // linkLabel1
             // 
             linkLabel1.AutoSize = true;
+            linkLabel1.LinkColor = Color.FromArgb(192, 255, 192);
             linkLabel1.Location = new Point(18, 379);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(102, 15);
@@ -622,7 +605,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.DodgerBlue;
-            label5.Location = new Point(127, 472);
+            label5.Location = new Point(123, 449);
             label5.Name = "label5";
             label5.Size = new Size(15, 17);
             label5.TabIndex = 31;
@@ -631,7 +614,8 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(14, 473);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(10, 450);
             label4.Name = "label4";
             label4.Size = new Size(107, 15);
             label4.TabIndex = 29;
@@ -639,13 +623,14 @@
             // 
             // button8
             // 
-            button8.BackColor = SystemColors.Control;
+            button8.BackColor = Color.FromArgb(35, 32, 45);
+            button8.FlatStyle = FlatStyle.Flat;
             button8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button8.ForeColor = Color.Red;
+            button8.ForeColor = Color.White;
             button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(85, 493);
+            button8.Location = new Point(81, 469);
             button8.Name = "button8";
-            button8.Size = new Size(74, 74);
+            button8.Size = new Size(74, 73);
             button8.TabIndex = 30;
             button8.Text = "Quitar Elemento";
             button8.TextImageRelation = TextImageRelation.ImageAboveText;
@@ -654,11 +639,12 @@
             // 
             // button7
             // 
-            button7.BackColor = SystemColors.Control;
+            button7.BackColor = Color.FromArgb(35, 32, 45);
+            button7.FlatStyle = FlatStyle.Flat;
             button7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button7.ForeColor = Color.Red;
             button7.Image = (Image)resources.GetObject("button7.Image");
-            button7.Location = new Point(10, 493);
+            button7.Location = new Point(5, 470);
             button7.Name = "button7";
             button7.Size = new Size(74, 73);
             button7.TabIndex = 27;
@@ -670,62 +656,62 @@
             // flowLayoutPanel2
             // 
             flowLayoutPanel2.AutoScroll = true;
-            flowLayoutPanel2.BackColor = SystemColors.Control;
+            flowLayoutPanel2.BackColor = Color.FromArgb(35, 32, 45);
             flowLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             flowLayoutPanel2.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel2.Location = new Point(163, 478);
+            flowLayoutPanel2.Location = new Point(159, 455);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
             flowLayoutPanel2.Size = new Size(168, 88);
             flowLayoutPanel2.TabIndex = 32;
             flowLayoutPanel2.WrapContents = false;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(35, 32, 45);
+            panel1.Controls.Add(groupBox2);
+            panel1.Controls.Add(flowLayoutPanel2);
+            panel1.Controls.Add(button7);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(flowLayoutPanel1);
+            panel1.Controls.Add(button8);
+            panel1.Controls.Add(button2);
+            panel1.Controls.Add(groupBox1);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(button3);
+            panel1.Controls.Add(button5);
+            panel1.Controls.Add(button4);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(798, 550);
+            panel1.TabIndex = 33;
             // 
             // V_Factura_Venta
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(806, 578);
+            ClientSize = new Size(798, 550);
             ControlBox = false;
-            Controls.Add(flowLayoutPanel2);
-            Controls.Add(label5);
-            Controls.Add(button8);
-            Controls.Add(button7);
-            Controls.Add(groupBox2);
-            Controls.Add(label4);
-            Controls.Add(button5);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(groupBox1);
-            Controls.Add(button2);
-            Controls.Add(flowLayoutPanel1);
-            Controls.Add(menuStrip1);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             Name = "V_Factura_Venta";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ventas";
             Load += V_Factura_Venta_Load;
             ChangeUICues += V_Factura_Venta_ChangeUICues;
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((ISupportInitialize)dataGridView1).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem opcionesToolStripMenuItem;
-        private ToolStripMenuItem nuevoToolStripMenuItem1;
-        private ToolStripMenuItem guardarToolStripMenuItem;
-        private ToolStripMenuItem eliminarToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator1;
-        private ToolStripMenuItem cerrarToolStripMenuItem;
         private DataGridView dataGridView1;
         private ComboBox comboCliente;
         public Label label1;
@@ -769,6 +755,7 @@
         private Label label13;
         private Label label14;
         private CheckBox checkBox1;
+        private Panel panel1;
         public static FlowLayoutPanel flowLayoutPanel1;
         public static Button button5;
         public static FlowLayoutPanel flowLayoutPanel2;

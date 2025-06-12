@@ -53,13 +53,14 @@ namespace Monitux_POS
             // Item_Imagen
             // 
             Item_Imagen.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            Item_Imagen.Location = new Point(7, 27);
+            Item_Imagen.Location = new Point(7, 26);
             Item_Imagen.Name = "Item_Imagen";
-            Item_Imagen.Size = new Size(102, 112);
+            Item_Imagen.Size = new Size(102, 107);
             Item_Imagen.SizeMode = PictureBoxSizeMode.StretchImage;
             Item_Imagen.TabIndex = 0;
             Item_Imagen.TabStop = false;
             Item_Imagen.Click += Item_Imagen_Click;
+            Item_Imagen.MouseLeave += Item_Imagen_MouseLeave;
             Item_Imagen.MouseHover += Item_Imagen_MouseHover;
             // 
             // Item_Precio
@@ -67,7 +68,8 @@ namespace Monitux_POS
             Item_Precio.AutoSize = true;
             Item_Precio.BackColor = Color.Transparent;
             Item_Precio.Font = new Font("Bahnschrift SemiCondensed", 11.25F);
-            Item_Precio.Location = new Point(53, 5);
+            Item_Precio.ForeColor = Color.White;
+            Item_Precio.Location = new Point(53, 4);
             Item_Precio.Name = "Item_Precio";
             Item_Precio.Size = new Size(46, 18);
             Item_Precio.TabIndex = 1;
@@ -79,6 +81,7 @@ namespace Monitux_POS
             Item_Codigo.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             Item_Codigo.BackColor = Color.Transparent;
             Item_Codigo.Font = new Font("Bahnschrift SemiCondensed", 11.25F);
+            Item_Codigo.ForeColor = Color.White;
             Item_Codigo.Location = new Point(5, 135);
             Item_Codigo.Name = "Item_Codigo";
             Item_Codigo.Size = new Size(110, 22);
@@ -91,7 +94,7 @@ namespace Monitux_POS
             Item_Seleccionado.AutoSize = true;
             Item_Seleccionado.BackColor = Color.Transparent;
             Item_Seleccionado.Enabled = false;
-            Item_Seleccionado.Location = new Point(6, 9);
+            Item_Seleccionado.Location = new Point(6, 8);
             Item_Seleccionado.Name = "Item_Seleccionado";
             Item_Seleccionado.Size = new Size(15, 14);
             Item_Seleccionado.TabIndex = 3;
@@ -195,7 +198,7 @@ namespace Monitux_POS
             Item_Moneda.BackColor = Color.Transparent;
             Item_Moneda.Font = new Font("Bahnschrift SemiCondensed", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Item_Moneda.ForeColor = Color.FromArgb(0, 192, 192);
-            Item_Moneda.Location = new Point(27, 9);
+            Item_Moneda.Location = new Point(27, 8);
             Item_Moneda.Name = "Item_Moneda";
             Item_Moneda.Size = new Size(26, 13);
             Item_Moneda.TabIndex = 4;
@@ -206,12 +209,14 @@ namespace Monitux_POS
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(35, 32, 45);
             BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(Item_Moneda);
             Controls.Add(Item_Seleccionado);
             Controls.Add(Item_Codigo);
             Controls.Add(Item_Precio);
             Controls.Add(Item_Imagen);
+            ForeColor = Color.White;
             Name = "Miniatura_Producto";
             Size = new Size(118, 156);
             Load += Miniatura_Producto_Load_1;

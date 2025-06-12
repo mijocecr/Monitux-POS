@@ -7,7 +7,7 @@ namespace Monitux_POS
 {
     public partial class Miniatura_Producto : UserControl
     {
-        public bool Expira { get; set; } 
+        public bool Expira { get; set; }
         public Producto Producto { get; set; }
         public int Secuencial { get; set; }
         public int Secuencial_Proveedor { get; set; }
@@ -29,9 +29,9 @@ namespace Monitux_POS
 
         //Variables del Control
 
-        public string ?moneda { get; set; } // Moneda por defecto, puede ser cambiada en el formulario principal
+        public string? moneda { get; set; } // Moneda por defecto, puede ser cambiada en el formulario principal
         public bool actualizarItem { get; set; }
-        
+
 
 
 
@@ -234,27 +234,7 @@ namespace Monitux_POS
             return comentario;
         }
 
-        private void Item_Imagen_MouseLeave(object sender, EventArgs e)
-        {
 
-
-
-            ///
-
-
-            if (Seleccionado != true)
-            {
-                this.BorderStyle = BorderStyle.FixedSingle;
-                this.BackColor = Control.DefaultBackColor;
-                //this.BackColor = Color.White;
-                Item_Codigo.Font = new Font(Item_Codigo.Font, FontStyle.Regular);
-                Item_Codigo.ForeColor = Color.Black;
-                Item_Precio.ForeColor = Item_Codigo.ForeColor;
-            }
-
-            //this.BackColor = Color.White;
-
-        }
 
 
 
@@ -275,17 +255,23 @@ namespace Monitux_POS
             if (Seleccionado != true)
             {
                 AplicarFormato();
-               
+
+
+
+
+
+
+
             }
 
-                toolTip.SetToolTip(Item_Imagen, "Codigo: " + Codigo + "\nMarca: " + Marca + "\nPrecio: " + Precio_Venta +" "+Item_Moneda.Text + "\nStock: " + Cantidad +
-                " -- [Minimo: " + Existencia_Minima + "]" + "\nExpira: " + Fecha_Caducidad +"\n"+ Cargar_Comentario());
+            toolTip.SetToolTip(Item_Imagen, "Codigo: " + Codigo + "\nMarca: " + Marca + "\nPrecio: " + Precio_Venta + " " + Item_Moneda.Text + "\nStock: " + Cantidad +
+            " -- [Minimo: " + Existencia_Minima + "]" + "\nExpira: " + Fecha_Caducidad + "\n" + Cargar_Comentario());
         }
 
 
 
 
-       
+
 
 
         private void AplicarFormato()
@@ -295,8 +281,23 @@ namespace Monitux_POS
             Item_Codigo.Font = new Font(Item_Codigo.Font, FontStyle.Bold);
             Item_Precio.ForeColor = Item_Codigo.ForeColor;
 
+
+
+
+
+
+
+
+
+
             if (Tipo == "Producto")
             {
+
+
+
+
+
+
                 if (Cantidad < Existencia_Minima)
                 {
                     this.BackColor = Color.Red;
@@ -311,16 +312,16 @@ namespace Monitux_POS
                 }
                 else
                 {
-                    this.BackColor = Color.LightGreen;
-                    Item_Codigo.ForeColor = Color.BlueViolet;
-                    Item_Precio.ForeColor = Color.BlueViolet;
+                    this.BackColor = Color.YellowGreen;
+                    Item_Codigo.ForeColor = Color.DarkGreen;
+                    Item_Precio.ForeColor = Color.DarkGreen;
                 }
             }
             else if (Tipo == "Servicio" && Cantidad == 0 && Existencia_Minima == 0)
             {
                 this.BackColor = Color.LightGray;
                 Item_Codigo.ForeColor = Color.Blue;
-                Item_Precio.ForeColor = Color.White;
+                Item_Precio.ForeColor = Color.Blue;
             }
         }
 
@@ -352,11 +353,12 @@ namespace Monitux_POS
             if (Seleccionado != true)
             {
                 this.BorderStyle = BorderStyle.FixedSingle;
-                this.BackColor = Control.DefaultBackColor;
+                this.BackColor = Color.FromArgb(35, 32, 45);
                 //this.BackColor = Color.White;
                 Item_Codigo.Font = new Font(Item_Codigo.Font, FontStyle.Regular);
-                Item_Codigo.ForeColor = Color.Black;
+                Item_Codigo.ForeColor = Color.White;
                 Item_Precio.ForeColor = Item_Codigo.ForeColor;
+                
             }
         }
 
@@ -365,7 +367,7 @@ namespace Monitux_POS
 
         private void Item_Seleccionado_CheckedChanged(object sender, EventArgs e)
         {
-            
+
 
             if (Item_Seleccionado.Checked == true)
             {
@@ -379,7 +381,7 @@ namespace Monitux_POS
             else
             {
                 Seleccionado = false;
-               
+
             }
         }
 
@@ -525,7 +527,7 @@ namespace Monitux_POS
                 Imagen = Imagen,
                 Secuencial_Categoria = Secuencial_Categoria,
                 Existencia_Minima = Existencia_Minima,
-                Fecha_Caducidad=Fecha_Caducidad,
+                Fecha_Caducidad = Fecha_Caducidad,
                 Expira = Expira,
                 Tipo = Tipo
 
@@ -607,7 +609,7 @@ namespace Monitux_POS
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-           // cantidadSelecccionItem = (int)numericUpDown1.Value;
+            // cantidadSelecccionItem = (int)numericUpDown1.Value;
 
         }
 
@@ -681,7 +683,7 @@ namespace Monitux_POS
 
             if (Tipo == "Servicio")
             {
-                                MessageBox.Show("No se pueden agregar unidades a un servicio.", "Error");
+                MessageBox.Show("No se pueden agregar unidades a un servicio.", "Error");
                 return;
             }
 
@@ -704,7 +706,7 @@ namespace Monitux_POS
                 context.SaveChanges();
                 MessageBox.Show("Se han agregado " + unidadesAgregar + " unidades al producto: " + Codigo, "Agregar Unidades");
                 actualizarItem = true;
-                
+
 
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha agregado " + unidadesAgregar + " unidades al producto: " + Codigo);
             }
@@ -813,7 +815,23 @@ namespace Monitux_POS
 
         private void Miniatura_Producto_Load_1(object sender, EventArgs e)
         {
-            Item_Moneda.Text= moneda ?? "$"; // Asignar la moneda por defecto si no se ha establecido
+            Item_Moneda.Text = moneda ?? "$"; // Asignar la moneda por defecto si no se ha establecido
+        }
+
+        private void Item_Imagen_MouseLeave(object sender, EventArgs e)
+        {
+
+            if (Seleccionado != true)
+            {
+                this.BorderStyle = BorderStyle.FixedSingle;
+                this.BackColor = Color.FromArgb(35, 32, 45);
+                //this.BackColor = Color.White;
+                Item_Codigo.Font = new Font(Item_Codigo.Font, FontStyle.Regular);
+                Item_Codigo.ForeColor = Color.White;
+                Item_Precio.ForeColor = Item_Codigo.ForeColor;
+                
+            }
+
         }
     }//Fin de Clase
 }

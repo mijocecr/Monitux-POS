@@ -1003,6 +1003,7 @@ namespace Monitux_POS.Ventanas
         private void flowLayoutPanel1_MouseMove(object sender, MouseEventArgs e)
         {
             label5.Text = Lista_de_Items.Count.ToString();
+            
         }
 
         private void button5_Click(object sender, EventArgs e)
