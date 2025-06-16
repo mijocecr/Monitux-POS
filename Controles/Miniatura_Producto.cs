@@ -548,8 +548,14 @@ namespace Monitux_POS
 
         public string getComentario()
         {
-            string respuesta = Interaction.InputBox("Escriba el comentario que estara asociado a este producto:", "Comentario");
-            MessageBox.Show(respuesta, "Comentario");
+            string respuesta;
+
+            if (V_Menu_Principal.IPB.Show("Escriba el comentario asociado a: "+Codigo, "Comentario...", out respuesta) == DialogResult.OK)
+            {
+                respuesta = respuesta?.Trim();
+            }
+
+               V_Menu_Principal.MSG.ShowMSG(respuesta, "Comentario");
             actualizarItem = true;
             return respuesta;
         }
@@ -615,55 +621,72 @@ namespace Monitux_POS
 
         public double getUnidadesAgregar()
         {
-            string respuesta = Interaction.InputBox("Escriba la cantidad en numeros a agregar de este producto:", "Agregar Unidades");
-            // MessageBox.Show(respuesta, "Agregar Unidades");
-            ///
+            string respuesta = null;
 
-            if (int.TryParse(respuesta, out int numero))
+            if (V_Menu_Principal.IPB.Show("Escriba la cantidad en números de unidades a Agregar", "Agregar Unidades", out respuesta) == DialogResult.OK)
             {
-                unidadesAgregar = numero;
+                respuesta = respuesta?.Trim();
 
-                //Cantidad = Cantidad + unidadesAgregar;
 
-                // actualizarItem = true;
-                return unidadesAgregar;
+                if (int.TryParse(respuesta, out int numero))
+                {
+                    unidadesAgregar = numero;
+                    return unidadesAgregar;
+                }
+                else
+                {
+                    V_Menu_Principal.MSG.ShowMSG("Error: Solo se permiten números.", "Agregar Unidades");
+                    return 0;
+                }
+                    
 
             }
             else
             {
-                MessageBox.Show("Error: Solo se permiten números.", "Agregar Unidades");
+                V_Menu_Principal.MSG.ShowMSG("Error: Solo se permiten números.", "Agregar Unidades");
 
                 return 0;
             }
 
-            ///
+                
 
-        }
+            }
+        
 
 
 
         public double getUnidadesRetirar()
         {
-            string respuesta = Interaction.InputBox("Escriba la cantidad en numeros a retirar de este producto:", "Retirar Unidades");
 
 
+            string respuesta = null;
 
-            if (int.TryParse(respuesta, out int numero))
+            if (V_Menu_Principal.IPB.Show("Escriba la cantidad en números de unidades a Retirar", "Retirar Unidades", out respuesta) == DialogResult.OK)
             {
-                unidadesRetirar = numero;
+                respuesta = respuesta?.Trim();
 
 
+                if (int.TryParse(respuesta, out int numero))
+                {
+                    unidadesRetirar = numero;
+                    return unidadesRetirar;
+                }
+                else
+                {
+                    V_Menu_Principal.MSG.ShowMSG("Error: Solo se permiten números.", "Retirar Unidades");
+                    return 0;
 
-
-                return unidadesRetirar;
+                }
+                
 
             }
             else
             {
-                MessageBox.Show("Error: Solo se permiten números.", "Retirar Unidades");
+                V_Menu_Principal.MSG.ShowMSG("Error: Solo se permiten números.", "Retirar Unidades");
 
                 return 0;
             }
+
 
 
 
@@ -683,7 +706,7 @@ namespace Monitux_POS
 
             if (Tipo == "Servicio")
             {
-                MessageBox.Show("No se pueden agregar unidades a un servicio.", "Error");
+                V_Menu_Principal.MSG.ShowMSG("No se pueden agregar unidades a un servicio.", "Error");
                 return;
             }
 
@@ -704,7 +727,7 @@ namespace Monitux_POS
 
                 producto.Cantidad = Cantidad + unidadesAgregar;
                 context.SaveChanges();
-                MessageBox.Show("Se han agregado " + unidadesAgregar + " unidades al producto: " + Codigo, "Agregar Unidades");
+                V_Menu_Principal.MSG.ShowMSG("Se han agregado " + unidadesAgregar + " unidades al producto: " + Codigo, "Agregar Unidades");
                 actualizarItem = true;
 
 
@@ -725,7 +748,7 @@ namespace Monitux_POS
 
             if (Tipo == "Servicio")
             {
-                MessageBox.Show("No se pueden retirar unidades a un servicio.", "Error");
+                V_Menu_Principal.MSG.ShowMSG("No se pueden retirar unidades a un servicio.", "Error");
                 return;
             }
 
@@ -747,7 +770,7 @@ namespace Monitux_POS
 
                 producto.Cantidad = Cantidad - unidadesRetirar;
                 context.SaveChanges();
-                MessageBox.Show("Se han retirado " + unidadesRetirar + " unidades al producto: " + Codigo, "Retirar Unidades");
+                V_Menu_Principal.MSG.ShowMSG("Se han retirado " + unidadesRetirar + " unidades al producto: " + Codigo, "Retirar Unidades");
                 actualizarItem = true;
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha retirado " + unidadesRetirar + " unidades al producto: " + Codigo);
             }

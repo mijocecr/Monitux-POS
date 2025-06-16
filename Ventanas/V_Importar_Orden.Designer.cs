@@ -38,6 +38,7 @@
             comboCliente = new ComboBox();
             label2 = new Label();
             textBox2 = new TextBox();
+            label6 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -55,7 +56,7 @@
             panel1.Controls.Add(comboCliente);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(textBox2);
-            panel1.Location = new Point(6, 9);
+            panel1.Location = new Point(4, 51);
             panel1.Name = "panel1";
             panel1.Size = new Size(377, 425);
             panel1.TabIndex = 39;
@@ -153,13 +154,26 @@
             textBox2.Size = new Size(83, 23);
             textBox2.TabIndex = 33;
             // 
+            // label6
+            // 
+            label6.Dock = DockStyle.Top;
+            label6.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(0, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(385, 37);
+            label6.TabIndex = 40;
+            label6.Text = "Ordenes de Compra";
+            label6.TextAlign = ContentAlignment.TopCenter;
+            // 
             // V_Importar_Orden
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(384, 438);
+            ClientSize = new Size(385, 483);
             ControlBox = false;
+            Controls.Add(label6);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -188,5 +202,6 @@
         private ComboBox comboCliente;
         private Label label2;
         private TextBox textBox2;
+        private Label label6;
     }
 }

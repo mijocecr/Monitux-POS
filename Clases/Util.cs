@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Humanizer;
+using Microsoft.Data.Sqlite;
+using System;
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Management;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-
-using Humanizer;
-using System;
-using System.Drawing;
 using System.Windows.Forms;
-using System.Drawing.Imaging;
-using ZXing.Common;
 using ZXing;
+using ZXing.Common;
 using ZXing.Windows.Compatibility;
 
 
@@ -254,11 +254,11 @@ namespace Monitux_POS.Clases
                 var entero = int.Parse(partes[0]).ToWords();
                 var decimalParte = partes.Length > 1 ? partes[1] : "0";
                  resultado = $"{entero} con {int.Parse(decimalParte).ToWords()} centésimas";
-                //MessageBox.Show($"{entero} con {int.Parse(decimalParte).ToWords()} centésimas");
+                
             }
             else
             {
-                //MessageBox.Show("Entrada no válida.");
+              
                 resultado= "";
             }
             return resultado.ToUpper(); ;
@@ -776,5 +776,27 @@ namespace Monitux_POS.Clases
             mensajes.TryGetValue(mensajes.Count, out string mensaje);// "Monitux-Pos by: miguel.cerrato.es@gmail.com";
             return mensaje;
         }
+
+
+
+
+        public class LoginManager
+        {
+            public Usuario ValidarUsuario(string codigo, string password)
+            {
+                using var context = new Monitux_DB_Context();
+                var usuario = context.Usuarios
+                    .FirstOrDefault(u => u.Codigo == codigo && u.Password == password);
+
+                return usuario; //!= null; // Retorna true si las credenciales son correctas
+            }
+        }
+
+
+
+
+
+
+
     }//Fin de Clase
 }//NameSpace

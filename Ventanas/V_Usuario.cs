@@ -14,7 +14,7 @@ namespace Monitux_POS.Ventanas
 {
     public partial class V_Usuario : Form
     {
-        public int Secuencial_Usuario { get; set; } = 0;
+        public int Secuencial_Usuario { get; set; } = V_Menu_Principal.Secuencial_Usuario;
         int Secuencial = 0;
         string Imagen = "";
         public V_Usuario()
@@ -24,12 +24,25 @@ namespace Monitux_POS.Ventanas
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Util.Limpiar_Cache();
+            
             this.Dispose();
         }
 
         private void V_Usuario_Load(object sender, EventArgs e)
         {
+            this.Text = "Monitux POS ver." + V_Menu_Principal.VER; // Establece el título del formulario
+            Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario;
+
+            if (V_Menu_Principal.Acceso_Usuario !="Administrador")
+            {
+                Menu_Eliminar.Visible = false; // Oculta el botón de eliminar si el usuario no es administrador
+            } else
+            {
+                Menu_Eliminar.Visible = true; // Muestra el botón de eliminar si el usuario es administrador
+            }
+
+            dataGridView1.Rows.Clear();
+
             Cargar_Datos();
 
             comboBox1.Items.Add("Vendedor");
@@ -48,7 +61,9 @@ namespace Monitux_POS.Ventanas
 
         private void Cargar_Datos()
         {
-            dataGridView1.Rows.Clear(); // Limpia las filas del DataGridView antes de cargar los datos
+
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
@@ -259,18 +274,18 @@ namespace Monitux_POS.Ventanas
 
                 if (string.IsNullOrWhiteSpace(txt_Nombre.Text))
                 {
-                    MessageBox.Show("El nombre del usuario no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El nombre del usuario no puede estar vacío.", "Error");
                     return;
                 }
                 if (string.IsNullOrWhiteSpace(txt_Codigo.Text))
                 {
-                    MessageBox.Show("El codigo de usuario no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El codigo de usuario no puede estar vacío.", "Error");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(txt_Password.Text))
                 {
-                    MessageBox.Show("El password no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El password no puede estar vacío.", "Error");
                     return;
                 }
                 // **UPDATE**
@@ -285,7 +300,7 @@ namespace Monitux_POS.Ventanas
                 {
                     usuario.Nombre = txt_Nombre.Text;
                     usuario.Codigo = txt_Codigo.Text;
-                    usuario.Password = txt_Password.Text;
+                    usuario.Password = Util.Encriptador.Encriptar(txt_Password.Text);
                     usuario.Acceso = comboBox1.SelectedItem != null ? comboBox1.SelectedItem.ToString() : "Sin Tipo";
                     usuario.Activo = checkBox1.Checked;
 
@@ -294,8 +309,8 @@ namespace Monitux_POS.Ventanas
                     usuario.Imagen = Imagen;
                     context.SaveChanges();
                     Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado al usuario: " + usuario.Nombre);
-                    MessageBox.Show("Usuario actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Cargar_Datos();
+                    V_Menu_Principal.MSG.ShowMSG("Usuario actualizado correctamente.", "Éxito");
+                    
                 }
 
 
@@ -304,24 +319,24 @@ namespace Monitux_POS.Ventanas
             {
                 if (comboBox1.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Debe seleccionar un acceso de usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un acceso de usuario.", "Error");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(txt_Nombre.Text))
                 {
-                    MessageBox.Show("El nombre del usuario no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El nombre del usuario no puede estar vacío.", "Error");
                     return;
                 }
                 if (string.IsNullOrWhiteSpace(txt_Codigo.Text))
                 {
-                    MessageBox.Show("El codigo no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El codigo no puede estar vacío.", "Error");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(txt_Password.Text))
                 {
-                    MessageBox.Show("El password no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El password no puede estar vacío.", "Error");
                     return;
                 }
                 // **Create**
@@ -353,14 +368,15 @@ namespace Monitux_POS.Ventanas
 
                 context.Usuarios.Add(usuario);
                 context.SaveChanges();
-                MessageBox.Show("Usuario creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                V_Menu_Principal.MSG.ShowMSG("Usuario creado correctamente.", "Éxito");
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado al usuario: " + txt_Nombre.Text);
-                Cargar_Datos();
+                
 
 
             }
 
 
+            Cargar_Datos();
 
 
 
@@ -385,7 +401,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            var res = MessageBox.Show("¿Está seguro de eliminar este usuario?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2, MessageBoxOptions.DefaultDesktopOnly, false);
+            var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar este usuario?", "Confirmación");
 
             if (res == DialogResult.Yes)
             {
@@ -408,7 +424,7 @@ namespace Monitux_POS.Ventanas
                     context.Usuarios.Remove(usuario);
                     context.SaveChanges();
                     Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al usuario: " + usuario.Nombre);
-                    MessageBox.Show("Usuario eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    V_Menu_Principal.MSG.ShowMSG("Usuario eliminado correctamente.", "Éxito");
                     Cargar_Datos();
                 }
             }
@@ -641,6 +657,11 @@ namespace Monitux_POS.Ventanas
         }
 
         private void txt_Codigo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void archivoToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }

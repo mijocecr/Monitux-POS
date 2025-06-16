@@ -142,7 +142,7 @@ namespace Monitux_POS.Ventanas
 
         private void V_Importar_Orden_Load(object sender, EventArgs e)
         {
-
+            this.Text = "Monitux POS ver." + V_Menu_Principal.VER; // Establece el título del formulario
             llenar_Combo_Proveedor();
             Configurar_DataGridView_Detalle();
             Configurar_DataGridView_Orden();
@@ -173,14 +173,14 @@ namespace Monitux_POS.Ventanas
 
 
             Lista.Clear();
-            V_Factura_Venta.Lista_de_Items.Clear();
+            V_Factura_Compra.Lista_de_Items.Clear();
             if (dataGridView1.Rows.Count == 0)
             {
-                MessageBox.Show("No hay ordenes disponibles para importar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("No hay ordenes disponibles para importar.", "Error");
                 return;
             }
 
-            var opt = MessageBox.Show("¿Desea importar la orden seleccionada?\nAdvertencia: Esta se eliminara de los registros.", "Importar Orden", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var opt = V_Menu_Principal.MSG.ShowMSG("¿Desea importar la orden seleccionada?\nAdvertencia: Esta se eliminara de los registros.", "Importar Orden");
 
             if (opt == DialogResult.Yes)
             {
@@ -234,7 +234,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-                MessageBox.Show("Orden importada correctamente.", "Importación Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                V_Menu_Principal.MSG.ShowMSG("Orden importada correctamente.", "Importación Exitosa");
 
 
                 this.Dispose();

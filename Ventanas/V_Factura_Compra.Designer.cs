@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Factura_Compra));
             panel1 = new Panel();
+            label15 = new Label();
             groupBox2 = new GroupBox();
             checkBox1 = new CheckBox();
             label14 = new Label();
@@ -85,6 +86,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(11, 8, 20);
+            panel1.Controls.Add(label15);
             panel1.Controls.Add(groupBox2);
             panel1.Controls.Add(flowLayoutPanel2);
             panel1.Controls.Add(button7);
@@ -99,8 +101,21 @@
             panel1.Controls.Add(button4);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(798, 554);
+            panel1.Size = new Size(798, 592);
             panel1.TabIndex = 35;
+            // 
+            // label15
+            // 
+            label15.Dock = DockStyle.Top;
+            label15.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label15.ForeColor = Color.FromArgb(128, 255, 255);
+            label15.Location = new Point(0, 0);
+            label15.Name = "label15";
+            label15.Size = new Size(798, 37);
+            label15.TabIndex = 38;
+            label15.Text = "Registrar Compra";
+            label15.TextAlign = ContentAlignment.TopRight;
+            label15.Click += label15_Click;
             // 
             // groupBox2
             // 
@@ -138,9 +153,9 @@
             groupBox2.Controls.Add(comboBox3);
             groupBox2.Controls.Add(label2);
             groupBox2.ForeColor = Color.Black;
-            groupBox2.Location = new Point(412, -7);
+            groupBox2.Location = new Point(412, 48);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(379, 550);
+            groupBox2.Size = new Size(379, 535);
             groupBox2.TabIndex = 26;
             groupBox2.TabStop = false;
             groupBox2.Enter += groupBox2_Enter;
@@ -158,6 +173,7 @@
             checkBox1.TabIndex = 49;
             checkBox1.Text = "Calcular cambio";
             checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.Visible = false;
             checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // label14
@@ -515,7 +531,7 @@
             flowLayoutPanel2.BackColor = Color.FromArgb(35, 32, 45);
             flowLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             flowLayoutPanel2.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel2.Location = new Point(159, 455);
+            flowLayoutPanel2.Location = new Point(159, 495);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
             flowLayoutPanel2.Size = new Size(168, 88);
             flowLayoutPanel2.TabIndex = 32;
@@ -531,7 +547,7 @@
             button7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button7.ForeColor = Color.White;
             button7.Image = (Image)resources.GetObject("button7.Image");
-            button7.Location = new Point(5, 469);
+            button7.Location = new Point(5, 509);
             button7.Name = "button7";
             button7.Size = new Size(74, 74);
             button7.TabIndex = 27;
@@ -545,7 +561,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.DodgerBlue;
-            label5.Location = new Point(123, 449);
+            label5.Location = new Point(123, 489);
             label5.Name = "label5";
             label5.Size = new Size(15, 17);
             label5.TabIndex = 31;
@@ -556,7 +572,7 @@
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.BackColor = Color.FromArgb(35, 32, 45);
             flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
-            flowLayoutPanel1.Location = new Point(8, 104);
+            flowLayoutPanel1.Location = new Point(8, 144);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(396, 342);
             flowLayoutPanel1.TabIndex = 7;
@@ -569,7 +585,7 @@
             button8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button8.ForeColor = Color.White;
             button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(81, 469);
+            button8.Location = new Point(81, 509);
             button8.Name = "button8";
             button8.Size = new Size(74, 74);
             button8.TabIndex = 30;
@@ -584,7 +600,7 @@
             button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button2.FlatStyle = FlatStyle.Flat;
             button2.ForeColor = Color.White;
-            button2.Location = new Point(332, 455);
+            button2.Location = new Point(332, 495);
             button2.Name = "button2";
             button2.Size = new Size(74, 88);
             button2.TabIndex = 12;
@@ -597,7 +613,7 @@
             groupBox1.Controls.Add(comboBox2);
             groupBox1.Controls.Add(textBox1);
             groupBox1.ForeColor = Color.White;
-            groupBox1.Location = new Point(8, 9);
+            groupBox1.Location = new Point(8, 48);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(159, 90);
             groupBox1.TabIndex = 16;
@@ -628,7 +644,7 @@
             // 
             label4.AutoSize = true;
             label4.ForeColor = Color.White;
-            label4.Location = new Point(10, 450);
+            label4.Location = new Point(10, 490);
             label4.Name = "label4";
             label4.Size = new Size(107, 15);
             label4.TabIndex = 29;
@@ -640,7 +656,7 @@
             button3.FlatStyle = FlatStyle.Flat;
             button3.ForeColor = Color.White;
             button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(175, 8);
+            button3.Location = new Point(174, 48);
             button3.Name = "button3";
             button3.Size = new Size(75, 90);
             button3.TabIndex = 17;
@@ -656,7 +672,7 @@
             button5.FlatStyle = FlatStyle.Flat;
             button5.ForeColor = Color.White;
             button5.Image = (Image)resources.GetObject("button5.Image");
-            button5.Location = new Point(331, 8);
+            button5.Location = new Point(331, 48);
             button5.Name = "button5";
             button5.Size = new Size(75, 90);
             button5.TabIndex = 19;
@@ -671,7 +687,7 @@
             button4.FlatStyle = FlatStyle.Flat;
             button4.ForeColor = Color.White;
             button4.Image = (Image)resources.GetObject("button4.Image");
-            button4.Location = new Point(253, 8);
+            button4.Location = new Point(253, 48);
             button4.Name = "button4";
             button4.Size = new Size(75, 90);
             button4.TabIndex = 18;
@@ -684,7 +700,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(798, 550);
+            ClientSize = new Size(798, 590);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "V_Factura_Compra";
@@ -749,5 +765,6 @@
         public  FlowLayoutPanel flowLayoutPanel2;
         public  FlowLayoutPanel flowLayoutPanel1;
         public Button button5;
+        private Label label15;
     }
 }

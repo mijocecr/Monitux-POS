@@ -38,6 +38,7 @@
             button2 = new Button();
             label3 = new Label();
             panel1 = new Panel();
+            label6 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             panel1.SuspendLayout();
@@ -152,18 +153,31 @@
             panel1.Controls.Add(comboCliente);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(textBox2);
-            panel1.Location = new Point(7, 11);
+            panel1.Location = new Point(5, 50);
             panel1.Name = "panel1";
             panel1.Size = new Size(377, 425);
             panel1.TabIndex = 38;
+            // 
+            // label6
+            // 
+            label6.Dock = DockStyle.Top;
+            label6.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(0, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(386, 37);
+            label6.TabIndex = 39;
+            label6.Text = "Cotizaciones";
+            label6.TextAlign = ContentAlignment.TopCenter;
             // 
             // V_Importar_Cotizacion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(391, 446);
+            ClientSize = new Size(386, 482);
             ControlBox = false;
+            Controls.Add(label6);
             Controls.Add(panel1);
             MaximizeBox = false;
             Name = "V_Importar_Cotizacion";
@@ -191,5 +205,6 @@
         private Button button2;
         private Label label3;
         private Panel panel1;
+        private Label label6;
     }
 }

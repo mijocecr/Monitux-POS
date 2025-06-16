@@ -57,7 +57,7 @@
 
             string dbPath = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Database\\monitux.db");
 
-            //MessageBox.Show("perro: "+dbPath);
+            
             // Verificar si la base de datos ya existe y si contiene la tabla "Productos"
 
 

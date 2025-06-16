@@ -47,6 +47,7 @@
             groupBox1 = new GroupBox();
             label3 = new Label();
             panel1 = new Panel();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
@@ -120,7 +121,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { opcionesToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(390, 24);
+            menuStrip1.Size = new Size(391, 24);
             menuStrip1.TabIndex = 5;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -234,18 +235,31 @@
             panel1.Controls.Add(txtNombre);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(pictureBox1);
-            panel1.Location = new Point(4, 25);
+            panel1.Location = new Point(4, 76);
             panel1.Name = "panel1";
             panel1.Size = new Size(382, 375);
             panel1.TabIndex = 11;
+            // 
+            // label4
+            // 
+            label4.Dock = DockStyle.Top;
+            label4.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(0, 24);
+            label4.Name = "label4";
+            label4.Size = new Size(391, 37);
+            label4.TabIndex = 12;
+            label4.Text = "Categorias";
+            label4.TextAlign = ContentAlignment.TopCenter;
             // 
             // V_Categoria
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(390, 409);
+            ClientSize = new Size(391, 459);
             ControlBox = false;
+            Controls.Add(label4);
             Controls.Add(panel1);
             Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -290,5 +304,6 @@
         private GroupBox groupBox1;
         private Label label3;
         private Panel panel1;
+        private Label label4;
     }
 }

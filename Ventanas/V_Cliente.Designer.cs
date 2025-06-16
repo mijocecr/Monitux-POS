@@ -54,6 +54,7 @@
             toolStripSeparator1 = new ToolStripSeparator();
             salirToolStripMenuItem = new ToolStripMenuItem();
             panel1 = new Panel();
+            label6 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -234,7 +235,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(429, 24);
+            menuStrip1.Size = new Size(426, 24);
             menuStrip1.TabIndex = 34;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -251,7 +252,7 @@
             // 
             nuevoToolStripMenuItem.Image = (Image)resources.GetObject("nuevoToolStripMenuItem.Image");
             nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
-            nuevoToolStripMenuItem.Size = new Size(180, 22);
+            nuevoToolStripMenuItem.Size = new Size(117, 22);
             nuevoToolStripMenuItem.Text = "Nuevo";
             nuevoToolStripMenuItem.Click += nuevoToolStripMenuItem_Click;
             // 
@@ -303,18 +304,31 @@
             panel1.Controls.Add(label5);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(txt_Direccion);
-            panel1.Location = new Point(6, 25);
+            panel1.Location = new Point(5, 74);
             panel1.Name = "panel1";
             panel1.Size = new Size(417, 447);
             panel1.TabIndex = 35;
+            // 
+            // label6
+            // 
+            label6.Dock = DockStyle.Top;
+            label6.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(0, 24);
+            label6.Name = "label6";
+            label6.Size = new Size(426, 37);
+            label6.TabIndex = 36;
+            label6.Text = "Clientes";
+            label6.TextAlign = ContentAlignment.TopCenter;
             // 
             // V_Cliente
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(429, 478);
+            ClientSize = new Size(426, 526);
             ControlBox = false;
+            Controls.Add(label6);
             Controls.Add(panel1);
             Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -364,5 +378,6 @@
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem salirToolStripMenuItem;
         private Panel panel1;
+        private Label label6;
     }
 }

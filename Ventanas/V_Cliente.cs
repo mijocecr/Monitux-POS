@@ -18,7 +18,7 @@ namespace Monitux_POS.Ventanas
 
         int Secuencial = 0;
         string Imagen = "";
-        public int Secuencial_Usuario { get; set; } = 0;
+        public int Secuencial_Usuario { get; set; } = V_Menu_Principal.Secuencial_Usuario;
 
         public V_Cliente()
         {
@@ -31,7 +31,10 @@ namespace Monitux_POS.Ventanas
 
         private void Cargar_Datos()
         {
+
             dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
@@ -96,6 +99,19 @@ namespace Monitux_POS.Ventanas
 
         private void V_Cliente_Load(object sender, EventArgs e)
         {
+
+
+            if (V_Menu_Principal.Acceso_Usuario != "Administrador")
+            {
+                Menu_Eliminar.Visible = false; // Oculta el botón de eliminar si el usuario no es administrador
+            }
+            else
+            {
+                Menu_Eliminar.Visible = true; // Muestra el botón de eliminar si el usuario es administrador
+            }
+
+
+            this.Text = "Monitux POS ver." + V_Menu_Principal.VER; // Establece el título del formulario
             Cargar_Datos();
             dataGridView1.ReadOnly = true;
             comboBox2.Items.Add("Nombre");
@@ -246,18 +262,19 @@ namespace Monitux_POS.Ventanas
 
                 if (string.IsNullOrWhiteSpace(txt_Codigo.Text))
                 {
-                    MessageBox.Show("El codigo del cliente no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El codigo del cliente no puede estar vacío.", "Error");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(txt_Nombre.Text))
                 {
-                    MessageBox.Show("El nombre del cliente no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El nombre del cliente no puede estar vacío.", "Error");
+
                     return;
                 }
                 if (string.IsNullOrWhiteSpace(txt_Telefono.Text))
                 {
-                    MessageBox.Show("El telefono no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El telefono no puede estar vacío.", "Error");
                     return;
                 }
 
@@ -285,7 +302,7 @@ namespace Monitux_POS.Ventanas
                     cliente.Imagen = Imagen;
                     context.SaveChanges();
                     Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado el cliente: " + cliente.Nombre);
-                    MessageBox.Show("Cliente actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    V_Menu_Principal.MSG.ShowMSG("Cliente actualizado correctamente.", "Éxito");
                     Cargar_Datos(); // Recargar los datos después de actualizar el cliente
                 }
 
@@ -296,12 +313,12 @@ namespace Monitux_POS.Ventanas
 
                 if (string.IsNullOrWhiteSpace(txt_Nombre.Text))
                 {
-                    MessageBox.Show("El nombre del cliente no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El nombre del cliente no puede estar vacío.", "Error");
                     return;
                 }
                 if (string.IsNullOrWhiteSpace(txt_Telefono.Text))
                 {
-                    MessageBox.Show("El telefono no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El telefono no puede estar vacío.", "Error");
                     return;
                 }
 
@@ -335,7 +352,7 @@ namespace Monitux_POS.Ventanas
 
                 context.Clientes.Add(cliente);
                 context.SaveChanges();
-                MessageBox.Show("Cliente creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                V_Menu_Principal.MSG.ShowMSG("Cliente creado correctamente.", "Éxito");
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado el cliente: " + txt_Nombre.Text);
                 Cargar_Datos(); // Recargar los datos después de crear el cliente
 
@@ -467,7 +484,7 @@ namespace Monitux_POS.Ventanas
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Util.Limpiar_Cache();
+            
             this.Dispose();
 
         }
@@ -477,7 +494,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            var res = MessageBox.Show("¿Está seguro de eliminar este cliente?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2, MessageBoxOptions.DefaultDesktopOnly, false);
+            var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar este cliente?", "Confirmación");
 
             if (res == DialogResult.Yes)
             {
@@ -500,7 +517,7 @@ namespace Monitux_POS.Ventanas
                     context.Clientes.Remove(cliente);
                     context.SaveChanges();
                     Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al cliente: " + cliente.Nombre);
-                    MessageBox.Show("Cliente eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    V_Menu_Principal.MSG.ShowMSG("Cliente eliminado correctamente.", "Éxito");
                     Cargar_Datos(); // Recargar los datos después de eliminar el cliente
                 }
             }

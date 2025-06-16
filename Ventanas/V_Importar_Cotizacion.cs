@@ -151,6 +151,7 @@ namespace Monitux_POS.Ventanas
 
         private void V_Importar_Cotizacion_Load(object sender, EventArgs e)
         {
+            this.Text = "Monitux POS ver." + V_Menu_Principal.VER; // Establece el título del formulario
             llenar_Combo_Cliente();
             Configurar_DataGridView_Detalle();
             Configurar_DataGridView_Cotizacion();
@@ -469,11 +470,11 @@ namespace Monitux_POS.Ventanas
             V_Factura_Venta.Lista_de_Items.Clear();
             if (dataGridView1.Rows.Count == 0)
             {
-                MessageBox.Show("No hay cotizaciones disponibles para importar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("No hay cotizaciones disponibles para importar.", "Error");
                 return;
             }
 
-            var opt = MessageBox.Show("¿Desea importar la cotización seleccionada?\nAdvertencia: Esta se eliminara de los registros.", "Importar Cotización", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var opt = V_Menu_Principal.MSG.ShowMSG("¿Desea importar la cotización seleccionada?\nAdvertencia: Esta se eliminara de los registros.", "Importar Cotización");
 
             if (opt == DialogResult.Yes)
             {
@@ -526,8 +527,8 @@ namespace Monitux_POS.Ventanas
 
 
 
-                
-               MessageBox.Show("Cotización importada correctamente.", "Importación Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                V_Menu_Principal.MSG.ShowMSG("Cotización importada correctamente.", "Importación Exitosa");
                 
                 
                 this.Dispose();

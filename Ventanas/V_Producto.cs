@@ -34,7 +34,7 @@ namespace Monitux_POS.Ventanas
 
 
         public Producto producto { get; set; } = new Producto();
-        public int Secuencial_Usuario { get; set; } = 0;
+        public int Secuencial_Usuario { get; set; } = V_Menu_Principal.Secuencial_Usuario;
 
         public int Secuencial { get; set; }
         public int Secuencial_Proveedor { get; set; } = 0;
@@ -240,7 +240,20 @@ namespace Monitux_POS.Ventanas
 
         private void V_Producto_Load(object sender, EventArgs e)
         {
-            
+
+
+            if (V_Menu_Principal.Acceso_Usuario != "Administrador")
+            {
+                Menu_Eliminar.Visible = false; // Oculta el botón de eliminar si el usuario no es administrador
+            }
+            else
+            {
+                Menu_Eliminar.Visible = true; // Muestra el botón de eliminar si el usuario es administrador
+            }
+
+
+
+            this.Text = "Monitux POS ver." + V_Menu_Principal.VER; // Establece el título del formulario
 
             if (esNuevo == true)
             {
@@ -343,7 +356,7 @@ namespace Monitux_POS.Ventanas
                         
                         if (comboProveedor.SelectedItem == null || comboCategoria.SelectedItem == null)
                         {
-                            MessageBox.Show("Debe seleccionar un proveedor y una categoría válidos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un proveedor y una categoría válidos.", "Error");
                             return;
                         }
                         else
@@ -366,13 +379,13 @@ namespace Monitux_POS.Ventanas
                     {
                         if (comboCategoria.SelectedItem == null&& comboBox1.SelectedItem != "Servicio")
                         {
-                            MessageBox.Show("Debe seleccionar una categoría válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            V_Menu_Principal.MSG.ShowMSG("Debe seleccionar una categoría válida.", "Error");
                             return;
                         }
 
                         if (comboProveedor.SelectedItem == null && comboBox1.SelectedItem != "Servicio")
                         {
-                            MessageBox.Show("Debe seleccionar un proveedor válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un proveedor válido.", "Error");
                             return;
                         }
 
@@ -394,7 +407,7 @@ namespace Monitux_POS.Ventanas
                 }
 
 
-                MessageBox.Show("Producto actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                V_Menu_Principal.MSG.ShowMSG("Producto actualizado correctamente.", "Éxito");
 
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado el producto: " + producto.Codigo);
 
@@ -457,15 +470,16 @@ namespace Monitux_POS.Ventanas
 
                         if (nuevoProducto.Tipo != "Servicio")
                         {
+                            nuevoProducto.Cantidad = double.Parse(txtCantidad.Text);
                             Util.Registrar_Movimiento_Kardex(nuevoProducto.Secuencial, nuevoProducto.Cantidad, nuevoProducto.Descripcion, 0, nuevoProducto.Precio_Costo, nuevoProducto.Precio_Venta, "Entrada");
                             nuevoProducto.Existencia_Minima = double.Parse(txtExistenciaMinima.Text);
-                            nuevoProducto.Cantidad = double.Parse(txtCantidad.Text);
+                            
                         }
 
 
                     }
                     else { 
-                        MessageBox.Show("Debe seleccionar un tipo de producto válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un tipo de producto válido.", "Error");
                         return;
                     }
 
@@ -475,7 +489,7 @@ namespace Monitux_POS.Ventanas
                 catch
                 {
 
-                    MessageBox.Show("Debe completar todos los campos obligatorios.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("Debe completar todos los campos obligatorios.", "Error");
                     return;
                 }
 
@@ -493,7 +507,7 @@ namespace Monitux_POS.Ventanas
                 }
                 catch
                 {
-                    MessageBox.Show("Debe seleccionar una categoría válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("Debe seleccionar una categoría válida.", "Error");
                     return;
                 }
 
@@ -513,7 +527,7 @@ namespace Monitux_POS.Ventanas
                 }
                 catch
                 {
-                    MessageBox.Show("Debe seleccionar un proveedor válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un proveedor válido.", "Error");
                     return;
                 }
 
@@ -524,7 +538,7 @@ namespace Monitux_POS.Ventanas
 
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado el producto: " + txtCodigo.Text);
 
-                MessageBox.Show("Producto agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                V_Menu_Principal.MSG.ShowMSG("Producto agregado correctamente.", "Éxito");
 
                 V_Factura_Venta x = new V_Factura_Venta();
                 x.Cargar_Items(x);
@@ -665,7 +679,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            var res = MessageBox.Show("¿Está seguro de eliminar este producto?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar este producto?", "Confirmación");
 
             if (res == DialogResult.Yes)
             {
@@ -702,7 +716,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-                        MessageBox.Show("Producto eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        V_Menu_Principal.MSG.ShowMSG("Producto eliminado correctamente.", "Éxito");
 
                         V_Factura_Venta x = new V_Factura_Venta();
                         x.Cargar_Items(x);
@@ -712,7 +726,7 @@ namespace Monitux_POS.Ventanas
                     }
                     else
                     {
-                        MessageBox.Show("El producto no existe en la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        V_Menu_Principal.MSG.ShowMSG("El producto no existe en la base de datos.", "Error");
                     }
                 }
                 catch

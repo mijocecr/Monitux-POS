@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace Monitux_POS.Ventanas
     public partial class V_Factura_Venta : Form
     {
 
-        public static int Secuencial_Usuario { get; set; } = 0;
+        public static int Secuencial_Usuario { get; set; } = V_Menu_Principal.Secuencial_Usuario;
 
         double subTotal = 0.00; // Variable para almacenar el subtotal
         double impuesto = 0.00; // Variable para almacenar el impuesto
@@ -42,7 +43,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        public  void Cargar_Items(V_Factura_Venta x)
+        public void Cargar_Items(V_Factura_Venta x)
         {
 
 
@@ -720,7 +721,7 @@ namespace Monitux_POS.Ventanas
                 else
                 {
 
-                    MessageBox.Show("Revise la cantidad que desea agregar. -- " + item.Codigo + " --\n\nDescripcion: " + item.Descripcion, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("Revise la cantidad que desea agregar. -- " + item.Codigo + " --\n\nDescripcion: " + item.Descripcion, "Error");
                     return;
                 }
 
@@ -756,7 +757,7 @@ namespace Monitux_POS.Ventanas
 
         private void button7_Click(object sender, EventArgs e)
         {
-            var x = MessageBox.Show("¿Está seguro de que desea limpiar la factura?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var x = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de que desea limpiar la factura?", "Confirmación");
             if (x == DialogResult.No)
             {
                 return; // Si el usuario selecciona "No", no se limpia la factura
@@ -767,7 +768,7 @@ namespace Monitux_POS.Ventanas
         }
 
 
-        private void Limpiar_Factura()
+        public void Limpiar_Factura()
         {
 
             V_Importar_Cotizacion.Lista.Clear();
@@ -844,14 +845,14 @@ namespace Monitux_POS.Ventanas
             {
                 label3.Visible = true;
                 dateTimePicker1.Visible = true;
-                
+
             }
             else
             {
 
                 label3.Visible = false;
                 dateTimePicker1.Visible = false;
-                comboBox1.SelectedItem ="Efectivo" ; 
+                comboBox1.SelectedItem = "Efectivo";
             }
 
         }
@@ -955,7 +956,7 @@ namespace Monitux_POS.Ventanas
                     if (Lista_de_Items.ContainsKey(control.label1.Text))
                     {
 
-                        MessageBox.Show("El item " + control.label1.Text + " se removio de la factura", "Ventas");
+                        V_Menu_Principal.MSG.ShowMSG("El item " + control.label1.Text + " se removio de la factura", "Ventas");
                         flowLayoutPanel2.Controls.Remove(control); // Elimina el control del FlowLayoutPanel
                         Lista_de_Items.Remove(control.label1.Text); // Elimina el item de la lista de items
 
@@ -1024,7 +1025,7 @@ namespace Monitux_POS.Ventanas
         }
 
 
-        
+
 
 
 
@@ -1174,7 +1175,7 @@ namespace Monitux_POS.Ventanas
                 comboBox1.SelectedItem = "Ninguno";
                 if (dateTimePicker1.Value <= DateTime.Now)
                 {
-                    MessageBox.Show("La fecha de vencimiento no es valida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("La fecha de vencimiento no es valida.", "Error");
                     return; // Si la fecha de vencimiento es anterior a la fecha actual, no se puede registrar la venta
                 }
             }
@@ -1182,30 +1183,30 @@ namespace Monitux_POS.Ventanas
 
             if (Lista_de_Items.Count == 0)
             {
-                MessageBox.Show("No hay items seleccionados para registrar la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("No hay items seleccionados para registrar la venta.", "Error");
                 return; // Si no hay items seleccionados, no se puede registrar la venta
             }
 
             if (comboCliente.SelectedIndex == -1)
             {
-                MessageBox.Show("Debe seleccionar un cliente para registrar la venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un cliente para registrar la venta.", "Error");
                 return; // Si no se ha seleccionado un cliente, no se puede registrar la venta
             }
 
             if (comboBox3.SelectedIndex == -1)
             {
-                MessageBox.Show("Debe seleccionar un tipo de venta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un tipo de venta.", "Error");
                 return; // Si no se ha seleccionado un tipo de venta, no se puede registrar la venta
             }
 
             if (comboBox1.SelectedIndex == -1)
             {
-                MessageBox.Show("Debe seleccionar una forma de pago.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar una forma de pago.", "Error");
                 return; // Si no se ha seleccionado una forma de pago, no se puede registrar la venta
             }
             if (total <= 0)
             {
-                MessageBox.Show("El total de la venta debe ser mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("El total de la venta debe ser mayor a cero.", "Error");
                 return; // Si el total es menor o igual a cero, no se puede registrar la venta
             }
 
@@ -1366,27 +1367,42 @@ namespace Monitux_POS.Ventanas
             if (checkBox1.Checked == true)
             {
 
+                string dinero_recibido = null;
+                double cambio = 0.00; // Inicializar el cambio a 0.00
 
-                double cambio = 0;
-                string dinero_recibido = Interaction.InputBox("Escriba la cantidad en números del dinero recibido por esta venta.", "Cálculo del Cambio");
+                //Codigo Prueba
 
-                if (Double.TryParse(dinero_recibido, out double numero))
+
+                if (V_Menu_Principal.IPB.Show("Escriba la cantidad en números del dinero recibido por esta venta.", "Cálculo del Cambio", out dinero_recibido) == DialogResult.OK)
                 {
-                    cambio = numero - total; // Calculamos la diferencia directamente
+                    dinero_recibido = dinero_recibido?.Trim();
 
-                    if (cambio >= 0)
+                    if (Double.TryParse(dinero_recibido, NumberStyles.Any, CultureInfo.InvariantCulture, out double numero))
                     {
-                        MessageBox.Show("El Cambio a favor del Cliente es: " + cambio + "\n\n" + Util.Convertir_Numeros_Palabras(cambio.ToString().ToLower()) + " " + moneda, "Ventas");
+                        cambio = numero - total;
+
+                        string mensaje = cambio >= 0
+                            ? $"El Cambio a favor del Cliente es: {cambio}\n\n{Util.Convertir_Numeros_Palabras(cambio.ToString())} {moneda}"
+                            : $"Falta Dinero: {Math.Abs(cambio)}\n\n{Util.Convertir_Numeros_Palabras(Math.Abs(cambio).ToString())} {moneda}";
+
+                        V_Menu_Principal.MSG.ShowMSG(mensaje, "Ventas");
                     }
                     else
                     {
-                        MessageBox.Show("Falta Dinero: " + Math.Abs(cambio) + "\n\n" + Util.Convertir_Numeros_Palabras(Math.Abs(cambio).ToString()) + " " + moneda, "Ventas");
+                        V_Menu_Principal.MSG.ShowMSG("Error: Solo se permiten números.", "Ventas");
                     }
                 }
-                else
-                {
-                    MessageBox.Show("Error: Solo se permiten números.", "Ventas");
-                }
+
+
+
+
+                //Codigo Prueba
+
+
+
+
+
+
 
 
 
@@ -1397,8 +1413,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-
-            MessageBox.Show("Venta registrada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            V_Menu_Principal.MSG.ShowMSG("Venta registrada correctamente.", "Éxito");
             // Limpiar los campos y controles después de registrar la venta
             Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una venta segun factura: " + secuencial + "\nPor valor de: " + Math.Round(total, 2));
             Limpiar_Factura(); // Llama al método para limpiar la factura después de registrar la venta
@@ -1428,13 +1443,13 @@ namespace Monitux_POS.Ventanas
 
             if (Lista_de_Items.Count == 0)
             {
-                MessageBox.Show("No hay items seleccionados para registrar la cotizacion.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("No hay items seleccionados para registrar la cotizacion.", "Error");
                 return; // Si no hay items seleccionados, no se puede registrar la venta
             }
 
             if (comboCliente.SelectedIndex == -1)
             {
-                MessageBox.Show("Debe seleccionar un cliente para registrar la cotizacion.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un cliente para registrar la cotizacion.", "Error");
                 return; // Si no se ha seleccionado un cliente, no se puede registrar la venta
             }
 
@@ -1442,7 +1457,7 @@ namespace Monitux_POS.Ventanas
 
             if (total <= 0)
             {
-                MessageBox.Show("El total de la cotizacion debe ser mayor a cero.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("El total de la cotizacion debe ser mayor a cero.", "Error");
                 return; // Si el total es menor o igual a cero, no se puede registrar la venta
             }
 
@@ -1511,7 +1526,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            MessageBox.Show("Cotizacion registrada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            V_Menu_Principal.MSG.ShowMSG("Cotizacion registrada correctamente.", "Éxito");
             // Limpiar los campos y controles después de registrar la venta
             Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una cotizacion segun Numero: " + secuencial + "\nPor valor de: " + Math.Round(total, 2));
             Limpiar_Factura(); // Llama al método para limpiar la factura después de registrar la venta
@@ -1535,10 +1550,15 @@ namespace Monitux_POS.Ventanas
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem.ToString() != "Efectivo"&& comboBox1.SelectedItem.ToString() !=null)
+            if (comboBox1.SelectedItem.ToString() != "Efectivo" && comboBox1.SelectedItem.ToString() != null)
             {
                 checkBox1.Checked = false; // Desmarcar el checkbox si la forma de pago no es "Efectivo"
             }
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

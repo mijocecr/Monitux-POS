@@ -15,7 +15,7 @@ namespace Monitux_POS.Ventanas
 {
     public partial class V_Proveedor : Form
     {
-        public int Secuencial_Usuario { get; set; } = 0;
+        public int Secuencial_Usuario { get; set; } = V_Menu_Principal.Secuencial_Usuario;
 
         int Secuencial = 0;
         string Imagen = "";
@@ -27,7 +27,20 @@ namespace Monitux_POS.Ventanas
 
         private void V_Proveedor_Load(object sender, EventArgs e)
         {
-            
+
+
+
+            if (V_Menu_Principal.Acceso_Usuario != "Administrador")
+            {
+                Menu_Eliminar.Visible = false; // Oculta el botón de eliminar si el usuario no es administrador
+            }
+            else
+            {
+                Menu_Eliminar.Visible = true; // Muestra el botón de eliminar si el usuario es administrador
+            }
+
+
+            this.Text = "Monitux POS ver." + V_Menu_Principal.VER; // Establece el título del formulario
             comboBox2.Items.Add("Nombre");
             comboBox2.Items.Add("Telefono");
             comboBox2.Items.Add("Contacto");
@@ -48,7 +61,10 @@ namespace Monitux_POS.Ventanas
 
         private void Cargar_Datos()
         {
-            dataGridView1.Rows.Clear(); // Limpia las filas del DataGridView antes de cargar los datos
+
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+           
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
@@ -103,7 +119,7 @@ namespace Monitux_POS.Ventanas
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Util.Limpiar_Cache(); // Limpia el caché al salir del formulario
+            
             this.Dispose();
         }
 
@@ -265,24 +281,24 @@ namespace Monitux_POS.Ventanas
 
                 if (combo_Tipo.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Debe seleccionar un tipo de proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un tipo de proveedor.", "Error");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(txt_Nombre.Text))
                 {
-                    MessageBox.Show("El nombre del proveedor no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El nombre del proveedor no puede estar vacío.", "Error");
                     return;
                 }
                 if (string.IsNullOrWhiteSpace(txt_Telefono.Text))
                 {
-                    MessageBox.Show("El telefono no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El telefono no puede estar vacío.", "Error");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(txt_Contacto.Text))
                 {
-                    MessageBox.Show("El contacto no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El contacto no puede estar vacío.", "Error");
                     return;
                 }
                 // **UPDATE**
@@ -308,7 +324,7 @@ namespace Monitux_POS.Ventanas
                     proveedor.Imagen = Imagen;
                     context.SaveChanges();
                     Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado al proveedor: " + proveedor.Nombre);
-                    MessageBox.Show("Proveedor actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    V_Menu_Principal.MSG.ShowMSG("Proveedor actualizado correctamente.", "Éxito");
                     Cargar_Datos(); // Recarga los datos después de actualizar el proveedor
                 }
 
@@ -318,24 +334,24 @@ namespace Monitux_POS.Ventanas
             {
                 if (combo_Tipo.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Debe seleccionar un tipo de proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un tipo de proveedor.", "Error");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(txt_Nombre.Text))
                 {
-                    MessageBox.Show("El nombre del proveedor no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El nombre del proveedor no puede estar vacío.", "Error");
                     return;
                 }
                 if (string.IsNullOrWhiteSpace(txt_Telefono.Text))
                 {
-                    MessageBox.Show("El telefono no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El telefono no puede estar vacío.", "Error");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(txt_Contacto.Text))
                 {
-                    MessageBox.Show("El contacto no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El contacto no puede estar vacío.", "Error");
                     return;
                 }
                 // **Create**
@@ -368,7 +384,7 @@ namespace Monitux_POS.Ventanas
                 context.Proveedores.Add(proveedor);
                 context.SaveChanges();
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado al proveedor: " + txt_Nombre.Text);
-                MessageBox.Show("Proveedor creado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                V_Menu_Principal.MSG.ShowMSG("Proveedor creado correctamente.", "Éxito");
 Cargar_Datos(); // Recarga los datos después de crear el proveedor
                 
 
@@ -411,7 +427,7 @@ Cargar_Datos(); // Recarga los datos después de crear el proveedor
 
 
 
-            var res = MessageBox.Show("¿Está seguro de eliminar este proveedor?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2, MessageBoxOptions.DefaultDesktopOnly, false);
+            var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar este proveedor?", "Confirmación");
 
             if (res == DialogResult.Yes)
             {
@@ -434,7 +450,7 @@ Cargar_Datos(); // Recarga los datos después de crear el proveedor
                     context.Proveedores.Remove(proveedor);
                     context.SaveChanges();
                     Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al proveedor: " + proveedor.Nombre);
-                    MessageBox.Show("Proveedor eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    V_Menu_Principal.MSG.ShowMSG("Proveedor eliminado correctamente.", "Éxito");
                     Cargar_Datos(); // Recarga los datos después de eliminar el proveedor
                 }
             }

@@ -14,7 +14,7 @@ namespace Monitux_POS.Ventanas
 {
     public partial class V_Categoria : Form
     {
-        public int Secuencial_Usuario { get; set; } = 0;
+        public int Secuencial_Usuario { get; set; } = V_Menu_Principal.Secuencial_Usuario;
         int Secuencial = 0; // Variable para almacenar el secuencial de la categoria seleccionada
         string Imagen = ""; // Variable para almacenar la imagen de la categoria seleccionada
         public V_Categoria()
@@ -29,24 +29,39 @@ namespace Monitux_POS.Ventanas
 
         private void cerrarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Util.Limpiar_Cache(); // Limpia el caché al cerrar el formulario
+            
             this.Dispose();
         }
 
         private void V_Categoria_Load(object sender, EventArgs e)
         {
+
+
+            if (V_Menu_Principal.Acceso_Usuario != "Administrador")
+            {
+                eliminarToolStripMenuItem.Visible = false; // Oculta el botón de eliminar si el usuario no es administrador
+            }
+            else
+            {
+                eliminarToolStripMenuItem.Visible = true; // Muestra el botón de eliminar si el usuario es administrador
+            }
+
+
             Cargar_Datos(); // Carga los datos al iniciar el formulario
             comboBox1.Items.Add("Nombre");
             comboBox1.Items.Add("Descripcion");
             comboBox1.SelectedIndex = 0; // Selecciona el primer elemento por defecto
             dataGridView1.ReadOnly = true; // Hace que el DataGridView sea de solo lectura
-
+            this.Text= "Monitux POS ver."+V_Menu_Principal.VER; // Establece el título del formulario
         }
 
 
         private void Cargar_Datos()
         {
-            dataGridView1.Rows.Clear(); // Limpia las filas del DataGridView antes de cargar los datos
+
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
@@ -136,7 +151,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            var res = MessageBox.Show("¿Está seguro de eliminar esta categoria?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2, MessageBoxOptions.DefaultDesktopOnly, false);
+            var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar esta categoria?", "Confirmación");
 
             if (res == DialogResult.Yes)
             {
@@ -159,7 +174,7 @@ namespace Monitux_POS.Ventanas
                     context.Categorias.Remove(categoria);
                     context.SaveChanges();
                     Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado la categoria: " + categoria.Nombre);
-                    MessageBox.Show("Categoria eliminada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    V_Menu_Principal.MSG.ShowMSG("Categoria eliminada correctamente.", "Éxito");
                     Cargar_Datos();
                 }
             }
@@ -175,12 +190,12 @@ namespace Monitux_POS.Ventanas
 
                 if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 {
-                    MessageBox.Show("El nombre de la categoria no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El nombre de la categoria no puede estar vacío.", "Error");
                     return;
                 }
                 if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
                 {
-                    MessageBox.Show("La descripción de la categoria no puede estar vacía.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("La descripción de la categoria no puede estar vacía.", "Error");
                     return;
                 }
                 // **UPDATE**
@@ -198,7 +213,7 @@ namespace Monitux_POS.Ventanas
                     categoria.Imagen = Imagen;
                     context.SaveChanges();
                     Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado la categoria: " + categoria.Nombre);
-                    MessageBox.Show("Categoria actualizada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    V_Menu_Principal.MSG.ShowMSG("Categoria actualizada correctamente.", "Éxito");
                     Cargar_Datos(); // Recarga los datos para mostrar la categoria actualizada
                 }
 
@@ -209,12 +224,12 @@ namespace Monitux_POS.Ventanas
 
                 if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 {
-                    MessageBox.Show("El nombre de la categoria no puede estar vacío.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("El nombre de la categoria no puede estar vacío.", "Error");
                     return;
                 }
                 if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
                 {
-                    MessageBox.Show("La descripción de la categoria no puede estar vacía.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("La descripción de la categoria no puede estar vacía.", "Error");
                     return;
                 }
                 // **Create**
@@ -240,7 +255,7 @@ namespace Monitux_POS.Ventanas
                 context.Categorias.Add(categoria);
                 context.SaveChanges();
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado la categoria: " + txtNombre.Text);
-                MessageBox.Show("Categoria creada correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                V_Menu_Principal.MSG.ShowMSG("Categoria creada correctamente.", "Éxito");
                 Cargar_Datos(); // Recarga los datos para mostrar la nueva categoria
 
 

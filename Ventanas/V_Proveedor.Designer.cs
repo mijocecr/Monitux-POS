@@ -56,6 +56,7 @@
             comboBox2 = new ComboBox();
             textBox1 = new TextBox();
             panel1 = new Panel();
+            label8 = new Label();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -191,7 +192,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(432, 24);
+            menuStrip1.Size = new Size(428, 24);
             menuStrip1.TabIndex = 14;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -330,18 +331,31 @@
             panel1.Controls.Add(txt_Contacto);
             panel1.Controls.Add(txt_Email);
             panel1.Controls.Add(label5);
-            panel1.Location = new Point(6, 29);
+            panel1.Location = new Point(4, 74);
             panel1.Name = "panel1";
             panel1.Size = new Size(419, 475);
             panel1.TabIndex = 18;
+            // 
+            // label8
+            // 
+            label8.Dock = DockStyle.Top;
+            label8.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.White;
+            label8.Location = new Point(0, 24);
+            label8.Name = "label8";
+            label8.Size = new Size(428, 37);
+            label8.TabIndex = 37;
+            label8.Text = "Proveedores";
+            label8.TextAlign = ContentAlignment.TopCenter;
             // 
             // V_Proveedor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(432, 513);
+            ClientSize = new Size(428, 554);
             ControlBox = false;
+            Controls.Add(label8);
             Controls.Add(panel1);
             Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -393,5 +407,6 @@
         private TextBox textBox1;
         private ToolStripMenuItem nuevoToolStripMenuItem;
         private Panel panel1;
+        private Label label8;
     }
 }
