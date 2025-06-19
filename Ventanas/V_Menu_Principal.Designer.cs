@@ -102,9 +102,9 @@
             panel4.AutoSize = true;
             panel4.BackColor = Color.FromArgb(44, 117, 255);
             panel4.Controls.Add(pictureBox2);
-            panel4.Location = new Point(159, 31);
+            panel4.Location = new Point(159, 43);
             panel4.Name = "panel4";
-            panel4.Size = new Size(795, 583);
+            panel4.Size = new Size(795, 594);
             panel4.TabIndex = 2;
             panel4.Paint += panel4_Paint;
             panel4.Resize += panel4_Resize;
@@ -113,7 +113,7 @@
             // 
             pictureBox2.Anchor = AnchorStyles.None;
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(216, 116);
+            pictureBox2.Location = new Point(216, 122);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(341, 333);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -865,7 +865,7 @@
             // 
             panel10.BackColor = Color.FromArgb(11, 8, 20);
             panel10.Controls.Add(lbl_Cinta);
-            panel10.Location = new Point(159, 625);
+            panel10.Location = new Point(159, 635);
             panel10.Name = "panel10";
             panel10.Size = new Size(795, 42);
             panel10.TabIndex = 5;

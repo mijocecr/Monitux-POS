@@ -520,7 +520,7 @@ namespace Monitux_POS.Ventanas
 
             foreach (var item in lista_productos)
             {
-                if (item.Cantidad <= 0 && item.Tipo == "Producto")
+                if (item.Cantidad < item.Existencia_Minima && item.Tipo == "Producto")
                 {
                     existencia_minima.Add(item);
                     flowLayoutPanel1.Controls.Add(item);
@@ -791,7 +791,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-                if (producto.Cantidad <= 0 && producto.Tipo == "Producto")
+                if (producto.Cantidad < producto.Existencia_Minima && producto.Tipo == "Producto")
                 {
                     dataGridView1.Rows.Add(item.Secuencial,
                   item.Codigo,
