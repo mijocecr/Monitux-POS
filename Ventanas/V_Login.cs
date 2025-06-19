@@ -295,5 +295,40 @@ namespace Monitux_POS.Ventanas
         {
 
         }
+
+        int posX = 0, posY = 0; // Variables para almacenar la posición del mouse
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+            {
+                posX = e.X;
+                posY = e.Y;
+
+            }
+            else
+            {
+                panel1.Cursor = Cursor.Current = Cursors.SizeAll;
+                Left = Left + (e.X - posX);
+                Top = Top + (e.Y - posY);
+
+            }
+        }
+
+        private void panel2_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+            {
+                posX = e.X;
+                posY = e.Y;
+
+            }
+            else
+            {
+               // panel1.Cursor = Cursor.Current = Cursors.SizeAll;
+                Left = Left + (e.X - posX);
+                Top = Top + (e.Y - posY);
+
+            }
+        }
     }
 }

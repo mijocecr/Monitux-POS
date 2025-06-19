@@ -24,7 +24,7 @@ namespace Monitux_POS.Ventanas
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             this.Dispose();
         }
 
@@ -33,10 +33,11 @@ namespace Monitux_POS.Ventanas
             this.Text = "Monitux POS ver." + V_Menu_Principal.VER; // Establece el título del formulario
             Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario;
 
-            if (V_Menu_Principal.Acceso_Usuario !="Administrador")
+            if (V_Menu_Principal.Acceso_Usuario != "Administrador")
             {
                 Menu_Eliminar.Visible = false; // Oculta el botón de eliminar si el usuario no es administrador
-            } else
+            }
+            else
             {
                 Menu_Eliminar.Visible = true; // Muestra el botón de eliminar si el usuario es administrador
             }
@@ -184,7 +185,11 @@ namespace Monitux_POS.Ventanas
 
                 if (dataGridView1.Rows[e.RowIndex].Cells["Password"].Value != null)
                 {
-                    Util.Encriptador.Encriptar(txt_Password.Text = dataGridView1.Rows[e.RowIndex].Cells["Password"].Value.ToString());
+
+
+                    string password = Util.Encriptador.Desencriptar(txt_Password.Text = dataGridView1.Rows[e.RowIndex].Cells["Password"].Value.ToString());
+                    txt_Password.Text = password; // Asigna el valor desencriptado al TextBox
+
                 }
 
 
@@ -293,11 +298,13 @@ namespace Monitux_POS.Ventanas
 
                 using var context = new Monitux_DB_Context();
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
+                //string passwordEncriptado;
 
                 var usuario = context.Usuarios.FirstOrDefault(p => p.Secuencial == this.Secuencial);
                 if (usuario != null)
                 {
+                    // passwordEncriptado = usuario.Password;
+
                     usuario.Nombre = txt_Nombre.Text;
                     usuario.Codigo = txt_Codigo.Text;
                     usuario.Password = Util.Encriptador.Encriptar(txt_Password.Text);
@@ -310,7 +317,7 @@ namespace Monitux_POS.Ventanas
                     context.SaveChanges();
                     Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado al usuario: " + usuario.Nombre);
                     V_Menu_Principal.MSG.ShowMSG("Usuario actualizado correctamente.", "Éxito");
-                    
+
                 }
 
 
@@ -370,7 +377,7 @@ namespace Monitux_POS.Ventanas
                 context.SaveChanges();
                 V_Menu_Principal.MSG.ShowMSG("Usuario creado correctamente.", "Éxito");
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado al usuario: " + txt_Nombre.Text);
-                
+
 
 
             }
@@ -581,7 +588,11 @@ namespace Monitux_POS.Ventanas
 
                 if (dataGridView1.Rows[e.RowIndex].Cells["Password"].Value != null)
                 {
-                    Util.Encriptador.Encriptar(txt_Password.Text = dataGridView1.Rows[e.RowIndex].Cells["Password"].Value.ToString());
+
+
+                    string password = Util.Encriptador.Desencriptar(txt_Password.Text = dataGridView1.Rows[e.RowIndex].Cells["Password"].Value.ToString());
+                    txt_Password.Text = password; // Asigna el valor desencriptado al TextBox
+
                 }
 
 
@@ -662,6 +673,16 @@ namespace Monitux_POS.Ventanas
         }
 
         private void archivoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_Password_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_Nombre_TextChanged(object sender, EventArgs e)
         {
 
         }

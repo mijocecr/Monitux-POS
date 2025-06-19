@@ -79,6 +79,7 @@ namespace Monitux_POS.Ventanas
             button7 = new Button();
             flowLayoutPanel2 = new FlowLayoutPanel();
             panel1 = new Panel();
+            label16 = new Label();
             label15 = new Label();
             ((ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
@@ -181,9 +182,9 @@ namespace Monitux_POS.Ventanas
             groupBox1.Controls.Add(comboBox2);
             groupBox1.Controls.Add(textBox1);
             groupBox1.ForeColor = Color.White;
-            groupBox1.Location = new Point(8, 48);
+            groupBox1.Location = new Point(8, 40);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(159, 90);
+            groupBox1.Size = new Size(159, 98);
             groupBox1.TabIndex = 16;
             groupBox1.TabStop = false;
             groupBox1.Text = "Buscar Por:";
@@ -301,7 +302,7 @@ namespace Monitux_POS.Ventanas
             // 
             // groupBox2
             // 
-            groupBox2.BackColor = Color.FromArgb(35, 32, 45);
+            groupBox2.BackColor = Color.FromArgb(0, 168, 107);
             groupBox2.Controls.Add(checkBox1);
             groupBox2.Controls.Add(label14);
             groupBox2.Controls.Add(label13);
@@ -335,9 +336,9 @@ namespace Monitux_POS.Ventanas
             groupBox2.Controls.Add(comboBox3);
             groupBox2.Controls.Add(label2);
             groupBox2.ForeColor = Color.Black;
-            groupBox2.Location = new Point(412, 48);
+            groupBox2.Location = new Point(412, 40);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(379, 534);
+            groupBox2.Size = new Size(379, 542);
             groupBox2.TabIndex = 26;
             groupBox2.TabStop = false;
             groupBox2.Enter += groupBox2_Enter;
@@ -427,7 +428,7 @@ namespace Monitux_POS.Ventanas
             // 
             lbl_Descuento.AutoSize = true;
             lbl_Descuento.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_Descuento.ForeColor = Color.DodgerBlue;
+            lbl_Descuento.ForeColor = Color.Yellow;
             lbl_Descuento.Location = new Point(111, 502);
             lbl_Descuento.Name = "lbl_Descuento";
             lbl_Descuento.Size = new Size(15, 17);
@@ -439,7 +440,7 @@ namespace Monitux_POS.Ventanas
             // 
             lbl_Impuesto.AutoSize = true;
             lbl_Impuesto.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_Impuesto.ForeColor = Color.DodgerBlue;
+            lbl_Impuesto.ForeColor = Color.Yellow;
             lbl_Impuesto.Location = new Point(111, 473);
             lbl_Impuesto.Name = "lbl_Impuesto";
             lbl_Impuesto.Size = new Size(15, 17);
@@ -451,7 +452,7 @@ namespace Monitux_POS.Ventanas
             // 
             lbl_OtrosCargos.AutoSize = true;
             lbl_OtrosCargos.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_OtrosCargos.ForeColor = Color.DodgerBlue;
+            lbl_OtrosCargos.ForeColor = Color.Yellow;
             lbl_OtrosCargos.Location = new Point(111, 444);
             lbl_OtrosCargos.Name = "lbl_OtrosCargos";
             lbl_OtrosCargos.Size = new Size(15, 17);
@@ -463,7 +464,7 @@ namespace Monitux_POS.Ventanas
             // 
             lbl_sub_Total.AutoSize = true;
             lbl_sub_Total.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_sub_Total.ForeColor = Color.DodgerBlue;
+            lbl_sub_Total.ForeColor = Color.Yellow;
             lbl_sub_Total.Location = new Point(288, 331);
             lbl_sub_Total.Name = "lbl_sub_Total";
             lbl_sub_Total.Size = new Size(19, 21);
@@ -476,7 +477,7 @@ namespace Monitux_POS.Ventanas
             // 
             lbl_Total.AutoSize = true;
             lbl_Total.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
-            lbl_Total.ForeColor = Color.DodgerBlue;
+            lbl_Total.ForeColor = Color.Yellow;
             lbl_Total.Location = new Point(279, 365);
             lbl_Total.Name = "lbl_Total";
             lbl_Total.Size = new Size(25, 30);
@@ -494,6 +495,7 @@ namespace Monitux_POS.Ventanas
             label11.TabIndex = 37;
             label11.Text = "Descuento:";
             label11.Visible = false;
+            label11.Click += label11_Click;
             // 
             // label10
             // 
@@ -575,7 +577,7 @@ namespace Monitux_POS.Ventanas
             // linkLabel3
             // 
             linkLabel3.AutoSize = true;
-            linkLabel3.LinkColor = Color.FromArgb(192, 255, 192);
+            linkLabel3.LinkColor = Color.Indigo;
             linkLabel3.Location = new Point(18, 353);
             linkLabel3.Name = "linkLabel3";
             linkLabel3.Size = new Size(121, 15);
@@ -587,7 +589,7 @@ namespace Monitux_POS.Ventanas
             // linkLabel2
             // 
             linkLabel2.AutoSize = true;
-            linkLabel2.LinkColor = Color.FromArgb(192, 255, 192);
+            linkLabel2.LinkColor = Color.Indigo;
             linkLabel2.Location = new Point(18, 406);
             linkLabel2.Name = "linkLabel2";
             linkLabel2.Size = new Size(108, 15);
@@ -599,7 +601,7 @@ namespace Monitux_POS.Ventanas
             // linkLabel1
             // 
             linkLabel1.AutoSize = true;
-            linkLabel1.LinkColor = Color.FromArgb(192, 255, 192);
+            linkLabel1.LinkColor = Color.Indigo;
             linkLabel1.Location = new Point(18, 379);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(102, 15);
@@ -678,6 +680,7 @@ namespace Monitux_POS.Ventanas
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(11, 8, 20);
+            panel1.Controls.Add(label16);
             panel1.Controls.Add(label15);
             panel1.Controls.Add(groupBox2);
             panel1.Controls.Add(flowLayoutPanel2);
@@ -697,17 +700,26 @@ namespace Monitux_POS.Ventanas
             panel1.Size = new Size(798, 590);
             panel1.TabIndex = 33;
             // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.ForeColor = Color.White;
+            label16.Location = new Point(8, 22);
+            label16.Name = "label16";
+            label16.Size = new Size(372, 15);
+            label16.TabIndex = 40;
+            label16.Text = "Mecanica: Señale Producto -> Click -> Cantidad -> Actualizar Detalle";
+            // 
             // label15
             // 
-            label15.Dock = DockStyle.Top;
             label15.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label15.ForeColor = Color.Lime;
-            label15.Location = new Point(0, 0);
+            label15.Location = new Point(412, 9);
             label15.Name = "label15";
-            label15.Size = new Size(798, 37);
+            label15.Size = new Size(379, 37);
             label15.TabIndex = 39;
             label15.Text = "Registrar Venta";
-            label15.TextAlign = ContentAlignment.TopRight;
+            label15.TextAlign = ContentAlignment.MiddleCenter;
             label15.Click += label15_Click;
             // 
             // V_Factura_Venta
@@ -784,5 +796,6 @@ namespace Monitux_POS.Ventanas
         public FlowLayoutPanel flowLayoutPanel2;
         public Button button5;
         private Label label15;
+        private Label label16;
     }
 }

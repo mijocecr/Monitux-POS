@@ -30,7 +30,7 @@ namespace Monitux_POS.Ventanas
         double total = 0.00; // Variable para almacenar el total
         double otrosCargos = 0.00; // Variable para almacenar otros cargos
         double descuento = 0.00; // Variable para almacenar el descuento aplicado
-        public static string moneda = "USD"; // Variable para almacenar la moneda utilizada en la factura
+      //  public static string moneda = "USD"; // Variable para almacenar la moneda utilizada en la factura
 
 
         public static Dictionary<string, Miniatura_Producto> Lista_de_Items = new Dictionary<string, Miniatura_Producto>();
@@ -91,7 +91,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Secuencial_Usuario = Secuencial_Usuario;
                 miniatura_Producto1.Fecha_Caducidad = item.Fecha_Caducidad;
                 miniatura_Producto1.Expira = Convert.ToBoolean(item.Expira);
-                miniatura_Producto1.moneda = moneda; // Asignar la moneda a la miniatura del producto
+                miniatura_Producto1.moneda = V_Menu_Principal.moneda; // Asignar la moneda a la miniatura del producto
                 miniatura_Producto1.Tipo = item.Tipo; // Asignar el tipo de producto (si es necesario)
 
 
@@ -478,7 +478,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Secuencial_Usuario = Secuencial_Usuario;
                 miniatura_Producto1.Fecha_Caducidad = item.Fecha_Caducidad;
                 miniatura_Producto1.Expira = Convert.ToBoolean(item.Expira);
-                miniatura_Producto1.moneda = moneda; // Asignar la moneda a la miniatura del producto
+                miniatura_Producto1.moneda = V_Menu_Principal.moneda; // Asignar la moneda a la miniatura del producto
                 miniatura_Producto1.Tipo = item.Tipo; // Asignar el tipo de producto (si es necesario)
 
                 /* miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
@@ -1382,8 +1382,8 @@ namespace Monitux_POS.Ventanas
                         cambio = numero - total;
 
                         string mensaje = cambio >= 0
-                            ? $"El Cambio a favor del Cliente es: {cambio}\n\n{Util.Convertir_Numeros_Palabras(cambio.ToString())} {moneda}"
-                            : $"Falta Dinero: {Math.Abs(cambio)}\n\n{Util.Convertir_Numeros_Palabras(Math.Abs(cambio).ToString())} {moneda}";
+                            ? $"El Cambio a favor del Cliente es: {cambio}\n\n{Util.Convertir_Numeros_Palabras(cambio.ToString())} {V_Menu_Principal.moneda}"
+                            : $"Falta Dinero: {Math.Abs(cambio)}\n\n{Util.Convertir_Numeros_Palabras(Math.Abs(cambio).ToString())} {V_Menu_Principal.moneda}";
 
                         V_Menu_Principal.MSG.ShowMSG(mensaje, "Ventas");
                     }
@@ -1557,6 +1557,11 @@ namespace Monitux_POS.Ventanas
         }
 
         private void label15_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
         {
 
         }

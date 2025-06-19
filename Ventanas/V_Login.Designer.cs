@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Login));
             panel1 = new Panel();
-            pictureBox4 = new PictureBox();
             pictureBox2 = new PictureBox();
             label2 = new Label();
+            pictureBox4 = new PictureBox();
             label11 = new Label();
             linkLabel1 = new LinkLabel();
             label3 = new Label();
@@ -61,8 +61,8 @@
             panel2 = new Panel();
             pictureBox5 = new PictureBox();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel4.SuspendLayout();
@@ -73,29 +73,17 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.FromArgb(35, 32, 45);
-            panel1.Controls.Add(pictureBox4);
+            panel1.BackColor = Color.FromArgb(44, 117, 255);
             panel1.Controls.Add(pictureBox2);
             panel1.Controls.Add(label2);
-            panel1.Dock = DockStyle.Right;
-            panel1.Location = new Point(378, 0);
+            panel1.Dock = DockStyle.Left;
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(412, 606);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             panel1.MouseHover += panel1_MouseHover;
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Cursor = Cursors.Hand;
-            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(372, 12);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(28, 25);
-            pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox4.TabIndex = 2;
-            pictureBox4.TabStop = false;
-            pictureBox4.Click += pictureBox4_Click;
+            panel1.MouseMove += panel1_MouseMove;
             // 
             // pictureBox2
             // 
@@ -117,6 +105,18 @@
             label2.Size = new Size(397, 152);
             label2.TabIndex = 2;
             label2.Text = resources.GetString("label2.Text");
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Cursor = Cursors.Hand;
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(308, 3);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(28, 25);
+            pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox4.TabIndex = 2;
+            pictureBox4.TabStop = false;
+            pictureBox4.Click += pictureBox4_Click;
             // 
             // label11
             // 
@@ -162,7 +162,7 @@
             panel3.Controls.Add(txtPassword);
             panel3.Controls.Add(txtCodigo);
             panel3.Controls.Add(label1);
-            panel3.Location = new Point(12, 12);
+            panel3.Location = new Point(12, 49);
             panel3.Name = "panel3";
             panel3.Size = new Size(320, 257);
             panel3.TabIndex = 4;
@@ -271,7 +271,7 @@
             panel4.Controls.Add(label8);
             panel4.Controls.Add(txt_Password);
             panel4.Controls.Add(label9);
-            panel4.Location = new Point(3, 12);
+            panel4.Location = new Point(3, 37);
             panel4.Name = "panel4";
             panel4.Size = new Size(332, 284);
             panel4.TabIndex = 5;
@@ -406,17 +406,19 @@
             // 
             panel2.AutoScroll = true;
             panel2.BackColor = Color.FromArgb(11, 8, 20);
+            panel2.Controls.Add(pictureBox4);
             panel2.Controls.Add(pictureBox5);
             panel2.Controls.Add(label11);
             panel2.Controls.Add(panel3);
             panel2.Controls.Add(linkLabel1);
             panel2.Controls.Add(panel4);
             panel2.Controls.Add(label3);
-            panel2.Dock = DockStyle.Left;
-            panel2.Location = new Point(0, 0);
+            panel2.Dock = DockStyle.Right;
+            panel2.Location = new Point(411, 0);
             panel2.Name = "panel2";
             panel2.Size = new Size(344, 606);
             panel2.TabIndex = 1;
+            panel2.MouseMove += panel2_MouseMove;
             // 
             // pictureBox5
             // 
@@ -432,8 +434,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(790, 606);
+            BackColor = Color.White;
+            ClientSize = new Size(755, 606);
             ControlBox = false;
             Controls.Add(panel1);
             Controls.Add(panel2);
@@ -442,8 +444,8 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "V_Login";
             panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

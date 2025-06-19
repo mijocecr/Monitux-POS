@@ -53,7 +53,7 @@ namespace Monitux_POS
             // Item_Imagen
             // 
             Item_Imagen.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            Item_Imagen.Image = Properties.Resources.Logo1_3;
+            
             Item_Imagen.Location = new Point(7, 26);
             Item_Imagen.Name = "Item_Imagen";
             Item_Imagen.Size = new Size(102, 107);

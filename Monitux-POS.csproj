@@ -25,26 +25,90 @@
   <ItemGroup>
     <None Remove="Resources\BC\Default.PNG" />
     <None Remove="Resources\Database\monitux.db" />
+    <None Remove="Resources\Iconos\actualizar.png" />
+    <None Remove="Resources\Iconos\agregar.png" />
+    <None Remove="Resources\Iconos\application_view_list.png" />
+    <None Remove="Resources\Iconos\application_view_tile.png" />
+    <None Remove="Resources\Iconos\arrow_refresh_small.png" />
     <None Remove="Resources\Iconos\award_star_gold_2.png" />
     <None Remove="Resources\Iconos\box_down.png" />
     <None Remove="Resources\Iconos\bricks.png" />
+    <None Remove="Resources\Iconos\btnclientes.png" />
+    <None Remove="Resources\Iconos\btngastos.png" />
+    <None Remove="Resources\Iconos\btninformacion.png" />
+    <None Remove="Resources\Iconos\btninventario.png" />
+    <None Remove="Resources\Iconos\btnpedidos.png" />
+    <None Remove="Resources\Iconos\btnproveedor.png" />
+    <None Remove="Resources\Iconos\btnreportes.png" />
+    <None Remove="Resources\Iconos\btnreportes2.png" />
+    <None Remove="Resources\Iconos\btnusuarios.png" />
+    <None Remove="Resources\Iconos\btnventas.png" />
+    <None Remove="Resources\Iconos\calendario.png" />
+    <None Remove="Resources\Iconos\cargardb.png" />
     <None Remove="Resources\Iconos\comment.png" />
     <None Remove="Resources\Iconos\comment_edit.png" />
     <None Remove="Resources\Iconos\database_refresh.png" />
     <None Remove="Resources\Iconos\delete1.png" />
     <None Remove="Resources\Iconos\disk.png" />
+    <None Remove="Resources\Iconos\donacion.png" />
     <None Remove="Resources\Iconos\door_in.png" />
     <None Remove="Resources\Iconos\door_out.png" />
+    <None Remove="Resources\Iconos\editar.png" />
+    <None Remove="Resources\Iconos\editarfactura.png" />
+    <None Remove="Resources\Iconos\eliminar.png" />
+    <None Remove="Resources\Iconos\excel.png" />
+    <None Remove="Resources\Iconos\exclamation.png" />
+    <None Remove="Resources\Iconos\factura.png" />
+    <None Remove="Resources\Iconos\filtrar.png" />
+    <None Remove="Resources\Iconos\graficocategorias.png" />
+    <None Remove="Resources\Iconos\graficoganancias.png" />
+    <None Remove="Resources\Iconos\graficosucursal.png" />
+    <None Remove="Resources\Iconos\graficoventas.png" />
+    <None Remove="Resources\Iconos\gratis.png" />
     <None Remove="Resources\Iconos\group.png" />
+    <None Remove="Resources\Iconos\guardar.png" />
+    <None Remove="Resources\Iconos\guardardb.png" />
+    <None Remove="Resources\Iconos\hora.png" />
+    <None Remove="Resources\Iconos\Icono.ico" />
+    <None Remove="Resources\Iconos\information.png" />
+    <None Remove="Resources\Iconos\ingresara.png" />
+    <None Remove="Resources\Iconos\ingresarc.png" />
+    <None Remove="Resources\Iconos\iniciar.png" />
+    <None Remove="Resources\Iconos\lightbulb.png" />
+    <None Remove="Resources\Iconos\lightbulb_off.png" />
+    <None Remove="Resources\Iconos\lightning.png" />
+    <None Remove="Resources\Iconos\limpiar.png" />
     <None Remove="Resources\Iconos\Logo.png" />
     <None Remove="Resources\Iconos\Logo1.3.png" />
+    <None Remove="Resources\Iconos\logout.png" />
     <None Remove="Resources\Iconos\lorry.png" />
     <None Remove="Resources\Iconos\magnifier.png" />
+    <None Remove="Resources\Iconos\miempresa.png" />
+    <None Remove="Resources\Iconos\modificar.png" />
     <None Remove="Resources\Iconos\mostrar.png" />
+    <None Remove="Resources\Iconos\nuevo.png" />
     <None Remove="Resources\Iconos\ocultar.png" />
+    <None Remove="Resources\Iconos\pagar.png" />
     <None Remove="Resources\Iconos\page.png" />
     <None Remove="Resources\Iconos\page_white_edit.png" />
     <None Remove="Resources\Iconos\page_white_put.png" />
+    <None Remove="Resources\Iconos\pago.png" />
+    <None Remove="Resources\Iconos\pedido.png" />
+    <None Remove="Resources\Iconos\precio.png" />
+    <None Remove="Resources\Iconos\registrar.png" />
+    <None Remove="Resources\Iconos\regresar.png" />
+    <None Remove="Resources\Iconos\reporte.png" />
+    <None Remove="Resources\Iconos\reporte1.png" />
+    <None Remove="Resources\Iconos\reporte2.png" />
+    <None Remove="Resources\Iconos\reporte3.png" />
+    <None Remove="Resources\Iconos\reporte4.png" />
+    <None Remove="Resources\Iconos\reporte5.png" />
+    <None Remove="Resources\Iconos\report_magnify.png" />
+    <None Remove="Resources\Iconos\rol_icon.png" />
+    <None Remove="Resources\Iconos\rpedido.png" />
+    <None Remove="Resources\Iconos\user_icon.png" />
+    <None Remove="Resources\Iconos\ver.png" />
+    <None Remove="Resources\Iconos\verpedidos.png" />
     <None Remove="Resources\monitux.db" />
     <None Remove="Resources\QR\Default.PNG" />
   </ItemGroup>
@@ -59,6 +123,21 @@
     <Content Include="Resources\CLI\Default.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Iconos\actualizar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\agregar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\application_view_list.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\application_view_tile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\arrow_refresh_small.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Iconos\award_star_gold_2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -68,10 +147,121 @@
     <Content Include="Resources\Iconos\bricks.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Iconos\btnclientes.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\btngastos.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\btninformacion.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\btninventario.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\btnpedidos.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\btnproveedor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\btnreportes.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\btnreportes2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\btnusuarios.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\btnventas.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\calendario.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\cargardb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Iconos\database_refresh.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Iconos\donacion.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\editar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\editarfactura.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\eliminar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\excel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\exclamation.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\factura.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\filtrar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\graficocategorias.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\graficoganancias.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\graficosucursal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\graficoventas.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\gratis.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Iconos\group.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\guardar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\guardardb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\hora.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\Icono.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\information.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\ingresara.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\ingresarc.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\iniciar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\lightbulb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\lightbulb_off.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\lightning.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\limpiar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Iconos\Logo.png">
@@ -80,16 +270,31 @@
     <Content Include="Resources\Iconos\Logo1.3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Iconos\logout.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Iconos\lorry.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Iconos\magnifier.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Iconos\miempresa.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\modificar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Iconos\mostrar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Iconos\nuevo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Iconos\ocultar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\pagar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Iconos\page.png">
@@ -99,6 +304,57 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Iconos\page_white_put.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\pago.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\pedido.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\precio.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\registrar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\regresar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\reporte.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\reporte1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\reporte2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\reporte3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\reporte4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\reporte5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\report_magnify.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\rol_icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\rpedido.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\user_icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\ver.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\verpedidos.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PRO\Default.PNG">
@@ -121,6 +377,7 @@
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.5" />
+    <PackageReference Include="PDFsharp" Version="6.2.0" />
     <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.26" />
     <PackageReference Include="ReportViewerCore.WinForms" Version="15.1.26" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.11" />

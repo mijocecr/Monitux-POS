@@ -11,7 +11,7 @@ namespace Monitux_POS.Clases
     {
         [Key]
         public int Secuencial { get; set; }
-        public string Fecha { get; set; } = DateTime.Now.ToString();
+        public string Fecha { get; set; } = DateTime.Today.ToString("dd/MM/yyyy");
         public int Secuencial_Producto { get; set;  }
         public string Descripcion { get; set; }
         public double Cantidad { get; set; } = 0;

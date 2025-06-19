@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Producto));
             panel1 = new Panel();
             label12 = new Label();
@@ -60,7 +59,6 @@
             label2 = new Label();
             label1 = new Label();
             pictureBox1 = new PictureBox();
-            monituxDBContextBindingSource = new BindingSource(components);
             menuStrip1 = new MenuStrip();
             archivoToolStripMenuItem = new ToolStripMenuItem();
             Menu_Agregar = new ToolStripMenuItem();
@@ -75,7 +73,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)monituxDBContextBindingSource).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -111,7 +108,7 @@
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
-            panel1.Location = new Point(5, 77);
+            panel1.Location = new Point(8, 67);
             panel1.Name = "panel1";
             panel1.Size = new Size(402, 448);
             panel1.TabIndex = 0;
@@ -442,17 +439,13 @@
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
             // 
-            // monituxDBContextBindingSource
-            // 
-            monituxDBContextBindingSource.DataSource = typeof(Clases.Monitux_DB_Context);
-            // 
             // menuStrip1
             // 
             menuStrip1.BackColor = Color.FromArgb(11, 8, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(412, 24);
+            menuStrip1.Size = new Size(419, 24);
             menuStrip1.TabIndex = 1;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -473,7 +466,7 @@
             Menu_Agregar.ForeColor = Color.Black;
             Menu_Agregar.Image = (Image)resources.GetObject("Menu_Agregar.Image");
             Menu_Agregar.Name = "Menu_Agregar";
-            Menu_Agregar.Size = new Size(180, 22);
+            Menu_Agregar.Size = new Size(120, 22);
             Menu_Agregar.Text = "Registrar";
             // 
             // nuevoProveedorToolStripMenuItem
@@ -498,7 +491,7 @@
             Menu_Guardar.ForeColor = Color.ForestGreen;
             Menu_Guardar.Image = (Image)resources.GetObject("Menu_Guardar.Image");
             Menu_Guardar.Name = "Menu_Guardar";
-            Menu_Guardar.Size = new Size(180, 22);
+            Menu_Guardar.Size = new Size(120, 22);
             Menu_Guardar.Text = "Guardar";
             Menu_Guardar.Click += Menu_Guardar_Click;
             // 
@@ -508,7 +501,7 @@
             Menu_Eliminar.ForeColor = Color.Red;
             Menu_Eliminar.Image = (Image)resources.GetObject("Menu_Eliminar.Image");
             Menu_Eliminar.Name = "Menu_Eliminar";
-            Menu_Eliminar.Size = new Size(180, 22);
+            Menu_Eliminar.Size = new Size(120, 22);
             Menu_Eliminar.Text = "Eliminar";
             Menu_Eliminar.Click += Menu_Eliminar_Click;
             // 
@@ -516,25 +509,24 @@
             // 
             toolStripSeparator1.BackColor = Color.FromArgb(35, 32, 40);
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(117, 6);
             // 
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.BackColor = SystemColors.Control;
             salirToolStripMenuItem.Image = (Image)resources.GetObject("salirToolStripMenuItem.Image");
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(180, 22);
+            salirToolStripMenuItem.Size = new Size(120, 22);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 
             // label13
             // 
-            label13.Dock = DockStyle.Top;
             label13.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label13.ForeColor = Color.White;
-            label13.Location = new Point(0, 24);
+            label13.Location = new Point(11, 24);
             label13.Name = "label13";
-            label13.Size = new Size(412, 37);
+            label13.Size = new Size(394, 37);
             label13.TabIndex = 37;
             label13.Text = "Productos";
             label13.TextAlign = ContentAlignment.TopCenter;
@@ -544,7 +536,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(412, 530);
+            ClientSize = new Size(419, 527);
             ControlBox = false;
             Controls.Add(label13);
             Controls.Add(panel1);
@@ -563,7 +555,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)monituxDBContextBindingSource).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -601,7 +592,6 @@
         private ToolStripMenuItem Menu_Eliminar;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem salirToolStripMenuItem;
-        private BindingSource monituxDBContextBindingSource;
         private TextBox txtCodigoFabricante;
         private Label label8;
         private ComboBox comboCategoria;

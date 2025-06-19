@@ -11,7 +11,7 @@ namespace Monitux_POS
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Ventanas.V_Menu_Principal());
+            Application.Run(new Ventanas.V_Inventario());
         }
     }
 }

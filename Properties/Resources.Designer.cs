@@ -73,9 +73,9 @@ namespace Monitux_POS.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Logo1_3 {
+        internal static System.Drawing.Bitmap btninformacion {
             get {
-                object obj = ResourceManager.GetObject("Logo1.3", resourceCulture);
+                object obj = ResourceManager.GetObject("btninformacion", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

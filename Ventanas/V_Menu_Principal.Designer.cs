@@ -98,14 +98,16 @@
             // 
             // panel4
             // 
-            panel4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel4.BackColor = Color.FromArgb(35, 32, 45);
+            panel4.Anchor = AnchorStyles.None;
+            panel4.AutoSize = true;
+            panel4.BackColor = Color.FromArgb(44, 117, 255);
             panel4.Controls.Add(pictureBox2);
             panel4.Location = new Point(159, 42);
             panel4.Name = "panel4";
             panel4.Size = new Size(795, 583);
             panel4.TabIndex = 2;
             panel4.Paint += panel4_Paint;
+            panel4.Resize += panel4_Resize;
             // 
             // pictureBox2
             // 
@@ -120,6 +122,7 @@
             // 
             // panel3
             // 
+            panel3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel3.AutoScroll = true;
             panel3.BackColor = Color.FromArgb(11, 8, 20);
             panel3.Controls.Add(p_Campania);
@@ -792,12 +795,12 @@
             // 
             // panel7
             // 
+            panel7.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel7.BackColor = Color.FromArgb(11, 8, 20);
             panel7.Controls.Add(lbl_Titulo);
             panel7.Controls.Add(pictureBox4);
             panel7.Controls.Add(pictureBox3);
             panel7.Controls.Add(lbl_Descripcion);
-            panel7.Dock = DockStyle.Top;
             panel7.Location = new Point(0, 0);
             panel7.Name = "panel7";
             panel7.Size = new Size(954, 42);
@@ -807,6 +810,7 @@
             // 
             // lbl_Titulo
             // 
+            lbl_Titulo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lbl_Titulo.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Titulo.ForeColor = Color.White;
             lbl_Titulo.Location = new Point(669, 11);
@@ -819,6 +823,7 @@
             // 
             // pictureBox4
             // 
+            pictureBox4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pictureBox4.Cursor = Cursors.Hand;
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
             pictureBox4.Location = new Point(882, 7);
@@ -831,6 +836,7 @@
             // 
             // pictureBox3
             // 
+            pictureBox3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pictureBox3.Cursor = Cursors.Hand;
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
             pictureBox3.Location = new Point(919, 7);
@@ -858,6 +864,7 @@
             // 
             // panel10
             // 
+            panel10.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel10.BackColor = Color.FromArgb(11, 8, 20);
             panel10.Controls.Add(lbl_Cinta);
             panel10.Location = new Point(159, 625);
@@ -947,6 +954,7 @@
             panel10.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

@@ -25,7 +25,7 @@ namespace Monitux_POS.Ventanas
         public static string Codigo_Usuario = string.Empty;
         public static string Imagen_Usuario = "Sin Imagen"; // Variable para almacenar la imagen del usuario
         public static string Acceso_Usuario = string.Empty; // Variable para almacenar los permisos del usuario
-      
+        public static string moneda = "EUR.";
         //Bloque de Variables Globales
 
 
@@ -42,7 +42,7 @@ namespace Monitux_POS.Ventanas
         private void V_Menu_Principal_Load(object sender, EventArgs e)
         {
 
-            
+
             lbl_Titulo.Text = "Monitux-POS Ver." + VER;
             //Abrir_Ventana(v_Login);
             if (v_Login.ShowDialog() == DialogResult.OK)
@@ -52,17 +52,17 @@ namespace Monitux_POS.Ventanas
                 lbl_Titulo.Text = "Monitux-POS Ver." + VER;
                 label1.Text = Nombre_Usuario; // Variable para almacenar el nombre del usuario
                 label2.Text = Acceso_Usuario; // Variable para almacenar el codigo del usuario
-                
+
                 btn_resumen.Enabled = true;//Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de resumen solo si el usuario es administrador
-              //  btn_resumen.Visible = true; // Mostrar el boton de resumen solo si el usuario es administrador
+                                           //  btn_resumen.Visible = true; // Mostrar el boton de resumen solo si el usuario es administrador
                 btn_ajustes.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de ajustes solo si el usuario es administrador
-              // btn_ajustes.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de ajustes solo si el usuario es administrador
+                                                                                        // btn_ajustes.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de ajustes solo si el usuario es administrador
                 btn_cuentas.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de cuentas solo si el usuario es administrador
-               // btn_cuentas.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de cuentas solo si el usuario es administrador
+                                                                                        // btn_cuentas.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de cuentas solo si el usuario es administrador
                 btn_facturas.Enabled = true; //Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de facturas solo si el usuario es administrador
-              //  btn_facturas.Visible = true; // Mostrar el boton de facturas solo si el usuario es administrador
+                                             //  btn_facturas.Visible = true; // Mostrar el boton de facturas solo si el usuario es administrador
                 btn_inventario.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
-              //  btn_inventario.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
+                                                                                           //  btn_inventario.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
                 btn_reportes.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de reportes solo si el usuario es administrador
                                                                                          //  btn_reportes.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de reportes solo si el usuario es administrador
 
@@ -73,10 +73,10 @@ namespace Monitux_POS.Ventanas
                 }
                 catch (Exception ex)
                 {
-                   // MSG.ShowMSG("Error al cargar la imagen del usuario: " + ex.Message, "Error");
+                    // MSG.ShowMSG("Error al cargar la imagen del usuario: " + ex.Message, "Error");
                 }
 
-             
+
             }
             else
             {
@@ -258,11 +258,23 @@ namespace Monitux_POS.Ventanas
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
 
+
+
+          
+
+
+
             panel4.Controls.Clear();
             panel4.Controls.Add(childForm);
-            panel4.Tag = childForm;
+            
+           panel4.Tag = childForm;
             childForm.BringToFront();
             childForm.Show();
+
+
+
+
+
         }
 
 
@@ -309,7 +321,7 @@ namespace Monitux_POS.Ventanas
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-          
+
             Util.Limpiar_Cache();
             Application.Restart(); // Reinicia la aplicación para aplicar los cambios
 
@@ -483,11 +495,23 @@ namespace Monitux_POS.Ventanas
 
         private void button26_Click(object sender, EventArgs e)
         {
-
+            Abrir_Ventana(new V_Inventario());
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void panel4_Resize(object sender, EventArgs e)
+        {/*
+            panel4.Location = new Point(
+       (this.ClientSize.Width - panel4.Width+panel3.Width) / 2,
+       (this.ClientSize.Height - panel4.Height+panel10.Height) / 2
+  );*/
+
+
+
 
         }
     }
