@@ -79,7 +79,6 @@
     <None Remove="Resources\Iconos\lightning.png" />
     <None Remove="Resources\Iconos\limpiar.png" />
     <None Remove="Resources\Iconos\Logo.png" />
-    <None Remove="Resources\Iconos\Logo1.3.png" />
     <None Remove="Resources\Iconos\logout.png" />
     <None Remove="Resources\Iconos\lorry.png" />
     <None Remove="Resources\Iconos\magnifier.png" />
@@ -267,7 +266,7 @@
     <Content Include="Resources\Iconos\Logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Iconos\Logo1.3.png">
+    <Content Include="Resources\Iconos\Logo_Default.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Iconos\logout.png">

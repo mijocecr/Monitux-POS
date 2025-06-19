@@ -100,6 +100,17 @@ namespace Monitux_POS.Ventanas
 
         private void button4_Click(object sender, EventArgs e)
         {
+
+
+            comboBox3.Items.Clear();
+            comboBox3.Items.Add("Codigo");
+            comboBox3.Items.Add("Codigo_Barra");
+            comboBox3.Items.Add("Codigo_Fabricante");
+            comboBox3.Items.Add("Descripcion");
+            comboBox3.Items.Add("Fecha_Caducidad");
+            comboBox3.Items.Add("Marca");
+            comboBox3.SelectedIndex = 0;
+
             button2.Visible = true;
 
 
@@ -117,6 +128,15 @@ namespace Monitux_POS.Ventanas
 
         private void button1_Click(object sender, EventArgs e)
         {
+            comboBox3.Items.Clear();
+            comboBox3.Items.Add("Codigo");
+            comboBox3.Items.Add("Codigo_Barra");
+            comboBox3.Items.Add("Codigo_Fabricante");
+            comboBox3.Items.Add("Descripcion");
+            comboBox3.Items.Add("Fecha_Caducidad");
+            comboBox3.Items.Add("Marca");
+            comboBox3.SelectedIndex = 0;
+
             label8.Text = "Modo: Lista";
             button2.Visible = true;
 
@@ -155,14 +175,6 @@ namespace Monitux_POS.Ventanas
             linkLabel2.Visible = true;
             groupBox2.Visible = true;
             groupBox1.Visible = false;
-            comboBox3.Items.Clear();
-            comboBox3.Items.Add("Codigo");
-            comboBox3.Items.Add("Codigo_Barra");
-            comboBox3.Items.Add("Codigo_Fabricante");
-            comboBox3.Items.Add("Descripcion");
-            comboBox3.Items.Add("Fecha_Caducidad");
-            comboBox3.Items.Add("Marca");
-            comboBox3.SelectedIndex = 0;
             flowLayoutPanel1.Controls.Clear();
             dataGridView1.Visible = false;
             flowLayoutPanel1.Visible = true;
@@ -233,18 +245,17 @@ namespace Monitux_POS.Ventanas
                 {
                     // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
 
+                    V_Kardex v_Kardex = new V_Kardex();
 
+                    V_Kardex.Secuencial_Producto = miniatura_Producto1.Secuencial;
+                    V_Kardex.Codigo_Producto = miniatura_Producto1.Codigo;
+                    if (miniatura_Producto1.Tipo != "Servicio")
+                    {
 
-                    Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
+                        v_Kardex.ShowDialog();
 
-
-
-
-
-
-
-                    selector_Cantidad.Tag = miniatura_Producto1.Codigo; // Asigna el código como Tag para referencia futura
-
+                    }
+                    
 
 
 
@@ -275,13 +286,13 @@ namespace Monitux_POS.Ventanas
             groupBox2.Visible = true;
             groupBox1.Visible = false;
             comboBox3.Items.Clear();
-            comboBox3.Items.Add("Codigo");
-            comboBox3.Items.Add("Codigo_Barra");
-            comboBox3.Items.Add("Codigo_Fabricante");
-            comboBox3.Items.Add("Descripcion");
-            comboBox3.Items.Add("Fecha_Caducidad");
-            comboBox3.Items.Add("Marca");
-            comboBox3.SelectedIndex = 0;
+            /* comboBox3.Items.Add("Codigo");
+             comboBox3.Items.Add("Codigo_Barra");
+             comboBox3.Items.Add("Codigo_Fabricante");
+             comboBox3.Items.Add("Descripcion");
+             comboBox3.Items.Add("Fecha_Caducidad");
+             comboBox3.Items.Add("Marca");
+             comboBox3.SelectedIndex = 0;*/
             flowLayoutPanel1.Controls.Clear();
             dataGridView1.Visible = false;
             flowLayoutPanel1.Visible = true;
@@ -399,17 +410,18 @@ namespace Monitux_POS.Ventanas
 
         public void Cargar_Agotados_Cuadricula(List<Miniatura_Producto> lista_productos)
         {
+            flowLayoutPanel1.Controls.Clear();
             groupBox2.Visible = true;
             groupBox1.Visible = false;
-            comboBox3.Items.Clear();
-            comboBox3.Items.Add("Codigo");
-            comboBox3.Items.Add("Codigo_Barra");
-            comboBox3.Items.Add("Codigo_Fabricante");
-            comboBox3.Items.Add("Descripcion");
-            comboBox3.Items.Add("Fecha_Caducidad");
-            comboBox3.Items.Add("Marca");
-            comboBox3.SelectedIndex = 0;
-            flowLayoutPanel1.Controls.Clear();
+            /* comboBox3.Items.Clear();
+             comboBox3.Items.Add("Codigo");
+             comboBox3.Items.Add("Codigo_Barra");
+             comboBox3.Items.Add("Codigo_Fabricante");
+             comboBox3.Items.Add("Descripcion");
+             comboBox3.Items.Add("Fecha_Caducidad");
+             comboBox3.Items.Add("Marca");
+             comboBox3.SelectedIndex = 0;*/
+
             dataGridView1.Visible = false;
             flowLayoutPanel1.Visible = true;
             dataGridView2.Visible = false;
@@ -531,14 +543,6 @@ namespace Monitux_POS.Ventanas
             groupBox1.Visible = false;
             linkLabel1.Visible = true;
             linkLabel2.Visible = true;
-            comboBox3.Items.Clear();
-            comboBox3.Items.Add("Codigo");
-            comboBox3.Items.Add("Codigo_Barra");
-            comboBox3.Items.Add("Codigo_Fabricante");
-            comboBox3.Items.Add("Descripcion");
-            comboBox3.Items.Add("Fecha_Caducidad");
-            comboBox3.Items.Add("Marca");
-            comboBox3.SelectedIndex = 0;
 
 
             dataGridView1.Rows.Clear();
@@ -686,7 +690,7 @@ namespace Monitux_POS.Ventanas
                 };
 
 
-              
+
 
 
                 if (producto.Cantidad == producto.Existencia_Minima && producto.Tipo == "Producto")
@@ -995,12 +999,7 @@ namespace Monitux_POS.Ventanas
 
         public void Cargar_Items_Kardex()
         {
-            comboBox3.Items.Clear();
-            comboBox3.Items.Add("Codigo");
-            comboBox3.Items.Add("Descripcion");
-            comboBox3.Items.Add("Fecha");
 
-            comboBox3.SelectedIndex = 0;
 
             dataGridView2.Rows.Clear();
             flowLayoutPanel1.Controls.Clear();
@@ -1065,12 +1064,12 @@ namespace Monitux_POS.Ventanas
 
         public void Filtrar_Items_Kardex_Consulta(string fecha_inicio, string fecha_fin, string codigo, string movimiento)
         {
-            comboBox3.Items.Clear();
-            comboBox3.Items.Add("Codigo");
-            comboBox3.Items.Add("Descripcion");
-            comboBox3.Items.Add("Fecha");
-            comboBox3.Items.Add("Secuencial_Producto");
-            comboBox3.SelectedIndex = 0;
+            /* comboBox3.Items.Clear();
+             comboBox3.Items.Add("Codigo");
+             comboBox3.Items.Add("Descripcion");
+             comboBox3.Items.Add("Fecha");
+             comboBox3.Items.Add("Secuencial_Producto");
+             comboBox3.SelectedIndex = 0;*/
 
             dataGridView2.Rows.Clear();
             flowLayoutPanel1.Controls.Clear();
@@ -1542,11 +1541,11 @@ namespace Monitux_POS.Ventanas
 
         private void V_Inventario_Load(object sender, EventArgs e)
         {
-
+            button4.PerformClick();
             llenar_Combo_Categoria();
             llenar_Combo_Proveedor();
-            Cargar_Items_Cuadricula();
-            comboBox3.SelectedIndex = 0; // Selecciona el primer elemento del comboBox3 por defecto
+            // Cargar_Items_Cuadricula();
+            // comboBox3.SelectedIndex = 0; // Selecciona el primer elemento del comboBox3 por defecto
 
 
         }
@@ -1790,6 +1789,12 @@ namespace Monitux_POS.Ventanas
 
         private void button3_Click(object sender, EventArgs e)
         {
+            comboBox3.Items.Clear();
+            comboBox3.Items.Add("Codigo");
+            comboBox3.Items.Add("Descripcion");
+            comboBox3.Items.Add("Fecha");
+
+            comboBox3.SelectedIndex = 0;
             label8.Text = "Modo: Kardex";
             groupBox2.Visible = false;
             button2.Visible = false;
@@ -1876,5 +1881,33 @@ namespace Monitux_POS.Ventanas
 
 
         }
+
+        private void dataGridView2_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+
+
+
+
+
+            if (dataGridView2.SelectedRows.Count > 0)
+            {
+                int secuencial = Convert.ToInt32(dataGridView2.SelectedRows[0].Cells["Secuencial"].Value);
+                string codigo = dataGridView2.SelectedRows[0].Cells["Codigo"].Value.ToString();
+                V_Kardex kardex = new V_Kardex();
+
+                V_Kardex.Secuencial_Producto = Convert.ToInt32(dataGridView2.SelectedRows[0].Cells["Secuencial_Producto"].Value);
+                V_Kardex.Codigo_Producto = codigo;
+               // MessageBox.Show($"Abriendo Kardex del producto: {secuencial} {codigo}", "Kardex", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                kardex.ShowDialog();
+
+
+            }
+        }
+
+
+
+
+        
     }//Fin de Clase
 }//Fin de Namespace

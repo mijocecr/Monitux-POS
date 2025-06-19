@@ -261,7 +261,7 @@ namespace Monitux_POS.Ventanas
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             suma = suma + 1; // Incrementa la suma de números aleatorios
-            if (suma >= 5)
+            if (suma >= 8)
             {
                 pictureBox2.BorderStyle = BorderStyle.Fixed3D;
 
@@ -316,6 +316,9 @@ namespace Monitux_POS.Ventanas
 
         private void panel2_MouseMove(object sender, MouseEventArgs e)
         {
+
+            label11.Text = "Miguel Cerrato"; // Muestra el nombre del usuario al mover el mouse sobre el panel
+
             if (e.Button != MouseButtons.Left)
             {
                 posX = e.X;

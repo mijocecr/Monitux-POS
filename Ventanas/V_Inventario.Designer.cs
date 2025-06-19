@@ -212,6 +212,7 @@
             dataGridView2.Size = new Size(775, 405);
             dataGridView2.TabIndex = 55;
             dataGridView2.Visible = false;
+            dataGridView2.CellDoubleClick += dataGridView2_CellDoubleClick;
             // 
             // dataGridView1
             // 
@@ -498,7 +499,7 @@
             // 
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Entrada", "Salida", "Todos" });
+            comboBox1.Items.AddRange(new object[] { "Entrada", "Salida" });
             comboBox1.Location = new Point(148, 64);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(100, 23);

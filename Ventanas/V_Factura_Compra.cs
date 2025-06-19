@@ -1388,7 +1388,7 @@ namespace Monitux_POS.Ventanas
 
             Compra compra = new Compra();
 
-            Kardex kardex = new Kardex(); // Crear una instancia de Kardex para registrar el movimiento de inventario
+            V_Kardex kardex = new V_Kardex(); // Crear una instancia de Kardex para registrar el movimiento de inventario
             Ingreso ingreso = new Ingreso(); // Crear una instancia de Ingreso para registrar el ingreso de productos
 
 
