@@ -61,7 +61,7 @@ namespace Monitux_POS.Ventanas
                                                                                         // btn_cuentas.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de cuentas solo si el usuario es administrador
                 btn_facturas.Enabled = true; //Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de facturas solo si el usuario es administrador
                                              //  btn_facturas.Visible = true; // Mostrar el boton de facturas solo si el usuario es administrador
-                btn_inventario.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
+                //btn_inventario.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
                                                                                            //  btn_inventario.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
                 btn_reportes.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de reportes solo si el usuario es administrador
                                                                                          //  btn_reportes.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de reportes solo si el usuario es administrador
@@ -479,7 +479,7 @@ namespace Monitux_POS.Ventanas
         private void button7_Click_1(object sender, EventArgs e)
         {
             Ocultar_SubMenu();
-            MSG.ShowMSG("No Implementado aun...\n Esta ventana va ser una pasada.", "Ya se Como...");
+            Abrir_Ventana(new V_Inventario());
         }
 
         private void button28_Click(object sender, EventArgs e)

@@ -102,7 +102,7 @@
             panel4.AutoSize = true;
             panel4.BackColor = Color.FromArgb(44, 117, 255);
             panel4.Controls.Add(pictureBox2);
-            panel4.Location = new Point(159, 42);
+            panel4.Location = new Point(159, 31);
             panel4.Name = "panel4";
             panel4.Size = new Size(795, 583);
             panel4.TabIndex = 2;
@@ -140,7 +140,7 @@
             panel3.Controls.Add(btn_resumen);
             panel3.Location = new Point(0, 215);
             panel3.Name = "panel3";
-            panel3.Size = new Size(176, 479);
+            panel3.Size = new Size(176, 456);
             panel3.TabIndex = 3;
             // 
             // p_Campania
@@ -421,7 +421,6 @@
             btn_inventario.BackColor = Color.FromArgb(11, 8, 20);
             btn_inventario.Cursor = Cursors.Hand;
             btn_inventario.Dock = DockStyle.Top;
-            btn_inventario.Enabled = false;
             btn_inventario.FlatAppearance.BorderSize = 0;
             btn_inventario.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             btn_inventario.FlatStyle = FlatStyle.Flat;
@@ -864,12 +863,11 @@
             // 
             // panel10
             // 
-            panel10.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel10.BackColor = Color.FromArgb(11, 8, 20);
             panel10.Controls.Add(lbl_Cinta);
             panel10.Location = new Point(159, 625);
             panel10.Name = "panel10";
-            panel10.Size = new Size(795, 69);
+            panel10.Size = new Size(795, 42);
             panel10.TabIndex = 5;
             // 
             // lbl_Cinta
@@ -877,7 +875,7 @@
             lbl_Cinta.AutoSize = true;
             lbl_Cinta.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_Cinta.ForeColor = Color.FromArgb(128, 255, 255);
-            lbl_Cinta.Location = new Point(776, 25);
+            lbl_Cinta.Location = new Point(776, 5);
             lbl_Cinta.Name = "lbl_Cinta";
             lbl_Cinta.Size = new Size(524, 32);
             lbl_Cinta.TabIndex = 0;
@@ -923,7 +921,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(954, 695);
+            ClientSize = new Size(954, 672);
             Controls.Add(panel10);
             Controls.Add(panel4);
             Controls.Add(label2);
