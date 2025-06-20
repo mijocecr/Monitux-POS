@@ -128,6 +128,8 @@
             label11.Size = new Size(98, 17);
             label11.TabIndex = 62;
             label11.Text = "Miguel Cerrato";
+            label11.Click += label11_Click;
+            label11.DoubleClick += label11_DoubleClick;
             label11.MouseDown += label11_MouseDown;
             // 
             // linkLabel1

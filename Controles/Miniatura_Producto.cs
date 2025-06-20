@@ -90,7 +90,7 @@ namespace Monitux_POS
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-            // MessageBox.Show(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Monitux_POS.Datos.monitux.db"));
+
 
 
 
@@ -159,7 +159,7 @@ namespace Monitux_POS
 
 
 
-                    // MessageBox.Show("Error al cargar la imagen: " + Imagen, "Error de Carga");
+
                 }
 
 
@@ -398,7 +398,7 @@ namespace Monitux_POS
         {
 
 
-           
+
 
             Item_Seleccionado.Checked = Seleccionado;
             Item_Imagen.ContextMenuStrip = Menu;
@@ -448,7 +448,7 @@ namespace Monitux_POS
                 Item_Imagen.Image = new Bitmap(clon);
                 Imagen = rutaGuardado;
 
-                MessageBox.Show("Imagen actualizada con exito","Listo");
+                V_Menu_Principal.MSG.ShowMSG("Imagen actualizada con exito", "Listo");
 
 
 
@@ -458,7 +458,7 @@ namespace Monitux_POS
             }
             catch (Exception ex)
             {
-                //  MessageBox.Show("Error al guardar la imagen: " + ex.Message, "Error de Guardado");
+
                 return;
             }
             SQLitePCL.Batteries.Init();
@@ -485,7 +485,8 @@ namespace Monitux_POS
 
 
 
-        public void Actualizar_Imagen_Camara() {
+        public void Actualizar_Imagen_Camara()
+        {
 
             actualizarItem = true;
             Item_Imagen.Image = null; // Limpiar la imagen actual antes de capturar una nueva
@@ -503,29 +504,29 @@ namespace Monitux_POS
             // **UPDATE**
 
             var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
-            if (producto != null && Item_Imagen.Image!=null)
+            if (producto != null && Item_Imagen.Image != null)
             {
                 string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + producto.Secuencial + "-" + producto.Codigo + ".PNG");
 
-                
 
-               
+
+
 
                 Item_Imagen.Image.Save(rutaGuardado, ImageFormat.Png);
 
                 producto.Imagen = rutaGuardado;
                 context.SaveChanges();
 
-                MessageBox.Show("Imagen actualizada con exito", "Listo");
+                V_Menu_Principal.MSG.ShowMSG("Imagen actualizada con exito", "Listo");
 
 
             }
 
-          
 
 
 
-           
+
+
 
 
         }
@@ -554,13 +555,13 @@ namespace Monitux_POS
 
             if (imagenWeb != null)
             {
-               // Item_Imagen.Image = imagenWeb;
+                // Item_Imagen.Image = imagenWeb;
 
 
 
                 ////////
 
-                
+
                 Image original = imagenWeb;
 
                 // Clonamos para evitar bloqueo del archivo
@@ -600,10 +601,10 @@ namespace Monitux_POS
 
 
 
-                MessageBox.Show("Imagen actualizada con exito", "Listo");
+                V_Menu_Principal.MSG.ShowMSG("Imagen actualizada con exito", "Listo");
 
 
-               
+
             }
 
 
@@ -820,7 +821,7 @@ namespace Monitux_POS
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-            //MessageBox.Show(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Monitux_POS.Datos.monitux.db"));
+
 
             // **UPDATE**
 
@@ -862,7 +863,7 @@ namespace Monitux_POS
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-            //  MessageBox.Show(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Monitux_POS.Datos.monitux.db"));
+
 
             // **UPDATE**
 
@@ -1001,7 +1002,7 @@ namespace Monitux_POS
                     form.OnProductoEditado += () => principal.Cargar_Items_Cuadricula(); // pasa el objeto que usas normalmente }
 
                 }
-                
+
                 form.ShowDialog();
 
             }
@@ -1013,10 +1014,17 @@ namespace Monitux_POS
 
 
 
-            MessageBox.Show(Origen);
+
 
         }
 
+
+        public void cargarVista_Ampliada()
+        {
+            V_Vista_Ampliada v_Vista_Ampliada = new V_Vista_Ampliada(Imagen, Codigo,Descripcion);
+            v_Vista_Ampliada.ShowDialog();
+
+        }
 
 
 
@@ -1056,6 +1064,16 @@ namespace Monitux_POS
         {
             Actualizar_Imagen_Camara();
 
+        }
+
+        private void vistaAmpliadaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ampliarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cargarVista_Ampliada();
         }
     }//Fin de Clase
 }

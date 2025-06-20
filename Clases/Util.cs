@@ -1,5 +1,6 @@
 ﻿using Humanizer;
 using Microsoft.Data.Sqlite;
+using Monitux_POS.Ventanas;
 using System;
 using System;
 using System.Drawing;
@@ -13,7 +14,8 @@ using System.Windows.Forms;
 using ZXing;
 using ZXing.Common;
 using ZXing.Windows.Compatibility;
-
+using System.Drawing;
+using System.Windows.Forms;
 
 
 
@@ -464,14 +466,24 @@ namespace Monitux_POS.Clases
         public static Image Cargar_Imagen_Local(string ruta)
         {
 
+            if (!string.IsNullOrEmpty(ruta))
+            {
 
-            Image original = Image.FromFile(ruta);
 
+                Image original = Image.FromFile(ruta);
+
+
+                Image clon = new Bitmap(original);
+                original.Dispose(); // Libera el archivo original
+
+                return clon;
+
+
+            }
+            else { 
             
-            Image clon = new Bitmap(original);
-            original.Dispose(); // Libera el archivo original
-
-           return clon; 
+                return null;  // Retorna null si la ruta es nula o vacía
+            }
 
 
 
@@ -496,10 +508,57 @@ namespace Monitux_POS.Clases
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar imagen desde URL:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("Error al cargar imagen desde URL:\n" + ex.Message, "Error");
                 return null;
             }
         }
+
+
+
+
+
+
+public static class AnimacionesUI
+    {
+        public static void AnimarCrecimiento(Control control, Size tamañoFinal, int pasos = 10, int velocidadMs = 5)
+        {
+            if (control == null) return;
+
+            int pasoActual = 0;
+            Size tamañoInicial = new Size(0, 156);
+            control.Size = tamañoInicial;
+
+            int incrementoAncho = (tamañoFinal.Width - tamañoInicial.Width) / pasos;
+            int incrementoAlto = (tamañoFinal.Height - tamañoInicial.Height) / pasos;
+
+                System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+
+                timer.Interval = velocidadMs;
+
+            timer.Tick += (s, e) =>
+            {
+                if (pasoActual < pasos)
+                {
+                    control.Size = new Size(
+                        control.Width + incrementoAncho,
+                        control.Height + incrementoAlto
+                    );
+                    pasoActual++;
+                }
+                else
+                {
+                    control.Size = tamañoFinal;
+                    timer.Stop();
+                    timer.Dispose();
+                }
+            };
+
+            timer.Start();
+        }
+}
+
+
+
 
 
 

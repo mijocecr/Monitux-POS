@@ -46,25 +46,14 @@ namespace Monitux_POS.Ventanas
         {
             Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
 
-            //    BarcodeReader reader = new BarcodeReader();
-
-            //  var result = reader.Decode(bitmap);
-            /*  if (result != null)
-              {
-                  txtCodigo.Invoke(new MethodInvoker(delegate ()
-                  {
-                      txtCodigo.Text = result.ToString();
-                      MessageBox.Show("Código de barras detectado: " + result.ToString(), "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                      videoCaptureDevice.SignalToStop();
-                  }));
-              }*/
+           
             try
             {
                 picImagen.Image = bitmap;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al capturar la imagen: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                V_Menu_Principal.MSG.ShowMSG("Error al capturar la imagen: " + ex.Message, "Error");
             }
             }
 
@@ -72,7 +61,7 @@ namespace Monitux_POS.Ventanas
 
         private void V_Captura_Imagen_Load(object sender, EventArgs e)
         {
-            this.Text = "Monitux-POS Ver." + V_Menu_Principal.VER;
+            this.Text = "Monitux-POS v." + V_Menu_Principal.VER;
             filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             foreach (FilterInfo device in filterInfoCollection)
                 cboCamaras.Items.Add(device.Name);
@@ -105,19 +94,6 @@ namespace Monitux_POS.Ventanas
 
 
 
-       /* public static Bitmap get_Imagen()
-        {
-            if (Imagen  != null)
-            {
-                return Imagen;
-            }
-            else
-            {
-                MessageBox.Show("No hay imagen capturada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-        }
-       */
 
         public static Bitmap Get_Imagen() {
 

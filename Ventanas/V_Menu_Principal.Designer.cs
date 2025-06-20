@@ -138,9 +138,9 @@
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
             panel3.Controls.Add(btn_resumen);
-            panel3.Location = new Point(0, 215);
+            panel3.Location = new Point(0, 222);
             panel3.Name = "panel3";
-            panel3.Size = new Size(176, 456);
+            panel3.Size = new Size(176, 470);
             panel3.TabIndex = 3;
             // 
             // p_Campania
@@ -623,7 +623,7 @@
             button25.Padding = new Padding(35, 0, 0, 0);
             button25.Size = new Size(166, 26);
             button25.TabIndex = 3;
-            button25.Text = "Ayuda";
+            button25.Text = "Acerca de...";
             button25.TextAlign = ContentAlignment.MiddleLeft;
             button25.UseVisualStyleBackColor = false;
             // 
@@ -812,11 +812,11 @@
             lbl_Titulo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lbl_Titulo.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Titulo.ForeColor = Color.White;
-            lbl_Titulo.Location = new Point(669, 11);
+            lbl_Titulo.Location = new Point(718, 11);
             lbl_Titulo.Name = "lbl_Titulo";
-            lbl_Titulo.Size = new Size(207, 21);
+            lbl_Titulo.Size = new Size(158, 21);
             lbl_Titulo.TabIndex = 2;
-            lbl_Titulo.Text = "Monitux-POS";
+            lbl_Titulo.Text = "Monitux-POS v.1.0";
             lbl_Titulo.TextAlign = ContentAlignment.TopRight;
             lbl_Titulo.MouseMove += lbl_Titulo_MouseMove;
             // 
@@ -854,10 +854,10 @@
             lbl_Descripcion.ForeColor = Color.FromArgb(192, 255, 192);
             lbl_Descripcion.Location = new Point(159, 3);
             lbl_Descripcion.Name = "lbl_Descripcion";
-            lbl_Descripcion.Size = new Size(405, 39);
+            lbl_Descripcion.Size = new Size(529, 39);
             lbl_Descripcion.TabIndex = 3;
             lbl_Descripcion.Text = "Descripcion";
-            lbl_Descripcion.TextAlign = ContentAlignment.MiddleCenter;
+            lbl_Descripcion.TextAlign = ContentAlignment.MiddleLeft;
             lbl_Descripcion.Click += lbl_Descripcion_Click;
             lbl_Descripcion.MouseMove += lbl_Descripcion_MouseMove;
             // 

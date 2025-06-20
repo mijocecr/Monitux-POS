@@ -19,7 +19,7 @@ namespace Monitux_POS.Ventanas
 
         public static MSG MSG = new MSG();
         public static IPB IPB = new IPB();
-        public static string VER = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public static string VER = Assembly.GetExecutingAssembly().GetName().Version.ToString().Substring(0,3);
         public static int Secuencial_Usuario;
         public static string Nombre_Usuario = string.Empty;
         public static string Codigo_Usuario = string.Empty;
@@ -43,13 +43,13 @@ namespace Monitux_POS.Ventanas
         {
 
 
-            lbl_Titulo.Text = "Monitux-POS Ver." + VER;
+            lbl_Titulo.Text = "Monitux-POS v." + VER;
             //Abrir_Ventana(v_Login);
             if (v_Login.ShowDialog() == DialogResult.OK)
             {
                 // Si el usuario ha iniciado sesión correctamente, se puede continuar
                 lbl_Descripcion.Text = Nombre_Usuario + " ha iniciado sesión correctamente.";
-                lbl_Titulo.Text = "Monitux-POS Ver." + VER;
+                lbl_Titulo.Text = "Monitux-POS v." + VER;
                 label1.Text = Nombre_Usuario; // Variable para almacenar el nombre del usuario
                 label2.Text = Acceso_Usuario; // Variable para almacenar el codigo del usuario
 
@@ -357,7 +357,7 @@ namespace Monitux_POS.Ventanas
 
         private void lbl_Cinta_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(lbl_Cinta.Left.ToString());
+            
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -421,13 +421,14 @@ namespace Monitux_POS.Ventanas
 
         private void button24_Click(object sender, EventArgs e)
         {
+            lbl_Descripcion.Text = "Administre sus cuentas por cobrar y por pagar, registre pagos parciales y acceda al detalle completo de transacciones.";
             Mostrar_SubMenu(panel2);
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
             Mostrar_SubMenu(panel6);
-
+            lbl_Descripcion.Text = "Desde aquí podrá generar cotizaciones, emitir órdenes de compra y registrar todas sus compras y ventas fácilmente.";
             if (V_Menu_Principal.Acceso_Usuario != "Administrador")
             {
                 button10.Enabled = false; // Oculta el botón de eliminar si el usuario no es administrador
@@ -467,6 +468,7 @@ namespace Monitux_POS.Ventanas
 
         private void button4_Click_1(object sender, EventArgs e)
         {
+            lbl_Descripcion.Text = "Consulte reportes detallados de todos los procesos registrados en Monitux-POS, incluyendo ventas, compras, inventario y más, todo en un solo lugar.";
             Mostrar_SubMenu(p_Reportes);
             MSG.ShowMSG("No Implementado aun..., este si no se como hacerlo aun.", "Ni Puta idea...");
         }
@@ -480,6 +482,7 @@ namespace Monitux_POS.Ventanas
         {
             Ocultar_SubMenu();
             Abrir_Ventana(new V_Inventario());
+            lbl_Descripcion.Text = "Esta ventana le permite gestionar su inventario de forma eficiente: puede consultar sus productos, agregar nuevos ítems y acceder al historial de movimientos (kardex).";
         }
 
         private void button28_Click(object sender, EventArgs e)
@@ -495,7 +498,7 @@ namespace Monitux_POS.Ventanas
 
         private void button26_Click(object sender, EventArgs e)
         {
-            Abrir_Ventana(new V_Inventario());
+            
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

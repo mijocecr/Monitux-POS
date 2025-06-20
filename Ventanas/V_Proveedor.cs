@@ -40,7 +40,7 @@ namespace Monitux_POS.Ventanas
             }
 
 
-            this.Text = "Monitux POS ver." + V_Menu_Principal.VER; // Establece el título del formulario
+            this.Text = "Monitux-POS v." + V_Menu_Principal.VER; // Establece el título del formulario
             comboBox2.Items.Add("Nombre");
             comboBox2.Items.Add("Telefono");
             comboBox2.Items.Add("Contacto");
@@ -226,7 +226,7 @@ namespace Monitux_POS.Ventanas
             }
             catch (Exception ex)
             {
-                //MessageBox.Show("Error al cargar los datos: " + ex.Message);
+                
                 pictureBox1.Image = null;
             }
 
@@ -573,7 +573,7 @@ Cargar_Datos(); // Recarga los datos después de crear el proveedor
             }
             catch (Exception ex)
             {
-                //MessageBox.Show("Error al cargar los datos: " + ex.Message);
+                
                 pictureBox1.Image = null;
             }
 

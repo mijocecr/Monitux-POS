@@ -15,6 +15,7 @@ namespace Monitux_POS.Ventanas
 {
     public partial class V_Login : Form
     {
+        bool isAdmin = false; // Variable para verificar si el usuario es administrador
         public int suma = 0; // Variable para almacenar la suma de los números aleatorios
         public string Pin = "****"; // Variable para almacenar el PIN del usuario
         public static string Imagen = "Sin Imagen"; // Variable para almacenar la imagen del usuario
@@ -161,7 +162,7 @@ namespace Monitux_POS.Ventanas
             Imagen = Util.Abrir_Dialogo_Seleccion_URL(); // Cargar imagen desde el disco
             if (Imagen != "Sin Imagen")
             {
-                pictureBox3.Image=Util.Cargar_Imagen_Local(Imagen); // Cargar la imagen en el PictureBox
+                pictureBox3.Image = Util.Cargar_Imagen_Local(Imagen); // Cargar la imagen en el PictureBox
             }
             else
             {
@@ -192,15 +193,12 @@ namespace Monitux_POS.Ventanas
                 acceso = false;
                 txtPassword.Clear(); // Limpia el campo de contraseña si el acceso es incorrecto
 
-                msj = (acceso ? "Acceso concedido" : "Usuario o contraseña incorrectos");
-                V_Menu_Principal.MSG.ShowMSG(msj, acceso ? "Éxito" : "Error");
+                V_Menu_Principal.MSG.ShowMSG("Error al validar el usuario. ", "Error");
+
                 return;
             }
 
 
-
-            msj = (acceso ? "Acceso concedido" : "Usuario o contraseña incorrectos");
-            V_Menu_Principal.MSG.ShowMSG(msj, acceso ? "Éxito" : "Error");
 
 
             if (acceso == true)
@@ -260,19 +258,26 @@ namespace Monitux_POS.Ventanas
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            suma = suma + 1; // Incrementa la suma de números aleatorios
-            if (suma >= 8)
+
+            if (isAdmin != false)
             {
-                pictureBox2.BorderStyle = BorderStyle.Fixed3D;
 
-                Random random = new Random();
-                this.Pin = random.Next(1000, 10000).ToString() + "*"; // Genera un número entre 1000 y 9999
+                suma = suma + 1; // Incrementa la suma de números aleatorios
+                if (suma >= 10)
+                {
 
-                suma = 0; // Reinicia la suma a 0 después de generar el PIN
 
-                pictureBox2.BorderStyle = BorderStyle.None; // Limpia el borde del PictureBox
+                    Random random = new Random();
+                    this.Pin = random.Next(1000, 10000).ToString() + "*"; // Genera un número entre 1000 y 9999
+                    label11.ForeColor = Color.Red; // Cambia el color del texto a rojo
+                    isAdmin = false; // Cambia el estado a no administrador
+                    suma = 0; // Reinicia la suma a 0 después de generar el PIN
+
+
+                }
 
             }
+           
 
         }
 
@@ -327,11 +332,30 @@ namespace Monitux_POS.Ventanas
             }
             else
             {
-               // panel1.Cursor = Cursor.Current = Cursors.SizeAll;
+                // panel1.Cursor = Cursor.Current = Cursors.SizeAll;
                 Left = Left + (e.X - posX);
                 Top = Top + (e.Y - posY);
 
             }
         }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_DoubleClick(object sender, EventArgs e)
+        {
+            if (isAdmin == false)
+            {
+                isAdmin = true; // Cambia el estado a administrador
+                label11.ForeColor = Color.Green; // Cambia el color del texto a verde
+            }
+            else
+            {
+                isAdmin = false; // Cambia el estado a no administrador
+                label11.ForeColor = Color.White; // Cambia el}
+            }
+            }
     }
 }

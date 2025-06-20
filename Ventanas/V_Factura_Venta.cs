@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Monitux_POS.Clases.Util;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Monitux_POS.Ventanas
@@ -100,7 +101,7 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
-                    // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+                    
 
                     Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
 
@@ -185,11 +186,12 @@ namespace Monitux_POS.Ventanas
 
 
 
+               // flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
+               // AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
 
-
-
-                flowLayoutPanel1.Controls.Add(miniatura_Producto1);
-
+                //Original
+                      flowLayoutPanel1.Controls.Add(miniatura_Producto1);
+                //Original
 
 
                 var controlesMiniatura = flowLayoutPanel1.Controls.OfType<Miniatura_Producto>();
@@ -487,14 +489,14 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Origen = "Factura_Venta"; // Asignar el origen del producto a "Factura_Venta"
                 /* miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
                 {
-                    MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+                    
                 };*/
 
 
 
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
-                    // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+                    
 
                     Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
 
@@ -561,14 +563,16 @@ namespace Monitux_POS.Ventanas
                 };
 
 
+              //  flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
+              //  AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
 
 
 
 
 
-
-                flowLayoutPanel1.Controls.Add(miniatura_Producto1);
-
+                //Original
+                 flowLayoutPanel1.Controls.Add(miniatura_Producto1);
+                //Original
 
 
 

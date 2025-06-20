@@ -52,7 +52,7 @@ namespace Monitux_POS.Ventanas
             comboBox1.Items.Add("Descripcion");
             comboBox1.SelectedIndex = 0; // Selecciona el primer elemento por defecto
             dataGridView1.ReadOnly = true; // Hace que el DataGridView sea de solo lectura
-            this.Text= "Monitux POS ver."+V_Menu_Principal.VER; // Establece el título del formulario
+            this.Text= "Monitux-POS v."+V_Menu_Principal.VER; // Establece el título del formulario
         }
 
 
@@ -139,7 +139,7 @@ namespace Monitux_POS.Ventanas
             }
             catch (Exception ex)
             {
-                //MessageBox.Show("Error al cargar los datos: " + ex.Message);
+                
                 pictureBox1.Image = null;
             }
 
@@ -487,7 +487,7 @@ namespace Monitux_POS.Ventanas
             }
             catch (Exception ex)
             {
-                //MessageBox.Show("Error al cargar los datos: " + ex.Message);
+                
                 pictureBox1.Image = null;
             }
 

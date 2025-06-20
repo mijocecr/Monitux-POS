@@ -112,7 +112,7 @@ namespace Monitux_POS.Ventanas
                     }
                     catch (Exception ex)
                     {
-                        //MessageBox.Show("Error al cargar la imagen: " + ex.Message);
+                        
                     }
                 }
                 else
@@ -257,7 +257,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            this.Text = "Monitux POS ver." + V_Menu_Principal.VER; // Establece el título del formulario
+            this.Text = "Monitux-POS v." + V_Menu_Principal.VER; // Establece el título del formulario
 
             if (esNuevo == true)
             {
@@ -732,7 +732,7 @@ namespace Monitux_POS.Ventanas
                 catch
                 {
 
-                    // MessageBox.Show($"Error al eliminar el producto: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    
                 }
             }
 

@@ -138,7 +138,7 @@
             // 
             checkBox1.AutoSize = true;
             checkBox1.ForeColor = Color.White;
-            checkBox1.Location = new Point(9, 335);
+            checkBox1.Location = new Point(9, 333);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(109, 19);
             checkBox1.TabIndex = 28;
@@ -149,7 +149,7 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(124, 331);
+            dateTimePicker1.Location = new Point(124, 329);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(103, 23);
             dateTimePicker1.TabIndex = 27;
@@ -301,7 +301,7 @@
             // 
             label10.AutoSize = true;
             label10.ForeColor = Color.White;
-            label10.Location = new Point(76, 364);
+            label10.Location = new Point(76, 358);
             label10.Name = "label10";
             label10.Size = new Size(69, 15);
             label10.TabIndex = 13;
@@ -311,12 +311,12 @@
             // 
             txtDescripcion.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             txtDescripcion.ForeColor = SystemColors.MenuHighlight;
-            txtDescripcion.Location = new Point(9, 385);
+            txtDescripcion.Location = new Point(9, 377);
             txtDescripcion.MaxLength = 110;
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
             txtDescripcion.ScrollBars = ScrollBars.Vertical;
-            txtDescripcion.Size = new Size(222, 60);
+            txtDescripcion.Size = new Size(222, 68);
             txtDescripcion.TabIndex = 11;
             // 
             // label9
@@ -445,7 +445,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(419, 24);
+            menuStrip1.Size = new Size(415, 24);
             menuStrip1.TabIndex = 1;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -536,7 +536,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(419, 527);
+            ClientSize = new Size(415, 523);
             ControlBox = false;
             Controls.Add(label13);
             Controls.Add(panel1);

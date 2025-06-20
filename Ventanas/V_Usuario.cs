@@ -30,7 +30,7 @@ namespace Monitux_POS.Ventanas
 
         private void V_Usuario_Load(object sender, EventArgs e)
         {
-            this.Text = "Monitux POS ver." + V_Menu_Principal.VER; // Establece el título del formulario
+            this.Text = "Monitux-POS v." + V_Menu_Principal.VER; // Establece el título del formulario
             Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario;
 
             if (V_Menu_Principal.Acceso_Usuario != "Administrador")
@@ -251,7 +251,7 @@ namespace Monitux_POS.Ventanas
             }
             catch (Exception ex)
             {
-                //MessageBox.Show("Error al cargar los datos: " + ex.Message);
+                
                 pictureBox1.Image = null;
             }
 
@@ -654,7 +654,7 @@ namespace Monitux_POS.Ventanas
             }
             catch (Exception ex)
             {
-                //MessageBox.Show("Error al cargar los datos: " + ex.Message);
+                
                 pictureBox1.Image = null;
             }
 

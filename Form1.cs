@@ -86,7 +86,7 @@ namespace Monitux_POS
 
         private void button5_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Util.Encriptador.Desencriptar("mERVc1DJ9Coh1Ev/3PCgWg=="));
+            
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -193,7 +193,7 @@ namespace Monitux_POS
                 listView1.LargeImageList = imageList;
                 listView1.Items.Add(new ListViewItem(item.Codigo, 0)); // Usa la primera imagen
 
-                MessageBox.Show(item.Secuencial.ToString());
+                
                 flowLayoutPanel1.Controls.Add(miniatura_Producto1);
             }
 
@@ -238,7 +238,7 @@ namespace Monitux_POS
               
                 /* miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
                 {
-                    MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+                    
                 };*/
 
                 //miniatura_Producto1.vistaEditar = new V_Producto(false,item.getProducto());
@@ -252,7 +252,7 @@ namespace Monitux_POS
                                     catch
                                     (Exception ex)
                                     {
-                                        MessageBox.Show("Error al cargar la imagen: " + ex.Message);
+                                        
                                         imageList.Images.Add(Image.FromFile("C:\\Users\\Miguel Cerrato\\source\\repos\\Monitux-POS\\f1.png"));
                                     }
 
@@ -270,7 +270,7 @@ namespace Monitux_POS
                                 listView1.Items.Add(new ListViewItem(item.Codigo, i)); // Usa la primera imagen
                                 i++;
                 */
-                //MessageBox.Show(item.Secuencial.ToString());
+               
                 flowLayoutPanel1.Controls.Add(miniatura_Producto1);
               
 
@@ -373,7 +373,7 @@ namespace Monitux_POS
             /*
             if (listView1.SelectedItems.Count > 0)
             {
-                MessageBox.Show(listView1.SelectedItems[0].Text, "Elemento seleccionado");
+                
             }*/
 
 

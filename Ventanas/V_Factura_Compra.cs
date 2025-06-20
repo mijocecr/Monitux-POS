@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Monitux_POS.Clases.Util;
 
 namespace Monitux_POS.Ventanas
 {
@@ -217,14 +218,9 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
-                    // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+                    
 
                     Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
-
-
-
-
-
 
 
 
@@ -299,14 +295,15 @@ namespace Monitux_POS.Ventanas
 
 
 
+             //   flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
+             //   AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
 
 
 
 
-
-
+                // Original
                 flowLayoutPanel1.Controls.Add(miniatura_Producto1);
-
+                //Original
 
 
                 var controlesMiniatura = flowLayoutPanel1.Controls.OfType<Miniatura_Producto>();
@@ -510,14 +507,14 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Origen = "Factura_Compra"; // Asignar el origen de la miniatura del producto
                 /* miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
                 {
-                    MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+                    
                 };*/
 
 
 
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
-                    // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+                    
 
                     Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
 
@@ -586,12 +583,13 @@ namespace Monitux_POS.Ventanas
 
 
 
+               // flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
+               // AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
 
 
-
-
+                //Original
                 flowLayoutPanel1.Controls.Add(miniatura_Producto1);
-
+                //Original
 
 
 
@@ -721,7 +719,7 @@ namespace Monitux_POS.Ventanas
                 else
                 {
 
-                    MessageBox.Show("Revise la cantidad que desea agregar. -- " + item.Codigo + " --\n\nDescripcion: " + item.Descripcion, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("Revise la cantidad que desea agregar. -- " + item.Codigo + " --\n\nDescripcion: " + item.Descripcion, "Error");
                     return;
                 }
 
@@ -1529,42 +1527,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            //Esta funcion posiblemenete la quite,
-            //ya que no es necesario calcular el cambio en una compra,
-            //pero la dejo comentada por si acaso
-
-            /*
-
-            if (checkBox1.Checked == true)
-            {
-
-
-                double cambio = 0;
-                string dinero_recibido = Interaction.InputBox("Escriba la cantidad en números del dinero recibido por esta venta.", "Cálculo del Cambio");
-
-                if (Double.TryParse(dinero_recibido, out double numero))
-                {
-                    cambio = numero - total; // Calculamos la diferencia directamente
-
-                    if (cambio >= 0)
-                    {
-                        MessageBox.Show("El CAMBIO A FAVOR DEL CLIENTE ES: " + cambio + "\n\n" + Util.Convertir_Numeros_Palabras(cambio.ToString()) + " " + moneda, "Ventas");
-                    }
-                    else
-                    {
-                        MessageBox.Show("FALTA DINERO: " + Math.Abs(cambio) + "\n\n" + Util.Convertir_Numeros_Palabras(Math.Abs(cambio).ToString()) + " " + moneda, "Ventas");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Error: Solo se permiten números.", "Ventas");
-                }
-
-
-
-            }
-
-            */
+          
 
 
 

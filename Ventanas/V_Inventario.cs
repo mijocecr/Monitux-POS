@@ -67,32 +67,7 @@ namespace Monitux_POS.Ventanas
 
             button1.Visible = true;
             button2.Visible = true;
-            /*GlobalFontSettings.UseWindowsFontsUnderWindows = true;
-
-            // Crear un nuevo documento PDF
-            PdfDocument documento = new PdfDocument();
-            documento.Info.Title = "Ejemplo de PDFSharp";
-
-            // Agregar una página al documento
-            PdfPage pagina = documento.AddPage();
-            XGraphics gfx = XGraphics.FromPdfPage(pagina);
-
-            // Definir una fuente
-            XFont fuente = new XFont("Times New Roman", 12, XFontStyleEx.Regular);
-
-
-
-            // Dibujar texto en el PDF
-            gfx.DrawString("¡Hola, Miguel! Este es un PDF generado con PdfSharp.", fuente, XBrushes.Black, new XPoint(100, 100));
-
-            // Dibujar una línea
-            gfx.DrawLine(XPens.Black, 100, 120, 300, 120);
-
-            // Guardar el documento
-            documento.Save("Ejemplo.pdf");
-
-            MessageBox.Show("PDF generado exitosamente.");*/
-
+         
 
 
 
@@ -243,7 +218,7 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Item_Imagen.DoubleClick += async (s, ev) =>
                 {
-                    // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+                    
 
                     V_Kardex v_Kardex = new V_Kardex();
 
@@ -361,7 +336,7 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Item_Imagen.DoubleClick += async (s, ev) =>
                 {
-                    // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+                    
 
 
 
@@ -489,7 +464,7 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Item_Imagen.DoubleClick += async (s, ev) =>
                 {
-                    // MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
+                    
 
 
 
@@ -1033,7 +1008,7 @@ namespace Monitux_POS.Ventanas
 
 
             var lista = kardex.ToList();
-            // MessageBox.Show($"Registros obtenidos: {lista.Count}");
+            
 
 
             foreach (var item in kardex.ToList())
@@ -1087,7 +1062,7 @@ namespace Monitux_POS.Ventanas
             if (!DateTime.TryParse(fecha_inicio, out DateTime inicio) ||
                 !DateTime.TryParse(fecha_fin, out DateTime fin))
             {
-                MessageBox.Show("Las fechas ingresadas no son válidas.");
+                V_Menu_Principal.MSG.ShowMSG("Las fechas ingresadas no son válidas.","Error");
                 return; // Detiene el proceso si la conversión falla
             }
 
@@ -1131,7 +1106,7 @@ namespace Monitux_POS.Ventanas
 
                 V_Menu_Principal.MSG.ShowMSG($"Registros obtenidos: {lista.Count}", "Kardex");
             }
-            //  MessageBox.Show($"Registros obtenidos: {lista.Count}");
+            
 
             foreach (var item in lista)
             {
@@ -1833,7 +1808,7 @@ namespace Monitux_POS.Ventanas
                 }
                 else
                 {
-                    MessageBox.Show("Por favor, seleccione un rango de fechas válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    V_Menu_Principal.MSG.ShowMSG("Por favor, seleccione un rango de fechas válido.", "Error");
                 }
 
             }
@@ -1898,7 +1873,7 @@ namespace Monitux_POS.Ventanas
 
                 V_Kardex.Secuencial_Producto = Convert.ToInt32(dataGridView2.SelectedRows[0].Cells["Secuencial_Producto"].Value);
                 V_Kardex.Codigo_Producto = codigo;
-                // MessageBox.Show($"Abriendo Kardex del producto: {secuencial} {codigo}", "Kardex", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
                 kardex.ShowDialog();
 
 

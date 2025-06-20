@@ -142,7 +142,7 @@ namespace Monitux_POS.Ventanas
 
         private void V_Importar_Orden_Load(object sender, EventArgs e)
         {
-            this.Text = "Monitux POS ver." + V_Menu_Principal.VER; // Establece el título del formulario
+            this.Text = "Monitux-POS v." + V_Menu_Principal.VER; // Establece el título del formulario
             llenar_Combo_Proveedor();
             Configurar_DataGridView_Detalle();
             Configurar_DataGridView_Orden();
