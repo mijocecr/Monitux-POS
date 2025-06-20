@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Kardex));
             label6 = new Label();
             panel1 = new Panel();
             label5 = new Label();
@@ -75,45 +76,43 @@
             // 
             // label5
             // 
-            label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = Color.White;
-            label5.Location = new Point(324, 368);
+            label5.ForeColor = Color.Red;
+            label5.Location = new Point(350, 368);
             label5.Name = "label5";
-            label5.Size = new Size(14, 15);
+            label5.Size = new Size(63, 15);
             label5.TabIndex = 41;
             label5.Text = "0";
+            label5.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label7
             // 
-            label7.AutoSize = true;
             label7.ForeColor = Color.White;
-            label7.Location = new Point(282, 368);
+            label7.Image = (Image)resources.GetObject("label7.Image");
+            label7.Location = new Point(301, 356);
             label7.Name = "label7";
-            label7.Size = new Size(46, 15);
+            label7.Size = new Size(46, 34);
             label7.TabIndex = 40;
-            label7.Text = "Salidas:";
             // 
             // label4
             // 
-            label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.White;
+            label4.ForeColor = Color.Lime;
             label4.Location = new Point(189, 368);
             label4.Name = "label4";
-            label4.Size = new Size(14, 15);
+            label4.Size = new Size(64, 15);
             label4.TabIndex = 39;
             label4.Text = "0";
+            label4.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label1
             // 
-            label1.AutoSize = true;
             label1.ForeColor = Color.White;
-            label1.Location = new Point(138, 368);
+            label1.Image = (Image)resources.GetObject("label1.Image");
+            label1.Location = new Point(139, 356);
             label1.Name = "label1";
-            label1.Size = new Size(55, 15);
+            label1.Size = new Size(44, 34);
             label1.TabIndex = 38;
-            label1.Text = "Entradas:";
             // 
             // dataGridView1
             // 

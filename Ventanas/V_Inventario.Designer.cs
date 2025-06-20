@@ -578,6 +578,7 @@
             MaximizeBox = false;
             Name = "V_Inventario";
             Text = "V_Inventario";
+            FormClosing += V_Inventario_FormClosing;
             Load += V_Inventario_Load;
             panel1.ResumeLayout(false);
             panel4.ResumeLayout(false);

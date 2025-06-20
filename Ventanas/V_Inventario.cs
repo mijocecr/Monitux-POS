@@ -255,7 +255,7 @@ namespace Monitux_POS.Ventanas
                         v_Kardex.ShowDialog();
 
                     }
-                    
+
 
 
 
@@ -1898,16 +1898,16 @@ namespace Monitux_POS.Ventanas
 
                 V_Kardex.Secuencial_Producto = Convert.ToInt32(dataGridView2.SelectedRows[0].Cells["Secuencial_Producto"].Value);
                 V_Kardex.Codigo_Producto = codigo;
-               // MessageBox.Show($"Abriendo Kardex del producto: {secuencial} {codigo}", "Kardex", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // MessageBox.Show($"Abriendo Kardex del producto: {secuencial} {codigo}", "Kardex", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 kardex.ShowDialog();
 
 
             }
         }
 
-
-
-
-        
+        private void V_Inventario_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            flowLayoutPanel1.Controls.Clear();
+        }
     }//Fin de Clase
 }//Fin de Namespace

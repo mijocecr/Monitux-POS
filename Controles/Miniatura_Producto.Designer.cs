@@ -46,6 +46,7 @@ namespace Monitux_POS
             toolStripSeparator1 = new ToolStripSeparator();
             editarProductoToolStripMenuItem = new ToolStripMenuItem();
             Item_Moneda = new Label();
+            camaraToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)Item_Imagen).BeginInit();
             Menu.SuspendLayout();
             SuspendLayout();
@@ -53,7 +54,6 @@ namespace Monitux_POS
             // Item_Imagen
             // 
             Item_Imagen.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            
             Item_Imagen.Location = new Point(7, 26);
             Item_Imagen.Name = "Item_Imagen";
             Item_Imagen.Size = new Size(102, 107);
@@ -107,22 +107,22 @@ namespace Monitux_POS
             // 
             Menu.Items.AddRange(new ToolStripItem[] { cambiarImagenToolStripMenuItem, agregarComentarioToolStripMenuItem, inventarioToolStripMenuItem });
             Menu.Name = "Menu";
-            Menu.Size = new Size(147, 70);
+            Menu.Size = new Size(181, 92);
             // 
             // cambiarImagenToolStripMenuItem
             // 
-            cambiarImagenToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { imagenLocalToolStripMenuItem, imagenWebToolStripMenuItem });
+            cambiarImagenToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { imagenLocalToolStripMenuItem, imagenWebToolStripMenuItem, camaraToolStripMenuItem });
             cambiarImagenToolStripMenuItem.ForeColor = Color.Black;
             cambiarImagenToolStripMenuItem.Image = (Image)resources.GetObject("cambiarImagenToolStripMenuItem.Image");
             cambiarImagenToolStripMenuItem.Name = "cambiarImagenToolStripMenuItem";
-            cambiarImagenToolStripMenuItem.Size = new Size(146, 22);
+            cambiarImagenToolStripMenuItem.Size = new Size(180, 22);
             cambiarImagenToolStripMenuItem.Text = "Imagen";
             cambiarImagenToolStripMenuItem.Click += cambiarImagenToolStripMenuItem_Click;
             // 
             // imagenLocalToolStripMenuItem
             // 
             imagenLocalToolStripMenuItem.Name = "imagenLocalToolStripMenuItem";
-            imagenLocalToolStripMenuItem.Size = new Size(102, 22);
+            imagenLocalToolStripMenuItem.Size = new Size(180, 22);
             imagenLocalToolStripMenuItem.Text = "Local";
             imagenLocalToolStripMenuItem.Click += imagenLocalToolStripMenuItem_Click;
             // 
@@ -131,7 +131,7 @@ namespace Monitux_POS
             imagenWebToolStripMenuItem.Font = new Font("Segoe UI", 9F, FontStyle.Underline, GraphicsUnit.Point, 0);
             imagenWebToolStripMenuItem.ForeColor = Color.Blue;
             imagenWebToolStripMenuItem.Name = "imagenWebToolStripMenuItem";
-            imagenWebToolStripMenuItem.Size = new Size(102, 22);
+            imagenWebToolStripMenuItem.Size = new Size(180, 22);
             imagenWebToolStripMenuItem.Text = "Web";
             imagenWebToolStripMenuItem.Click += imagenWebToolStripMenuItem_Click;
             // 
@@ -142,7 +142,7 @@ namespace Monitux_POS
             agregarComentarioToolStripMenuItem.ForeColor = Color.Black;
             agregarComentarioToolStripMenuItem.Image = (Image)resources.GetObject("agregarComentarioToolStripMenuItem.Image");
             agregarComentarioToolStripMenuItem.Name = "agregarComentarioToolStripMenuItem";
-            agregarComentarioToolStripMenuItem.Size = new Size(146, 22);
+            agregarComentarioToolStripMenuItem.Size = new Size(180, 22);
             agregarComentarioToolStripMenuItem.Text = "Comentario...";
             agregarComentarioToolStripMenuItem.ToolTipText = "Agregar o actualizar comentario de este producto.";
             agregarComentarioToolStripMenuItem.Click += agregarComentarioToolStripMenuItem_Click;
@@ -153,7 +153,7 @@ namespace Monitux_POS
             inventarioToolStripMenuItem.ForeColor = Color.Black;
             inventarioToolStripMenuItem.Image = (Image)resources.GetObject("inventarioToolStripMenuItem.Image");
             inventarioToolStripMenuItem.Name = "inventarioToolStripMenuItem";
-            inventarioToolStripMenuItem.Size = new Size(146, 22);
+            inventarioToolStripMenuItem.Size = new Size(180, 22);
             inventarioToolStripMenuItem.Text = "Producto";
             inventarioToolStripMenuItem.Click += inventarioToolStripMenuItem_Click;
             // 
@@ -206,6 +206,13 @@ namespace Monitux_POS
             Item_Moneda.Text = "EUR.";
             Item_Moneda.TextAlign = ContentAlignment.TopRight;
             // 
+            // camaraToolStripMenuItem
+            // 
+            camaraToolStripMenuItem.Name = "camaraToolStripMenuItem";
+            camaraToolStripMenuItem.Size = new Size(180, 22);
+            camaraToolStripMenuItem.Text = "Hacer Foto";
+            camaraToolStripMenuItem.Click += camaraToolStripMenuItem_Click;
+            // 
             // Miniatura_Producto
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -248,5 +255,6 @@ namespace Monitux_POS
         private ToolStripMenuItem editarProductoToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
         public Label Item_Moneda;
+        private ToolStripMenuItem camaraToolStripMenuItem;
     }
 }

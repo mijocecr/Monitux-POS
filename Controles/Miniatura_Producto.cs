@@ -2,6 +2,7 @@
 using Monitux_POS.Clases;
 using Monitux_POS.Ventanas;
 using System.Drawing.Imaging;
+using System.Security.Policy;
 
 namespace Monitux_POS
 {
@@ -141,7 +142,13 @@ namespace Monitux_POS
 
                 try
                 {
-                    Item_Imagen.Load(Imagen);
+
+                    Image original = Image.FromFile(Imagen);
+                    Image clon = new Bitmap(original);
+                    original.Dispose(); // Libera el bloqueo del archivo
+
+
+                    Item_Imagen.Image = clon; // Asigna la imagen clonada al PictureBox
 
 
                 }
@@ -358,7 +365,7 @@ namespace Monitux_POS
                 Item_Codigo.Font = new Font(Item_Codigo.Font, FontStyle.Regular);
                 Item_Codigo.ForeColor = Color.White;
                 Item_Precio.ForeColor = Item_Codigo.ForeColor;
-                
+
             }
         }
 
@@ -389,14 +396,22 @@ namespace Monitux_POS
         {
 
 
-            //Set_Item();
+           
 
             Item_Seleccionado.Checked = Seleccionado;
             Item_Imagen.ContextMenuStrip = Menu;
             Item_Precio.Text = Precio_Venta.ToString();
             try
             {
-                Item_Imagen.Load(Imagen);
+
+
+                Image original = Image.FromFile(Imagen);
+                Image clon = new Bitmap(original);
+                original.Dispose(); // Libera el bloqueo del archivo
+
+
+
+                Item_Imagen.Image = clon; // Asigna la imagen clonada al PictureBox
 
             }
 
@@ -411,15 +426,31 @@ namespace Monitux_POS
         {
 
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + Secuencial + "-" + Codigo + ".PNG");
 
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + Secuencial + "-" + Codigo + ".PNG");
             try
             {
-                Imagen = Util.Abrir_Dialogo_Seleccion_URL();
-                Item_Imagen.Load(Imagen);
 
-                Item_Imagen.Image.Save(rutaGuardado, ImageFormat.Png);
+
+                string rutaSeleccionada = Util.Abrir_Dialogo_Seleccion_URL();
+                Image original = Image.FromFile(rutaSeleccionada);
+
+                // Clonamos para evitar bloqueo del archivo
+                Image clon = new Bitmap(original);
+                original.Dispose(); // Libera el archivo original
+
+                // Guardamos imagen clonada
+                clon.Save(rutaGuardado, ImageFormat.Png);
+
+                // Mostramos en PictureBox y actualizamos variable global
+                Item_Imagen.Image = new Bitmap(clon);
                 Imagen = rutaGuardado;
+
+                MessageBox.Show("Imagen actualizada con exito","Listo");
+
+
+
+
 
 
             }
@@ -452,6 +483,52 @@ namespace Monitux_POS
 
 
 
+        public void Actualizar_Imagen_Camara() {
+
+            actualizarItem = true;
+            Item_Imagen.Image = null; // Limpiar la imagen actual antes de capturar una nueva
+
+
+            V_Captura_Imagen ventanaCamara = new V_Captura_Imagen("Producto", Secuencial, Codigo);
+            ventanaCamara.ShowDialog();
+            Item_Imagen.Image = V_Captura_Imagen.Get_Imagen();
+
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+
+            // **UPDATE**
+
+            var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
+            if (producto != null && Item_Imagen.Image!=null)
+            {
+                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + producto.Secuencial + "-" + producto.Codigo + ".PNG");
+
+                
+
+               
+
+                Item_Imagen.Image.Save(rutaGuardado, ImageFormat.Png);
+
+                producto.Imagen = rutaGuardado;
+                context.SaveChanges();
+
+                MessageBox.Show("Imagen actualizada con exito", "Listo");
+
+
+            }
+
+          
+
+
+
+           
+
+
+        }
+
+
         private void actualizar_Imagen_Web()
         {
 
@@ -464,43 +541,68 @@ namespace Monitux_POS
 
             string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\WEB-" + Secuencial + "-" + Codigo + ".PNG");
 
-            try
-            {
-                Imagen = Interaction.InputBox("Pegue aqui la direccion de la imagen a la que estara asociada a este producto:", "Imagen Web");
-                Item_Imagen.Load(Imagen);
 
-                Item_Imagen.Image.Save(rutaGuardado, ImageFormat.Png);
+
+
+
+
+            string url = Interaction.InputBox("Pega la URL de la imagen:", "Imagen desde la web");
+
+            Image imagenWeb = Util.CargarImagenDesdeUrl(url);
+
+            if (imagenWeb != null)
+            {
+               // Item_Imagen.Image = imagenWeb;
+
+
+
+                ////////
+
+                
+                Image original = imagenWeb;
+
+                // Clonamos para evitar bloqueo del archivo
+                Image clon = new Bitmap(original);
+                original.Dispose(); // Libera el archivo original
+
+                // Guardamos imagen clonada
+                clon.Save(rutaGuardado, ImageFormat.Png);
+
+                // Mostramos en PictureBox y actualizamos variable global
+                Item_Imagen.Image = new Bitmap(clon);
                 Imagen = rutaGuardado;
 
 
+
+
+
+
+                SQLitePCL.Batteries.Init();
+
+                using var context = new Monitux_DB_Context();
+                context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+                // **UPDATE**
+
+                var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
+                if (producto != null)
+                {
+
+
+                    actualizarItem = true;
+
+                    Item_Imagen.Image.Save(rutaGuardado, ImageFormat.Png);
+                    producto.Imagen = rutaGuardado;
+                    context.SaveChanges();
+                }
+
+
+
+                MessageBox.Show("Imagen actualizada con exito", "Listo");
+
+
+               
             }
-            catch (Exception ex)
-            {
-                // MessageBox.Show("Error al guardar la imagen: " + ex.Message, "Error de Guardado");
-                return;
-            }
-            SQLitePCL.Batteries.Init();
-
-            using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-            // **UPDATE**
-
-            var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
-            if (producto != null)
-            {
-
-
-                actualizarItem = true;
-
-                Item_Imagen.Image.Save(rutaGuardado, ImageFormat.Png);
-                producto.Imagen = rutaGuardado;
-                context.SaveChanges();
-            }
-
-
-
-
 
 
 
@@ -550,12 +652,12 @@ namespace Monitux_POS
         {
             string respuesta;
 
-            if (V_Menu_Principal.IPB.Show("Escriba el comentario asociado a: "+Codigo, "Comentario...", out respuesta) == DialogResult.OK)
+            if (V_Menu_Principal.IPB.Show("Escriba el comentario asociado a: " + Codigo, "Comentario...", out respuesta) == DialogResult.OK)
             {
                 respuesta = respuesta?.Trim();
             }
 
-               V_Menu_Principal.MSG.ShowMSG(respuesta, "Comentario");
+            V_Menu_Principal.MSG.ShowMSG(respuesta, "Comentario");
             actualizarItem = true;
             return respuesta;
         }
@@ -638,7 +740,7 @@ namespace Monitux_POS
                     V_Menu_Principal.MSG.ShowMSG("Error: Solo se permiten números.", "Agregar Unidades");
                     return 0;
                 }
-                    
+
 
             }
             else
@@ -648,10 +750,10 @@ namespace Monitux_POS
                 return 0;
             }
 
-                
 
-            }
-        
+
+        }
+
 
 
 
@@ -677,7 +779,7 @@ namespace Monitux_POS
                     return 0;
 
                 }
-                
+
 
             }
             else
@@ -852,8 +954,14 @@ namespace Monitux_POS
                 Item_Codigo.Font = new Font(Item_Codigo.Font, FontStyle.Regular);
                 Item_Codigo.ForeColor = Color.White;
                 Item_Precio.ForeColor = Item_Codigo.ForeColor;
-                
+
             }
+
+        }
+
+        private void camaraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Actualizar_Imagen_Camara();
 
         }
     }//Fin de Clase

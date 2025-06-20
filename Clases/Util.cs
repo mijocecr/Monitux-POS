@@ -5,6 +5,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Management;
+using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -457,6 +458,31 @@ namespace Monitux_POS.Clases
             }
 
         }
+
+
+
+
+        public static Image CargarImagenDesdeUrl(string url)
+        {
+            try
+            {
+                using (var cliente = new WebClient())
+                {
+                    byte[] datos = cliente.DownloadData(url);
+
+                    using (var stream = new MemoryStream(datos))
+                    {
+                        return Image.FromStream(stream); // Puedes devolverla directamente
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar imagen desde URL:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
 
 
 
