@@ -84,6 +84,7 @@ namespace Monitux_POS.Ventanas
                     miniatura_Producto.Secuencial_Usuario = Secuencial_Usuario;
                     miniatura_Producto.Fecha_Caducidad = item.Fecha_Caducidad;
                     miniatura_Producto.Item_Seleccionado.Checked = true;
+                    miniatura_Producto.Origen = "Factura_Compra"; // Asignar el origen de la miniatura del producto
                     // miniatura_Producto.moneda = moneda; // Asignar la moneda a la miniatura del producto
                     miniatura_Producto.Expira = item.Expira; // Asignar si el producto expira o no
                     miniatura_Producto.cantidadSelecccionItem = Lista.TryGetValue(item_C.Key, out double cantidad) ? cantidad : 0.0; // Asignar la cantidad seleccionada desde el diccionario, o 0.0 si no se encuentra
@@ -132,6 +133,11 @@ namespace Monitux_POS.Ventanas
 
 
 
+
+
+
+
+
         private void button5_Click(object sender, EventArgs e)
         {
 
@@ -145,7 +151,7 @@ namespace Monitux_POS.Ventanas
             importar_Orden.ShowDialog();
             Importar_Orden(V_Importar_Orden.Lista, V_Importar_Orden.proveedor_seleccionado);
             label5.Text = Lista_de_Items.Count.ToString(); // Actualizar el contador de items seleccionados
-            Cargar_Items(this); // Recargar los items en el FlowLayoutPanel
+            Cargar_Items(); // Recargar los items en el FlowLayoutPanel
 
 
 
@@ -155,7 +161,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        public void Cargar_Items(V_Factura_Compra y)
+        public void Cargar_Items()
         {
 
 
@@ -206,7 +212,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.moneda = V_Menu_Principal.moneda; // Asignar la moneda a la miniatura del producto
                 miniatura_Producto1.Tipo = item.Tipo; // Asignar el tipo de producto (si es necesario)
 
-
+                miniatura_Producto1.Origen="Factura_Compra"; // Asignar el origen de la miniatura del producto
 
 
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
@@ -372,7 +378,7 @@ namespace Monitux_POS.Ventanas
             producto.Secuencial_Usuario = Secuencial_Usuario;
 
             producto.ShowDialog();
-            Cargar_Items(this);
+            Cargar_Items();
         }
 
 
@@ -501,7 +507,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Expira = Convert.ToBoolean(item.Expira);
                 miniatura_Producto1.moneda = V_Menu_Principal.moneda; // Asignar la moneda a la miniatura del producto
                 miniatura_Producto1.Tipo = item.Tipo; // Asignar el tipo de producto (si es necesario)
-
+                miniatura_Producto1.Origen = "Factura_Compra"; // Asignar el origen de la miniatura del producto
                 /* miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
                 {
                     MessageBox.Show(flowLayoutPanel1.Controls.IndexOf(miniatura_Producto1).ToString());
@@ -743,7 +749,7 @@ namespace Monitux_POS.Ventanas
 
         private void V_Factura_Compra_Load(object sender, EventArgs e)
         {
-            Cargar_Items(this);
+            Cargar_Items();
             llenar_Combo_Proveedor();
             comboBox2.SelectedIndex = 0;
             comboBox3.SelectedIndex = 0;
@@ -833,7 +839,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            Cargar_Items(this);
+            Cargar_Items();
 
             label5.Text = Lista_de_Items.Count.ToString();
             button2_Click(sender, e); // Actualiza el DataGridView con los items seleccionados
@@ -909,7 +915,7 @@ namespace Monitux_POS.Ventanas
             comboBox2.SelectedIndex = 0;
             comboBox3.SelectedIndex = 0;
             comboBox1.SelectedIndex = 0;
-            Cargar_Items(this);
+            Cargar_Items();
             llenar_Combo_Proveedor();
             comboCliente.SelectedIndex = -1; // Limpiar la selección del cliente
             Util.Limpiar_Cache(); // Limpiar la caché de la aplicación

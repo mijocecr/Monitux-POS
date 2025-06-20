@@ -69,7 +69,7 @@ namespace Monitux_POS.Ventanas
                 btn_campanas.Enabled = true;// Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de campañas solo si el usuario es administrador
                 try
                 {
-                    pictureBox1.Load(Imagen_Usuario);
+                    pictureBox1.Image = Util.Cargar_Imagen_Local(Imagen_Usuario);
                 }
                 catch (Exception ex)
                 {

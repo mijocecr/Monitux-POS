@@ -224,7 +224,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Expira = Convert.ToBoolean(item.Expira);
                 miniatura_Producto1.moneda = V_Menu_Principal.moneda; // Asignar la moneda a la miniatura del producto
                 miniatura_Producto1.Tipo = item.Tipo; // Asignar el tipo de producto (si es necesario)
-
+                miniatura_Producto1.Origen = "Inventario"; // Asignar el origen de la miniatura del producto
                 miniatura_Producto1.Item_Seleccionado.Visible = false;
 
 
@@ -342,7 +342,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Expira = Convert.ToBoolean(item.Expira);
                 miniatura_Producto1.moneda = V_Menu_Principal.moneda; // Asignar la moneda a la miniatura del producto
                 miniatura_Producto1.Tipo = item.Tipo; // Asignar el tipo de producto (si es necesario)
-
+                miniatura_Producto1.Origen = "Inventario"; // Asignar el origen de la miniatura del producto
                 miniatura_Producto1.Item_Seleccionado.Visible = false;
 
 
@@ -472,7 +472,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Tipo = item.Tipo; // Asignar el tipo de producto (si es necesario)
 
                 miniatura_Producto1.Item_Seleccionado.Visible = false;
-
+                miniatura_Producto1.Origen = "Inventario"; // Asignar el origen de la miniatura del producto
 
 
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
@@ -1317,7 +1317,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Expira = Convert.ToBoolean(item.Expira);
                 miniatura_Producto1.moneda = V_Menu_Principal.moneda; // Asignar la moneda a la miniatura del producto
                 miniatura_Producto1.Tipo = item.Tipo; // Asignar el tipo de producto (si es necesario)
-
+                miniatura_Producto1.Origen = "Inventario"; // Asignar el origen de la miniatura del producto
                 miniatura_Producto1.Item_Imagen.Click += (s, ev) =>
                {
                    miniatura_Producto1.Seleccionado = false;

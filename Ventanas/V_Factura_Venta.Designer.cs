@@ -703,7 +703,7 @@ namespace Monitux_POS.Ventanas
             // label16
             // 
             label16.AutoSize = true;
-            label16.ForeColor = Color.White;
+            label16.ForeColor = Color.FromArgb(255, 255, 128);
             label16.Location = new Point(8, 22);
             label16.Name = "label16";
             label16.Size = new Size(372, 15);

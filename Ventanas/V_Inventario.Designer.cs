@@ -192,9 +192,9 @@
             // 
             // panel3
             // 
-            panel3.Controls.Add(dataGridView2);
             panel3.Controls.Add(dataGridView1);
             panel3.Controls.Add(flowLayoutPanel1);
+            panel3.Controls.Add(dataGridView2);
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 139);
             panel3.Name = "panel3";

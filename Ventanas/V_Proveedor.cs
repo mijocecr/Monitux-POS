@@ -205,7 +205,7 @@ namespace Monitux_POS.Ventanas
                 {
                     try
                     {
-                        pictureBox1.Load(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                        pictureBox1.Image=Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
                         Imagen = dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString(); // Guarda la ruta de la imagen
                     }
                     catch
@@ -251,7 +251,7 @@ namespace Monitux_POS.Ventanas
                 if (Imagen_Seleccionada != "")
                 {
                     Imagen = Imagen_Seleccionada;
-                    pictureBox1.Load(Imagen);
+                    pictureBox1.Image = Util.Cargar_Imagen_Local(Imagen);
 
                     pictureBox1.Image.Save(rutaGuardado);
                     this.Imagen = rutaGuardado;
@@ -553,7 +553,7 @@ Cargar_Datos(); // Recarga los datos después de crear el proveedor
                 {
                     try
                     {
-                        pictureBox1.Load(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                        pictureBox1.Image=Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
                     }
                     catch
                     {

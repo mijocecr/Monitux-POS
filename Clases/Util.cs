@@ -461,6 +461,24 @@ namespace Monitux_POS.Clases
 
 
 
+        public static Image Cargar_Imagen_Local(string ruta)
+        {
+
+
+            Image original = Image.FromFile(ruta);
+
+            
+            Image clon = new Bitmap(original);
+            original.Dispose(); // Libera el archivo original
+
+           return clon; 
+
+
+
+        }
+
+
+
 
         public static Image CargarImagenDesdeUrl(string url)
         {

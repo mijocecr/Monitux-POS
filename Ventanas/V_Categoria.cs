@@ -119,7 +119,7 @@ namespace Monitux_POS.Ventanas
                 {
                     try
                     {
-                        pictureBox1.Load(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                        pictureBox1.Image=Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
                     }
                     catch
                     {
@@ -276,7 +276,7 @@ namespace Monitux_POS.Ventanas
                 if (Imagen_Seleccionada != "")
                 {
                     Imagen = Imagen_Seleccionada;
-                    pictureBox1.Load(Imagen);
+                    pictureBox1.Image=Util.Cargar_Imagen_Local(Imagen);
 
                     pictureBox1.Image.Save(rutaGuardado);
                     this.Imagen = rutaGuardado;
@@ -466,7 +466,7 @@ namespace Monitux_POS.Ventanas
                 {
                     try
                     {
-                        pictureBox1.Load(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                        pictureBox1.Image=Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
                         Imagen = dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString(); // Guarda la imagen seleccionada
                     }
                     catch

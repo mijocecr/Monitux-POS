@@ -8,6 +8,8 @@ namespace Monitux_POS
 {
     public partial class Miniatura_Producto : UserControl
     {
+
+        public string Origen;
         public bool Expira { get; set; }
         public Producto Producto { get; set; }
         public int Secuencial { get; set; }
@@ -911,16 +913,107 @@ namespace Monitux_POS
 
 
 
-        public void cargarVistaEditar() // Cambiar esto
+        public void cargarVistaEditar(string origen) //Indicar desde donde se abre esta vista
         {
 
+            /*
+             1. V_Producto form = new V_Producto(false,this.getProducto);
+                Aquí estoy creando una instancia del formulario de producto (V_Producto) 
+                y le estamos pasando dos parametros el identificador único (Secuencial) y 
+                el producto que se quiere editar. Así ese formulario puede precargar los datos del
+                producto correspondiente.
+
+
+            2. FormPrincipal principal = this.FindForm() as FormPrincipal;
+               Esta línea se ejecuta desde dentro de un control, en este caso, el Miniatura_Producto.
+               this.FindForm() busca el formulario al que pertenece ese control 
+               (es decir, el formulario principal que contiene el FlowLayoutPanel).
+
+               El as FormPrincipal intenta convertirlo al tipo FormPrincipal, y si funciona, 
+               ya puedes interactuar con él.
+               Es como decir: “Busca el formulario contenedor y dime si es del tipo principal que conozco”.
+
+            3. El if (principal != null)
+               Esto simplemente confirma que el control está efectivamente dentro del FormPrincipal, 
+               para evitar errores de conversión o referencias nulas.
+
+            4. form.OnProductoEditado += () => principal.Cargar_Items(...);
+               Aquí es donde ocurre la magia de la comunicación entre formularios:
+
+               Estás diciendo: “Cuando el formulario de edición (form) dispare su evento OnProductoEditado, 
+               quiero que el formulario principal (principal) recargue los productos llamando a Cargar_Items(...)”
+
+               El += indica que estás suscribiendo una acción (un método anónimo tipo lambda) al evento.
+
+            > Ese evento OnProductoEditado debe estar declarado en el formulario de edición así: 
+
+            > > csharp > public event Action OnProductoEditado; >
+            
+            Y cuando se edite y guarde correctamente el producto, en el formulario secundario llamas a
+              OnProductoEditado?.Invoke();
+             */
+
+            if (origen == "Factura_Venta")
+            {
+
+                V_Producto form = new V_Producto(false, this.getProducto());
+                V_Factura_Venta principal = this.FindForm() as V_Factura_Venta;
+
+                if (principal != null)
+                {
+                    form.OnProductoEditado += () => principal.Cargar_Items(); // pasa el objeto que usas normalmente }
+
+                }
+
+                form.ShowDialog();
+
+            }
 
 
 
-            Form vistaEditar = new V_Producto(false, this.getProducto());
-            vistaEditar.ShowDialog();
+            else if (origen == "Factura_Compra")
+            {
+
+                V_Producto form = new V_Producto(false, this.getProducto());
+                V_Factura_Compra principal = this.FindForm() as V_Factura_Compra;
+
+                if (principal != null)
+                {
+                    form.OnProductoEditado += () => principal.Cargar_Items(); // pasa el objeto que usas normalmente }
+
+                }
+
+                form.ShowDialog();
+
+            }
 
 
+
+
+            else if (origen == "Inventario")
+            {
+
+                V_Producto form = new V_Producto(false, this.getProducto());
+                V_Inventario principal = this.FindForm() as V_Inventario;
+
+                if (principal != null)
+                {
+                    form.OnProductoEditado += () => principal.Cargar_Items_Cuadricula(); // pasa el objeto que usas normalmente }
+
+                }
+                
+                form.ShowDialog();
+
+            }
+
+            else
+            {
+                V_Menu_Principal.MSG.ShowMSG("Origen no reconocido para la edición del producto.", "Error de Origen");
+            }
+
+
+
+            MessageBox.Show(Origen);
 
         }
 
@@ -933,7 +1026,7 @@ namespace Monitux_POS
 
 
 
-            cargarVistaEditar();
+            cargarVistaEditar(Origen);
 
 
         }

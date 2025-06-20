@@ -31,7 +31,7 @@ namespace Monitux_POS.Ventanas
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
 
-            pictureBox1.Load(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Iconos\\mostrar.PNG"));
+            pictureBox1.Image = Util.Cargar_Imagen_Local(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Iconos\\mostrar.PNG"));
 
             txtPassword.PasswordChar = '\0'; // Mostrar la contraseña
         }
@@ -39,7 +39,7 @@ namespace Monitux_POS.Ventanas
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             txtPassword.PasswordChar = '*'; // Mostrar la contraseña
-            pictureBox1.Load(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Iconos\\ocultar.PNG"));
+            pictureBox1.Image = Util.Cargar_Imagen_Local(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Iconos\\ocultar.PNG"));
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -161,7 +161,7 @@ namespace Monitux_POS.Ventanas
             Imagen = Util.Abrir_Dialogo_Seleccion_URL(); // Cargar imagen desde el disco
             if (Imagen != "Sin Imagen")
             {
-                pictureBox3.Load(Imagen); // Cargar la imagen en el PictureBox
+                pictureBox3.Image=Util.Cargar_Imagen_Local(Imagen); // Cargar la imagen en el PictureBox
             }
             else
             {
