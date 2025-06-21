@@ -492,7 +492,7 @@ namespace Monitux_POS
             Item_Imagen.Image = null; // Limpiar la imagen actual antes de capturar una nueva
 
 
-            V_Captura_Imagen ventanaCamara = new V_Captura_Imagen("Producto", Secuencial, Codigo);
+            V_Captura_Imagen ventanaCamara = new V_Captura_Imagen(Secuencial, Codigo);
             ventanaCamara.ShowDialog();
             Item_Imagen.Image = V_Captura_Imagen.Get_Imagen();
 

@@ -29,7 +29,7 @@ namespace Monitux_POS.Ventanas
 
         private void cerrarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             this.Dispose();
         }
 
@@ -52,7 +52,7 @@ namespace Monitux_POS.Ventanas
             comboBox1.Items.Add("Descripcion");
             comboBox1.SelectedIndex = 0; // Selecciona el primer elemento por defecto
             dataGridView1.ReadOnly = true; // Hace que el DataGridView sea de solo lectura
-            this.Text= "Monitux-POS v."+V_Menu_Principal.VER; // Establece el título del formulario
+            this.Text = "Monitux-POS v." + V_Menu_Principal.VER; // Establece el título del formulario
         }
 
 
@@ -119,7 +119,7 @@ namespace Monitux_POS.Ventanas
                 {
                     try
                     {
-                        pictureBox1.Image=Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                        pictureBox1.Image = Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
                     }
                     catch
                     {
@@ -139,7 +139,7 @@ namespace Monitux_POS.Ventanas
             }
             catch (Exception ex)
             {
-                
+
                 pictureBox1.Image = null;
             }
 
@@ -276,7 +276,7 @@ namespace Monitux_POS.Ventanas
                 if (Imagen_Seleccionada != "")
                 {
                     Imagen = Imagen_Seleccionada;
-                    pictureBox1.Image=Util.Cargar_Imagen_Local(Imagen);
+                    pictureBox1.Image = Util.Cargar_Imagen_Local(Imagen);
 
                     pictureBox1.Image.Save(rutaGuardado);
                     this.Imagen = rutaGuardado;
@@ -299,15 +299,15 @@ namespace Monitux_POS.Ventanas
 
         private void textBox1_TextChanged_1(object sender, EventArgs e)
         {
-          //  if (textBox1.Text == "")
-           // {
+            //  if (textBox1.Text == "")
+            // {
 
-             //   Cargar_Datos();
+            //   Cargar_Datos();
             //}
             //else
             //{
 
-                Filtrar(comboBox1.SelectedItem.ToString(), textBox1.Text);
+            Filtrar(comboBox1.SelectedItem.ToString(), textBox1.Text);
 
             //}
         }
@@ -466,7 +466,7 @@ namespace Monitux_POS.Ventanas
                 {
                     try
                     {
-                        pictureBox1.Image=Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                        pictureBox1.Image = Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
                         Imagen = dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString(); // Guarda la imagen seleccionada
                     }
                     catch
@@ -487,10 +487,27 @@ namespace Monitux_POS.Ventanas
             }
             catch (Exception ex)
             {
-                
+
                 pictureBox1.Image = null;
             }
 
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            V_Captura_Imagen capturaImagen = new V_Captura_Imagen();
+            capturaImagen.ShowDialog();
+            Bitmap imagenCapturada = V_Captura_Imagen.Get_Imagen();
+            if (imagenCapturada != null)
+            {
+                pictureBox1.Image = imagenCapturada;
+                Imagen = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CAT\\Cat - " + Secuencial + ".PNG");
+                pictureBox1.Image.Save(Imagen); // Guarda la imagen capturada en la ruta especificada
+            }
+            else
+            {
+                V_Menu_Principal.MSG.ShowMSG("No se ha capturado ninguna imagen.", "Error");
+            }
         }
     }
 }

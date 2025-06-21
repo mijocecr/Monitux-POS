@@ -52,12 +52,14 @@
             salirToolStripMenuItem = new ToolStripMenuItem();
             comboBox1 = new ComboBox();
             panel1 = new Panel();
+            pictureBox2 = new PictureBox();
             label6 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -128,7 +130,7 @@
             // 
             checkBox1.AutoSize = true;
             checkBox1.ForeColor = Color.White;
-            checkBox1.Location = new Point(220, 98);
+            checkBox1.Location = new Point(220, 94);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(60, 19);
             checkBox1.TabIndex = 44;
@@ -210,7 +212,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(410, 24);
+            menuStrip1.Size = new Size(427, 24);
             menuStrip1.TabIndex = 48;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -228,7 +230,7 @@
             // 
             nuevoToolStripMenuItem.Image = (Image)resources.GetObject("nuevoToolStripMenuItem.Image");
             nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
-            nuevoToolStripMenuItem.Size = new Size(180, 22);
+            nuevoToolStripMenuItem.Size = new Size(117, 22);
             nuevoToolStripMenuItem.Text = "Nuevo";
             nuevoToolStripMenuItem.Click += nuevoToolStripMenuItem_Click;
             // 
@@ -237,7 +239,7 @@
             Menu_Guardar.ForeColor = Color.ForestGreen;
             Menu_Guardar.Image = (Image)resources.GetObject("Menu_Guardar.Image");
             Menu_Guardar.Name = "Menu_Guardar";
-            Menu_Guardar.Size = new Size(180, 22);
+            Menu_Guardar.Size = new Size(117, 22);
             Menu_Guardar.Text = "Guardar";
             Menu_Guardar.Click += Menu_Guardar_Click;
             // 
@@ -246,20 +248,20 @@
             Menu_Eliminar.ForeColor = Color.Red;
             Menu_Eliminar.Image = (Image)resources.GetObject("Menu_Eliminar.Image");
             Menu_Eliminar.Name = "Menu_Eliminar";
-            Menu_Eliminar.Size = new Size(180, 22);
+            Menu_Eliminar.Size = new Size(117, 22);
             Menu_Eliminar.Text = "Eliminar";
             Menu_Eliminar.Click += Menu_Eliminar_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(114, 6);
             // 
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.Image = (Image)resources.GetObject("salirToolStripMenuItem.Image");
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(180, 22);
+            salirToolStripMenuItem.Size = new Size(117, 22);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 
@@ -275,6 +277,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 32, 40);
+            panel1.Controls.Add(pictureBox2);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(comboBox1);
             panel1.Controls.Add(label1);
@@ -287,10 +290,20 @@
             panel1.Controls.Add(checkBox1);
             panel1.Controls.Add(txt_Password);
             panel1.Controls.Add(label4);
-            panel1.Location = new Point(5, 86);
+            panel1.Location = new Point(6, 66);
             panel1.Name = "panel1";
             panel1.Size = new Size(413, 384);
             panel1.TabIndex = 50;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(249, 120);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(31, 25);
+            pictureBox2.TabIndex = 50;
+            pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
             // 
             // label6
             // 
@@ -299,7 +312,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(0, 24);
             label6.Name = "label6";
-            label6.Size = new Size(410, 37);
+            label6.Size = new Size(427, 37);
             label6.TabIndex = 51;
             label6.Text = "Usuarios";
             label6.TextAlign = ContentAlignment.TopCenter;
@@ -309,7 +322,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(410, 475);
+            ClientSize = new Size(427, 460);
             ControlBox = false;
             Controls.Add(label6);
             Controls.Add(panel1);
@@ -330,6 +343,7 @@
             menuStrip1.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -360,5 +374,6 @@
         private ComboBox comboBox1;
         private Panel panel1;
         private Label label6;
+        private PictureBox pictureBox2;
     }
 }

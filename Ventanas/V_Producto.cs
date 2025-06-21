@@ -112,7 +112,7 @@ namespace Monitux_POS.Ventanas
                     }
                     catch (Exception ex)
                     {
-                        
+
                     }
                 }
                 else
@@ -270,14 +270,14 @@ namespace Monitux_POS.Ventanas
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-          
+
             pictureBox1.Image?.Dispose();
             System.GC.Collect();
-            
+
             Util.Limpiar_Cache(); // Limpiar la caché de imágenes y otros recursos
-            
-            
-            
+
+
+
 
 
             this.Close();
@@ -343,14 +343,14 @@ namespace Monitux_POS.Ventanas
                     producto.Codigo_Fabricante = txtCodigoFabricante.Text;
                     producto.Codigo_QR =
                     producto.Imagen = this.Imagen; // Ruta de la imagen del producto
-                    
-                    
+
+
                     producto.Codigo_QR = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\" + "QR-" + producto.Secuencial + ".PNG");
                     producto.Expira = checkBox1.Checked; // Actualizar el estado de expiración según el checkbox
                     producto.Tipo = comboBox1.SelectedItem.ToString(); // Actualizar el tipo de producto según la selección del ComboBox
-                    
-                        if (comboBox1.SelectedItem != "Servicio")
-                        {
+
+                    if (comboBox1.SelectedItem != "Servicio")
+                    {
                         if (txtExistenciaMinima.Text != "")
                         {
                             producto.Existencia_Minima = double.Parse(txtExistenciaMinima.Text);
@@ -359,8 +359,8 @@ namespace Monitux_POS.Ventanas
                         {
                             txtExistenciaMinima.Text = "0"; // Asignar un valor predeterminado si no se proporciona
                         }
-                        
-                        
+
+
                         if (comboProveedor.SelectedItem == null || comboCategoria.SelectedItem == null)
                         {
                             V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un proveedor y una categoría válidos.", "Error");
@@ -384,7 +384,7 @@ namespace Monitux_POS.Ventanas
 
                     else
                     {
-                        if (comboCategoria.SelectedItem == null&& comboBox1.SelectedItem != "Servicio")
+                        if (comboCategoria.SelectedItem == null && comboBox1.SelectedItem != "Servicio")
                         {
                             V_Menu_Principal.MSG.ShowMSG("Debe seleccionar una categoría válida.", "Error");
                             return;
@@ -398,7 +398,7 @@ namespace Monitux_POS.Ventanas
 
                     }
 
-                  
+
 
 
 
@@ -410,7 +410,7 @@ namespace Monitux_POS.Ventanas
 
                     context.SaveChanges();
 
-                  
+
 
 
 
@@ -463,14 +463,14 @@ namespace Monitux_POS.Ventanas
                     nuevoProducto.Precio_Costo = double.Parse(txtPrecioCosto.Text);
                     nuevoProducto.Codigo = txtCodigo.Text;
                     nuevoProducto.Descripcion = txtDescripcion.Text;
-                    
+
                     nuevoProducto.Marca = txtMarca.Text;
                     nuevoProducto.Codigo_Barra = txtCodigoBarra.Text;
                     nuevoProducto.Codigo_Fabricante = txtCodigoFabricante.Text;
                     nuevoProducto.Codigo_QR = pictureBox2.Image != null ? Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\" + "QR-" + Secuencial + ".PNG") : string.Empty; // Ruta del código QR   
                     nuevoProducto.Imagen = this.Imagen; // Ruta de la imagen del producto
-                 
-                    
+
+
                     nuevoProducto.Expira = checkBox1.Checked; // Estado de expiración según el checkbox
 
 
@@ -483,12 +483,13 @@ namespace Monitux_POS.Ventanas
                             nuevoProducto.Cantidad = double.Parse(txtCantidad.Text);
                             Util.Registrar_Movimiento_Kardex(nuevoProducto.Secuencial, nuevoProducto.Cantidad, nuevoProducto.Descripcion, 0, nuevoProducto.Precio_Costo, nuevoProducto.Precio_Venta, "Entrada");
                             nuevoProducto.Existencia_Minima = double.Parse(txtExistenciaMinima.Text);
-                            
+
                         }
 
 
                     }
-                    else { 
+                    else
+                    {
                         V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un tipo de producto válido.", "Error");
                         return;
                     }
@@ -509,10 +510,11 @@ namespace Monitux_POS.Ventanas
                     {
                         nuevoProducto.Secuencial_Categoria = int.Parse(comboCategoria.SelectedItem.ToString().Substring(0, comboCategoria.SelectedItem.ToString().IndexOf("-")));
                     }
-                    else { 
-                    nuevoProducto.Secuencial_Categoria = 0; // Si es un servicio, no asignar categoría
+                    else
+                    {
+                        nuevoProducto.Secuencial_Categoria = 0; // Si es un servicio, no asignar categoría
                     }
-                    
+
 
                 }
                 catch
@@ -550,7 +552,7 @@ namespace Monitux_POS.Ventanas
 
                 V_Menu_Principal.MSG.ShowMSG("Producto agregado correctamente.", "Éxito");
 
-              
+
 
 
                 this.Dispose();
@@ -704,14 +706,14 @@ namespace Monitux_POS.Ventanas
                         string rutaArchivo = producto.Imagen;
                         string rutaArchivo1 = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\BC-" + producto.Secuencial + "-" + producto.Codigo_Barra + ".PNG");
                         string rutaArchivo2 = producto.Codigo_QR;
-                       
+
                         Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado el producto: " + producto.Codigo);
 
                         if (producto.Tipo != "Servicio")
                         {
 
                             Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, producto.Cantidad, producto.Precio_Costo, producto.Precio_Venta, "Salida");
-                        
+
                         }
                         context.Productos.Remove(producto);
                         context.SaveChanges();
@@ -732,7 +734,7 @@ namespace Monitux_POS.Ventanas
                 catch
                 {
 
-                    
+
                 }
             }
 
@@ -796,16 +798,16 @@ namespace Monitux_POS.Ventanas
         {
             if (comboBox1.SelectedIndex == 1)
             {
-                checkBox1.Checked=false;
+                checkBox1.Checked = false;
                 checkBox1.Enabled = false; // Deshabilitar el checkbox si el tipo es "Servicio"
                 comboCategoria.Enabled = false; // Deshabilitar el ComboBox de categoría si el tipo es "Servicio"
-                txtCodigoFabricante.Text ="No Aplica"; // Establecer el campo Código Fabricante a "No Aplica" si el tipo es "Servicio"
+                txtCodigoFabricante.Text = "No Aplica"; // Establecer el campo Código Fabricante a "No Aplica" si el tipo es "Servicio"
 
                 comboProveedor.Enabled = false; // Deshabilitar el ComboBox de proveedor si el tipo es "Servicio"
                 txtCantidad.Enabled = false; // Deshabilitar el campo Cantidad si el tipo es "Servicio"
                 txtExistenciaMinima.Text = "0"; // Establecer la existencia mínima a 0 si el tipo es "Servicio"
                 txtExistenciaMinima.Enabled = false; // Deshabilitar el campo de existencia mínima si el tipo es "Servicio"
-              txtCantidad.Text = "0"; // Establecer la cantidad a 0 si el tipo es "Servicio"
+                txtCantidad.Text = "0"; // Establecer la cantidad a 0 si el tipo es "Servicio"
 
                 txtMarca.Enabled = false; // Deshabilitar el campo Marca si el tipo es "Servicio"
                 txtCodigoFabricante.Enabled = false; // Deshabilitar el campo Código Fabricante si el tipo es "Servicio"
@@ -818,26 +820,46 @@ namespace Monitux_POS.Ventanas
                 //checkBox1.Checked = false;
                 checkBox1.Enabled = true; // Deshabilitar el checkbox si el tipo es "Servicio"
                 comboCategoria.Enabled = true; // Deshabilitar el ComboBox de categoría si el tipo es "Servicio"
-               
+
 
                 comboProveedor.Enabled = true; // Deshabilitar el ComboBox de proveedor si el tipo es "Servicio"
 
-                if (Secuencial == 0) {
+                if (Secuencial == 0)
+                {
                     txtCantidad.Enabled = true; // Deshabilitar el campo Cantidad si el tipo es "Servicio"
 
                 }
 
                 txtExistenciaMinima.Enabled = true; // Deshabilitar el campo de existencia mínima si el tipo es "Servicio"
 
-               
+
                 txtMarca.Enabled = true; // Deshabilitar el campo Marca si el tipo es "Servicio"
                 txtCodigoFabricante.Enabled = true; // Deshabilitar el campo Código Fabricante si el tipo es "Servicio"
-               
+
 
 
 
             }
 
+
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            V_Captura_Imagen v_Captura_Imagen = new V_Captura_Imagen();
+            v_Captura_Imagen.ShowDialog();
+            Image imagenCapturada = V_Captura_Imagen.Get_Imagen();
+            if (imagenCapturada != null)
+            {
+                pictureBox1.Image?.Dispose(); // Liberar la imagen anterior si existe
+                pictureBox1.Image = imagenCapturada; // Asignar la imagen capturada al PictureBox
+                Imagen = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + Secuencial + "-" + txtCodigo.Text + ".PNG");
+                pictureBox1.Image.Save(Imagen); // Guardar la imagen en la ruta especificada
+            }
+            else
+            {
+                V_Menu_Principal.MSG.ShowMSG("No se pudo capturar la imagen.", "Error");
+            }
 
         }
     }

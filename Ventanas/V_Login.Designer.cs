@@ -46,6 +46,7 @@
             txtCodigo = new TextBox();
             label1 = new Label();
             panel4 = new Panel();
+            pictureBox6 = new PictureBox();
             button4 = new Button();
             label10 = new Label();
             button3 = new Button();
@@ -66,6 +67,7 @@
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -261,6 +263,7 @@
             // 
             // panel4
             // 
+            panel4.Controls.Add(pictureBox6);
             panel4.Controls.Add(button4);
             panel4.Controls.Add(label10);
             panel4.Controls.Add(button3);
@@ -278,6 +281,16 @@
             panel4.Size = new Size(332, 284);
             panel4.TabIndex = 5;
             panel4.Visible = false;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
+            pictureBox6.Location = new Point(276, 203);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(31, 25);
+            pictureBox6.TabIndex = 63;
+            pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
             // 
             // button4
             // 
@@ -408,12 +421,12 @@
             // 
             panel2.AutoScroll = true;
             panel2.BackColor = Color.FromArgb(11, 8, 20);
+            panel2.Controls.Add(panel4);
             panel2.Controls.Add(pictureBox4);
             panel2.Controls.Add(pictureBox5);
             panel2.Controls.Add(label11);
             panel2.Controls.Add(panel3);
             panel2.Controls.Add(linkLabel1);
-            panel2.Controls.Add(panel4);
             panel2.Controls.Add(label3);
             panel2.Dock = DockStyle.Right;
             panel2.Location = new Point(411, 0);
@@ -445,6 +458,7 @@
             Name = "V_Login";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "V_Login";
+            Load += V_Login_Load;
             panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
@@ -453,6 +467,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
@@ -493,5 +508,6 @@
         private Panel panel2;
         private Label label11;
         private PictureBox pictureBox5;
+        private PictureBox pictureBox6;
     }
 }

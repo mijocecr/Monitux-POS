@@ -55,11 +55,13 @@
             salirToolStripMenuItem = new ToolStripMenuItem();
             panel1 = new Panel();
             label6 = new Label();
+            pictureBox6 = new PictureBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -108,7 +110,7 @@
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(6, 177);
+            dataGridView1.Location = new Point(6, 183);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(402, 199);
@@ -132,7 +134,7 @@
             // 
             checkBox1.AutoSize = true;
             checkBox1.ForeColor = Color.White;
-            checkBox1.Location = new Point(317, 152);
+            checkBox1.Location = new Point(218, 156);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(60, 19);
             checkBox1.TabIndex = 29;
@@ -235,7 +237,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(426, 24);
+            menuStrip1.Size = new Size(422, 24);
             menuStrip1.TabIndex = 34;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -290,6 +292,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 32, 40);
+            panel1.Controls.Add(pictureBox6);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(groupBox1);
@@ -316,17 +319,27 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(0, 24);
             label6.Name = "label6";
-            label6.Size = new Size(426, 37);
+            label6.Size = new Size(422, 37);
             label6.TabIndex = 36;
             label6.Text = "Clientes";
             label6.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
+            pictureBox6.Location = new Point(333, 152);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(31, 25);
+            pictureBox6.TabIndex = 66;
+            pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
             // 
             // V_Cliente
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(426, 526);
+            ClientSize = new Size(422, 522);
             ControlBox = false;
             Controls.Add(label6);
             Controls.Add(panel1);
@@ -347,6 +360,7 @@
             menuStrip1.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -379,5 +393,6 @@
         private ToolStripMenuItem salirToolStripMenuItem;
         private Panel panel1;
         private Label label6;
+        private PictureBox pictureBox6;
     }
 }

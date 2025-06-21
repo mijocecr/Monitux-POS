@@ -44,6 +44,7 @@
     <None Remove="Resources\Iconos\btnusuarios.png" />
     <None Remove="Resources\Iconos\btnventas.png" />
     <None Remove="Resources\Iconos\calendario.png" />
+    <None Remove="Resources\Iconos\camera.png" />
     <None Remove="Resources\Iconos\cargardb.png" />
     <None Remove="Resources\Iconos\comment.png" />
     <None Remove="Resources\Iconos\comment_edit.png" />
@@ -177,6 +178,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Iconos\calendario.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Iconos\camera.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Iconos\cargardb.png">

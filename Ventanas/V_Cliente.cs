@@ -183,7 +183,7 @@ namespace Monitux_POS.Ventanas
                 {
                     try
                     {
-                        pictureBox1.Image=Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                        pictureBox1.Image = Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
                         Imagen = dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString(); // Guarda la ruta de la imagen
                     }
                     catch
@@ -204,7 +204,7 @@ namespace Monitux_POS.Ventanas
             }
             catch (Exception ex)
             {
-                
+
                 pictureBox1.Image = null;
             }
 
@@ -429,7 +429,7 @@ namespace Monitux_POS.Ventanas
                 {
                     try
                     {
-                        pictureBox1.Image=Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                        pictureBox1.Image = Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
                         Imagen = dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString(); // Guarda la ruta de la imagen
                     }
                     catch
@@ -450,7 +450,7 @@ namespace Monitux_POS.Ventanas
             }
             catch (Exception ex)
             {
-                
+
                 pictureBox1.Image = null;
             }
 
@@ -484,7 +484,7 @@ namespace Monitux_POS.Ventanas
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             this.Dispose();
 
         }
@@ -570,8 +570,8 @@ namespace Monitux_POS.Ventanas
                     item.Telefono,
                     item.Direccion,
                     item.Email,
-                    
-                    
+
+
                     (bool)item.Activo ? "Si" : "No",
                     item.Imagen ?? "No Imagen" // Maneja el caso donde Imagen sea null
                 );
@@ -609,7 +609,7 @@ namespace Monitux_POS.Ventanas
                 dataGridView1.Columns["Email"].Width = 100;
 
                 dataGridView1.Columns.Add("Activo", "Activo");
-                
+
                 dataGridView1.Columns.Add("Imagen", "Imagen");
 
 
@@ -627,7 +627,7 @@ namespace Monitux_POS.Ventanas
                     item.Telefono,
                     item.Direccion,
                     item.Email,
-                    
+
                     (bool)item.Activo ? "Si" : "No",
 
                     item.Imagen ?? "No Imagen" // Maneja el caso donde Imagen sea null
@@ -643,6 +643,24 @@ namespace Monitux_POS.Ventanas
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             Filtrar(comboBox2.SelectedItem.ToString(), textBox1.Text.Trim()); // Llama al método Filtrar con el valor del TextBox
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            V_Captura_Imagen capturaImagen = new V_Captura_Imagen();
+            capturaImagen.ShowDialog();
+            Bitmap imagenCapturada = V_Captura_Imagen.Get_Imagen();
+            if (imagenCapturada != null)
+            {
+                pictureBox1.Image = imagenCapturada;
+                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CLI\\Cli - " + Secuencial + ".PNG");
+                imagenCapturada.Save(rutaGuardado); // Guarda la imagen capturada en la ruta especificada
+                Imagen = rutaGuardado; // Actualiza la variable Imagen con la ruta guardada
+            }
+            else
+            {
+                V_Menu_Principal.MSG.ShowMSG("No se ha capturado ninguna imagen.", "Error");
+            }
         }
     }
 }

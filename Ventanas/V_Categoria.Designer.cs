@@ -48,11 +48,13 @@
             label3 = new Label();
             panel1 = new Panel();
             label4 = new Label();
+            pictureBox6 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
@@ -60,7 +62,7 @@
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(11, 143);
+            dataGridView1.Location = new Point(11, 155);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(361, 161);
             dataGridView1.TabIndex = 0;
@@ -121,7 +123,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { opcionesToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(391, 24);
+            menuStrip1.Size = new Size(387, 24);
             menuStrip1.TabIndex = 5;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -209,7 +211,7 @@
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(comboBox1);
             groupBox1.Controls.Add(textBox1);
-            groupBox1.Location = new Point(11, 310);
+            groupBox1.Location = new Point(11, 314);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(361, 55);
             groupBox1.TabIndex = 10;
@@ -228,6 +230,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 32, 40);
+            panel1.Controls.Add(pictureBox6);
             panel1.Controls.Add(txtDescripcion);
             panel1.Controls.Add(groupBox1);
             panel1.Controls.Add(dataGridView1);
@@ -247,17 +250,27 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(0, 24);
             label4.Name = "label4";
-            label4.Size = new Size(391, 37);
+            label4.Size = new Size(387, 37);
             label4.TabIndex = 12;
             label4.Text = "Categorias";
             label4.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
+            pictureBox6.Location = new Point(299, 124);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(31, 25);
+            pictureBox6.TabIndex = 65;
+            pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
             // 
             // V_Categoria
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(391, 459);
+            ClientSize = new Size(387, 464);
             ControlBox = false;
             Controls.Add(label4);
             Controls.Add(panel1);
@@ -279,6 +292,7 @@
             groupBox1.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -305,5 +319,6 @@
         private Label label3;
         private Panel panel1;
         private Label label4;
+        private PictureBox pictureBox6;
     }
 }

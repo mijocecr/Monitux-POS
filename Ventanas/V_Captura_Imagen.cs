@@ -18,18 +18,22 @@ namespace Monitux_POS.Ventanas
         VideoCaptureDevice videoCaptureDevice;
         string URL;
         int secuencial;
-        string titulo,descripcion;
+        string titulo;
         public static Bitmap ?Imagen;
-        public V_Captura_Imagen(string descripcion,int secuencial,string titulo="Capturando...")
+        public V_Captura_Imagen(int secuencial,string titulo="Capturando...")
         {
             InitializeComponent();
             this.URL = URL;
             this.secuencial = secuencial;
             this.titulo = titulo;
             label6.Text = titulo;
-            this.descripcion = descripcion;
+            
 
         }
+
+
+
+
 
         public V_Captura_Imagen()
         {

@@ -138,9 +138,9 @@
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
             panel3.Controls.Add(btn_resumen);
-            panel3.Location = new Point(0, 222);
+            panel3.Location = new Point(0, 216);
             panel3.Name = "panel3";
-            panel3.Size = new Size(176, 470);
+            panel3.Size = new Size(176, 456);
             panel3.TabIndex = 3;
             // 
             // p_Campania
@@ -889,7 +889,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(28, 67);
+            pictureBox1.Location = new Point(28, 48);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(98, 112);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -909,7 +909,7 @@
             // label2
             // 
             label2.ForeColor = SystemColors.ActiveCaption;
-            label2.Location = new Point(28, 42);
+            label2.Location = new Point(28, 163);
             label2.Name = "label2";
             label2.Size = new Size(98, 25);
             label2.TabIndex = 8;

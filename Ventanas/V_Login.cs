@@ -19,6 +19,7 @@ namespace Monitux_POS.Ventanas
         public int suma = 0; // Variable para almacenar la suma de los números aleatorios
         public string Pin = "****"; // Variable para almacenar el PIN del usuario
         public static string Imagen = "Sin Imagen"; // Variable para almacenar la imagen del usuario
+        public int Secuencial = 0; // Variable para almacenar el secuencial del usuario
         public V_Login()
         {
             InitializeComponent();
@@ -59,7 +60,7 @@ namespace Monitux_POS.Ventanas
 
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
+            //int secuencialn = context.Productos.Any() ? context.Productos.Max(p => p.Secuencial) + 1 : 1;
             var usuario = new Usuario();
 
             usuario.Nombre = txt_Nombre.Text;
@@ -105,7 +106,7 @@ namespace Monitux_POS.Ventanas
             }
 
 
-
+            //usuario.Secuencial = secuencialn; // Asigna el secuencial al usuario
             usuario.Activo = true;
 
 
@@ -277,7 +278,7 @@ namespace Monitux_POS.Ventanas
                 }
 
             }
-           
+
 
         }
 
@@ -356,6 +357,63 @@ namespace Monitux_POS.Ventanas
                 isAdmin = false; // Cambia el estado a no administrador
                 label11.ForeColor = Color.White; // Cambia el}
             }
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+
+            
+            V_Captura_Imagen capturaImagen = new V_Captura_Imagen(Secuencial);
+            capturaImagen.ShowDialog();
+            Bitmap imagenCapturada = V_Captura_Imagen.Get_Imagen();
+            if (imagenCapturada != null)
+            {
+                pictureBox3.Image = imagenCapturada; // Asigna la imagen capturada al PictureBox
+                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\USR\\Usr - " + Secuencial + ".PNG");
+                imagenCapturada.Save(rutaGuardado); // Guarda la imagen en la ruta especificada
+                Imagen = rutaGuardado; // Actualiza la variable Imagen con la ruta guardada
             }
-    }
-}
+            else
+            {
+                V_Menu_Principal.MSG.ShowMSG("No se ha capturado ninguna imagen.", "Error");
+            }
+        }
+
+        private void V_Login_Load(object sender, EventArgs e)
+        {
+            V_Validador_Licencia validador = new V_Validador_Licencia();
+           
+            if (Properties.Settings.Default.LicenciaValida)
+            {
+               
+                
+                    // La licencia es válida, continuar con el inicio de sesión
+                    this.Show(); // Muestra la ventana de login
+                
+              
+
+            }
+            else
+            {
+                validador.ShowDialog(); // Muestra el formulario de validación de licencia
+                // Mostrar formulario de activación
+            }
+
+
+
+            SQLitePCL.Batteries.Init();
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+            int secuencialn = context.Productos.Any() ? context.Productos.Max(p => p.Secuencial) + 1 : 1;
+            var usuario = new Usuario();
+            Secuencial = secuencialn; // Asigna el secuencial al usuario
+
+
+        }
+    
+
+
+
+    }// namespace Ventanas
+}// namespace Monitux_POS.Ventanas
