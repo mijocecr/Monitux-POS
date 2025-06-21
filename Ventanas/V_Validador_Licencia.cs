@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monitux_POS.Clases;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,7 +23,33 @@ namespace Monitux_POS.Ventanas
 
 
 
+            ////////////////////////////////////////////////////////
 
+
+        
+            var gestor = new Gestor_Licencia();
+            bool ok = await gestor.ValidarYActivarLicenciaAsync(txtLicencia.Text.Trim());
+
+            if (ok)
+            {
+                V_Menu_Principal.MSG.ShowMSG("✅ Licencia activada correctamente","Monitux-POS");
+                // Continuar con la app
+            }
+            else
+            {
+                V_Menu_Principal.MSG.ShowMSG("❌ Licencia inválida, vencida o ya usada\nContacte con: hn.one.click.solutions@gmail.com", "Monitux-POS");
+            }
+        
+
+
+
+
+            //////////////////////////////////////////////////////
+
+
+
+
+/*
 
             string codigo = txtLicencia.Text.Trim();
 
@@ -50,7 +77,7 @@ namespace Monitux_POS.Ventanas
                 lblExpira.Text = "";
             }
 
-
+            */
 
 
 

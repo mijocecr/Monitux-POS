@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -362,7 +363,7 @@ namespace Monitux_POS.Ventanas
         private void pictureBox6_Click(object sender, EventArgs e)
         {
 
-            
+
             V_Captura_Imagen capturaImagen = new V_Captura_Imagen(Secuencial);
             capturaImagen.ShowDialog();
             Bitmap imagenCapturada = V_Captura_Imagen.Get_Imagen();
@@ -379,26 +380,61 @@ namespace Monitux_POS.Ventanas
             }
         }
 
-        private void V_Login_Load(object sender, EventArgs e)
+        private async void V_Login_Load(object sender, EventArgs e)
         {
+
+
+
+
+            //Para reiniciar la configuración de la aplicación
+
+            // Properties.Settings.Default.Reset();
+            // Properties.Settings.Default.Save();
+
+            //======================================Logica de Validación de Licencia========================================
+
+            ///////////////////////////////////////////////////////////////////////////
             V_Validador_Licencia validador = new V_Validador_Licencia();
-           
-            if (Properties.Settings.Default.LicenciaValida)
+            //////////////////////////////////////////////////////////////////////////
+            if (Properties.Settings.Default.LicenciaValida == false)
             {
+                V_Menu_Principal.MSG.ShowMSG("❌ Licencia no válida o vencida. \nPor favor, valide su licencia para continuar.", "Error");
                
-                
-                    // La licencia es válida, continuar con el inicio de sesión
-                    this.Show(); // Muestra la ventana de login
-                
-              
+                validador.ShowDialog(); // Muestra el formulario de validación de licencia
+
 
             }
             else
             {
-                validador.ShowDialog(); // Muestra el formulario de validación de licencia
-                // Mostrar formulario de activación
+                //V_Menu_Principal.MSG.ShowMSG("✅ Licencia válida. Bienvenido al sistema.", "Éxito");
             }
+            //////////////////////////////////////////////////////////////////////////
 
+            //======================================Logica de Validación de Licencia========================================
+
+
+
+
+            /*
+
+            Properties.Settings.Default.LicenciaValida = true;
+            Properties.Settings.Default.NombreCliente = "Miguel López";
+            Properties.Settings.Default.FechaExpiracion = new DateTime(2025, 12, 31);
+
+
+            */
+
+
+
+
+
+
+
+
+
+
+
+            /////////////////////////////////////////////////////////////////////////////////
 
 
             SQLitePCL.Batteries.Init();
@@ -411,9 +447,10 @@ namespace Monitux_POS.Ventanas
 
 
         }
-    
 
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
 
-
+        }
     }// namespace Ventanas
 }// namespace Monitux_POS.Ventanas

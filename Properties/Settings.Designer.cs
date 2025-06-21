@@ -34,5 +34,28 @@ namespace Monitux_POS.Properties {
                 this["LicenciaValida"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string NombreCliente {
+            get {
+                return ((string)(this["NombreCliente"]));
+            }
+            set {
+                this["NombreCliente"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime FechaExpiracion {
+            get {
+                return ((global::System.DateTime)(this["FechaExpiracion"]));
+            }
+            set {
+                this["FechaExpiracion"] = value;
+            }
+        }
     }
 }
