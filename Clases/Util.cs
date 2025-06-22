@@ -270,7 +270,41 @@ namespace Monitux_POS.Clases
         #endregion
 
 
+        #region Obtener los Productos mas vendidos - Retorna Lista de Productos Top
 
+
+        public static List<Producto_Top_VR> ObtenerTopProductosVendidos(int cantidadTop = 6)
+        {
+            using (var db = new Monitux_DB_Context())
+            {
+                var resumen = db.Kardex
+                    .Where(k => k.Movimiento == "Salida")
+                    .GroupBy(k => k.Secuencial_Producto)
+                    .Select(g => new {
+                        Secuencial_Producto = g.Key,
+                        TotalVendido = g.Sum(x => x.Cantidad)
+                    })
+                    .OrderByDescending(x => x.TotalVendido)
+                    .Take(cantidadTop)
+                    .ToList();
+
+                var resultado = (from r in resumen
+                                 join p in db.Productos on r.Secuencial_Producto equals p.Secuencial
+                                 select new Producto_Top_VR
+                                 {
+                                     Secuencial_Producto = p.Secuencial,
+                                     Codigo = p.Codigo,
+                                     Descripcion = p.Descripcion,
+                                     Venta = p.Precio_Venta,
+                                     TotalVendido = r.TotalVendido
+                                 }).ToList();
+
+                return resultado;
+            }
+        }
+
+
+        #endregion
         public static Image Generar_Codigo_Barra(int secuencial,string codigo) {
 
 

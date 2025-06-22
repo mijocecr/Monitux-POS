@@ -46,6 +46,9 @@ namespace Monitux_POS.Ventanas
 
             Cargar_Datos();
 
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+
             comboBox1.Items.Add("Vendedor");
             comboBox1.Items.Add("Administrador");
 
@@ -71,6 +74,9 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
             var usuarios = context.Usuarios.ToList();
+
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
             dataGridView1.Columns.Add("Secuencial", "S");
             dataGridView1.Columns["Secuencial"].Width = 20; // Ajusta el ancho de la columna Secuencial

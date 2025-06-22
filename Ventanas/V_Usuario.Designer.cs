@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Usuario));
             groupBox1 = new GroupBox();
             label7 = new Label();
@@ -106,6 +107,8 @@
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(4, 154);
             dataGridView1.Name = "dataGridView1";
@@ -212,7 +215,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(427, 24);
+            menuStrip1.Size = new Size(426, 24);
             menuStrip1.TabIndex = 48;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -312,7 +315,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(0, 24);
             label6.Name = "label6";
-            label6.Size = new Size(427, 37);
+            label6.Size = new Size(426, 37);
             label6.TabIndex = 51;
             label6.Text = "Usuarios";
             label6.TextAlign = ContentAlignment.TopCenter;
@@ -322,7 +325,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(427, 460);
+            ClientSize = new Size(426, 461);
             ControlBox = false;
             Controls.Add(label6);
             Controls.Add(panel1);

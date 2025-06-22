@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Inventario));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
             panel4 = new Panel();
             linkLabel2 = new LinkLabel();
@@ -192,9 +194,9 @@
             // 
             // panel3
             // 
+            panel3.Controls.Add(dataGridView2);
             panel3.Controls.Add(dataGridView1);
             panel3.Controls.Add(flowLayoutPanel1);
-            panel3.Controls.Add(dataGridView2);
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 139);
             panel3.Name = "panel3";
@@ -204,6 +206,8 @@
             // dataGridView2
             // 
             dataGridView2.AllowUserToAddRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -217,6 +221,8 @@
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -245,8 +251,8 @@
             panel2.Controls.Add(button3);
             panel2.Controls.Add(button1);
             panel2.Controls.Add(button4);
-            panel2.Controls.Add(groupBox2);
             panel2.Controls.Add(groupBox1);
+            panel2.Controls.Add(groupBox2);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 37);
             panel2.Name = "panel2";

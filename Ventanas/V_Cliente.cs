@@ -349,9 +349,19 @@ namespace Monitux_POS.Ventanas
                     cliente.Imagen = "Sin Imagen"; // Asigna una imagen por defecto si no se ha seleccionado una imagen
                 }
 
+                try {
+                    context.Clientes.Add(cliente);
 
-                context.Clientes.Add(cliente);
-                context.SaveChanges();
+                    context.SaveChanges();
+
+                }catch (Exception ex)
+                {
+                    V_Menu_Principal.MSG.ShowMSG("Error al crear el cliente: Ya existe o los datos proporcionados no son validos.", "Error");
+                    return;
+                }
+
+
+
                 V_Menu_Principal.MSG.ShowMSG("Cliente creado correctamente.", "Éxito");
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado el cliente: " + txt_Nombre.Text);
                 Cargar_Datos(); // Recargar los datos después de crear el cliente
@@ -583,6 +593,7 @@ namespace Monitux_POS.Ventanas
 
 
 
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
 
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila

@@ -544,9 +544,16 @@ namespace Monitux_POS.Ventanas
                 }
 
 
+                try
+                {
+                    context.Productos.Add(nuevoProducto);
+                    context.SaveChanges();
+                }catch (Exception ex)
+                {
+                    V_Menu_Principal.MSG.ShowMSG("Error al guardar el producto: Ya existe o los datos proporcionados no son validos.", "Error");
+                    return;
+                }
 
-                context.Productos.Add(nuevoProducto);
-                context.SaveChanges();
 
                 Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado el producto: " + txtCodigo.Text);
 

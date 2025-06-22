@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Cliente));
             groupBox1 = new GroupBox();
             label7 = new Label();
@@ -54,8 +55,8 @@
             toolStripSeparator1 = new ToolStripSeparator();
             salirToolStripMenuItem = new ToolStripMenuItem();
             panel1 = new Panel();
-            label6 = new Label();
             pictureBox6 = new PictureBox();
+            label6 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -109,6 +110,9 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(6, 183);
             dataGridView1.MultiSelect = false;
@@ -237,7 +241,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(422, 24);
+            menuStrip1.Size = new Size(430, 24);
             menuStrip1.TabIndex = 34;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -312,18 +316,6 @@
             panel1.Size = new Size(417, 447);
             panel1.TabIndex = 35;
             // 
-            // label6
-            // 
-            label6.Dock = DockStyle.Top;
-            label6.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(0, 24);
-            label6.Name = "label6";
-            label6.Size = new Size(422, 37);
-            label6.TabIndex = 36;
-            label6.Text = "Clientes";
-            label6.TextAlign = ContentAlignment.TopCenter;
-            // 
             // pictureBox6
             // 
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
@@ -334,12 +326,24 @@
             pictureBox6.TabStop = false;
             pictureBox6.Click += pictureBox6_Click;
             // 
+            // label6
+            // 
+            label6.Dock = DockStyle.Top;
+            label6.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(0, 24);
+            label6.Name = "label6";
+            label6.Size = new Size(430, 37);
+            label6.TabIndex = 36;
+            label6.Text = "Clientes";
+            label6.TextAlign = ContentAlignment.TopCenter;
+            // 
             // V_Cliente
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(422, 522);
+            ClientSize = new Size(430, 530);
             ControlBox = false;
             Controls.Add(label6);
             Controls.Add(panel1);

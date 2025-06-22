@@ -48,6 +48,7 @@
             btn_Cancelar.TabIndex = 5;
             btn_Cancelar.Text = "Cancelar";
             btn_Cancelar.UseVisualStyleBackColor = true;
+            btn_Cancelar.Click += btn_Cancelar_Click;
             // 
             // btn_Aceptar
             // 
@@ -81,7 +82,7 @@
             panel1.Controls.Add(lbl_Mensaje);
             panel1.Location = new Point(7, 7);
             panel1.Name = "panel1";
-            panel1.Size = new Size(270, 92);
+            panel1.Size = new Size(271, 92);
             panel1.TabIndex = 3;
             // 
             // textBox1
@@ -98,7 +99,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(280, 137);
+            ClientSize = new Size(287, 135);
             ControlBox = false;
             Controls.Add(btn_Cancelar);
             Controls.Add(btn_Aceptar);

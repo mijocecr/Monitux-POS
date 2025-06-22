@@ -55,7 +55,7 @@ namespace Monitux_POS.Ventanas
         {
 
 
-
+            label11.ForeColor=Color.White; 
 
             SQLitePCL.Batteries.Init();
 
@@ -121,8 +121,19 @@ namespace Monitux_POS.Ventanas
             }
 
 
-            context.Usuarios.Add(usuario);
-            context.SaveChanges();
+            try {
+
+                context.Usuarios.Add(usuario);
+                context.SaveChanges();
+
+            }catch (Exception ex)
+            {
+                V_Menu_Principal.MSG.ShowMSG("Error al crear el usuario: Ya existe o los datos proporcionados no son validos.", "Error");
+                return; // Sale del método si ocurre un error al guardar el usuario
+            }
+
+
+
             V_Menu_Principal.MSG.ShowMSG("Usuario creado correctamente.\nAcesso: " + usuario.Acceso, "Éxito");
             Pin = "****"; // Reinicia el PIN después de crear el usuario
             Util.Registrar_Actividad(0, "Ha creado al usuario: " + txt_Nombre.Text);

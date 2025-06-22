@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Proveedor));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             label1 = new Label();
             txt_Nombre = new TextBox();
             txt_Telefono = new TextBox();
@@ -56,8 +57,8 @@
             comboBox2 = new ComboBox();
             textBox1 = new TextBox();
             panel1 = new Panel();
-            label8 = new Label();
             pictureBox6 = new PictureBox();
+            label8 = new Label();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -194,7 +195,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(424, 24);
+            menuStrip1.Size = new Size(432, 24);
             menuStrip1.TabIndex = 14;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -262,10 +263,13 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(7, 197);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(402, 199);
+            dataGridView1.Size = new Size(407, 199);
             dataGridView1.TabIndex = 16;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
@@ -334,22 +338,10 @@
             panel1.Controls.Add(txt_Contacto);
             panel1.Controls.Add(txt_Email);
             panel1.Controls.Add(label5);
-            panel1.Location = new Point(4, 74);
+            panel1.Location = new Point(5, 74);
             panel1.Name = "panel1";
             panel1.Size = new Size(419, 475);
             panel1.TabIndex = 18;
-            // 
-            // label8
-            // 
-            label8.Dock = DockStyle.Top;
-            label8.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.ForeColor = Color.White;
-            label8.Location = new Point(0, 24);
-            label8.Name = "label8";
-            label8.Size = new Size(424, 37);
-            label8.TabIndex = 37;
-            label8.Text = "Proveedores";
-            label8.TextAlign = ContentAlignment.TopCenter;
             // 
             // pictureBox6
             // 
@@ -361,12 +353,24 @@
             pictureBox6.TabStop = false;
             pictureBox6.Click += pictureBox6_Click;
             // 
+            // label8
+            // 
+            label8.Dock = DockStyle.Top;
+            label8.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.White;
+            label8.Location = new Point(0, 24);
+            label8.Name = "label8";
+            label8.Size = new Size(432, 37);
+            label8.TabIndex = 37;
+            label8.Text = "Proveedores";
+            label8.TextAlign = ContentAlignment.TopCenter;
+            // 
             // V_Proveedor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(424, 550);
+            ClientSize = new Size(432, 557);
             ControlBox = false;
             Controls.Add(label8);
             Controls.Add(panel1);

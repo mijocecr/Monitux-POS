@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Producto));
             panel1 = new Panel();
+            pictureBox6 = new PictureBox();
             label12 = new Label();
             comboBox1 = new ComboBox();
             checkBox1 = new CheckBox();
@@ -69,13 +70,12 @@
             toolStripSeparator1 = new ToolStripSeparator();
             salirToolStripMenuItem = new ToolStripMenuItem();
             label13 = new Label();
-            pictureBox6 = new PictureBox();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -115,6 +115,16 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(402, 448);
             panel1.TabIndex = 0;
+            // 
+            // pictureBox6
+            // 
+            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
+            pictureBox6.Location = new Point(363, 271);
+            pictureBox6.Name = "pictureBox6";
+            pictureBox6.Size = new Size(31, 25);
+            pictureBox6.TabIndex = 65;
+            pictureBox6.TabStop = false;
+            pictureBox6.Click += pictureBox6_Click;
             // 
             // label12
             // 
@@ -448,7 +458,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(411, 24);
+            menuStrip1.Size = new Size(417, 24);
             menuStrip1.TabIndex = 1;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -469,7 +479,7 @@
             Menu_Agregar.ForeColor = Color.Black;
             Menu_Agregar.Image = (Image)resources.GetObject("Menu_Agregar.Image");
             Menu_Agregar.Name = "Menu_Agregar";
-            Menu_Agregar.Size = new Size(180, 22);
+            Menu_Agregar.Size = new Size(120, 22);
             Menu_Agregar.Text = "Registrar";
             // 
             // nuevoProveedorToolStripMenuItem
@@ -494,7 +504,7 @@
             Menu_Guardar.ForeColor = Color.ForestGreen;
             Menu_Guardar.Image = (Image)resources.GetObject("Menu_Guardar.Image");
             Menu_Guardar.Name = "Menu_Guardar";
-            Menu_Guardar.Size = new Size(180, 22);
+            Menu_Guardar.Size = new Size(120, 22);
             Menu_Guardar.Text = "Guardar";
             Menu_Guardar.Click += Menu_Guardar_Click;
             // 
@@ -504,7 +514,7 @@
             Menu_Eliminar.ForeColor = Color.Red;
             Menu_Eliminar.Image = (Image)resources.GetObject("Menu_Eliminar.Image");
             Menu_Eliminar.Name = "Menu_Eliminar";
-            Menu_Eliminar.Size = new Size(180, 22);
+            Menu_Eliminar.Size = new Size(120, 22);
             Menu_Eliminar.Text = "Eliminar";
             Menu_Eliminar.Click += Menu_Eliminar_Click;
             // 
@@ -512,14 +522,14 @@
             // 
             toolStripSeparator1.BackColor = Color.FromArgb(35, 32, 40);
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(117, 6);
             // 
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.BackColor = SystemColors.Control;
             salirToolStripMenuItem.Image = (Image)resources.GetObject("salirToolStripMenuItem.Image");
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(180, 22);
+            salirToolStripMenuItem.Size = new Size(120, 22);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 
@@ -534,22 +544,12 @@
             label13.Text = "Productos";
             label13.TextAlign = ContentAlignment.TopCenter;
             // 
-            // pictureBox6
-            // 
-            pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(363, 271);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(31, 25);
-            pictureBox6.TabIndex = 65;
-            pictureBox6.TabStop = false;
-            pictureBox6.Click += pictureBox6_Click;
-            // 
             // V_Producto
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(411, 519);
+            ClientSize = new Size(417, 526);
             ControlBox = false;
             Controls.Add(label13);
             Controls.Add(panel1);
@@ -565,12 +565,12 @@
             Load += V_Producto_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }

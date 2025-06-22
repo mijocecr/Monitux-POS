@@ -76,6 +76,7 @@ namespace Monitux_POS.Ventanas
             dataGridView1.Columns.Add("Descripcion", "Descripcion");
             dataGridView1.Columns["Descripcion"].Width = 250; // Ajusta el ancho de la columna Descripcion
             dataGridView1.Columns.Add("Imagen", "Imagen");
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
 
             foreach (var item in categorias)

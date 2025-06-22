@@ -28,7 +28,7 @@ namespace Monitux_POS.Ventanas
 
         }
 
-        public  DialogResult Show(string mensaje, string titulo, out string valor)
+        public DialogResult Show(string mensaje, string titulo, out string valor)
         {
             using (var form = new IPB(mensaje, titulo))
             {
@@ -40,13 +40,18 @@ namespace Monitux_POS.Ventanas
 
         public IPB()
         {
-           
+
         }
 
         private void btn_Aceptar_Click(object sender, EventArgs e)
         {
             ValorIngresado = textBox1.Text;
             this.Close();
+        }
+
+        private void btn_Cancelar_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

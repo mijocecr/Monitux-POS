@@ -712,7 +712,7 @@
             button23.Padding = new Padding(35, 0, 0, 0);
             button23.Size = new Size(166, 25);
             button23.TabIndex = 4;
-            button23.Text = "Ultimo Año";
+            button23.Text = "Clientes";
             button23.TextAlign = ContentAlignment.MiddleLeft;
             button23.UseVisualStyleBackColor = false;
             // 
@@ -730,7 +730,7 @@
             button22.Padding = new Padding(35, 0, 0, 0);
             button22.Size = new Size(166, 25);
             button22.TabIndex = 3;
-            button22.Text = "Ultimo Mes";
+            button22.Text = "Promociones";
             button22.TextAlign = ContentAlignment.MiddleLeft;
             button22.UseVisualStyleBackColor = false;
             // 
@@ -748,7 +748,7 @@
             button21.Padding = new Padding(35, 0, 0, 0);
             button21.Size = new Size(166, 25);
             button21.TabIndex = 2;
-            button21.Text = "Ultima Semana";
+            button21.Text = "Venta Rapida";
             button21.TextAlign = ContentAlignment.MiddleLeft;
             button21.UseVisualStyleBackColor = false;
             // 
@@ -766,7 +766,7 @@
             button26.Padding = new Padding(35, 0, 0, 0);
             button26.Size = new Size(166, 25);
             button26.TabIndex = 1;
-            button26.Text = "Hoy";
+            button26.Text = "Dashboard";
             button26.TextAlign = ContentAlignment.MiddleLeft;
             button26.UseVisualStyleBackColor = false;
             button26.Click += button26_Click;
@@ -787,7 +787,7 @@
             btn_resumen.Padding = new Padding(10, 0, 0, 0);
             btn_resumen.Size = new Size(159, 42);
             btn_resumen.TabIndex = 11;
-            btn_resumen.Text = "Resumen";
+            btn_resumen.Text = "Inicio";
             btn_resumen.TextAlign = ContentAlignment.MiddleLeft;
             btn_resumen.UseVisualStyleBackColor = false;
             btn_resumen.Click += button9_Click_1;

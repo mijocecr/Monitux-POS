@@ -945,6 +945,8 @@ namespace Monitux_POS.Ventanas
 
         public void Configurar_DataGridView_Inventario()
         {
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
             // Configurar las columnas del DataGridView
             dataGridView1.Columns.Clear();
             dataGridView1.Columns.Add("Secuencial", "S");
@@ -979,7 +981,7 @@ namespace Monitux_POS.Ventanas
             dataGridView2.Rows.Clear();
             flowLayoutPanel1.Controls.Clear();
             dataGridView2.Visible = true;
-            Configurar_DataGridView_Inventario();
+            Configurar_DataGridView_Kardex();
             flowLayoutPanel1.Visible = false;
             dataGridView1.Visible = false;
 
@@ -1049,7 +1051,7 @@ namespace Monitux_POS.Ventanas
             dataGridView2.Rows.Clear();
             flowLayoutPanel1.Controls.Clear();
             dataGridView2.Visible = true;
-            Configurar_DataGridView_Inventario();
+            Configurar_DataGridView_Kardex();
             flowLayoutPanel1.Visible = false;
             dataGridView1.Visible = false;
 
@@ -1145,7 +1147,7 @@ namespace Monitux_POS.Ventanas
             dataGridView2.Rows.Clear();
             flowLayoutPanel1.Controls.Clear();
             dataGridView2.Visible = true;
-            Configurar_DataGridView_Inventario();
+            Configurar_DataGridView_Kardex();
             flowLayoutPanel1.Visible = false;
             dataGridView1.Visible = false;
 
@@ -1209,6 +1211,8 @@ namespace Monitux_POS.Ventanas
 
         public void Configurar_DataGridView_Kardex()
         {
+            dataGridView2.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
             // Configurar las columnas del DataGridView
             dataGridView2.Columns.Clear();
             dataGridView2.Columns.Add("Secuencial", "S");

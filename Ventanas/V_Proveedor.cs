@@ -90,6 +90,7 @@ namespace Monitux_POS.Ventanas
             dataGridView1.Columns["Tipo"].Width = 50; // Ajusta el ancho de la columna Tipo
             dataGridView1.Columns.Add("Activo", "Activo");
             dataGridView1.Columns.Add("Imagen", "Imagen");
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
 
             foreach (var item in proveedor)

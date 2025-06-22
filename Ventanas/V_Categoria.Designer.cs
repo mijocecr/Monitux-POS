@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Categoria));
             dataGridView1 = new DataGridView();
             label1 = new Label();
@@ -47,8 +48,8 @@
             groupBox1 = new GroupBox();
             label3 = new Label();
             panel1 = new Panel();
-            label4 = new Label();
             pictureBox6 = new PictureBox();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
@@ -61,6 +62,9 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(11, 155);
             dataGridView1.Name = "dataGridView1";
@@ -123,7 +127,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { opcionesToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(387, 24);
+            menuStrip1.Size = new Size(379, 24);
             menuStrip1.TabIndex = 5;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -243,18 +247,6 @@
             panel1.Size = new Size(382, 375);
             panel1.TabIndex = 11;
             // 
-            // label4
-            // 
-            label4.Dock = DockStyle.Top;
-            label4.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.White;
-            label4.Location = new Point(0, 24);
-            label4.Name = "label4";
-            label4.Size = new Size(387, 37);
-            label4.TabIndex = 12;
-            label4.Text = "Categorias";
-            label4.TextAlign = ContentAlignment.TopCenter;
-            // 
             // pictureBox6
             // 
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
@@ -265,12 +257,24 @@
             pictureBox6.TabStop = false;
             pictureBox6.Click += pictureBox6_Click;
             // 
+            // label4
+            // 
+            label4.Dock = DockStyle.Top;
+            label4.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(0, 24);
+            label4.Name = "label4";
+            label4.Size = new Size(379, 37);
+            label4.TabIndex = 12;
+            label4.Text = "Categorias";
+            label4.TextAlign = ContentAlignment.TopCenter;
+            // 
             // V_Categoria
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(387, 464);
+            ClientSize = new Size(379, 456);
             ControlBox = false;
             Controls.Add(label4);
             Controls.Add(panel1);

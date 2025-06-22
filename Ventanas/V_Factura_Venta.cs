@@ -410,8 +410,8 @@ namespace Monitux_POS.Ventanas
 
             //dataGridView1.Enabled = false;
 
-            dataGridView1.DefaultCellStyle.SelectionBackColor = dataGridView1.DefaultCellStyle.BackColor;
-            dataGridView1.DefaultCellStyle.SelectionForeColor = dataGridView1.DefaultCellStyle.ForeColor;
+           
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
 
             // Configurar las columnas del DataGridView

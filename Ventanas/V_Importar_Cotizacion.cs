@@ -65,6 +65,8 @@ namespace Monitux_POS.Ventanas
 
         public void Configurar_DataGridView_Cotizacion()
         {
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
             // Configurar las columnas del DataGridView
             dataGridView1.Columns.Clear();
             dataGridView1.Columns.Add("Secuencial", "S");
@@ -87,8 +89,7 @@ namespace Monitux_POS.Ventanas
             // Configurar las columnas del DataGridView
             dataGridView2.Enabled = true;
 
-            dataGridView2.DefaultCellStyle.SelectionBackColor = dataGridView2.DefaultCellStyle.BackColor;
-            dataGridView2.DefaultCellStyle.SelectionForeColor = dataGridView2.DefaultCellStyle.ForeColor;
+            dataGridView2.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
 
 
