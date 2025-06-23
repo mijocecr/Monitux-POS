@@ -36,6 +36,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Venta_Rapida));
             panel3 = new Panel();
             checkBox1 = new CheckBox();
+            pictureBox1 = new PictureBox();
+            cboCamaras = new ComboBox();
             label9 = new Label();
             label8 = new Label();
             comboBox1 = new ComboBox();
@@ -54,22 +56,21 @@
             button8 = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
             panel2 = new Panel();
-            panel1 = new Panel();
-            pictureBox1 = new PictureBox();
             label7 = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
             panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel2.SuspendLayout();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(44, 117, 255);
             panel3.Controls.Add(checkBox1);
+            panel3.Controls.Add(pictureBox1);
+            panel3.Controls.Add(cboCamaras);
             panel3.Controls.Add(label9);
             panel3.Controls.Add(label8);
             panel3.Controls.Add(comboBox1);
@@ -82,27 +83,47 @@
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(0, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(782, 551);
+            panel3.Size = new Size(792, 599);
             panel3.TabIndex = 2;
+            panel3.Paint += panel3_Paint;
             panel3.MouseMove += panel3_MouseMove;
             // 
             // checkBox1
             // 
             checkBox1.AutoSize = true;
             checkBox1.ForeColor = Color.White;
-            checkBox1.Location = new Point(26, 17);
+            checkBox1.Location = new Point(388, 569);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(105, 19);
+            checkBox1.Size = new Size(66, 19);
             checkBox1.TabIndex = 42;
-            checkBox1.Text = "Utilizar Escaner";
+            checkBox1.Text = "Escaner";
             checkBox1.UseVisualStyleBackColor = true;
             checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new Point(12, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(143, 80);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // cboCamaras
+            // 
+            cboCamaras.FormattingEnabled = true;
+            cboCamaras.Location = new Point(511, 567);
+            cboCamaras.Name = "cboCamaras";
+            cboCamaras.Size = new Size(192, 23);
+            cboCamaras.TabIndex = 43;
+            cboCamaras.Visible = false;
+            cboCamaras.SelectedIndexChanged += cboCamaras_SelectedIndexChanged;
             // 
             // label9
             // 
             label9.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
             label9.ForeColor = Color.LightGray;
-            label9.Location = new Point(12, 49);
+            label9.Location = new Point(12, 86);
             label9.Name = "label9";
             label9.Size = new Size(143, 43);
             label9.TabIndex = 42;
@@ -113,7 +134,7 @@
             // 
             label8.AutoSize = true;
             label8.ForeColor = Color.White;
-            label8.Location = new Point(352, 468);
+            label8.Location = new Point(388, 485);
             label8.Name = "label8";
             label8.Size = new Size(66, 15);
             label8.TabIndex = 41;
@@ -122,9 +143,9 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(352, 486);
+            comboBox1.Location = new Point(349, 503);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
+            comboBox1.Size = new Size(143, 23);
             comboBox1.TabIndex = 36;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
@@ -132,10 +153,10 @@
             // 
             textBox1.BackColor = Color.White;
             textBox1.ForeColor = Color.Fuchsia;
-            textBox1.Location = new Point(352, 516);
+            textBox1.Location = new Point(349, 533);
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "Quiero Vender...";
-            textBox1.Size = new Size(121, 23);
+            textBox1.Size = new Size(143, 23);
             textBox1.TabIndex = 35;
             textBox1.TextChanged += textBox1_TextChanged;
             textBox1.KeyDown += textBox1_KeyDown;
@@ -149,9 +170,9 @@
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(501, 443);
+            groupBox1.Location = new Point(511, 469);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(192, 99);
+            groupBox1.Size = new Size(192, 94);
             groupBox1.TabIndex = 34;
             groupBox1.TabStop = false;
             // 
@@ -170,7 +191,7 @@
             lbl_Total.AutoSize = true;
             lbl_Total.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
             lbl_Total.ForeColor = Color.Yellow;
-            lbl_Total.Location = new Point(83, 71);
+            lbl_Total.Location = new Point(83, 69);
             lbl_Total.Name = "lbl_Total";
             lbl_Total.Size = new Size(19, 21);
             lbl_Total.TabIndex = 5;
@@ -181,7 +202,7 @@
             lbl_ISV.AutoSize = true;
             lbl_ISV.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
             lbl_ISV.ForeColor = Color.Yellow;
-            lbl_ISV.Location = new Point(83, 45);
+            lbl_ISV.Location = new Point(83, 43);
             lbl_ISV.Name = "lbl_ISV";
             lbl_ISV.Size = new Size(19, 21);
             lbl_ISV.TabIndex = 4;
@@ -192,7 +213,7 @@
             lbl_SubTotal.AutoSize = true;
             lbl_SubTotal.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
             lbl_SubTotal.ForeColor = Color.Yellow;
-            lbl_SubTotal.Location = new Point(83, 19);
+            lbl_SubTotal.Location = new Point(83, 17);
             lbl_SubTotal.Name = "lbl_SubTotal";
             lbl_SubTotal.Size = new Size(19, 21);
             lbl_SubTotal.TabIndex = 3;
@@ -202,7 +223,7 @@
             // 
             label3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             label3.ForeColor = Color.White;
-            label3.Location = new Point(5, 73);
+            label3.Location = new Point(5, 71);
             label3.Name = "label3";
             label3.Size = new Size(72, 17);
             label3.TabIndex = 2;
@@ -213,7 +234,7 @@
             // 
             label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(5, 49);
+            label2.Location = new Point(5, 47);
             label2.Name = "label2";
             label2.Size = new Size(72, 17);
             label2.TabIndex = 1;
@@ -224,7 +245,7 @@
             // 
             label1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(5, 19);
+            label1.Location = new Point(5, 17);
             label1.Name = "label1";
             label1.Size = new Size(72, 23);
             label1.TabIndex = 0;
@@ -235,7 +256,7 @@
             // 
             button6.BackColor = Color.FromArgb(35, 32, 45);
             button6.ForeColor = Color.Lime;
-            button6.Location = new Point(700, 452);
+            button6.Location = new Point(709, 473);
             button6.Name = "button6";
             button6.Size = new Size(75, 90);
             button6.TabIndex = 33;
@@ -245,6 +266,7 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
             dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
             dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -264,7 +286,7 @@
             dataGridViewCellStyle3.SelectionForeColor = SystemColors.Highlight;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
-            dataGridView1.Location = new Point(167, 49);
+            dataGridView1.Location = new Point(175, 59);
             dataGridView1.Name = "dataGridView1";
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.Black;
@@ -274,7 +296,7 @@
             dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
             dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridView1.Size = new Size(606, 393);
+            dataGridView1.Size = new Size(608, 406);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
@@ -291,9 +313,9 @@
             button7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button7.ForeColor = Color.White;
             button7.Image = (Image)resources.GetObject("button7.Image");
-            button7.Location = new Point(247, 462);
+            button7.Location = new Point(256, 473);
             button7.Name = "button7";
-            button7.Size = new Size(74, 80);
+            button7.Size = new Size(74, 90);
             button7.TabIndex = 31;
             button7.Text = "Reset Factura";
             button7.TextImageRelation = TextImageRelation.ImageAboveText;
@@ -307,9 +329,9 @@
             button8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button8.ForeColor = Color.White;
             button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(167, 462);
+            button8.Location = new Point(176, 473);
             button8.Name = "button8";
-            button8.Size = new Size(74, 80);
+            button8.Size = new Size(74, 90);
             button8.TabIndex = 32;
             button8.Text = "Quitar Elemento";
             button8.TextImageRelation = TextImageRelation.ImageAboveText;
@@ -319,50 +341,31 @@
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.BackColor = Color.FromArgb(35, 32, 45);
+            flowLayoutPanel1.BackColor = Color.FromArgb(0, 168, 107);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             flowLayoutPanel1.ForeColor = Color.Black;
-            flowLayoutPanel1.Location = new Point(0, 95);
+            flowLayoutPanel1.Location = new Point(0, 131);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(161, 447);
+            flowLayoutPanel1.Size = new Size(161, 465);
             flowLayoutPanel1.TabIndex = 34;
             flowLayoutPanel1.WrapContents = false;
             // 
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(44, 117, 255);
-            panel2.Controls.Add(panel1);
             panel2.Controls.Add(label7);
             panel2.ForeColor = Color.Black;
-            panel2.Location = new Point(161, 0);
+            panel2.Location = new Point(177, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(621, 43);
+            panel2.Size = new Size(606, 53);
             panel2.TabIndex = 1;
-            // 
-            // panel1
-            // 
-            panel1.Controls.Add(pictureBox1);
-            panel1.Location = new Point(397, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(222, 45);
-            panel1.TabIndex = 41;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Dock = DockStyle.Fill;
-            pictureBox1.Location = new Point(0, 0);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(222, 45);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
             // 
             // label7
             // 
             label7.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(184, 0);
+            label7.Location = new Point(212, 11);
             label7.Name = "label7";
             label7.Size = new Size(178, 37);
             label7.TabIndex = 40;
@@ -378,22 +381,28 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(782, 551);
+            ClientSize = new Size(792, 599);
+            ControlBox = false;
             Controls.Add(panel2);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(panel3);
+            FormBorderStyle = FormBorderStyle.None;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "V_Venta_Rapida";
+            ShowIcon = false;
+            ShowInTaskbar = false;
             Text = "V_Venta_Rapida";
+            FormClosing += V_Venta_Rapida_FormClosing;
             Load += V_Venta_Rapida_Load;
             Shown += V_Venta_Rapida_Shown;
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel2.ResumeLayout(false);
-            panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -414,7 +423,6 @@
         private TextBox textBox1;
         private ComboBox comboBox1;
         private Label label8;
-        private Panel panel1;
         private PictureBox pictureBox1;
         private CheckBox checkBox1;
         private Label label9;
@@ -422,5 +430,6 @@
         private Label lbl_Total;
         private CheckBox checkBox2;
         private Label label1;
+        private ComboBox cboCamaras;
     }
 }

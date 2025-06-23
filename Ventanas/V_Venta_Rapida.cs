@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AForge.Video.DirectShow;
+using Microsoft.EntityFrameworkCore;
 using Monitux_POS.Clases;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ZXing.Windows.Compatibility;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -17,6 +19,9 @@ namespace Monitux_POS.Ventanas
 {
     public partial class V_Venta_Rapida : Form
     {
+        FilterInfoCollection filterInfoCollection;
+        VideoCaptureDevice videoCaptureDevice;
+
         double subtotal = 0.0;
         double total = 0.0;
         double ISV = 0.0;//quitar esto
@@ -110,16 +115,27 @@ namespace Monitux_POS.Ventanas
         private void button7_Click(object sender, EventArgs e)
         {
 
+            /*
+                        textBox1.Text = "1";
+                        textBox1.Focus();
 
-            textBox1.Text = "1";
-            textBox1.Focus();
-
-            // Simula la pulsación de Enter para activar el KeyDown
-            BeginInvoke((MethodInvoker)(() => SendKeys.Send("{ENTER}")));
-
-
+                        // Simula la pulsación de Enter para activar el KeyDown
+                        BeginInvoke((MethodInvoker)(() => SendKeys.Send("{ENTER}")));
 
 
+                        */
+
+
+            dataGridView1.Rows.Clear();
+            subtotal = 0.0;
+            total = 0.0;
+            ISV = 0.0; // Reiniciar el ISV antes de calcular
+            lbl_SubTotal.Text = $"{subtotal:0.00}";
+            lbl_ISV.Text = $"{ISV:0.00}";
+            lbl_Total.Text = $"{total:0.00}";
+            textBox1.Clear();
+            Configurar_DataGridView();
+            checkBox2.Checked = false; // Desmarcar el checkbox de ISV
 
             RestaurarFocoEscaner();
 
@@ -214,7 +230,7 @@ namespace Monitux_POS.Ventanas
                     Width = 155,
                     Height = 60,
                     BackColor = Color.FromArgb(35, 32, 45),
-                    ForeColor = Color.White,
+                    ForeColor = Color.Yellow,
                     FlatStyle = FlatStyle.Flat,
                     Font = new Font("Segoe UI", 8, FontStyle.Bold),
                     TextAlign = ContentAlignment.MiddleCenter,
@@ -298,9 +314,9 @@ namespace Monitux_POS.Ventanas
             comboBox1.Items.Add("Codigo");
             comboBox1.Items.Add("Codigo_Barra");
             comboBox1.Items.Add("Codigo_Fabricante");
-            comboBox1.Items.Add("Descripcion");
-            comboBox1.Items.Add("Fecha_Caducidad");
-            comboBox1.Items.Add("Marca");
+
+
+
             comboBox1.SelectedIndex = 0; // Seleccionar el primer elemento por defecto
 
 
@@ -308,16 +324,22 @@ namespace Monitux_POS.Ventanas
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
-
-            if (e.KeyCode == Keys.Enter)
+            if (!textBox1.Text.Equals(string.IsNullOrEmpty) && !textBox1.Text.Equals(string.IsNullOrWhiteSpace))
             {
-                // Aquí va lo que quieras ejecutar
-                string texto = textBox1.Text.Trim();
-                Filtrar("Codigo", texto);
-                ActualizarTotal();
-                e.Handled = true;
-                e.SuppressKeyPress = true; // Opcional: evita que suene "ding"
-                textBox1.Clear(); // Limpiar el TextBox después de buscar
+
+
+                if (e.KeyCode == Keys.Enter)
+                {
+                    // Aquí va lo que quieras ejecutar
+                    string texto = textBox1.Text.Trim();
+                    Filtrar(comboBox1.SelectedItem.ToString(), texto);
+                    ActualizarTotal();
+                    e.Handled = true;
+                    e.SuppressKeyPress = true; // Opcional: evita que suene "ding"
+
+                    IniciarEscaneo(); // Reiniciar la cámara para escanear el siguiente código de barras
+
+                }
             }
 
         }
@@ -357,7 +379,120 @@ namespace Monitux_POS.Ventanas
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             RestaurarFocoEscaner();
+            if (checkBox1.Checked)
+            {
+                comboBox1.Enabled = false;
+                comboBox1.SelectedIndex = 1;
+                cboCamaras.Visible = true;
+                pictureBox1.Visible = true;
+
+                filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+                foreach (FilterInfo device in filterInfoCollection)
+                    cboCamaras.Items.Add(device.Name);
+                cboCamaras.SelectedIndex = 0;
+
+
+                ///////////
+
+
+                videoCaptureDevice = new VideoCaptureDevice(filterInfoCollection[cboCamaras.SelectedIndex].MonikerString);
+                videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
+                videoCaptureDevice.Start();
+
+
+                ///////////
+
+
+
+            }
+            else
+            {
+                cboCamaras.Visible = false;
+                comboBox1.Enabled = true;
+                pictureBox1.Visible = false;
+                if (videoCaptureDevice != null && videoCaptureDevice.IsRunning)
+                {
+                    videoCaptureDevice.SignalToStop();
+                    videoCaptureDevice.WaitForStop();
+
+                }
+
+                comboBox1.SelectedIndex = 0; // Volver al primer elemento del ComboBox
+            }
         }
+
+        private void IniciarEscaneo()
+        {
+            textBox1.Clear(); // Limpiar el TextBox antes de iniciar el escaneo
+            if (videoCaptureDevice != null && videoCaptureDevice.IsRunning)
+            {
+                videoCaptureDevice.SignalToStop();
+                videoCaptureDevice.WaitForStop();
+            }
+            videoCaptureDevice = new VideoCaptureDevice(filterInfoCollection[cboCamaras.SelectedIndex].MonikerString);
+            videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
+            videoCaptureDevice.Start();
+        }
+
+
+        private void VideoCaptureDevice_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
+        {
+            Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
+
+            BarcodeReader reader = new BarcodeReader();
+
+            try
+            {
+                if (bitmap != null)
+                {
+
+                    var result = reader.Decode(bitmap);
+
+                    //Creo que esta solucionado el problema de que no se decodificaba el codigo de barras
+
+
+                    if (result != null)
+                    {
+
+                        textBox1.Invoke(new MethodInvoker(delegate ()
+                        {
+                            textBox1.Text = result.ToString();
+
+
+                            textBox1.Focus();
+
+                            // Simula la pulsación de Enter para activar el KeyDown
+                            BeginInvoke((MethodInvoker)(() => SendKeys.Send("{ENTER}")));
+
+
+
+                            videoCaptureDevice.SignalToStop();
+
+
+
+                        }));
+                        // pictureBox1.Image = null;
+                    }
+                    pictureBox1.Image = bitmap;
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción que pueda ocurrir al decodificar el código de barras
+                //               Console.WriteLine("Error al decodificar el código de barras: " + ex.Message);
+
+                //MessageBox.Show("Error al decodificar el código de barras: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+
+
+        }
+
+
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -371,11 +506,24 @@ namespace Monitux_POS.Ventanas
 
         private void button8_Click(object sender, EventArgs e)
         {
+
+            if (dataGridView1.CurrentRow == null)
+            {
+                V_Menu_Principal.MSG.ShowMSG("No hay filas seleccionadas para eliminar.", "Error");
+                return;
+            }
+            // Eliminar la fila seleccionada
+            dataGridView1.Rows.Remove(dataGridView1.CurrentRow);
+            ActualizarTotal();
+
             RestaurarFocoEscaner();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
+
+            V_Menu_Principal.MSG.ShowMSG("Esta función aún no está implementada.", "Información");
+
             RestaurarFocoEscaner();
         }
 
@@ -412,6 +560,32 @@ namespace Monitux_POS.Ventanas
         private void checkBox2_CheckedChanged_1(object sender, EventArgs e)
         {
             ActualizarTotal();
+
+        }
+
+        private void cboCamaras_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void V_Venta_Rapida_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (videoCaptureDevice != null)
+            {
+                if (videoCaptureDevice.IsRunning)
+
+                    videoCaptureDevice.SignalToStop();
+                videoCaptureDevice.WaitForStop();
+            }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }

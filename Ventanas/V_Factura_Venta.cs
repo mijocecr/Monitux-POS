@@ -31,7 +31,7 @@ namespace Monitux_POS.Ventanas
         double total = 0.00; // Variable para almacenar el total
         double otrosCargos = 0.00; // Variable para almacenar otros cargos
         double descuento = 0.00; // Variable para almacenar el descuento aplicado
-      //  public static string moneda = "USD"; // Variable para almacenar la moneda utilizada en la factura
+                                 //  public static string moneda = "USD"; // Variable para almacenar la moneda utilizada en la factura
 
 
         public static Dictionary<string, Miniatura_Producto> Lista_de_Items = new Dictionary<string, Miniatura_Producto>();
@@ -48,15 +48,15 @@ namespace Monitux_POS.Ventanas
         {
 
 
-         
+
 
             flowLayoutPanel1.Controls.Clear();
 
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
-           
-            
+
+
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
 
@@ -95,13 +95,13 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Expira = Convert.ToBoolean(item.Expira);
                 miniatura_Producto1.moneda = V_Menu_Principal.moneda; // Asignar la moneda a la miniatura del producto
                 miniatura_Producto1.Tipo = item.Tipo; // Asignar el tipo de producto (si es necesario)
-                miniatura_Producto1.Origen="Factura_Venta"; // Asignar el origen del producto a "Factura_Venta"
+                miniatura_Producto1.Origen = "Factura_Venta"; // Asignar el origen del producto a "Factura_Venta"
 
 
 
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
-                    
+
 
                     Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
 
@@ -186,11 +186,11 @@ namespace Monitux_POS.Ventanas
 
 
 
-               // flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
-               // AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
+                // flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
+                // AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
 
                 //Original
-                      flowLayoutPanel1.Controls.Add(miniatura_Producto1);
+                flowLayoutPanel1.Controls.Add(miniatura_Producto1);
                 //Original
 
 
@@ -393,6 +393,12 @@ namespace Monitux_POS.Ventanas
 
         private void V_Factura_Venta_Load(object sender, EventArgs e)
         {
+
+            lbl_Descuento.Text = $"{lbl_Descuento:0.00}";
+            lbl_Impuesto.Text = $"{lbl_Impuesto:0.00}";
+            lbl_OtrosCargos.Text = $"{lbl_OtrosCargos:0.00}";
+            lbl_sub_Total.Text = $"{lbl_sub_Total:0.00}";
+            lbl_Total.Text = $"{lbl_Total:0.00}";
             Cargar_Items();
             llenar_Combo_Cliente();
             comboBox2.SelectedIndex = 0;
@@ -410,7 +416,7 @@ namespace Monitux_POS.Ventanas
 
             //dataGridView1.Enabled = false;
 
-           
+
             dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
 
@@ -496,7 +502,7 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
-                    
+
 
                     Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
 
@@ -563,15 +569,15 @@ namespace Monitux_POS.Ventanas
                 };
 
 
-              //  flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
-              //  AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
+                //  flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
+                //  AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
 
 
 
 
 
                 //Original
-                 flowLayoutPanel1.Controls.Add(miniatura_Producto1);
+                flowLayoutPanel1.Controls.Add(miniatura_Producto1);
                 //Original
 
 
@@ -1570,6 +1576,11 @@ namespace Monitux_POS.Ventanas
         }
 
         private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

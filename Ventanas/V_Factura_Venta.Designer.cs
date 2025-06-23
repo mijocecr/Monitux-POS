@@ -702,6 +702,7 @@ namespace Monitux_POS.Ventanas
             panel1.Name = "panel1";
             panel1.Size = new Size(798, 590);
             panel1.TabIndex = 33;
+            panel1.Paint += panel1_Paint;
             // 
             // label16
             // 

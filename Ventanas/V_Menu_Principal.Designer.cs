@@ -68,7 +68,7 @@
             button22 = new Button();
             button21 = new Button();
             button26 = new Button();
-            btn_resumen = new Button();
+            btn_inicio = new Button();
             panel7 = new Panel();
             lbl_Titulo = new Label();
             pictureBox4 = new PictureBox();
@@ -137,7 +137,7 @@
             panel3.Controls.Add(panel12);
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
-            panel3.Controls.Add(btn_resumen);
+            panel3.Controls.Add(btn_inicio);
             panel3.Location = new Point(0, 216);
             panel3.Name = "panel3";
             panel3.Size = new Size(176, 456);
@@ -712,7 +712,7 @@
             button23.Padding = new Padding(35, 0, 0, 0);
             button23.Size = new Size(166, 25);
             button23.TabIndex = 4;
-            button23.Text = "Clientes";
+            button23.Text = "Actividades";
             button23.TextAlign = ContentAlignment.MiddleLeft;
             button23.UseVisualStyleBackColor = false;
             // 
@@ -751,6 +751,7 @@
             button21.Text = "Venta Rapida";
             button21.TextAlign = ContentAlignment.MiddleLeft;
             button21.UseVisualStyleBackColor = false;
+            button21.Click += button21_Click_1;
             // 
             // button26
             // 
@@ -771,26 +772,26 @@
             button26.UseVisualStyleBackColor = false;
             button26.Click += button26_Click;
             // 
-            // btn_resumen
+            // btn_inicio
             // 
-            btn_resumen.BackColor = Color.FromArgb(11, 8, 20);
-            btn_resumen.Cursor = Cursors.Hand;
-            btn_resumen.Dock = DockStyle.Top;
-            btn_resumen.Enabled = false;
-            btn_resumen.FlatAppearance.BorderSize = 0;
-            btn_resumen.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
-            btn_resumen.FlatStyle = FlatStyle.Flat;
-            btn_resumen.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_resumen.ForeColor = Color.White;
-            btn_resumen.Location = new Point(0, 0);
-            btn_resumen.Name = "btn_resumen";
-            btn_resumen.Padding = new Padding(10, 0, 0, 0);
-            btn_resumen.Size = new Size(159, 42);
-            btn_resumen.TabIndex = 11;
-            btn_resumen.Text = "Inicio";
-            btn_resumen.TextAlign = ContentAlignment.MiddleLeft;
-            btn_resumen.UseVisualStyleBackColor = false;
-            btn_resumen.Click += button9_Click_1;
+            btn_inicio.BackColor = Color.FromArgb(11, 8, 20);
+            btn_inicio.Cursor = Cursors.Hand;
+            btn_inicio.Dock = DockStyle.Top;
+            btn_inicio.Enabled = false;
+            btn_inicio.FlatAppearance.BorderSize = 0;
+            btn_inicio.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
+            btn_inicio.FlatStyle = FlatStyle.Flat;
+            btn_inicio.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_inicio.ForeColor = Color.White;
+            btn_inicio.Location = new Point(0, 0);
+            btn_inicio.Name = "btn_inicio";
+            btn_inicio.Padding = new Padding(10, 0, 0, 0);
+            btn_inicio.Size = new Size(159, 42);
+            btn_inicio.TabIndex = 11;
+            btn_inicio.Text = "Inicio";
+            btn_inicio.TextAlign = ContentAlignment.MiddleLeft;
+            btn_inicio.UseVisualStyleBackColor = false;
+            btn_inicio.Click += button9_Click_1;
             // 
             // panel7
             // 
@@ -967,7 +968,7 @@
         private Label lbl_Descripcion;
         private Label lbl_Cinta;
         private System.Windows.Forms.Timer timer1;
-        private Button btn_resumen;
+        private Button btn_inicio;
         private Panel panel11;
         private Button button26;
         private Panel panel12;

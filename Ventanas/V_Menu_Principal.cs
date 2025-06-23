@@ -19,7 +19,7 @@ namespace Monitux_POS.Ventanas
 
         public static MSG MSG = new MSG();
         public static IPB IPB = new IPB();
-        public static string VER = Assembly.GetExecutingAssembly().GetName().Version.ToString().Substring(0,3);
+        public static string VER = Assembly.GetExecutingAssembly().GetName().Version.ToString().Substring(0, 3);
         public static int Secuencial_Usuario;
         public static string Nombre_Usuario = string.Empty;
         public static string Codigo_Usuario = string.Empty;
@@ -53,7 +53,7 @@ namespace Monitux_POS.Ventanas
                 label1.Text = Nombre_Usuario; // Variable para almacenar el nombre del usuario
                 label2.Text = Acceso_Usuario; // Variable para almacenar el codigo del usuario
 
-                btn_resumen.Enabled = true;//Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de resumen solo si el usuario es administrador
+                btn_inicio.Enabled = true;//Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de resumen solo si el usuario es administrador
                                            //  btn_resumen.Visible = true; // Mostrar el boton de resumen solo si el usuario es administrador
                 btn_ajustes.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de ajustes solo si el usuario es administrador
                                                                                         // btn_ajustes.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de ajustes solo si el usuario es administrador
@@ -61,8 +61,8 @@ namespace Monitux_POS.Ventanas
                                                                                         // btn_cuentas.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de cuentas solo si el usuario es administrador
                 btn_facturas.Enabled = true; //Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de facturas solo si el usuario es administrador
                                              //  btn_facturas.Visible = true; // Mostrar el boton de facturas solo si el usuario es administrador
-                //btn_inventario.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
-                                                                                           //  btn_inventario.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
+                                             //btn_inventario.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
+                                             //  btn_inventario.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
                 btn_reportes.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de reportes solo si el usuario es administrador
                                                                                          //  btn_reportes.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de reportes solo si el usuario es administrador
 
@@ -75,6 +75,9 @@ namespace Monitux_POS.Ventanas
                 {
                     // MSG.ShowMSG("Error al cargar la imagen del usuario: " + ex.Message, "Error");
                 }
+
+                btn_inicio.PerformClick();
+
 
 
             }
@@ -260,14 +263,14 @@ namespace Monitux_POS.Ventanas
 
 
 
-          
+
 
 
 
             panel4.Controls.Clear();
             panel4.Controls.Add(childForm);
-            
-           panel4.Tag = childForm;
+
+            panel4.Tag = childForm;
             childForm.BringToFront();
             childForm.Show();
 
@@ -357,7 +360,7 @@ namespace Monitux_POS.Ventanas
 
         private void lbl_Cinta_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -498,7 +501,7 @@ namespace Monitux_POS.Ventanas
 
         private void button26_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -516,6 +519,17 @@ namespace Monitux_POS.Ventanas
 
 
 
+        }
+
+        private void button21_Click_1(object sender, EventArgs e)
+        {
+            V_Venta_Rapida v_Venta_Rapida = new V_Venta_Rapida();
+            
+            Abrir_Ventana(v_Venta_Rapida);
+
+
+            lbl_Descripcion.Text = "Interfaz optimizada para agilizar el proceso de venta mediante lector de códigos de barras. " +
+                "Muestra automáticamente los 5 productos más vendidos y permite registrar ventas con rapidez y precisión.";
         }
     }
 }

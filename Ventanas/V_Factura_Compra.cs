@@ -747,6 +747,12 @@ namespace Monitux_POS.Ventanas
 
         private void V_Factura_Compra_Load(object sender, EventArgs e)
         {
+            lbl_Descuento.Text = $"{lbl_Descuento:0.00}";
+            lbl_Impuesto.Text = $"{lbl_Impuesto:0.00}";
+            lbl_OtrosCargos.Text = $"{lbl_OtrosCargos:0.00}";
+            lbl_sub_Total.Text = $"{lbl_sub_Total:0.00}";
+            lbl_Total.Text = $"{lbl_Total:0.00}";
+
             Cargar_Items();
             llenar_Combo_Proveedor();
             comboBox2.SelectedIndex = 0;
