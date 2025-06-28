@@ -1312,26 +1312,7 @@ namespace Monitux_POS.Ventanas
                     }
 
 
-
-
-
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

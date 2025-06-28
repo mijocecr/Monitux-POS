@@ -35,7 +35,9 @@
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Venta_Rapida));
             panel3 = new Panel();
+            comboCliente = new ComboBox();
             checkBox1 = new CheckBox();
+            label4 = new Label();
             pictureBox1 = new PictureBox();
             cboCamaras = new ComboBox();
             label9 = new Label();
@@ -68,7 +70,9 @@
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(44, 117, 255);
+            panel3.Controls.Add(comboCliente);
             panel3.Controls.Add(checkBox1);
+            panel3.Controls.Add(label4);
             panel3.Controls.Add(pictureBox1);
             panel3.Controls.Add(cboCamaras);
             panel3.Controls.Add(label9);
@@ -88,17 +92,37 @@
             panel3.Paint += panel3_Paint;
             panel3.MouseMove += panel3_MouseMove;
             // 
+            // comboCliente
+            // 
+            comboCliente.FormattingEnabled = true;
+            comboCliente.Location = new Point(540, 58);
+            comboCliente.Name = "comboCliente";
+            comboCliente.Size = new Size(243, 23);
+            comboCliente.TabIndex = 45;
+            comboCliente.SelectedIndexChanged += comboCliente_SelectedIndexChanged;
+            comboCliente.MouseClick += comboCliente_MouseClick;
+            // 
             // checkBox1
             // 
             checkBox1.AutoSize = true;
             checkBox1.ForeColor = Color.White;
-            checkBox1.Location = new Point(388, 569);
+            checkBox1.Location = new Point(178, 61);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(66, 19);
             checkBox1.TabIndex = 42;
             checkBox1.Text = "Escaner";
             checkBox1.UseVisualStyleBackColor = true;
             checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(490, 62);
+            label4.Name = "label4";
+            label4.Size = new Size(47, 15);
+            label4.TabIndex = 44;
+            label4.Text = "Cliente:";
             // 
             // pictureBox1
             // 
@@ -112,9 +136,9 @@
             // cboCamaras
             // 
             cboCamaras.FormattingEnabled = true;
-            cboCamaras.Location = new Point(511, 567);
+            cboCamaras.Location = new Point(248, 58);
             cboCamaras.Name = "cboCamaras";
-            cboCamaras.Size = new Size(192, 23);
+            cboCamaras.Size = new Size(157, 23);
             cboCamaras.TabIndex = 43;
             cboCamaras.Visible = false;
             cboCamaras.SelectedIndexChanged += cboCamaras_SelectedIndexChanged;
@@ -122,7 +146,7 @@
             // label9
             // 
             label9.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            label9.ForeColor = Color.LightGray;
+            label9.ForeColor = Color.White;
             label9.Location = new Point(12, 86);
             label9.Name = "label9";
             label9.Size = new Size(143, 43);
@@ -134,7 +158,7 @@
             // 
             label8.AutoSize = true;
             label8.ForeColor = Color.White;
-            label8.Location = new Point(388, 485);
+            label8.Location = new Point(388, 510);
             label8.Name = "label8";
             label8.Size = new Size(66, 15);
             label8.TabIndex = 41;
@@ -143,7 +167,7 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(349, 503);
+            comboBox1.Location = new Point(349, 528);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(143, 23);
             comboBox1.TabIndex = 36;
@@ -153,7 +177,7 @@
             // 
             textBox1.BackColor = Color.White;
             textBox1.ForeColor = Color.Fuchsia;
-            textBox1.Location = new Point(349, 533);
+            textBox1.Location = new Point(349, 558);
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "Quiero Vender...";
             textBox1.Size = new Size(143, 23);
@@ -170,7 +194,7 @@
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(511, 469);
+            groupBox1.Location = new Point(511, 494);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(192, 94);
             groupBox1.TabIndex = 34;
@@ -234,7 +258,7 @@
             // 
             label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(5, 47);
+            label2.Location = new Point(5, 46);
             label2.Name = "label2";
             label2.Size = new Size(72, 17);
             label2.TabIndex = 1;
@@ -256,7 +280,7 @@
             // 
             button6.BackColor = Color.FromArgb(35, 32, 45);
             button6.ForeColor = Color.Lime;
-            button6.Location = new Point(709, 473);
+            button6.Location = new Point(709, 498);
             button6.Name = "button6";
             button6.Size = new Size(75, 90);
             button6.TabIndex = 33;
@@ -286,7 +310,7 @@
             dataGridViewCellStyle3.SelectionForeColor = SystemColors.Highlight;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
-            dataGridView1.Location = new Point(175, 59);
+            dataGridView1.Location = new Point(175, 86);
             dataGridView1.Name = "dataGridView1";
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.Black;
@@ -296,7 +320,7 @@
             dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
             dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridView1.Size = new Size(608, 406);
+            dataGridView1.Size = new Size(608, 402);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
@@ -313,7 +337,7 @@
             button7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button7.ForeColor = Color.White;
             button7.Image = (Image)resources.GetObject("button7.Image");
-            button7.Location = new Point(256, 473);
+            button7.Location = new Point(256, 498);
             button7.Name = "button7";
             button7.Size = new Size(74, 90);
             button7.TabIndex = 31;
@@ -329,7 +353,7 @@
             button8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button8.ForeColor = Color.White;
             button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(176, 473);
+            button8.Location = new Point(176, 498);
             button8.Name = "button8";
             button8.Size = new Size(74, 90);
             button8.TabIndex = 32;
@@ -350,6 +374,7 @@
             flowLayoutPanel1.Size = new Size(161, 465);
             flowLayoutPanel1.TabIndex = 34;
             flowLayoutPanel1.WrapContents = false;
+            flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
             // 
             // panel2
             // 
@@ -365,7 +390,7 @@
             // 
             label7.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(212, 11);
+            label7.Location = new Point(212, 7);
             label7.Name = "label7";
             label7.Size = new Size(178, 37);
             label7.TabIndex = 40;
@@ -431,5 +456,7 @@
         private CheckBox checkBox2;
         private Label label1;
         private ComboBox cboCamaras;
+        private ComboBox comboCliente;
+        private Label label4;
     }
 }

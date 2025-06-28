@@ -1021,8 +1021,18 @@ namespace Monitux_POS
 
         public void cargarVista_Ampliada()
         {
-            V_Vista_Ampliada v_Vista_Ampliada = new V_Vista_Ampliada(Imagen, Codigo,Descripcion);
-            v_Vista_Ampliada.ShowDialog();
+            try
+            {
+                V_Vista_Ampliada v_Vista_Ampliada = new V_Vista_Ampliada(Imagen, Codigo, Descripcion);
+                v_Vista_Ampliada.ShowDialog();
+
+            }
+            catch
+            {
+                   V_Menu_Principal.MSG.ShowMSG("Error al cargar la vista ampliada.", "Error");
+                return;
+            }
+
 
         }
 
@@ -1073,7 +1083,15 @@ namespace Monitux_POS
 
         private void ampliarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cargarVista_Ampliada();
-        }
+            try
+            {
+                cargarVista_Ampliada();
+            }
+            catch (Exception ex)
+            {
+                V_Menu_Principal.MSG.ShowMSG("Error al cargar la vista ampliada: " + ex.Message, "Error");
+                return;
+            }
+            }
     }//Fin de Clase
 }

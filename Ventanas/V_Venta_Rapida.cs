@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace Monitux_POS.Ventanas
     {
         FilterInfoCollection filterInfoCollection;
         VideoCaptureDevice videoCaptureDevice;
+
+        public Dictionary<string, Miniatura_Producto> Lista_de_Items = new Dictionary<string, Miniatura_Producto>();
 
         double subtotal = 0.0;
         double total = 0.0;
@@ -76,15 +79,45 @@ namespace Monitux_POS.Ventanas
 
                     if (Double.TryParse(cantidad, NumberStyles.Any, CultureInfo.InvariantCulture, out double numero))
                     {
+                        if (!Lista_de_Items.ContainsKey(item.Codigo))
+                        {
+                            Lista_de_Items.Add(item.Codigo, new Miniatura_Producto
+                            {
+                                Secuencial = item.Secuencial,
+                                Codigo = item.Codigo,
+                                Descripcion = item.Descripcion,
+                                Precio_Venta = item.Precio_Venta,
+                                Cantidad = item.Cantidad,
+                                cantidadSelecccionItem = numero,
+                                Tipo = item.Tipo
+                            });
 
 
-                        dataGridView1.Rows.Add(item.Secuencial,
-                        item.Codigo,
-                        item.Descripcion,
-                        numero,
-                        Math.Round((double)item.Precio_Venta, 2),
-                        numero * Math.Round((double)item.Precio_Venta, 2));
+                            dataGridView1.Rows.Add(item.Secuencial,
+                            item.Codigo,
+                            item.Descripcion,
+                            Lista_de_Items[item.Codigo].cantidadSelecccionItem,
+                            Math.Round((double)item.Precio_Venta, 2),
+                            numero * Math.Round((double)item.Precio_Venta, 2));
 
+
+                        }
+                        else
+                        {
+                            Lista_de_Items[item.Codigo].cantidadSelecccionItem = Lista_de_Items[item.Codigo].cantidadSelecccionItem + numero;
+                            dataGridView1.Rows.Remove(dataGridView1.Rows.Cast<DataGridViewRow>().FirstOrDefault(r => r.Cells["Codigo"].Value.ToString() == item.Codigo));
+
+                            dataGridView1.Rows.Add(item.Secuencial,
+                     item.Codigo,
+                     item.Descripcion,
+
+                     Lista_de_Items[item.Codigo].cantidadSelecccionItem,
+                     Math.Round((double)item.Precio_Venta, 2),
+                     Lista_de_Items[item.Codigo].cantidadSelecccionItem * Math.Round((double)item.Precio_Venta, 2)); //ojo aqui
+
+
+
+                        }
 
 
                     }
@@ -114,7 +147,7 @@ namespace Monitux_POS.Ventanas
 
         private void button7_Click(object sender, EventArgs e)
         {
-
+            comboCliente.SelectedIndex = -1; // Limpiar la selección del cliente
             /*
                         textBox1.Text = "1";
                         textBox1.Focus();
@@ -248,25 +281,12 @@ namespace Monitux_POS.Ventanas
                     var prod = (Producto_Top_VR)((System.Windows.Forms.Button)s).Tag;
                     //AgregarProductoAlCarrito(prod); // ← Implementa esta función según tu lógica
 
-                    if (V_Menu_Principal.IPB.Show("Digite la cantidad en números de este producto que esta agregando", "¿Cuantos: " + producto.Codigo + "?", out cantidad) == DialogResult.OK)
-                    {
-
-                        cantidad = cantidad?.Trim();
-
-                        if (Double.TryParse(cantidad, NumberStyles.Any, CultureInfo.InvariantCulture, out double numero))
-                        {
 
 
-                            dataGridView1.Rows.Add(producto.Secuencial_Producto,
-                            producto.Codigo,
-                            producto.Descripcion,
-                            numero,
-                            Math.Round((double)producto.Venta, 2),
-                            numero * Math.Round((double)producto.Venta, 2));
+                            Filtrar("Codigo", producto.Codigo);
 
 
-
-                        }
+                        
 
                         if (checkBox1.Checked)
                         {
@@ -274,20 +294,10 @@ namespace Monitux_POS.Ventanas
                             textBox1.Focus();
                         }
 
-                    }
-                    else
-                    {
+                    
+                   
 
-                        V_Menu_Principal.MSG.ShowMSG("No se ha ingresado una cantidad válida.", "Error");
-                        if (checkBox1.Checked)
-                        {
-                            textBox1.Select();
-                            textBox1.Focus();
-                        }
-
-                    }
-
-
+                    ActualizarTotal();
 
 
                 };
@@ -298,6 +308,30 @@ namespace Monitux_POS.Ventanas
         }
 
 
+        public void llenar_Combo_Cliente()
+        {
+
+
+            comboCliente.Items.Clear();
+
+            SQLitePCL.Batteries.Init();
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+            // Filtrar solo clientes activos
+            var clientesActivos = context.Clientes.Where(c => (bool)c.Activo).ToList();
+
+            foreach (var item in clientesActivos)
+            {
+                comboCliente.Items.Add(item.Secuencial + " - " + item.Nombre);
+            }
+
+
+
+
+
+        }
 
 
 
@@ -310,7 +344,7 @@ namespace Monitux_POS.Ventanas
             MostrarTopProductosEnPanel(flowLayoutPanel1);
             Configurar_DataGridView();
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-
+            llenar_Combo_Cliente();
             comboBox1.Items.Add("Codigo");
             comboBox1.Items.Add("Codigo_Barra");
             comboBox1.Items.Add("Codigo_Fabricante");
@@ -337,7 +371,11 @@ namespace Monitux_POS.Ventanas
                     e.Handled = true;
                     e.SuppressKeyPress = true; // Opcional: evita que suene "ding"
 
-                    IniciarEscaneo(); // Reiniciar la cámara para escanear el siguiente código de barras
+                    if (checkBox1.Checked)
+                    {
+                        IniciarEscaneo(); // Reiniciar la cámara para escanear el siguiente código de barras
+                    }
+
 
                 }
             }
@@ -512,6 +550,9 @@ namespace Monitux_POS.Ventanas
                 V_Menu_Principal.MSG.ShowMSG("No hay filas seleccionadas para eliminar.", "Error");
                 return;
             }
+
+            Lista_de_Items.Remove(dataGridView1.CurrentRow.Cells["Codigo"].Value.ToString());
+
             // Eliminar la fila seleccionada
             dataGridView1.Rows.Remove(dataGridView1.CurrentRow);
             ActualizarTotal();
@@ -519,13 +560,160 @@ namespace Monitux_POS.Ventanas
             RestaurarFocoEscaner();
         }
 
+
+
+
+
         private void button6_Click(object sender, EventArgs e)
         {
+            if (comboCliente.SelectedIndex == -1)
+            {
+                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un cliente para registrar la venta.", "Error");
+                return; // Si no se ha seleccionado un cliente, no se puede registrar la venta
+            }
 
-            V_Menu_Principal.MSG.ShowMSG("Esta función aún no está implementada.", "Información");
+            if (dataGridView1.Rows.Count == 0)
+            {
+                V_Menu_Principal.MSG.ShowMSG("No hay productos en la venta.", "Error");
+                return; // Si no hay productos, no se puede registrar la venta
+            }
+
+
+            ////////////////////////////
+
+
+            Venta venta = new Venta();
+
+            V_Kardex kardex = new V_Kardex(); // Crear una instancia de Kardex para registrar el movimiento de inventario
+            Ingreso ingreso = new Ingreso(); // Crear una instancia de Ingreso para registrar el ingreso de productos
+
+
+            SQLitePCL.Batteries.Init();
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+
+
+            int secuencial = context.Ventas.Any() ? context.Ventas.Max(p => p.Secuencial) + 1 : 1;
+
+            venta.Secuencial = secuencial;
+            venta.Secuencial_Cliente = comboCliente.SelectedIndex != -1 ? int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()) : 0; // Obtener el secuencial del cliente seleccionado
+
+            venta.Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario; // Asignar el secuencial del usuario que está realizando la venta
+            venta.Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"); // Asignar la fecha y hora actual de la venta
+            venta.Tipo = "Contado"; // Obtener el tipo de venta seleccionado
+            venta.Total = Math.Round(subtotal, 2); // Asignar el total de la venta
+            venta.Forma_Pago = "Efectivo"; // Obtener la forma de pago seleccionada
+            venta.Gran_Total = Math.Round(total, 2); // Asignar el gran total de la venta
+
+            venta.Impuesto = ISV; // Asignar el impuesto de la venta
+            venta.Otros_Cargos = 0; // Asignar los otros cargos de la venta
+            venta.Descuento = 0; // Asignar el descuento de la venta    
+            context.Add(venta);
+            context.SaveChanges(); // Guardar los cambios en la base de datos
+
+
+
+            /////////////////////////////
+
+
+
+            foreach (var pro in Lista_de_Items.Values)
+            {
+
+                SQLitePCL.Batteries.Init();
+
+                using var context1 = new Monitux_DB_Context();
+                context1.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+                Venta_Detalle venta_detalle = new Venta_Detalle(); // Crear una nueva instancia de Ventas_Detalles para cada producto en la venta
+
+
+                venta_detalle.Secuencial_Factura = venta.Secuencial; // Asignar el secuencial de la venta al detalle de la venta
+                venta_detalle.Secuencial_Cliente = venta.Secuencial_Cliente; // Asignar el secuencial del cliente al detalle de la venta
+                venta_detalle.Secuencial_Usuario = venta.Secuencial_Usuario; // Asignar el secuencial del usuario al detalle de la venta
+
+                venta_detalle.Fecha = venta.Fecha; // Asignar la fecha de la venta al detalle de la venta
+
+                venta_detalle.Secuencial_Producto = pro.Secuencial; // Asignar el secuencial del producto al detalle de la venta
+                venta_detalle.Codigo = pro.Codigo; // Asignar el código del producto al detalle de la venta
+                venta_detalle.Descripcion = pro.Descripcion; // Asignar la descripción del producto al detalle de la venta
+                venta_detalle.Cantidad = pro.cantidadSelecccionItem; // Asignar la cantidad del producto al detalle de la venta
+                venta_detalle.Precio = Math.Round(pro.Precio_Venta, 2); // Asignar el precio de venta del producto al detalle de la venta
+                venta_detalle.Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Venta, 2); // Calcular el total del detalle de la venta
+                venta_detalle.Tipo = pro.Tipo; // Asignar el tipo de producto al detalle de la venta
+                context1.Add(venta_detalle); // Agregar el detalle de la venta al contexto
+                context1.SaveChanges(); // Guardar los cambios en la base de datos
+
+                if (venta_detalle.Tipo != "Servicio")
+                {
+                    Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion, pro.cantidadSelecccionItem, pro.Precio_Costo, pro.Precio_Venta, "Salida");
+
+
+
+
+
+                    SQLitePCL.Batteries.Init();
+
+                    using var context2 = new Monitux_DB_Context();
+                    context2.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+
+                    var producto = context2.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
+                    if (producto != null)
+                    {
+
+
+
+                        producto.Cantidad = pro.Cantidad - pro.cantidadSelecccionItem;
+                        context2.SaveChanges();
+
+                    }
+
+
+                }
+
+
+
+            }
+
+
+
+
+
+
+
+
+            ///////////////////////////
+
+
+
+            V_Menu_Principal.MSG.ShowMSG("Venta registrada correctamente.", "Éxito");
+            // Limpiar los campos y controles después de registrar la venta
+            Util.Registrar_Actividad(V_Menu_Principal.Secuencial_Usuario, "Ha registrado una venta segun factura: " + secuencial + "\nPor valor de: " + Math.Round(total, 2));
+
+         
+
+            button7.PerformClick(); // Limpiar la venta rápida
+
+
+
+
+
+
+
 
             RestaurarFocoEscaner();
         }
+
+
+
+
+        
+
+
+
 
         private void dataGridView1_MouseHover(object sender, EventArgs e)
         {
@@ -585,6 +773,21 @@ namespace Monitux_POS.Ventanas
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void comboCliente_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboCliente_MouseClick(object sender, MouseEventArgs e)
+        {
+            llenar_Combo_Cliente();
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
