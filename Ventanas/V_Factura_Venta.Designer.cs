@@ -174,7 +174,7 @@ namespace Monitux_POS.Ventanas
             // 
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Codigo", "Descripcion", "Marca", "Codigo_Barra", "Codigo_QR" });
+            comboBox2.Items.AddRange(new object[] { "Codigo", "Descripcion", "Marca", "Codigo_Barra" });
             comboBox2.Location = new Point(7, 22);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(146, 23);

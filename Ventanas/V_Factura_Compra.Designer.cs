@@ -498,6 +498,7 @@
             comboCliente.Name = "comboCliente";
             comboCliente.Size = new Size(218, 23);
             comboCliente.TabIndex = 9;
+            comboCliente.SelectedIndexChanged += comboCliente_SelectedIndexChanged;
             // 
             // dateTimePicker1
             // 
@@ -590,6 +591,7 @@
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(396, 342);
             flowLayoutPanel1.TabIndex = 7;
+            flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
             flowLayoutPanel1.MouseMove += flowLayoutPanel1_MouseMove;
             // 
             // button8
@@ -638,7 +640,7 @@
             // 
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox2.FormattingEnabled = true;
-            comboBox2.Items.AddRange(new object[] { "Codigo", "Descripcion", "Marca", "Codigo_Barra", "Codigo_QR" });
+            comboBox2.Items.AddRange(new object[] { "Codigo", "Descripcion", "Marca", "Codigo_Barra" });
             comboBox2.Location = new Point(7, 22);
             comboBox2.Name = "comboBox2";
             comboBox2.Size = new Size(146, 23);

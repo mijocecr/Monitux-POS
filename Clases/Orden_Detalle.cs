@@ -29,6 +29,8 @@ namespace Monitux_POS.Clases
         public double? Total { get; set; } = 0;
 
 
+        public int Secuencial_Empresa { get; set; }
+
 
 
 

@@ -25,7 +25,7 @@ namespace Monitux_POS.Ventanas
         double total = 0.00; // Variable para almacenar el total
         double otrosCargos = 0.00; // Variable para almacenar otros cargos
         double descuento = 0.00; // Variable para almacenar el descuento aplicado
-       
+
 
 
         public static Dictionary<string, Miniatura_Producto> Lista_de_Items = new Dictionary<string, Miniatura_Producto>();
@@ -58,7 +58,7 @@ namespace Monitux_POS.Ventanas
 
 
                 var productos = context.Productos
-                        .Where(c => EF.Property<string>(c, "Codigo").Equals(item_C.Key))
+                        .Where(c => EF.Property<string>(c, "Codigo").Equals(item_C.Key) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
                         .ToList();
 
                 foreach (var item in productos)
@@ -69,7 +69,7 @@ namespace Monitux_POS.Ventanas
 
                     miniatura_Producto.Cantidad = item.Cantidad;
                     miniatura_Producto.Imagen = item.Imagen;
-
+                    miniatura_Producto.Secuencial_Empresa=item.Secuencial_Empresa;
                     miniatura_Producto.Secuencial = item.Secuencial;
                     miniatura_Producto.Codigo = item.Codigo;
                     miniatura_Producto.Marca = item.Marca;
@@ -180,7 +180,13 @@ namespace Monitux_POS.Ventanas
 
 
             // **READ**
-            var productos = context.Productos.ToList();
+
+            var productos = context.Productos
+    .Where(p => p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+    .ToList();
+
+
+
             int i = 0;
             Console.WriteLine("Lista de productos:");
 
@@ -212,13 +218,13 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Expira = Convert.ToBoolean(item.Expira);
                 miniatura_Producto1.moneda = V_Menu_Principal.moneda; // Asignar la moneda a la miniatura del producto
                 miniatura_Producto1.Tipo = item.Tipo; // Asignar el tipo de producto (si es necesario)
-
-                miniatura_Producto1.Origen="Factura_Compra"; // Asignar el origen de la miniatura del producto
+                miniatura_Producto1.Secuencial_Empresa = item.Secuencial_Empresa;
+                miniatura_Producto1.Origen = "Factura_Compra"; // Asignar el origen de la miniatura del producto
 
 
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
-                    
+
 
                     Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
 
@@ -295,8 +301,8 @@ namespace Monitux_POS.Ventanas
 
 
 
-             //   flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
-             //   AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
+                //   flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
+                //   AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
 
 
 
@@ -393,7 +399,7 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
             // Filtrar solo clientes activos
-            var clientesActivos = context.Proveedores.Where(c => (bool)c.Activo).ToList();
+            var clientesActivos = context.Proveedores.Where(c => (bool)c.Activo && c.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa).ToList();
 
             foreach (var item in clientesActivos)
             {
@@ -413,7 +419,7 @@ namespace Monitux_POS.Ventanas
 
             //dataGridView1.Enabled = false;
 
-        
+
             dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
 
@@ -470,7 +476,7 @@ namespace Monitux_POS.Ventanas
             // Cambia esto a la columna que desees filtrar
 
             var productos = context.Productos
-                    .Where(c => EF.Property<string>(c, campo).Contains(valor))
+                    .Where(c => EF.Property<string>(c, campo).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
 
             flowLayoutPanel1.Controls.Clear();
@@ -486,7 +492,7 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Cantidad = item.Cantidad;
                 miniatura_Producto1.Imagen = item.Imagen;
-
+                miniatura_Producto1.Secuencial_Empresa = item.Secuencial_Empresa;
                 miniatura_Producto1.Secuencial = item.Secuencial;
                 miniatura_Producto1.Codigo = item.Codigo;
                 miniatura_Producto1.Marca = item.Marca;
@@ -514,7 +520,7 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
-                    
+
 
                     Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
 
@@ -583,8 +589,8 @@ namespace Monitux_POS.Ventanas
 
 
 
-               // flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
-               // AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
+                // flowLayoutPanel1.Controls.Add(miniatura_Producto1);//118; 156
+                // AnimacionesUI.AnimarCrecimiento(miniatura_Producto1, new Size(118, 156));
 
 
                 //Original
@@ -922,7 +928,7 @@ namespace Monitux_POS.Ventanas
             Cargar_Items();
             llenar_Combo_Proveedor();
             comboCliente.SelectedIndex = -1; // Limpiar la selección del cliente
-            Util.Limpiar_Cache(); // Limpiar la caché de la aplicación
+            Util.Limpiar_Cache(V_Menu_Principal.Secuencial_Empresa); // Limpiar la caché de la aplicación
 
         }
 
@@ -1015,7 +1021,7 @@ namespace Monitux_POS.Ventanas
                 else
                 {
 
-                    V_Menu_Principal.MSG.ShowMSG("Revise la cantidad que desea agregar. -- " + item.Codigo + " --\n\nDescripcion: " + item.Descripcion, "Error");
+                    V_Menu_Principal.MSG.ShowMSG("Revise la cantidad que desea agregar.\n -- " + item.Codigo + " --\n" + item.Descripcion, "Error");
                     return;
                 }
 
@@ -1108,7 +1114,7 @@ namespace Monitux_POS.Ventanas
 
             cotizacion.Secuencial = secuencial;
             cotizacion.Secuencial_Proveedor = comboCliente.SelectedIndex != -1 ? int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()) : 0; // Obtener el secuencial del cliente seleccionado
-
+            cotizacion.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
             cotizacion.Secuencial_Usuario = Secuencial_Usuario; // Asignar el secuencial del usuario que está realizando la venta
             cotizacion.Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"); // Asignar la fecha y hora actual de la venta
 
@@ -1132,7 +1138,7 @@ namespace Monitux_POS.Ventanas
 
                 Orden_Detalle cotizacion_detalle = new Orden_Detalle();
 
-
+                cotizacion_detalle.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
                 cotizacion_detalle.Secuencial_Orden = cotizacion.Secuencial;
                 cotizacion_detalle.Secuencial_Proveedor = cotizacion.Secuencial_Proveedor;
                 cotizacion_detalle.Secuencial_Usuario = cotizacion.Secuencial_Usuario;
@@ -1158,7 +1164,7 @@ namespace Monitux_POS.Ventanas
 
             V_Menu_Principal.MSG.ShowMSG("Orden registrada correctamente.", "Éxito");
             // Limpiar los campos y controles después de registrar la venta
-            Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una orden de compra segun Numero: " + secuencial + "\nPor valor de: " + Math.Round(total, 2));
+            Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una orden de compra segun Numero: " + secuencial + "\nPor valor de: " + Math.Round(total, 2), V_Menu_Principal.Secuencial_Empresa);
             Limpiar_Factura(); // Llama al método para limpiar la factura después de registrar la venta
 
 
@@ -1295,7 +1301,7 @@ namespace Monitux_POS.Ventanas
 
             // Filtrar solo clientes activos cuyo teléfono contiene el texto ingresado
             var proveedores = context.Proveedores
-                .Where(c => (bool)c.Activo && EF.Property<string>(c, "Telefono").Contains(textBox2.Text))
+                .Where(c => (bool)c.Activo && c.Secuencial_Empresa== V_Menu_Principal.Secuencial_Empresa &&EF.Property<string>(c, "Telefono").Contains(textBox2.Text))
                 .ToList();
 
             foreach (var item in proveedores)
@@ -1396,10 +1402,120 @@ namespace Monitux_POS.Ventanas
 
 
 
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            // Crear Compra
+            int secuencial = context.Compras.Any() ? context.Compras.Max(p => p.Secuencial) + 1 : 1;
+            var compra = new Compra
+            {
+                Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa,
+                Secuencial = secuencial,
+                Secuencial_Proveedor = comboCliente.SelectedIndex != -1
+                    ? int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim())
+                    : 0,
+                Secuencial_Usuario = Secuencial_Usuario,
+                Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"),
+                Tipo = comboBox3.SelectedItem.ToString(),
+                Forma_Pago = comboBox1.SelectedItem.ToString(),
+                Total = Math.Round(subTotal, 2),
+                Gran_Total = Math.Round(total, 2),
+                Impuesto = impuesto,
+                Otros_Cargos = otrosCargos,
+                Descuento = descuento
+            };
+            context.Compras.Add(compra);
+            context.SaveChanges();
+
+            // Agregar Detalles de Compra y actualizar inventario
+            foreach (var pro in Lista_de_Items.Values)
+            {
+                var detalle = new Compra_Detalle
+                {
+                    Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa,
+                    Secuencial_Factura = compra.Secuencial,
+                    Secuencial_Proveedor = compra.Secuencial_Proveedor,
+                    Secuencial_Usuario = compra.Secuencial_Usuario,
+                    Fecha = compra.Fecha,
+                    Secuencial_Producto = pro.Secuencial,
+                    Codigo = pro.Codigo,
+                    Descripcion = pro.Descripcion,
+                    Cantidad = pro.cantidadSelecccionItem,
+                    Precio = Math.Round(pro.Precio_Venta, 2),
+                    Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Venta, 2),
+                    Tipo = pro.Tipo
+                };
+                context.Compras_Detalles.Add(detalle);
+
+                // Si no es servicio, registrar movimiento de inventario
+                if (detalle.Tipo != "Servicio")
+                {
+                    Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion,
+                        pro.cantidadSelecccionItem, pro.Precio_Costo, pro.Precio_Venta, "Entrada", V_Menu_Principal.Secuencial_Empresa);
+
+                    var producto = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
+                    if (producto != null)
+                        producto.Cantidad = pro.Cantidad + pro.cantidadSelecccionItem;
+                }
+            }
+            context.SaveChanges();
+
+            // Si es compra a crédito
+            if (compra.Tipo == "Credito")
+            {
+                var cuenta = new Cuentas_Pagar
+                {
+                    Secuencial_Empresa = compra.Secuencial_Empresa,
+                    Secuencial_Factura = compra.Secuencial,
+                    Secuencial_Proveedor = compra.Secuencial_Proveedor,
+                    Secuencial_Usuario = compra.Secuencial_Usuario,
+                    Fecha = compra.Fecha,
+                    Total = Math.Round(total, 2),
+                    Saldo = Math.Round(total, 2),
+                    Fecha_Vencimiento = dateTimePicker1.Value.ToString("dd/MM/yyyy"),
+                    Pagado = 0.00,
+                    Descuento = compra.Descuento,
+                    Otros_Cargos = compra.Otros_Cargos,
+                    Impuesto = compra.Impuesto,
+                    Gran_Total = compra.Gran_Total
+                };
+                context.Cuentas_Pagar.Add(cuenta);
+                Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una compra al crédito, factura: {compra.Secuencial}, valor: {cuenta.Total}", V_Menu_Principal.Secuencial_Empresa);
+            }
+            else
+            {
+                var egreso = new Egreso
+                {
+                    Secuencial_Empresa = compra.Secuencial_Empresa,
+                    Secuencial_Factura = compra.Secuencial,
+                    Secuencial_Usuario = compra.Secuencial_Usuario,
+                    Fecha = compra.Fecha,
+                    Total = Math.Round(total, 2),
+                    Tipo_Egreso = compra.Forma_Pago,
+                    Descripcion = $"Compra según Factura: {compra.Secuencial}"
+                };
+                context.Egresos.Add(egreso);
+            }
+            context.SaveChanges();
+
+            // Finalizar
+            V_Menu_Principal.MSG.ShowMSG("Compra registrada correctamente.", "Éxito");
+            Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una compra, factura: {compra.Secuencial}, total: {Math.Round(total, 2)}", V_Menu_Principal.Secuencial_Empresa);
+            Limpiar_Factura();
+
+
+
+
+
+
+
+            /*
+
             Compra compra = new Compra();
 
             V_Kardex kardex = new V_Kardex(); // Crear una instancia de Kardex para registrar el movimiento de inventario
-            Ingreso ingreso = new Ingreso(); // Crear una instancia de Ingreso para registrar el ingreso de productos
+            Egreso egreso = new Egreso(); // Crear una instancia de Ingreso para registrar el ingreso de productos
 
 
             SQLitePCL.Batteries.Init();
@@ -1533,7 +1649,26 @@ namespace Monitux_POS.Ventanas
 
 
 
-          
+
+            if (comboBox3.SelectedItem != "Credito")
+            {
+                egreso.Secuencial_Factura = secuencial; // Asignar el secuencial de la factura al ingreso
+                egreso.Secuencial_Usuario = compra.Secuencial_Usuario; // Asignar el secuencial del usuario al ingreso
+                egreso.Fecha = compra.Fecha; // Asignar la fecha de la venta al ingreso 
+                egreso.Total = Math.Round(total, 2); // Asignar el total de la venta al ingreso
+                egreso.Tipo_Egreso = comboBox1.SelectedItem.ToString(); // Asignar la forma de pago al ingreso
+                egreso.Descripcion = "Compra segun Factura: " + secuencial; // Asignar el tipo de venta al ingreso
+
+                SQLitePCL.Batteries.Init();
+
+                using var context4 = new Monitux_DB_Context();
+                context4.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+                context4.Add(egreso); // Agregar el ingreso al contexto
+                context4.SaveChanges(); // Guardar los cambios en la base de datos
+
+            }
+
 
 
 
@@ -1544,7 +1679,7 @@ namespace Monitux_POS.Ventanas
             Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una compra segun factura: " + secuencial + "\nPor valor de: " + Math.Round(total, 2));
             Limpiar_Factura(); // Llama al método para limpiar la factura después de registrar la venta
 
-
+            */
 
 
 
@@ -1565,6 +1700,16 @@ namespace Monitux_POS.Ventanas
         }
 
         private void label15_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void comboCliente_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

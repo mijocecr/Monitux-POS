@@ -37,7 +37,7 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
             // Filtrar solo clientes activos
-            var clientesActivos = context.Proveedores.Where(c => (bool)c.Activo).ToList();
+            var clientesActivos = context.Proveedores.Where(c => (bool)c.Activo && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa).ToList();
 
             foreach (var item in clientesActivos)
             {
@@ -116,7 +116,10 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-            var cotizacion = context.Ordenes.ToList();
+            var cotizacion = context.Ordenes
+    .Where(o => o.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+    .ToList();
+
 
 
             foreach (var item in cotizacion)
@@ -162,8 +165,8 @@ namespace Monitux_POS.Ventanas
         private void button2_Click(object sender, EventArgs e)
         {
 
-            Util.Limpiar_Cache();
-           // V_Factura_Compra.button5.Enabled = true;
+            Util.Limpiar_Cache(V_Menu_Principal.Secuencial_Empresa);
+            // V_Factura_Compra.button5.Enabled = true;
             this.Dispose();
 
         }
@@ -205,7 +208,7 @@ namespace Monitux_POS.Ventanas
                 using var context = new Monitux_DB_Context();
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-                var orden = context.Ordenes.FirstOrDefault(p => p.Secuencial == this.Secuencial);
+                var orden = context.Ordenes.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
 
                 if (orden != null)
                 {
@@ -223,7 +226,7 @@ namespace Monitux_POS.Ventanas
                 using var context1 = new Monitux_DB_Context();
                 context1.Database.EnsureCreated();
 
-                var orden_detalle = context1.Ordenes_Detalles.Where(p => p.Secuencial_Orden == this.Secuencial).ToList();
+                var orden_detalle = context1.Ordenes_Detalles.Where(p => p.Secuencial_Orden == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa).ToList();
 
                 if (orden_detalle.Any()) // Verifica si hay elementos en la lista
                 {
@@ -267,7 +270,7 @@ namespace Monitux_POS.Ventanas
             string columnaSeleccionada = campo;
 
             var cotizacion_detalle = context.Ordenes_Detalles
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor))
+                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
 
             dataGridView2.Rows.Clear();
@@ -439,7 +442,7 @@ namespace Monitux_POS.Ventanas
             string columnaSeleccionada = campo;
 
             var orden = context.Ordenes
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor))
+                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
 
             dataGridView1.Rows.Clear();
@@ -509,6 +512,11 @@ namespace Monitux_POS.Ventanas
         private void comboCliente_SelectedIndexChanged(object sender, EventArgs e)
         {
             Filtrar_Orden("Secuencial_Proveedor", comboCliente.SelectedItem.ToString().Split('-')[0].Trim());
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

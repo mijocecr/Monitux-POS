@@ -157,6 +157,7 @@
             textBox2.PlaceholderText = "Telefono...";
             textBox2.Size = new Size(83, 23);
             textBox2.TabIndex = 33;
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // label6
             // 
@@ -165,7 +166,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(0, 0);
             label6.Name = "label6";
-            label6.Size = new Size(381, 37);
+            label6.Size = new Size(383, 37);
             label6.TabIndex = 40;
             label6.Text = "Ordenes de Compra";
             label6.TextAlign = ContentAlignment.TopCenter;
@@ -175,7 +176,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(381, 479);
+            ClientSize = new Size(383, 475);
             ControlBox = false;
             Controls.Add(label6);
             Controls.Add(panel1);

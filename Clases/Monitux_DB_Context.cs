@@ -32,6 +32,8 @@
 
         public DbSet<Ingreso> Ingresos { get; set; }
 
+        public DbSet<Egreso> Egresos { get; set; }
+
         public DbSet<Cotizacion> Cotizaciones { get; set; }
 
         public DbSet<Cotizacion_Detalle> Cotizaciones_Detalles { get; set; }

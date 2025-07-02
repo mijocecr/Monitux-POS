@@ -166,7 +166,13 @@ namespace Monitux_POS.Ventanas
 
 
             // **READ**
-            var productos = context.Productos.ToList();
+
+            var productos = context.Productos
+    .Where(p => p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+    .ToList();
+
+
+
             int i = 0;
 
 
@@ -181,7 +187,7 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Cantidad = item.Cantidad;
                 miniatura_Producto1.Imagen = item.Imagen;
-
+                miniatura_Producto1.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
                 miniatura_Producto1.Secuencial = item.Secuencial;
                 miniatura_Producto1.Codigo = item.Codigo;
                 miniatura_Producto1.Marca = item.Marca;
@@ -284,7 +290,12 @@ namespace Monitux_POS.Ventanas
 
 
             // **READ**
-            var productos = context.Productos.ToList();
+
+
+            var productos = context.Productos
+  .Where(p => p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+  .ToList();
+
             int i = 0;
 
 
@@ -299,7 +310,7 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Cantidad = item.Cantidad;
                 miniatura_Producto1.Imagen = item.Imagen;
-
+                miniatura_Producto1.Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa;
                 miniatura_Producto1.Secuencial = item.Secuencial;
                 miniatura_Producto1.Codigo = item.Codigo;
                 miniatura_Producto1.Marca = item.Marca;
@@ -412,7 +423,12 @@ namespace Monitux_POS.Ventanas
 
 
             // **READ**
-            var productos = context.Productos.ToList();
+
+
+            var productos = context.Productos
+  .Where(p => p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+  .ToList();
+
             int i = 0;
 
 
@@ -427,7 +443,7 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Cantidad = item.Cantidad;
                 miniatura_Producto1.Imagen = item.Imagen;
-
+                miniatura_Producto1.Secuencial_Empresa=item.Secuencial_Empresa;
                 miniatura_Producto1.Secuencial = item.Secuencial;
                 miniatura_Producto1.Codigo = item.Codigo;
                 miniatura_Producto1.Marca = item.Marca;
@@ -538,7 +554,12 @@ namespace Monitux_POS.Ventanas
 
 
             // **READ**
-            var productos = context.Productos.ToList();
+
+
+            var productos = context.Productos
+  .Where(p => p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+  .ToList();
+
             int i = 0;
 
 
@@ -563,7 +584,8 @@ namespace Monitux_POS.Ventanas
                     Secuencial_Proveedor = item.Secuencial_Proveedor,
                     Secuencial_Categoria = item.Secuencial_Categoria,
                     Expira = Convert.ToBoolean(item.Expira),
-                    Tipo = item.Tipo
+                    Tipo = item.Tipo,
+                    Secuencial_Empresa=item.Secuencial_Empresa
                 };
 
 
@@ -636,7 +658,11 @@ namespace Monitux_POS.Ventanas
 
 
             // **READ**
-            var productos = context.Productos.ToList();
+
+            var productos = context.Productos
+  .Where(p => p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+  .ToList();
+
             int i = 0;
 
 
@@ -661,7 +687,9 @@ namespace Monitux_POS.Ventanas
                     Secuencial_Proveedor = item.Secuencial_Proveedor,
                     Secuencial_Categoria = item.Secuencial_Categoria,
                     Expira = Convert.ToBoolean(item.Expira),
-                    Tipo = item.Tipo
+                    Tipo = item.Tipo,
+                    Secuencial_Empresa=item.Secuencial_Empresa
+                    
                 };
 
 
@@ -734,7 +762,11 @@ namespace Monitux_POS.Ventanas
 
 
             // **READ**
-            var productos = context.Productos.ToList();
+
+            var productos = context.Productos
+  .Where(p => p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+  .ToList();
+
             int i = 0;
 
 
@@ -759,7 +791,8 @@ namespace Monitux_POS.Ventanas
                     Secuencial_Proveedor = item.Secuencial_Proveedor,
                     Secuencial_Categoria = item.Secuencial_Categoria,
                     Expira = Convert.ToBoolean(item.Expira),
-                    Tipo = item.Tipo
+                    Tipo = item.Tipo,
+                    Secuencial_Empresa=item.Secuencial_Empresa
                 };
 
 
@@ -799,7 +832,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        public void Filtrar_Items_Lista(string campo, string valor)
+        public void Filtrar_Items_Lista(string campo, string valor, int secuencial_empresa)
         {
             dataGridView2.Visible = false;
             dataGridView1.Rows.Clear();
@@ -824,7 +857,7 @@ namespace Monitux_POS.Ventanas
 
 
             var productos = context.Productos
-                    .Where(c => EF.Property<string>(c, campo).Contains(valor))
+                    .Where(c => EF.Property<string>(c, campo).Contains(valor)&&c.Secuencial_Empresa==secuencial_empresa)
                     .ToList();
 
             dataGridView1.Rows.Clear();
@@ -870,7 +903,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        public void Filtrar_Kardex(string campo, string valor)
+        public void Filtrar_Kardex(string campo, string valor, int secuencial_empresa)
         {
             dataGridView2.Visible = true;
             dataGridView2.Rows.Clear();
@@ -895,7 +928,7 @@ namespace Monitux_POS.Ventanas
 
 
             var kardex = context.Kardex
-                    .Where(c => EF.Property<string>(c, campo).Contains(valor))
+                    .Where(c => EF.Property<string>(c, campo).Contains(valor)&&c.Secuencial_Empresa==secuencial_empresa)
                     .ToList();
 
             dataGridView2.Rows.Clear();
@@ -990,9 +1023,12 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
+
             var kardex = from k in context.Kardex
                          join p in context.Productos on k.Secuencial_Producto equals p.Secuencial
+                         where p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa
                          select new
+
                          {
                              Codigo = p.Codigo,
                              Secuencial = k.Secuencial,
@@ -1005,7 +1041,9 @@ namespace Monitux_POS.Ventanas
                              Venta = Math.Round((double)k.Venta, 2),
                              Venta_Total = Math.Round((double)k.Venta_Total, 2),
                              Saldo = Math.Round((double)k.Saldo, 2),
-                             Secuencial_Producto = k.Secuencial_Producto
+                             Secuencial_Producto = k.Secuencial_Producto,
+                             Secuencial_Empresa=k.Secuencial_Empresa
+                             
                          };
 
 
@@ -1027,7 +1065,9 @@ namespace Monitux_POS.Ventanas
                     item.Venta,
                     item.Venta_Total,
                     item.Saldo,
-                    item.Secuencial_Producto
+                    item.Secuencial_Producto,
+                   item.Secuencial_Empresa
+                    
                 );
             }
         }
@@ -1039,7 +1079,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        public void Filtrar_Items_Kardex_Consulta(string fecha_inicio, string fecha_fin, string codigo, string movimiento)
+        public void Filtrar_Items_Kardex_Consulta(string fecha_inicio, string fecha_fin, string codigo, string movimiento,int secuencial_empresa)
         {
             /* comboBox3.Items.Clear();
              comboBox3.Items.Add("Codigo");
@@ -1070,28 +1110,32 @@ namespace Monitux_POS.Ventanas
 
 
 
+
             var kardex = context.Kardex
-                .Join(context.Productos,
+    .Join(context.Productos,
           k => k.Secuencial_Producto,
           p => p.Secuencial,
-          (k, p) => new
-          {
-              Codigo = p.Codigo,
-              Secuencial = k.Secuencial,
-              Fecha = k.Fecha,
-              Descripcion = k.Descripcion,
-              Movimiento = k.Movimiento,
-              Cantidad = k.Cantidad,
-              Costo = Math.Round((double)k.Costo, 2),
-              Costo_Total = Math.Round((double)k.Costo_Total, 2),
-              Venta = Math.Round((double)k.Venta, 2),
-              Venta_Total = Math.Round((double)k.Venta_Total, 2),
-              Saldo = Math.Round((double)k.Saldo, 2),
-              Secuencial_Producto = k.Secuencial_Producto
+          (k, p) => new { k, p })
+    .Where(x => x.p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+    .Select(x => new
+    {
+              Codigo = x.p.Codigo,
+              Secuencial = x.k.Secuencial,
+              Fecha = x.k.Fecha,
+              Descripcion = x.k.Descripcion,
+              Movimiento = x.k.Movimiento,
+              Cantidad = x.k.Cantidad,
+              Costo = Math.Round((double)x.k.Costo, 2),
+              Costo_Total = Math.Round((double)x.k.Costo_Total, 2),
+              Venta = Math.Round((double)x.k.Venta, 2),
+              Venta_Total = Math.Round((double)x.k.Venta_Total, 2),
+              Saldo = Math.Round((double)x.k.Saldo, 2),
+              Secuencial_Producto = x.k.Secuencial_Producto,
+              Secuencial_Empresa=x.p.Secuencial_Empresa
           })
     .AsEnumerable() // **Convierte la consulta a evaluación en memoria**
     .Where(item => DateTime.Parse(item.Fecha) >= inicio && DateTime.Parse(item.Fecha) <= fin
-                   && item.Codigo == codigo && item.Movimiento == movimiento)
+                   && item.Codigo == codigo && item.Movimiento == movimiento && item.Secuencial_Empresa==secuencial_empresa)
     .ToList();
 
 
@@ -1124,7 +1168,8 @@ namespace Monitux_POS.Ventanas
                     item.Venta,
                     item.Venta_Total,
                     item.Saldo,
-                    item.Secuencial_Producto
+                    item.Secuencial_Producto,
+                    item.Secuencial_Empresa
                 );
             }
         }
@@ -1135,14 +1180,9 @@ namespace Monitux_POS.Ventanas
 
 
 
-        public void Filtrar_Items_Kardex(string campo, string valor)
+        public void Filtrar_Items_Kardex(string campo, string valor, int secuencial_empresa)
         {
-            comboBox3.Items.Clear();
-            comboBox3.Items.Add("Codigo");
-            comboBox3.Items.Add("Descripcion");
-            comboBox3.Items.Add("Fecha");
-            comboBox3.Items.Add("Secuencial_Producto");
-            comboBox3.SelectedIndex = 0;
+           
 
             dataGridView2.Rows.Clear();
             flowLayoutPanel1.Controls.Clear();
@@ -1160,26 +1200,30 @@ namespace Monitux_POS.Ventanas
 
 
 
+
             var kardex = context.Kardex
-                .Join(context.Productos,
+    .Join(context.Productos,
           k => k.Secuencial_Producto,
           p => p.Secuencial,
-          (k, p) => new
-          {
-              Codigo = p.Codigo,
-              Secuencial = k.Secuencial,
-              Fecha = k.Fecha,
-              Descripcion = k.Descripcion,
-              Movimiento = k.Movimiento,
-              Cantidad = k.Cantidad,
-              Costo = Math.Round((double)k.Costo, 2),
-              Costo_Total = Math.Round((double)k.Costo_Total, 2),
-              Venta = Math.Round((double)k.Venta, 2),
-              Venta_Total = Math.Round((double)k.Venta_Total, 2),
-              Saldo = Math.Round((double)k.Saldo, 2),
-              Secuencial_Producto = k.Secuencial_Producto
+          (k, p) => new { k, p })
+    .Where(x => x.p.Secuencial_Empresa == 1)
+    .Select(x => new
+    {
+              Codigo = x.p.Codigo,
+              Secuencial = x.k.Secuencial,
+              Fecha = x.k.Fecha,
+              Descripcion = x.k.Descripcion,
+              Movimiento = x.k.Movimiento,
+              Cantidad = x.k.Cantidad,
+              Costo = Math.Round((double)x.k.Costo, 2),
+              Costo_Total = Math.Round((double)x.k.Costo_Total, 2),
+              Venta = Math.Round((double)x.k.Venta, 2),
+              Venta_Total = Math.Round((double)x.k.Venta_Total, 2),
+              Saldo = Math.Round((double)x.k.Saldo, 2),
+              Secuencial_Producto = x.k.Secuencial_Producto,
+              Secuencial_Empresa=x.p.Secuencial_Empresa
           })
-     .Where(c => EF.Property<string>(c, campo).Contains(valor))
+     .Where(c => EF.Property<string>(c, campo).Contains(valor)&&c.Secuencial_Empresa==secuencial_empresa)
                     .ToList();
 
 
@@ -1200,7 +1244,8 @@ namespace Monitux_POS.Ventanas
                     item.Venta,
                     item.Venta_Total,
                     item.Saldo,
-                    item.Secuencial_Producto
+                    item.Secuencial_Producto,
+                    item.Secuencial_Empresa
                 );
             }
         }
@@ -1246,7 +1291,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        private void Filtrar_Items_Cuadricula(string campo, string valor)
+        private void Filtrar_Items_Cuadricula(string campo, string valor, int secuencial_empresa)
         {
 
             dataGridView2.Visible = false;
@@ -1262,7 +1307,7 @@ namespace Monitux_POS.Ventanas
 
 
             var productos = context.Productos
-                    .Where(c => EF.Property<string>(c, campo).Contains(valor))
+                    .Where(c => EF.Property<string>(c, campo).Contains(valor)&&c.Secuencial_Empresa==secuencial_empresa)
                     .ToList();
 
             flowLayoutPanel1.Controls.Clear();
@@ -1275,7 +1320,7 @@ namespace Monitux_POS.Ventanas
 
 
                 Miniatura_Producto miniatura_Producto1 = new Miniatura_Producto();
-
+                miniatura_Producto1.Secuencial_Empresa = item.Secuencial_Empresa;
                 miniatura_Producto1.Cantidad = item.Cantidad;
                 miniatura_Producto1.Imagen = item.Imagen;
                 miniatura_Producto1.Item_Seleccionado.Visible = false; // Asegúrate de que el Item_Seleccionado esté oculto al crear la miniatura
@@ -1331,7 +1376,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        private Producto Filtrar_Item_Miniatura(string campo, string valor, Producto miniatura)
+        private Producto Filtrar_Item_Miniatura(string campo, string valor, Producto miniatura,int secuencial_empresa)
         {
 
 
@@ -1343,7 +1388,7 @@ namespace Monitux_POS.Ventanas
 
 
             var productos = context.Productos
-                    .Where(c => EF.Property<string>(c, campo).Equals(valor))
+                    .Where(c => EF.Property<string>(c, campo).Equals(valor)&&c.Secuencial_Empresa==secuencial_empresa)
                     .ToList();
 
 
@@ -1359,7 +1404,7 @@ namespace Monitux_POS.Ventanas
 
                 miniatura.Cantidad = item.Cantidad;
                 miniatura.Imagen = item.Imagen;
-
+                miniatura.Secuencial_Empresa = item.Secuencial_Empresa;
                 miniatura.Secuencial = item.Secuencial;
                 miniatura.Codigo = item.Codigo;
                 miniatura.Marca = item.Marca;
@@ -1395,13 +1440,13 @@ namespace Monitux_POS.Ventanas
             if (flowLayoutPanel1.Visible == true)
             {
 
-                Filtrar_Items_Cuadricula("Tipo", "Servicio");
+                Filtrar_Items_Cuadricula("Tipo", "Servicio",V_Menu_Principal.Secuencial_Empresa);
 
             }
 
             if (dataGridView1.Visible == true)
             {
-                Filtrar_Items_Lista("Tipo", "Servicio");
+                Filtrar_Items_Lista("Tipo", "Servicio",V_Menu_Principal.Secuencial_Empresa);
             }
 
 
@@ -1413,13 +1458,13 @@ namespace Monitux_POS.Ventanas
             if (flowLayoutPanel1.Visible == true)
             {
 
-                Filtrar_Items_Cuadricula("Secuencial_Proveedor", comboProveedor.SelectedItem.ToString().Split('-')[0].Trim());
+                Filtrar_Items_Cuadricula("Secuencial_Proveedor", comboProveedor.SelectedItem.ToString().Split('-')[0].Trim(),V_Menu_Principal.Secuencial_Empresa);
 
             }
 
             if (dataGridView1.Visible == true)
             {
-                Filtrar_Items_Lista("Secuencial_Proveedor", comboProveedor.SelectedItem.ToString().Split('-')[0].Trim());
+                Filtrar_Items_Lista("Secuencial_Proveedor", comboProveedor.SelectedItem.ToString().Split('-')[0].Trim(),V_Menu_Principal.Secuencial_Empresa);
             }
 
 
@@ -1445,7 +1490,7 @@ namespace Monitux_POS.Ventanas
             //var proveedores = context.Proveedores.ToList();
 
             var proveedores = context.Proveedores
-    .Where(p => (bool)p.Activo)
+    .Where(p => (bool)p.Activo&&p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa)
     .ToList();
 
 
@@ -1489,7 +1534,9 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
 
-            var categorias = context.Categorias.ToList();
+            var categorias = context.Categorias
+    .Where(c => c.Secuencial_Empresa == c.Secuencial_Empresa)
+    .ToList();
 
 
 
@@ -1533,12 +1580,12 @@ namespace Monitux_POS.Ventanas
         {
             if (flowLayoutPanel1.Visible == true)
             {
-                Filtrar_Items_Cuadricula("Secuencial_Categoria", comboCategoria.SelectedItem.ToString().Split('-')[0].Trim());
+                Filtrar_Items_Cuadricula("Secuencial_Categoria", comboCategoria.SelectedItem.ToString().Split('-')[0].Trim(),V_Menu_Principal.Secuencial_Empresa);
             }
 
             if (dataGridView1.Visible == true)
             {
-                Filtrar_Items_Lista("Secuencial_Categoria", comboCategoria.SelectedItem.ToString().Split('-')[0].Trim());
+                Filtrar_Items_Lista("Secuencial_Categoria", comboCategoria.SelectedItem.ToString().Split('-')[0].Trim(),V_Menu_Principal.Secuencial_Empresa);
             }
 
         }
@@ -1554,7 +1601,7 @@ namespace Monitux_POS.Ventanas
             {
                 if (textBox1.Text.Length > 0)
                 {
-                    Filtrar_Items_Cuadricula(comboBox3.SelectedItem.ToString(), textBox1.Text);
+                    Filtrar_Items_Cuadricula(comboBox3.SelectedItem.ToString(), textBox1.Text,V_Menu_Principal.Secuencial_Empresa);
                 }
                 else
                 {
@@ -1567,7 +1614,7 @@ namespace Monitux_POS.Ventanas
             {
                 if (textBox1.Text.Length > 0)
                 {
-                    Filtrar_Items_Lista(comboBox3.SelectedItem.ToString(), textBox1.Text);
+                    Filtrar_Items_Lista(comboBox3.SelectedItem.ToString(), textBox1.Text,V_Menu_Principal.Secuencial_Empresa);
                 }
                 else
                 {
@@ -1580,7 +1627,7 @@ namespace Monitux_POS.Ventanas
             {
                 if (textBox1.Text.Length > 0)
                 {
-                    Filtrar_Items_Kardex(comboBox3.SelectedItem.ToString(), textBox1.Text);
+                    Filtrar_Items_Kardex(comboBox3.SelectedItem.ToString(), textBox1.Text,V_Menu_Principal.Secuencial_Empresa);
                 }
                 else
                 {
@@ -1598,12 +1645,12 @@ namespace Monitux_POS.Ventanas
 
             if (flowLayoutPanel1.Visible == true)
             {
-                Filtrar_Items_Cuadricula("Fecha_Caducidad", dateTimePicker1.Value.ToString("dd/MM/yyyy"));
+                Filtrar_Items_Cuadricula("Fecha_Caducidad", dateTimePicker1.Value.ToString("dd/MM/yyyy"),V_Menu_Principal.Secuencial_Empresa);
             }
 
             if (dataGridView1.Visible == true)
             {
-                Filtrar_Items_Lista("Fecha_Caducidad", dateTimePicker1.Value.ToString("dd/MM/yyyy"));
+                Filtrar_Items_Lista("Fecha_Caducidad", dateTimePicker1.Value.ToString("dd/MM/yyyy"), V_Menu_Principal.Secuencial_Empresa);
             }
 
         }
@@ -1617,12 +1664,12 @@ namespace Monitux_POS.Ventanas
                 string fechaSeleccionada = dateTimePicker1.Value.AddDays(7).ToString("dd/MM/yyyy");
                 if (flowLayoutPanel1.Visible == true)
                 {
-                    Filtrar_Items_Cuadricula("Fecha_Caducidad", fechaSeleccionada);
+                    Filtrar_Items_Cuadricula("Fecha_Caducidad", fechaSeleccionada,V_Menu_Principal.Secuencial_Empresa);
                 }
 
                 if (dataGridView1.Visible == true)
                 {
-                    Filtrar_Items_Lista("Fecha_Caducidad", fechaSeleccionada);
+                    Filtrar_Items_Lista("Fecha_Caducidad", fechaSeleccionada, V_Menu_Principal.Secuencial_Empresa);
                 }
 
                 V_Menu_Principal.MSG.ShowMSG(fechaSeleccionada + "\nSe han filtrado los productos que caducan en los próximos 7 días. ", "Inventario");
@@ -1644,13 +1691,13 @@ namespace Monitux_POS.Ventanas
 
                 if (flowLayoutPanel1.Visible == true)
                 {
-                    Filtrar_Items_Cuadricula("Fecha_Caducidad", fechaSeleccionada);
+                    Filtrar_Items_Cuadricula("Fecha_Caducidad", fechaSeleccionada, V_Menu_Principal.Secuencial_Empresa);
 
                 }
 
                 if (dataGridView1.Visible == true)
                 {
-                    Filtrar_Items_Lista("Fecha_Caducidad", fechaSeleccionada);
+                    Filtrar_Items_Lista("Fecha_Caducidad", fechaSeleccionada, V_Menu_Principal.Secuencial_Empresa);
                 }
 
                 V_Menu_Principal.MSG.ShowMSG(fechaSeleccionada + "\nSe han filtrado los productos que caducan en 1 Mes. ", "Inventario");
@@ -1672,12 +1719,12 @@ namespace Monitux_POS.Ventanas
                 string fechaSeleccionada = dateTimePicker1.Value.AddYears(1).ToString("dd/MM/yyyy");
                 if (flowLayoutPanel1.Visible == true)
                 {
-                    Filtrar_Items_Cuadricula("Fecha_Caducidad", fechaSeleccionada);
+                    Filtrar_Items_Cuadricula("Fecha_Caducidad", fechaSeleccionada, V_Menu_Principal.Secuencial_Empresa);
 
                 }
                 if (dataGridView1.Visible == true)
                 {
-                    Filtrar_Items_Lista("Fecha_Caducidad", fechaSeleccionada);
+                    Filtrar_Items_Lista("Fecha_Caducidad", fechaSeleccionada, V_Menu_Principal.Secuencial_Empresa);
                 }
 
                 V_Menu_Principal.MSG.ShowMSG(fechaSeleccionada + "\nSe han filtrado los productos que caducan en 1 Año. ", "Inventario");
@@ -1807,7 +1854,7 @@ namespace Monitux_POS.Ventanas
                         fecha_inicio.Value.Date.ToString("dd/MM/yyyy"),
                         fecha_fin.Value.Date.ToString("dd/MM/yyyy"),
                         textBox2.Text,
-                        comboBox1.SelectedItem?.ToString() ?? ""
+                        comboBox1.SelectedItem?.ToString() ?? "",V_Menu_Principal.Secuencial_Empresa
                     );
                 }
                 else

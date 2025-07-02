@@ -421,13 +421,13 @@
             // 
             panel2.AutoScroll = true;
             panel2.BackColor = Color.FromArgb(11, 8, 20);
-            panel2.Controls.Add(panel4);
             panel2.Controls.Add(pictureBox4);
             panel2.Controls.Add(pictureBox5);
             panel2.Controls.Add(label11);
-            panel2.Controls.Add(panel3);
             panel2.Controls.Add(linkLabel1);
             panel2.Controls.Add(label3);
+            panel2.Controls.Add(panel4);
+            panel2.Controls.Add(panel3);
             panel2.Dock = DockStyle.Right;
             panel2.Location = new Point(411, 0);
             panel2.Name = "panel2";

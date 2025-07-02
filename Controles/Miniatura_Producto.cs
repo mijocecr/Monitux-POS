@@ -29,6 +29,7 @@ namespace Monitux_POS
         public double Existencia_Minima { get; set; } = 0;
         public string Tipo { get; set; } = "Producto"; // Tipo de producto, por defecto es "Producto"
         public string? Fecha_Caducidad { get; set; } = "No Expira";
+        public int Secuencial_Empresa { get; set; } 
 
         //Variables del Control
 
@@ -182,12 +183,11 @@ namespace Monitux_POS
 
 
         #endregion
+      
 
 
 
-
-
-
+        
         public Producto getProducto(Miniatura_Producto producto)
         {
             return new Producto(
@@ -206,10 +206,11 @@ namespace Monitux_POS
                 producto.Secuencial_Categoria,
                 producto.Fecha_Caducidad,
                 producto.Expira,
-                producto.Tipo
+                producto.Tipo,
+                producto.Secuencial_Empresa
             );
         }
-
+        
 
 
 
@@ -226,7 +227,7 @@ namespace Monitux_POS
 
 
             var comentarioFiltrado = context.Comentarios
-                                          .FirstOrDefault(c => c.Secuencial_Producto == Secuencial);
+                                          .FirstOrDefault(c => c.Secuencial_Producto == Secuencial&&Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa);
             string comentario = "";
 
             if (comentarioFiltrado != null)
@@ -429,7 +430,7 @@ namespace Monitux_POS
 
 
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + Secuencial + "-" + Codigo + ".PNG");
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\"+V_Menu_Principal.Secuencial_Empresa +"-"+ Secuencial + "-" + Codigo + ".PNG");
             try
             {
 
@@ -506,7 +507,7 @@ namespace Monitux_POS
             var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
             if (producto != null && Item_Imagen.Image != null)
             {
-                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + producto.Secuencial + "-" + producto.Codigo + ".PNG");
+                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\"+V_Menu_Principal.Secuencial_Empresa+"-" + producto.Secuencial + "-" + producto.Codigo + ".PNG");
 
 
 
@@ -542,7 +543,7 @@ namespace Monitux_POS
 
 
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\WEB-" + Secuencial + "-" + Codigo + ".PNG");
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\WEB-"+V_Menu_Principal.Secuencial_Empresa+"-" + Secuencial + "-" + Codigo + ".PNG");
 
 
 
@@ -676,7 +677,7 @@ namespace Monitux_POS
 
 
             var comentarioFiltrado = context.Comentarios
-                                             .FirstOrDefault(p => p.Secuencial_Producto == Secuencial);
+                                             .FirstOrDefault(p => p.Secuencial_Producto == Secuencial&&p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa);
 
             if (comentarioFiltrado != null)
             {
@@ -693,7 +694,7 @@ namespace Monitux_POS
 
 
                 // **CREATE**
-                var nuevoComentario = new Comentario { Secuencial_Producto = Secuencial, Contenido = comentario };
+                var nuevoComentario = new Comentario { Secuencial_Producto = Secuencial, Contenido = comentario,Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa };
                 context.Comentarios.Add(nuevoComentario);
 
                 Console.WriteLine("Comentario agregado.");
@@ -825,10 +826,10 @@ namespace Monitux_POS
 
             // **UPDATE**
 
-            var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
+            var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial&&p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa);
             if (producto != null)
             {
-                Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, getUnidadesAgregar(), producto.Precio_Costo, producto.Precio_Venta, "Entrada");
+                Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, getUnidadesAgregar(), producto.Precio_Costo, producto.Precio_Venta, "Entrada",V_Menu_Principal.Secuencial_Empresa);
 
                 producto.Cantidad = Cantidad + unidadesAgregar;
                 context.SaveChanges();
@@ -836,7 +837,7 @@ namespace Monitux_POS
                 actualizarItem = true;
 
 
-                Util.Registrar_Actividad(Secuencial_Usuario, "Ha agregado " + unidadesAgregar + " unidades al producto: " + Codigo);
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha agregado " + unidadesAgregar + " unidades al producto: " + Codigo, V_Menu_Principal.Secuencial_Empresa);
             }
 
 
@@ -867,17 +868,17 @@ namespace Monitux_POS
 
             // **UPDATE**
 
-            var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
+            var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
             if (producto != null)
             {
 
-                Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, getUnidadesRetirar(), producto.Precio_Costo, producto.Precio_Venta, "Salida");
+                Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, getUnidadesRetirar(), producto.Precio_Costo, producto.Precio_Venta, "Salida", V_Menu_Principal.Secuencial_Empresa);
 
                 producto.Cantidad = Cantidad - unidadesRetirar;
                 context.SaveChanges();
                 V_Menu_Principal.MSG.ShowMSG("Se han retirado " + unidadesRetirar + " unidades al producto: " + Codigo, "Retirar Unidades");
                 actualizarItem = true;
-                Util.Registrar_Actividad(Secuencial_Usuario, "Ha retirado " + unidadesRetirar + " unidades al producto: " + Codigo);
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha retirado " + unidadesRetirar + " unidades al producto: " + Codigo, V_Menu_Principal.Secuencial_Empresa);
             }
 
 

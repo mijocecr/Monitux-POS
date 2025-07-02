@@ -21,5 +21,7 @@ namespace Monitux_POS.Clases
         public string? Imagen { get; set; }
         public bool? Activo { get; set; } = true;
 
+        public int Secuencial_Empresa { get; set; }
+
     }
 }

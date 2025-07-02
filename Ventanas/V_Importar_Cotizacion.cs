@@ -28,7 +28,7 @@ namespace Monitux_POS.Ventanas
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Util.Limpiar_Cache();
+            Util.Limpiar_Cache(V_Menu_Principal.Secuencial_Empresa);
            // V_Factura_Venta.button5.Enabled=true;
             this.Dispose();
         }
@@ -46,7 +46,7 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
             // Filtrar solo clientes activos
-            var clientesActivos = context.Clientes.Where(c => (bool)c.Activo).ToList();
+            var clientesActivos = context.Clientes.Where(c => (bool)c.Activo&&c.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa).ToList();
 
             foreach (var item in clientesActivos)
             {
@@ -124,7 +124,10 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-            var cotizacion = context.Cotizaciones.ToList();
+            var cotizacion = context.Cotizaciones
+    .Where(c => c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+    .ToList();
+
 
 
             foreach (var item in cotizacion)
@@ -179,7 +182,7 @@ namespace Monitux_POS.Ventanas
 
             // Filtrar solo clientes activos cuyo teléfono contiene el texto ingresado
             var clientes = context.Clientes
-                .Where(c => (bool)c.Activo && EF.Property<string>(c, "Telefono").Contains(textBox2.Text))
+                .Where(c => (bool)c.Activo && c.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa && EF.Property<string>(c, "Telefono").Contains(textBox2.Text))
                 .ToList();
 
             foreach (var item in clientes)
@@ -258,7 +261,7 @@ namespace Monitux_POS.Ventanas
             string columnaSeleccionada = campo;
 
             var cotizacion_detalle = context.Cotizaciones_Detalles
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor))
+                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor)&&c.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
 
             dataGridView2.Rows.Clear();
@@ -340,7 +343,7 @@ namespace Monitux_POS.Ventanas
             string columnaSeleccionada = campo;
 
             var cotizacion = context.Cotizaciones
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor))
+                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
 
             dataGridView1.Rows.Clear();
@@ -499,7 +502,7 @@ namespace Monitux_POS.Ventanas
                 using var context = new Monitux_DB_Context();
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-                var cotizacion = context.Cotizaciones.FirstOrDefault(p => p.Secuencial == this.Secuencial);
+                var cotizacion = context.Cotizaciones.FirstOrDefault(p => p.Secuencial == this.Secuencial&&p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa);
 
                 if (cotizacion != null)
                 {
@@ -517,7 +520,7 @@ namespace Monitux_POS.Ventanas
                 using var context1 = new Monitux_DB_Context();
                 context1.Database.EnsureCreated();
 
-                var cotizacion_detalle = context1.Cotizaciones_Detalles.Where(p => p.Secuencial_Cotizacion == this.Secuencial).ToList();
+                var cotizacion_detalle = context1.Cotizaciones_Detalles.Where(p => p.Secuencial_Cotizacion == this.Secuencial&&p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa).ToList();
 
                 if (cotizacion_detalle.Any()) // Verifica si hay elementos en la lista
                 {

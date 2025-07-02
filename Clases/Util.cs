@@ -4,18 +4,19 @@ using Monitux_POS.Ventanas;
 using System;
 using System;
 using System.Drawing;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.Management;
 using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Forms;
 using ZXing;
 using ZXing.Common;
 using ZXing.Windows.Compatibility;
-using System.Drawing;
-using System.Windows.Forms;
 
 
 
@@ -242,29 +243,40 @@ namespace Monitux_POS.Clases
 
         }
 
-#endregion
+        #endregion
 
 
         #region Convertir Numeros a Palabras - Retorna String
+
+
         public static string Convertir_Numeros_Palabras(string input)
         {
-
             string resultado;
 
-            if (double.TryParse(input, out var number))
+            // Soporte para coma o punto decimal
+            input = input.Replace(',', '.');
+
+            if (double.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out var number))
             {
                 var partes = input.Split('.');
-                var entero = int.Parse(partes[0]).ToWords();
-                var decimalParte = partes.Length > 1 ? partes[1] : "0";
-                 resultado = $"{entero} con {int.Parse(decimalParte).ToWords()} centésimas";
-                
+                string parteEnteraTexto = int.Parse(partes[0]).ToWords();
+
+                string centesimasTexto = "cero";
+                if (partes.Length > 1)
+                {
+                    // Solo tomamos los primeros dos dígitos decimales
+                    var decimalStr = partes[1].PadRight(2, '0').Substring(0, 2);
+                    centesimasTexto = int.Parse(decimalStr).ToWords();
+                }
+
+                resultado = $"{parteEnteraTexto} con {centesimasTexto} centésimas";
             }
             else
             {
-              
-                resultado= "";
+                resultado = "";
             }
-            return resultado.ToUpper(); ;
+
+            return resultado.ToUpper();
         }
 
         #endregion
@@ -272,13 +284,14 @@ namespace Monitux_POS.Clases
 
         #region Obtener los Productos mas vendidos - Retorna Lista de Productos Top
 
-
-        public static List<Producto_Top_VR> ObtenerTopProductosVendidos(int cantidadTop = 6)
+        //OJO: Esta funcion tengo que mejorarla, ya que no esta tomando en cuenta el Secuencial de la Empresa
+        
+        public static List<Producto_Top_VR> ObtenerTopProductosVendidos(int cantidadTop = 7)
         {
             using (var db = new Monitux_DB_Context())
             {
                 var resumen = db.Kardex
-                    .Where(k => k.Movimiento == "Salida")
+                    .Where(k => k.Movimiento == "Salida" && k.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa)
                     .GroupBy(k => k.Secuencial_Producto)
                     .Select(g => new {
                         Secuencial_Producto = g.Key,
@@ -305,7 +318,7 @@ namespace Monitux_POS.Clases
 
 
         #endregion
-        public static Image Generar_Codigo_Barra(int secuencial,string codigo) {
+        public static Image Generar_Codigo_Barra(int secuencial,string codigo,int secuencial_empresa) {
 
 
 
@@ -325,7 +338,7 @@ namespace Monitux_POS.Clases
             Bitmap bitmap = writer.Write(codigo);
           //  picture.Image?.Dispose();
             // Guardar la imagen
-            bitmap.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\BC-" + secuencial +".PNG"));
+            bitmap.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\"+secuencial_empresa+"-BC-" + secuencial +".PNG"));
 
             // Mostrar el código QR en el PictureBox
             return bitmap;
@@ -335,7 +348,7 @@ namespace Monitux_POS.Clases
         }
 
 
-        public static void Registrar_Actividad(int secuencial_usuario,string descripcion)
+        public static void Registrar_Actividad(int secuencial_usuario,string descripcion,int secuencial_empresa)
         {
 
 
@@ -349,6 +362,7 @@ namespace Monitux_POS.Clases
 
             
             actividad.Secuencial_Usuario = secuencial_usuario;
+            actividad.Secuencial_Empresa = secuencial_empresa;
             actividad.Descripcion = descripcion;
 
             context.Actividades.Add(actividad);
@@ -359,7 +373,7 @@ namespace Monitux_POS.Clases
 
 
         public static void Registrar_Movimiento_Kardex(int secuencial_producto,double existencia,
-            string descripcion,double cantidad_unidades,double costo,double venta, string movimiento)
+            string descripcion,double cantidad_unidades,double costo,double venta, string movimiento,int secuencial_empresa)
         {
 
 
@@ -371,7 +385,7 @@ namespace Monitux_POS.Clases
 
             var kardex = new Kardex();
 
-
+            kardex.Secuencial_Empresa = secuencial_empresa;
             kardex.Secuencial_Producto= secuencial_producto;
             kardex.Descripcion = descripcion;
             kardex.Cantidad = cantidad_unidades;
@@ -401,7 +415,7 @@ namespace Monitux_POS.Clases
 
 
 
-        public static Image Generar_Codigo_QR(int secuencial,string codigo)
+        public static Image Generar_Codigo_QR(int secuencial,string codigo, int secuencial_empresa)
         {
 
 
@@ -435,21 +449,21 @@ namespace Monitux_POS.Clases
 
 
 
-        public static void Limpiar_Cache() {
+        public static void Limpiar_Cache(int secuencial_empresa) {
 
-            Limpiar_Cache_Imagenes();
-            Limpiar_Cache_Codigo_QR();
-            Limpiar_Cache_Codigo_Barra();
-            Limpiar_Cache_Categoria();
-            Limpiar_Cache_Proveedor();
-            Limpiar_Cache_Cliente();
-            Limpiar_Cache_Usuario();
+            Limpiar_Cache_Imagenes(secuencial_empresa);//Ya
+            Limpiar_Cache_Codigo_QR(secuencial_empresa);//Ya
+            Limpiar_Cache_Codigo_Barra(secuencial_empresa);
+            Limpiar_Cache_Categoria(secuencial_empresa);//Ya
+            Limpiar_Cache_Proveedor(secuencial_empresa);//Ya
+            Limpiar_Cache_Cliente(secuencial_empresa);//Ya
+            Limpiar_Cache_Usuario(secuencial_empresa);//ya
 
         }
 
 
 
-        public static void Limpiar_Cache_Imagenes()
+        public static void Limpiar_Cache_Imagenes(int secuencial_empresa)
         {
 
 
@@ -597,7 +611,7 @@ public static class AnimacionesUI
 
 
 
-        public static void Limpiar_Cache_Categoria()
+        public static void Limpiar_Cache_Categoria(int secuencial_empresa)
         {
 
 
@@ -645,7 +659,7 @@ public static class AnimacionesUI
 
 
 
-        public static void Limpiar_Cache_Proveedor()
+        public static void Limpiar_Cache_Proveedor(int secuencial_empresa)
         {
 
 
@@ -697,7 +711,7 @@ public static class AnimacionesUI
 
 
 
-        public static void Limpiar_Cache_Cliente()
+        public static void Limpiar_Cache_Cliente(int secuencial_empresa)
         {
 
 
@@ -746,7 +760,7 @@ public static class AnimacionesUI
 
 
 
-        public static void Limpiar_Cache_Usuario()
+        public static void Limpiar_Cache_Usuario(int secuencial_empresa)
         {
 
 
@@ -798,7 +812,7 @@ public static class AnimacionesUI
 
 
 
-        public static void Limpiar_Cache_Codigo_QR()
+        public static void Limpiar_Cache_Codigo_QR(int secuencial_empresa)
         {
 
 
@@ -846,7 +860,7 @@ public static class AnimacionesUI
 
 
 
-        public static void Limpiar_Cache_Codigo_Barra()
+        public static void Limpiar_Cache_Codigo_Barra(int secuencial_empresa)
         {
 
 
@@ -869,7 +883,7 @@ public static class AnimacionesUI
 
         foreach (var item in listaCodigo)
             {
-                listaImagenespermitidas.Add("BC-" +item+".PNG");
+                listaImagenespermitidas.Add(secuencial_empresa+"-BC-" +item+".PNG");
                 
             }
 
@@ -919,11 +933,11 @@ public static class AnimacionesUI
 
         public class LoginManager
         {
-            public Usuario ValidarUsuario(string codigo, string password)
+            public Usuario ValidarUsuario(string codigo, string password, int secuencial_empresa)
             {
                 using var context = new Monitux_DB_Context();
                 var usuario = context.Usuarios
-                    .FirstOrDefault(u => u.Codigo == codigo && u.Password == password);
+                    .FirstOrDefault(u => u.Codigo == codigo && u.Password == password && u.Secuencial_Empresa==secuencial_empresa);
 
                 return usuario; //!= null; // Retorna true si las credenciales son correctas
             }

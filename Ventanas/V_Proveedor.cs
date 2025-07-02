@@ -70,7 +70,12 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-            var proveedor = context.Proveedores.ToList();
+
+            var proveedor = context.Proveedores
+    .Where(p => p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+    .ToList();
+
+
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
             dataGridView1.Columns.Add("Secuencial", "S");
             dataGridView1.Columns["Secuencial"].Width = 20; // Ajusta el ancho de la columna Secuencial
@@ -243,7 +248,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\PRO\\Pro - " + Secuencial + ".PNG");
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\PRO\\"+V_Menu_Principal.Secuencial_Empresa+"-Pro - " + Secuencial + ".PNG");
 
 
             try
@@ -313,6 +318,7 @@ namespace Monitux_POS.Ventanas
                 var proveedor = context.Proveedores.FirstOrDefault(p => p.Secuencial == this.Secuencial);
                 if (proveedor != null)
                 {
+                   proveedor.Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa;
                     proveedor.Nombre = txt_Nombre.Text;
                     proveedor.Telefono = txt_Telefono.Text;
                     proveedor.Direccion = txt_Direccion.Text;
@@ -325,7 +331,7 @@ namespace Monitux_POS.Ventanas
 
                     proveedor.Imagen = Imagen;
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado al proveedor: " + proveedor.Nombre);
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado al proveedor: " + proveedor.Nombre, V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Proveedor actualizado correctamente.", "Éxito");
                     Cargar_Datos(); // Recarga los datos después de actualizar el proveedor
                 }
@@ -363,7 +369,7 @@ namespace Monitux_POS.Ventanas
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
                 var proveedor = new Proveedor();
-
+                proveedor.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
                 proveedor.Nombre = txt_Nombre.Text;
                 proveedor.Telefono = txt_Telefono.Text;
                 proveedor.Direccion = txt_Direccion.Text;
@@ -385,7 +391,7 @@ namespace Monitux_POS.Ventanas
 
                 context.Proveedores.Add(proveedor);
                 context.SaveChanges();
-                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado al proveedor: " + txt_Nombre.Text);
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado al proveedor: " + txt_Nombre.Text, V_Menu_Principal.Secuencial_Empresa);
                 V_Menu_Principal.MSG.ShowMSG("Proveedor creado correctamente.", "Éxito");
                 Cargar_Datos(); // Recarga los datos después de crear el proveedor
 
@@ -446,12 +452,12 @@ namespace Monitux_POS.Ventanas
                 using var context = new Monitux_DB_Context();
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-                var proveedor = context.Proveedores.FirstOrDefault(p => p.Secuencial == this.Secuencial);
+                var proveedor = context.Proveedores.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa);
                 if (proveedor != null)
                 {
                     context.Proveedores.Remove(proveedor);
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al proveedor: " + proveedor.Nombre);
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al proveedor: " + proveedor.Nombre, V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Proveedor eliminado correctamente.", "Éxito");
                     Cargar_Datos(); // Recarga los datos después de eliminar el proveedor
                 }
@@ -617,7 +623,7 @@ namespace Monitux_POS.Ventanas
             string columnaSeleccionada = campo; // Cambia esto a la columna que desees filtrar
 
             var proveedores = context.Proveedores
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor))
+                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor)&&c.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
 
             dataGridView1.Rows.Clear();
@@ -705,7 +711,7 @@ namespace Monitux_POS.Ventanas
             if (imagenCapturada != null)
             {
                 pictureBox1.Image = imagenCapturada; // Asigna la imagen capturada al PictureBox
-                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\PRO\\Pro - " + Secuencial + ".PNG");
+                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\PRO\\"+V_Menu_Principal.Secuencial_Empresa+"-Pro - " + Secuencial + ".PNG");
                 imagenCapturada.Save(rutaGuardado); // Guarda la imagen en la ruta especificada
                 Imagen = rutaGuardado; // Actualiza la variable Imagen con la ruta guardada
             }

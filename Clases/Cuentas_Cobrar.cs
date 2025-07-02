@@ -25,5 +25,7 @@ namespace Monitux_POS.Clases
         public double? Impuesto { get; set; } = 0.0;
         public double? Gran_Total { get; set; } = 0.0;
 
+        public int Secuencial_Empresa { get; set; }
+
     }
 }

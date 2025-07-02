@@ -148,7 +148,7 @@ namespace Monitux_POS.Ventanas
             //var proveedores = context.Proveedores.ToList();
 
             var proveedores = context.Proveedores
-    .Where(p => (bool)p.Activo)
+    .Where(p => (bool)p.Activo&&p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa)
     .ToList();
 
 
@@ -198,7 +198,9 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
 
-            var categorias = context.Categorias.ToList();
+            var categorias = context.Categorias
+    .Where(c => c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+    .ToList();
 
 
 
@@ -274,7 +276,7 @@ namespace Monitux_POS.Ventanas
             pictureBox1.Image?.Dispose();
             System.GC.Collect();
 
-            Util.Limpiar_Cache(); // Limpiar la caché de imágenes y otros recursos
+            Util.Limpiar_Cache(V_Menu_Principal.Secuencial_Empresa); // Limpiar la caché de imágenes y otros recursos
 
 
 
@@ -302,6 +304,125 @@ namespace Monitux_POS.Ventanas
 
         public void Menu_Guardar_Click(object sender, EventArgs e)
         {
+
+
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            Producto producto;
+            bool esServicio = comboBox1.SelectedItem?.ToString() == "Servicio";
+            bool tipoSeleccionado = comboBox1.SelectedIndex != -1;
+            bool proveedorValido = comboProveedor.SelectedItem != null;
+            bool categoriaValida = comboCategoria.SelectedItem != null;
+
+            // Validación obligatoria
+            if (!tipoSeleccionado)
+            {
+                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un tipo de producto válido.", "Error");
+                return;
+            }
+
+            if (!esServicio && (!proveedorValido || !categoriaValida))
+            {
+                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un proveedor y una categoría válidos.", "Error");
+                return;
+            }
+
+            bool esNuevo = this.esNuevo;
+            int secuencial = esNuevo
+                ? (context.Productos.Any() ? context.Productos.Max(p => p.Secuencial) + 1 : 1)
+                : this.Secuencial;
+
+            if (esNuevo)
+                producto = new Producto();
+            else
+                producto = context.Productos.FirstOrDefault(p => p.Secuencial == secuencial);
+
+            if (producto == null)
+            {
+                V_Menu_Principal.MSG.ShowMSG("Producto no encontrado.", "Error");
+                return;
+            }
+
+            // Asignación común
+            producto.Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa;
+            producto.Secuencial = secuencial;
+            producto.Codigo = txtCodigo.Text;
+            producto.Descripcion = txtDescripcion.Text;
+            producto.Precio_Venta = double.Parse(txtPrecioVenta.Text);
+            producto.Precio_Costo = double.Parse(txtPrecioCosto.Text);
+            producto.Marca = txtMarca.Text;
+            producto.Codigo_Barra = txtCodigoBarra.Text;
+            producto.Codigo_Fabricante = txtCodigoFabricante.Text;
+            producto.Imagen = this.Imagen;
+            producto.Expira = checkBox1.Checked;
+            producto.Fecha_Caducidad = producto.Expira
+                ? dateTimePicker1.Value.ToString("dd/MM/yyyy")
+                : "No Expira";
+            producto.Codigo_QR = Path.GetFullPath($"{Directory.GetCurrentDirectory()}\\Resources\\QR\\{ V_Menu_Principal.Secuencial_Empresa}-QR-{producto.Secuencial}.PNG");
+            producto.Tipo = comboBox1.SelectedItem.ToString();
+
+            // Si no es servicio, asignar inventario y relaciones
+            if (!esServicio)
+            {
+                producto.Cantidad = double.Parse(txtCantidad.Text);
+                producto.Existencia_Minima = string.IsNullOrWhiteSpace(txtExistenciaMinima.Text)
+                    ? 0 : double.Parse(txtExistenciaMinima.Text);
+
+                producto.Secuencial_Categoria = int.Parse(comboCategoria.SelectedItem.ToString().Split('-')[0].Trim());
+                producto.Secuencial_Proveedor = int.Parse(comboProveedor.SelectedItem.ToString().Split('-')[0].Trim());
+
+                // Registrar movimiento solo al crear
+                if (esNuevo)
+                {
+                    Util.Registrar_Movimiento_Kardex(
+                        producto.Secuencial,
+                        producto.Cantidad,
+                        producto.Descripcion,
+                        0,
+                        producto.Precio_Costo,
+                        producto.Precio_Venta,
+                        "Entrada", V_Menu_Principal.Secuencial_Empresa
+                    );
+                }
+            }
+            else
+            {
+                producto.Cantidad = 0;
+                producto.Existencia_Minima = 0;
+                producto.Secuencial_Categoria = 0;
+                producto.Secuencial_Proveedor = 0;
+            }
+
+            try
+            {
+                if (esNuevo)
+                    context.Productos.Add(producto);
+
+                context.SaveChanges();
+
+                string accion = esNuevo ? "creado" : "modificado";
+                string mensaje = $"Producto {accion} correctamente.";
+                string log = $"Ha {accion} el producto: {producto.Codigo}";
+
+                V_Menu_Principal.MSG.ShowMSG(mensaje, "Éxito");
+                Util.Registrar_Actividad(Secuencial_Usuario, log, V_Menu_Principal.Secuencial_Empresa);
+
+                this.Dispose();
+                OnProductoEditado?.Invoke();
+            }
+            catch (Exception)
+            {
+                V_Menu_Principal.MSG.ShowMSG("Error al guardar el producto: Ya existe o los datos no son válidos.", "Error");
+            }
+
+
+
+
+
+
+            /*
             if (this.esNuevo == false)
             {
 
@@ -572,7 +693,7 @@ namespace Monitux_POS.Ventanas
 
             OnProductoEditado?.Invoke(); //Esto dispara el evento para recargar los items
 
-
+            */
 
         }
 
@@ -591,8 +712,8 @@ namespace Monitux_POS.Ventanas
             if (txtCodigoBarra.Text != string.Empty)
             {
                 pictureBox3.Image?.Dispose(); // Liberar la imagen anterior si existe
-                pictureBox3.Image = Util.Generar_Codigo_Barra(Secuencial, txtCodigoBarra.Text);
-                pictureBox3.Image.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\BC-" + Secuencial + ".PNG"));
+                pictureBox3.Image = Util.Generar_Codigo_Barra(Secuencial, txtCodigoBarra.Text, V_Menu_Principal.Secuencial_Empresa);
+                pictureBox3.Image.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\"+V_Menu_Principal.Secuencial_Empresa+"-BC-" + Secuencial + ".PNG"));
             }
         }
 
@@ -600,8 +721,8 @@ namespace Monitux_POS.Ventanas
         {
             string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
             pictureBox2.Image?.Dispose();
-            pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR);
-            pictureBox2.Image.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\QR-" + Secuencial + ".PNG"));
+            pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
+            pictureBox2.Image.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\"+V_Menu_Principal.Secuencial_Empresa+"-QR-" + Secuencial + ".PNG"));
 
         }
 
@@ -714,12 +835,13 @@ namespace Monitux_POS.Ventanas
                         string rutaArchivo1 = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\BC-" + producto.Secuencial + "-" + producto.Codigo_Barra + ".PNG");
                         string rutaArchivo2 = producto.Codigo_QR;
 
-                        Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado el producto: " + producto.Codigo);
+                        Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado el producto: " + producto.Codigo, V_Menu_Principal.Secuencial_Empresa);
 
                         if (producto.Tipo != "Servicio")
                         {
 
-                            Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, producto.Cantidad, producto.Precio_Costo, producto.Precio_Venta, "Salida");
+                            Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, producto.Cantidad, 
+                                producto.Precio_Costo, producto.Precio_Venta, "Salida", V_Menu_Principal.Secuencial_Empresa);
 
                         }
                         context.Productos.Remove(producto);

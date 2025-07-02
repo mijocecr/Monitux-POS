@@ -18,5 +18,7 @@ namespace Monitux_POS.Clases
         public string Acceso { get; set; }
         public bool Activo { get; set; }
 
+        public int Secuencial_Empresa { get; set; }
+
     }
 }

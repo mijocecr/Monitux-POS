@@ -67,7 +67,11 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-            var categorias = context.Categorias.ToList();
+            var categorias = context.Categorias
+    .Where(c => c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+    .ToList();
+
+
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
             dataGridView1.Columns.Add("Secuencial", "S");
             dataGridView1.Columns["Secuencial"].Width = 20; // Ajusta el ancho de la columna Secuencial
@@ -169,12 +173,12 @@ namespace Monitux_POS.Ventanas
                 using var context = new Monitux_DB_Context();
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-                var categoria = context.Categorias.FirstOrDefault(p => p.Secuencial == this.Secuencial);
+                var categoria = context.Categorias.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa);
                 if (categoria != null)
                 {
                     context.Categorias.Remove(categoria);
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado la categoria: " + categoria.Nombre);
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado la categoria: " + categoria.Nombre, V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Categoria eliminada correctamente.", "Éxito");
                     Cargar_Datos();
                 }
@@ -209,11 +213,12 @@ namespace Monitux_POS.Ventanas
                 var categoria = context.Categorias.FirstOrDefault(p => p.Secuencial == this.Secuencial);
                 if (categoria != null)
                 {
+                    categoria.Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa;
                     categoria.Nombre = txtNombre.Text;
                     categoria.Descripcion = txtDescripcion.Text;
                     categoria.Imagen = Imagen;
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado la categoria: " + categoria.Nombre);
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado la categoria: " + categoria.Nombre, V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Categoria actualizada correctamente.", "Éxito");
                     Cargar_Datos(); // Recarga los datos para mostrar la categoria actualizada
                 }
@@ -240,6 +245,7 @@ namespace Monitux_POS.Ventanas
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
                 var categoria = new Categoria();
+                categoria.Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa;
                 categoria.Secuencial = context.Categorias.Any() ? context.Categorias.Max(c => c.Secuencial) + 1 : 1; // Asigna un nuevo secuencial
                 categoria.Nombre = txtNombre.Text;
                 categoria.Descripcion = txtDescripcion.Text;
@@ -255,7 +261,7 @@ namespace Monitux_POS.Ventanas
 
                 context.Categorias.Add(categoria);
                 context.SaveChanges();
-                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado la categoria: " + txtNombre.Text);
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado la categoria: " + txtNombre.Text, V_Menu_Principal.Secuencial_Empresa);
                 V_Menu_Principal.MSG.ShowMSG("Categoria creada correctamente.", "Éxito");
                 Cargar_Datos(); // Recarga los datos para mostrar la nueva categoria
 
@@ -268,7 +274,7 @@ namespace Monitux_POS.Ventanas
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CAT\\Cat - " + Secuencial + ".PNG");
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CAT\\"+V_Menu_Principal.Secuencial_Empresa+"-Cat - " + Secuencial + ".PNG");
 
 
             try
@@ -343,7 +349,7 @@ namespace Monitux_POS.Ventanas
             string columnaSeleccionada = campo; // Cambia esto a la columna que desees filtrar
 
             var categoriasFiltradas = context.Categorias
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor))
+                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
 
             dataGridView1.Rows.Clear();
@@ -502,7 +508,7 @@ namespace Monitux_POS.Ventanas
             if (imagenCapturada != null)
             {
                 pictureBox1.Image = imagenCapturada;
-                Imagen = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CAT\\Cat - " + Secuencial + ".PNG");
+                Imagen = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CAT\\"+V_Menu_Principal.Secuencial_Empresa+"-Cat - " + Secuencial + ".PNG");
                 pictureBox1.Image.Save(Imagen); // Guarda la imagen capturada en la ruta especificada
             }
             else

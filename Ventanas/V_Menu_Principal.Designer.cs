@@ -34,10 +34,10 @@
             pictureBox2 = new PictureBox();
             panel3 = new Panel();
             p_Campania = new Panel();
-            button14 = new Button();
+            button1 = new Button();
             button29 = new Button();
             button30 = new Button();
-            btn_campanas = new Button();
+            btn_movimientos = new Button();
             p_Reportes = new Panel();
             button8 = new Button();
             button20 = new Button();
@@ -126,7 +126,7 @@
             panel3.AutoScroll = true;
             panel3.BackColor = Color.FromArgb(11, 8, 20);
             panel3.Controls.Add(p_Campania);
-            panel3.Controls.Add(btn_campanas);
+            panel3.Controls.Add(btn_movimientos);
             panel3.Controls.Add(p_Reportes);
             panel3.Controls.Add(btn_reportes);
             panel3.Controls.Add(btn_inventario);
@@ -138,15 +138,15 @@
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
             panel3.Controls.Add(btn_inicio);
-            panel3.Location = new Point(0, 216);
+            panel3.Location = new Point(0, 213);
             panel3.Name = "panel3";
-            panel3.Size = new Size(176, 456);
+            panel3.Size = new Size(176, 459);
             panel3.TabIndex = 3;
             // 
             // p_Campania
             // 
             p_Campania.BackColor = Color.FromArgb(35, 32, 40);
-            p_Campania.Controls.Add(button14);
+            p_Campania.Controls.Add(button1);
             p_Campania.Controls.Add(button29);
             p_Campania.Controls.Add(button30);
             p_Campania.Dock = DockStyle.Top;
@@ -156,23 +156,24 @@
             p_Campania.TabIndex = 24;
             p_Campania.Visible = false;
             // 
-            // button14
+            // button1
             // 
-            button14.BackColor = Color.FromArgb(35, 32, 40);
-            button14.Cursor = Cursors.Hand;
-            button14.FlatAppearance.BorderSize = 0;
-            button14.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
-            button14.FlatStyle = FlatStyle.Flat;
-            button14.Font = new Font("Bahnschrift", 9.75F);
-            button14.ForeColor = Color.White;
-            button14.Location = new Point(-3, 69);
-            button14.Name = "button14";
-            button14.Padding = new Padding(35, 0, 0, 0);
-            button14.Size = new Size(166, 26);
-            button14.TabIndex = 3;
-            button14.Text = "Ni Puta Idea 3";
-            button14.TextAlign = ContentAlignment.MiddleLeft;
-            button14.UseVisualStyleBackColor = false;
+            button1.BackColor = Color.FromArgb(35, 32, 40);
+            button1.Cursor = Cursors.Hand;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Bahnschrift", 9.75F);
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(-1, 68);
+            button1.Name = "button1";
+            button1.Padding = new Padding(35, 0, 0, 0);
+            button1.Size = new Size(166, 26);
+            button1.TabIndex = 3;
+            button1.Text = "Caja";
+            button1.TextAlign = ContentAlignment.MiddleLeft;
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click_2;
             // 
             // button29
             // 
@@ -188,7 +189,7 @@
             button29.Padding = new Padding(35, 0, 0, 0);
             button29.Size = new Size(166, 26);
             button29.TabIndex = 2;
-            button29.Text = "Ni Puta Idea 2";
+            button29.Text = "Egresos";
             button29.TextAlign = ContentAlignment.MiddleLeft;
             button29.UseVisualStyleBackColor = false;
             // 
@@ -206,30 +207,29 @@
             button30.Padding = new Padding(35, 0, 0, 0);
             button30.Size = new Size(166, 27);
             button30.TabIndex = 1;
-            button30.Text = "Ni Puta Idea 1";
+            button30.Text = "Ingresos";
             button30.TextAlign = ContentAlignment.MiddleLeft;
             button30.UseVisualStyleBackColor = false;
             // 
-            // btn_campanas
+            // btn_movimientos
             // 
-            btn_campanas.BackColor = Color.FromArgb(11, 8, 20);
-            btn_campanas.Cursor = Cursors.Hand;
-            btn_campanas.Dock = DockStyle.Top;
-            btn_campanas.Enabled = false;
-            btn_campanas.FlatAppearance.BorderSize = 0;
-            btn_campanas.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
-            btn_campanas.FlatStyle = FlatStyle.Flat;
-            btn_campanas.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_campanas.ForeColor = Color.White;
-            btn_campanas.Location = new Point(0, 883);
-            btn_campanas.Name = "btn_campanas";
-            btn_campanas.Padding = new Padding(10, 0, 0, 0);
-            btn_campanas.Size = new Size(159, 38);
-            btn_campanas.TabIndex = 23;
-            btn_campanas.Text = "Campañas";
-            btn_campanas.TextAlign = ContentAlignment.MiddleLeft;
-            btn_campanas.UseVisualStyleBackColor = false;
-            btn_campanas.Click += button12_Click_1;
+            btn_movimientos.BackColor = Color.FromArgb(11, 8, 20);
+            btn_movimientos.Cursor = Cursors.Hand;
+            btn_movimientos.Dock = DockStyle.Top;
+            btn_movimientos.FlatAppearance.BorderSize = 0;
+            btn_movimientos.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
+            btn_movimientos.FlatStyle = FlatStyle.Flat;
+            btn_movimientos.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_movimientos.ForeColor = Color.White;
+            btn_movimientos.Location = new Point(0, 883);
+            btn_movimientos.Name = "btn_movimientos";
+            btn_movimientos.Padding = new Padding(10, 0, 0, 0);
+            btn_movimientos.Size = new Size(159, 38);
+            btn_movimientos.TabIndex = 23;
+            btn_movimientos.Text = "Movimientos";
+            btn_movimientos.TextAlign = ContentAlignment.MiddleLeft;
+            btn_movimientos.UseVisualStyleBackColor = false;
+            btn_movimientos.Click += button12_Click_1;
             // 
             // p_Reportes
             // 
@@ -400,7 +400,6 @@
             btn_reportes.BackColor = Color.FromArgb(11, 8, 20);
             btn_reportes.Cursor = Cursors.Hand;
             btn_reportes.Dock = DockStyle.Top;
-            btn_reportes.Enabled = false;
             btn_reportes.FlatAppearance.BorderSize = 0;
             btn_reportes.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             btn_reportes.FlatStyle = FlatStyle.Flat;
@@ -511,7 +510,6 @@
             btn_facturas.BackColor = Color.FromArgb(11, 8, 20);
             btn_facturas.Cursor = Cursors.Hand;
             btn_facturas.Dock = DockStyle.Top;
-            btn_facturas.Enabled = false;
             btn_facturas.FlatAppearance.BorderSize = 0;
             btn_facturas.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             btn_facturas.FlatStyle = FlatStyle.Flat;
@@ -580,7 +578,6 @@
             btn_cuentas.BackColor = Color.FromArgb(11, 8, 20);
             btn_cuentas.Cursor = Cursors.Hand;
             btn_cuentas.Dock = DockStyle.Top;
-            btn_cuentas.Enabled = false;
             btn_cuentas.FlatAppearance.BorderSize = 0;
             btn_cuentas.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             btn_cuentas.FlatStyle = FlatStyle.Flat;
@@ -679,7 +676,7 @@
             btn_ajustes.Padding = new Padding(10, 0, 0, 0);
             btn_ajustes.Size = new Size(159, 38);
             btn_ajustes.TabIndex = 13;
-            btn_ajustes.Text = "Ajustes";
+            btn_ajustes.Text = "Configuración";
             btn_ajustes.TextAlign = ContentAlignment.MiddleLeft;
             btn_ajustes.UseVisualStyleBackColor = false;
             btn_ajustes.Click += button11_Click;
@@ -707,12 +704,12 @@
             button23.FlatStyle = FlatStyle.Flat;
             button23.Font = new Font("Bahnschrift", 9.75F);
             button23.ForeColor = Color.White;
-            button23.Location = new Point(-2, 91);
+            button23.Location = new Point(-2, 90);
             button23.Name = "button23";
             button23.Padding = new Padding(35, 0, 0, 0);
             button23.Size = new Size(166, 25);
             button23.TabIndex = 4;
-            button23.Text = "Actividades";
+            button23.Text = "Proveedores";
             button23.TextAlign = ContentAlignment.MiddleLeft;
             button23.UseVisualStyleBackColor = false;
             // 
@@ -730,9 +727,10 @@
             button22.Padding = new Padding(35, 0, 0, 0);
             button22.Size = new Size(166, 25);
             button22.TabIndex = 3;
-            button22.Text = "Promociones";
+            button22.Text = "Clientes";
             button22.TextAlign = ContentAlignment.MiddleLeft;
             button22.UseVisualStyleBackColor = false;
+            button22.Click += button22_Click;
             // 
             // button21
             // 
@@ -777,7 +775,6 @@
             btn_inicio.BackColor = Color.FromArgb(11, 8, 20);
             btn_inicio.Cursor = Cursors.Hand;
             btn_inicio.Dock = DockStyle.Top;
-            btn_inicio.Enabled = false;
             btn_inicio.FlatAppearance.BorderSize = 0;
             btn_inicio.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             btn_inicio.FlatStyle = FlatStyle.Flat;
@@ -1000,12 +997,12 @@
         private Button button13;
         private Button button15;
         private Panel p_Campania;
-        private Button button14;
         private Button button29;
         private Button button30;
-        private Button btn_campanas;
+        private Button btn_movimientos;
         private PictureBox pictureBox1;
         private Label label1;
         private Label label2;
+        private Button button1;
     }
 }

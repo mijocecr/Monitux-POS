@@ -59,6 +59,20 @@ namespace Monitux_POS.Ventanas
             comboBox2.Items.Add("Codigo");
             comboBox2.Items.Add("Nombre");
             comboBox2.SelectedIndex = 0; // Selecciona el primer elemento del comboBox2
+
+
+
+            if (dataGridView1.Rows.Count > 0)
+            {
+                // Seleccionar visualmente la primera fila
+                dataGridView1.Rows[0].Selected = true;
+                dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];
+
+                // Simular el evento CellClick manualmente
+                DataGridViewCellEventArgs args = new DataGridViewCellEventArgs(0, 0);
+                dataGridView1_CellClick(dataGridView1, args); // <- llama tu propio método
+            }
+
         }
 
 
@@ -73,7 +87,10 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-            var usuarios = context.Usuarios.ToList();
+            var usuarios = context.Usuarios
+                      .Where(u => u.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                      .ToList();
+
 
             dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
@@ -133,7 +150,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\USR\\Usr - " + Secuencial + ".PNG");
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\USR\\" + V_Menu_Principal.Secuencial_Empresa + "-Usr - " + Secuencial + ".PNG");
 
 
             try
@@ -310,7 +327,7 @@ namespace Monitux_POS.Ventanas
                 if (usuario != null)
                 {
                     // passwordEncriptado = usuario.Password;
-
+                    usuario.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
                     usuario.Nombre = txt_Nombre.Text;
                     usuario.Codigo = txt_Codigo.Text;
                     usuario.Password = Util.Encriptador.Encriptar(txt_Password.Text);
@@ -321,7 +338,7 @@ namespace Monitux_POS.Ventanas
 
                     usuario.Imagen = Imagen;
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado al usuario: " + usuario.Nombre);
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado al usuario: " + usuario.Nombre, V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Usuario actualizado correctamente.", "Éxito");
 
                 }
@@ -359,7 +376,7 @@ namespace Monitux_POS.Ventanas
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
                 var usuario = new Usuario();
-
+                usuario.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
                 usuario.Nombre = txt_Nombre.Text;
                 usuario.Codigo = txt_Codigo.Text;
                 usuario.Password = Util.Encriptador.Encriptar(txt_Password.Text);
@@ -378,11 +395,24 @@ namespace Monitux_POS.Ventanas
                     usuario.Imagen = "Sin Imagen"; // Asigna una imagen por defecto si no se ha seleccionado una imagen
                 }
 
+                try
+                {
+                    context.Usuarios.Add(usuario);
+                    context.SaveChanges();
+                    V_Menu_Principal.MSG.ShowMSG("Usuario creado correctamente.", "Éxito");
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado al usuario: " + txt_Nombre.Text, V_Menu_Principal.Secuencial_Empresa);
 
-                context.Usuarios.Add(usuario);
-                context.SaveChanges();
-                V_Menu_Principal.MSG.ShowMSG("Usuario creado correctamente.", "Éxito");
-                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado al usuario: " + txt_Nombre.Text);
+
+                }
+
+
+
+                catch (Exception ex)
+                {
+                    V_Menu_Principal.MSG.ShowMSG("Error al crear usuario: Ya existe o los datos proporcionados no son validos.", "Error");
+                    return;
+                }
+
 
 
 
@@ -431,12 +461,12 @@ namespace Monitux_POS.Ventanas
                 using var context = new Monitux_DB_Context();
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-                var usuario = context.Usuarios.FirstOrDefault(p => p.Secuencial == this.Secuencial);
+                var usuario = context.Usuarios.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
                 if (usuario != null)
                 {
                     context.Usuarios.Remove(usuario);
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al usuario: " + usuario.Nombre);
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al usuario: " + usuario.Nombre, V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Usuario eliminado correctamente.", "Éxito");
                     Cargar_Datos();
                 }
@@ -478,7 +508,7 @@ namespace Monitux_POS.Ventanas
             string columnaSeleccionada = campo; // Cambia esto a la columna que desees filtrar
 
             var usuarios = context.Usuarios
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor))
+                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
 
             dataGridView1.Rows.Clear();
@@ -701,7 +731,7 @@ namespace Monitux_POS.Ventanas
             if (imagenCapturada != null)
             {
                 pictureBox1.Image = imagenCapturada; // Asigna la imagen capturada al PictureBox
-                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\USR\\Usr - " + Secuencial + ".PNG");
+                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\USR\\" + V_Menu_Principal.Secuencial_Empresa + "-Usr - " + Secuencial + ".PNG");
                 imagenCapturada.Save(rutaGuardado); // Guarda la imagen en la ruta especificada
                 Imagen = rutaGuardado; // Actualiza la variable Imagen con la ruta guardada
             }
@@ -709,6 +739,11 @@ namespace Monitux_POS.Ventanas
             {
                 V_Menu_Principal.MSG.ShowMSG("No se ha capturado ninguna imagen.", "Error");
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

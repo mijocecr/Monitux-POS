@@ -19,7 +19,7 @@ namespace Monitux_POS.Ventanas
         int Secuencial = 0;
         string Imagen = "";
         public int Secuencial_Usuario { get; set; } = V_Menu_Principal.Secuencial_Usuario;
-
+        public string Nombre { get; set; }
         public V_Cliente()
         {
             InitializeComponent();
@@ -40,7 +40,12 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-            var cliente = context.Clientes.ToList();
+
+            var cliente = context.Clientes
+    .Where(c => c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+    .ToList();
+
+
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
             dataGridView1.Columns.Add("Secuencial", "S");
             dataGridView1.Columns["Secuencial"].Width = 20; // Ajusta el ancho de la columna Secuencial
@@ -219,7 +224,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CLI\\Cli - " + Secuencial + ".PNG");
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CLI\\" + V_Menu_Principal.Secuencial_Empresa + "-Cli - " + Secuencial + ".PNG");
 
 
             try
@@ -285,15 +290,16 @@ namespace Monitux_POS.Ventanas
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
 
-                var cliente = context.Clientes.FirstOrDefault(p => p.Secuencial == this.Secuencial);
+                var cliente = context.Clientes.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
                 if (cliente != null)
                 {
+                    cliente.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
                     cliente.Codigo = txt_Codigo.Text;
                     cliente.Nombre = txt_Nombre.Text;
                     cliente.Telefono = txt_Telefono.Text;
                     cliente.Direccion = txt_Direccion.Text;
                     cliente.Email = txt_Email.Text;
-
+                    cliente.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
 
                     cliente.Activo = checkBox1.Checked;
 
@@ -301,7 +307,7 @@ namespace Monitux_POS.Ventanas
 
                     cliente.Imagen = Imagen;
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado el cliente: " + cliente.Nombre);
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado el cliente: " + cliente.Nombre, V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Cliente actualizado correctamente.", "Éxito");
                     Cargar_Datos(); // Recargar los datos después de actualizar el cliente
                 }
@@ -330,7 +336,7 @@ namespace Monitux_POS.Ventanas
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
                 var cliente = new Cliente();
-
+                cliente.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
                 cliente.Codigo = txt_Codigo.Text;
                 cliente.Nombre = txt_Nombre.Text;
                 cliente.Telefono = txt_Telefono.Text;
@@ -349,12 +355,14 @@ namespace Monitux_POS.Ventanas
                     cliente.Imagen = "Sin Imagen"; // Asigna una imagen por defecto si no se ha seleccionado una imagen
                 }
 
-                try {
+                try
+                {
                     context.Clientes.Add(cliente);
 
                     context.SaveChanges();
 
-                }catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     V_Menu_Principal.MSG.ShowMSG("Error al crear el cliente: Ya existe o los datos proporcionados no son validos.", "Error");
                     return;
@@ -363,7 +371,7 @@ namespace Monitux_POS.Ventanas
 
 
                 V_Menu_Principal.MSG.ShowMSG("Cliente creado correctamente.", "Éxito");
-                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado el cliente: " + txt_Nombre.Text);
+                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado el cliente: " + txt_Nombre.Text, V_Menu_Principal.Secuencial_Empresa);
                 Cargar_Datos(); // Recargar los datos después de crear el cliente
 
 
@@ -472,7 +480,9 @@ namespace Monitux_POS.Ventanas
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+
         }
+            
 
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -521,12 +531,12 @@ namespace Monitux_POS.Ventanas
                 using var context = new Monitux_DB_Context();
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-                var cliente = context.Clientes.FirstOrDefault(p => p.Secuencial == this.Secuencial);
+                var cliente = context.Clientes.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
                 if (cliente != null)
                 {
                     context.Clientes.Remove(cliente);
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al cliente: " + cliente.Nombre);
+                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al cliente: " + cliente.Nombre, V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Cliente eliminado correctamente.", "Éxito");
                     Cargar_Datos(); // Recargar los datos después de eliminar el cliente
                 }
@@ -568,7 +578,7 @@ namespace Monitux_POS.Ventanas
             string columnaSeleccionada = campo; // Cambia esto a la columna que desees filtrar
 
             var clientes = context.Clientes
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor))
+                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
 
             dataGridView1.Rows.Clear();
@@ -664,7 +674,7 @@ namespace Monitux_POS.Ventanas
             if (imagenCapturada != null)
             {
                 pictureBox1.Image = imagenCapturada;
-                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CLI\\Cli - " + Secuencial + ".PNG");
+                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CLI\\" + V_Menu_Principal.Secuencial_Empresa + "-Cli - " + Secuencial + ".PNG");
                 imagenCapturada.Save(rutaGuardado); // Guarda la imagen capturada en la ruta especificada
                 Imagen = rutaGuardado; // Actualiza la variable Imagen con la ruta guardada
             }
@@ -672,6 +682,58 @@ namespace Monitux_POS.Ventanas
             {
                 V_Menu_Principal.MSG.ShowMSG("No se ha capturado ninguna imagen.", "Error");
             }
+        }
+
+        private void archivoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+
+
+            try
+            {
+
+
+
+
+
+                if (dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value != null)
+                {
+                    this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
+
+
+                }
+
+
+                if (dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value != null)
+                {
+                    this.Nombre = dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value?.ToString();
+
+
+                }
+
+
+                V_CTA_Cliente v_CTA_Cliente = new V_CTA_Cliente(Secuencial, Nombre);
+
+                v_CTA_Cliente.Secuencial_Cliente=Secuencial;
+                
+                v_CTA_Cliente.ShowDialog();
+
+
+
+            }
+            catch
+            {
+
+
+
+            }
+
+
         }
     }
 }

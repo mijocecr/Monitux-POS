@@ -16,6 +16,7 @@ namespace Monitux_POS.Clases
         public int Secuencial_Cliente { get; set; }
         public string Fecha { get; set; } = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
         public double Monto { get; set; } = 0;
+        public int Secuencial_Empresa { get; set; }
 
     }
 }

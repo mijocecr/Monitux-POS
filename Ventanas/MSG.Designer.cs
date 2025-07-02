@@ -42,15 +42,15 @@
             panel1.Controls.Add(lbl_Mensaje);
             panel1.Location = new Point(6, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(270, 92);
+            panel1.Size = new Size(270, 106);
             panel1.TabIndex = 0;
             // 
             // lbl_Mensaje
             // 
             lbl_Mensaje.ForeColor = Color.White;
-            lbl_Mensaje.Location = new Point(6, 9);
+            lbl_Mensaje.Location = new Point(6, 5);
             lbl_Mensaje.Name = "lbl_Mensaje";
-            lbl_Mensaje.Size = new Size(261, 73);
+            lbl_Mensaje.Size = new Size(261, 97);
             lbl_Mensaje.TabIndex = 0;
             lbl_Mensaje.Text = "Mensaje";
             lbl_Mensaje.TextAlign = ContentAlignment.MiddleCenter;
@@ -61,7 +61,7 @@
             btn_Aceptar.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             btn_Aceptar.FlatStyle = FlatStyle.Flat;
             btn_Aceptar.ForeColor = Color.White;
-            btn_Aceptar.Location = new Point(201, 111);
+            btn_Aceptar.Location = new Point(201, 122);
             btn_Aceptar.Name = "btn_Aceptar";
             btn_Aceptar.Size = new Size(75, 23);
             btn_Aceptar.TabIndex = 1;
@@ -75,7 +75,7 @@
             btn_Cancelar.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             btn_Cancelar.FlatStyle = FlatStyle.Flat;
             btn_Cancelar.ForeColor = Color.White;
-            btn_Cancelar.Location = new Point(6, 111);
+            btn_Cancelar.Location = new Point(6, 122);
             btn_Cancelar.Name = "btn_Cancelar";
             btn_Cancelar.Size = new Size(75, 23);
             btn_Cancelar.TabIndex = 2;
@@ -90,7 +90,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
             CancelButton = btn_Cancelar;
-            ClientSize = new Size(282, 139);
+            ClientSize = new Size(282, 153);
             ControlBox = false;
             Controls.Add(btn_Cancelar);
             Controls.Add(btn_Aceptar);

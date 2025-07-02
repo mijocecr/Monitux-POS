@@ -26,6 +26,8 @@ namespace Monitux_POS.Clases
         public string? Tipo { get; set; } // Puede ser Producto o Servicio
         public double? Total { get; set; } = 0;
 
+        public int Secuencial_Empresa { get; set; }
+
 
 
     }

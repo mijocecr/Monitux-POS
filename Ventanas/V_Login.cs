@@ -55,102 +55,76 @@ namespace Monitux_POS.Ventanas
         {
 
 
-            label11.ForeColor=Color.White; 
 
+            label11.ForeColor = Color.White;
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
-            //int secuencialn = context.Productos.Any() ? context.Productos.Max(p => p.Secuencial) + 1 : 1;
-            var usuario = new Usuario();
-
-            usuario.Nombre = txt_Nombre.Text;
-            usuario.Codigo = txt_Codigo.Text;
-            usuario.Password = Util.Encriptador.Encriptar(txt_Password.Text);
+            context.Database.EnsureCreated();
+            Secuencial = context.Usuarios.Any() ? context.Usuarios.Max(p => p.Secuencial) + 1 : 1;
 
 
-            // usuario.Acceso = comboBox1.SelectedItem != null ? comboBox1.SelectedItem.ToString() : "Vendedor";
 
-            if (comboBox1.SelectedItem == "Administrador")
+            // Preparar nuevo usuario
+            var usuario = new Usuario
             {
-                string respuesta;
-                if (V_Menu_Principal.IPB.Show("Ingrese el Pin", "Usuario Administrador", out respuesta) == DialogResult.OK)
-                {
+                
+                Nombre = txt_Nombre.Text.Trim(),
+                Codigo = txt_Codigo.Text.Trim(),
+                Password = Util.Encriptador.Encriptar(txt_Password.Text),
+                Acceso = "Vendedor", // Asignación por defecto
+                Activo = true,
+                Imagen = pictureBox1.Image != null ? Imagen : "Sin Imagen",
+                Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa
+            };
 
+            // Validar si se seleccionó "Administrador"
+            if (comboBox1.SelectedItem?.ToString() == "Administrador")
+            {
+                if (V_Menu_Principal.IPB.Show("Ingrese el Pin", "Usuario Administrador", out string respuesta) == DialogResult.OK)
+                {
                     if (respuesta == "****" && Pin == "*****")
                     {
                         V_Menu_Principal.MSG.ShowMSG("Debe generar un PIN para el usuario administrador.", "Error");
-                        return; // Sale del método si el PIN no ha sido generado
+                        return;
+                    }
+
+                    if (respuesta == Pin && Pin != "****")
+                    {
+                        usuario.Acceso = "Administrador";
                     }
                     else
                     {
-
-                        if (respuesta == Pin && Pin != "****")
-                        {
-                            usuario.Acceso = "Administrador"; // Asigna el acceso de administrador si el pin es correcto
-                        }
-                        else
-                        {
-                            usuario.Acceso = "Vendedor"; // Asigna el acceso de vendedor si el pin es incorrecto
-                            V_Menu_Principal.MSG.ShowMSG("Pin incorrecto. El usuario no se ha creado.", "Información");
-
-                            return; // Sale del método si el usuario cancela la operación
-                        }
-
+                        V_Menu_Principal.MSG.ShowMSG("Pin incorrecto. El usuario no se ha creado.", "Información");
+                        return;
                     }
-
                 }
             }
-            else
+
+            // Guardar usuario
+            try
             {
-                usuario.Acceso = "Vendedor"; // Asigna el acceso de vendedor si no es administrador
-            }
-
-
-            //usuario.Secuencial = secuencialn; // Asigna el secuencial al usuario
-            usuario.Activo = true;
-
-
-            if (pictureBox1.Image != null)
-            {
-                usuario.Imagen = Imagen;
-            }
-            else
-            {
-                usuario.Imagen = "Sin Imagen"; // Asigna una imagen por defecto si no se ha seleccionado una imagen
-            }
-
-
-            try {
-
                 context.Usuarios.Add(usuario);
                 context.SaveChanges();
-
-            }catch (Exception ex)
+            }
+            catch (Exception)
             {
-                V_Menu_Principal.MSG.ShowMSG("Error al crear el usuario: Ya existe o los datos proporcionados no son validos.", "Error");
-                return; // Sale del método si ocurre un error al guardar el usuario
+                V_Menu_Principal.MSG.ShowMSG("Error al crear el usuario: Ya existe o los datos proporcionados no son válidos.", "Error");
+                return;
             }
 
+            // Confirmación y limpieza
+            V_Menu_Principal.MSG.ShowMSG($"Usuario creado correctamente.\nAcceso: {usuario.Acceso}", "Éxito");
+            Pin = "****";
+            Util.Registrar_Actividad(0, $"Ha creado al usuario: {usuario.Nombre}", V_Menu_Principal.Secuencial_Empresa);
 
-
-            V_Menu_Principal.MSG.ShowMSG("Usuario creado correctamente.\nAcesso: " + usuario.Acceso, "Éxito");
-            Pin = "****"; // Reinicia el PIN después de crear el usuario
-            Util.Registrar_Actividad(0, "Ha creado al usuario: " + txt_Nombre.Text);
-
-            txt_Codigo.Clear(); // Limpia el campo de código
-            txt_Nombre.Clear(); // Limpia el campo de nombre
-            txt_Password.Clear(); // Limpia el campo de contraseña
-            pictureBox3.Image = null; // Limpia la imagen del PictureBox
-
-
-
-
-
+            txt_Codigo.Clear();
+            txt_Nombre.Clear();
+            txt_Password.Clear();
+            pictureBox3.Image = null;
 
             panel4.Visible = false;
             panel3.Visible = true;
-
 
 
 
@@ -172,15 +146,36 @@ namespace Monitux_POS.Ventanas
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            Imagen = Util.Abrir_Dialogo_Seleccion_URL(); // Cargar imagen desde el disco
-            if (Imagen != "Sin Imagen")
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+            Secuencial = context.Usuarios.Any() ? context.Usuarios.Max(p => p.Secuencial) + 1 : 1;
+
+
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\USR\\" + V_Menu_Principal.Secuencial_Empresa + "-Usr - " + Secuencial + ".PNG");
+
+
+            try
             {
-                pictureBox3.Image = Util.Cargar_Imagen_Local(Imagen); // Cargar la imagen en el PictureBox
+                string Imagen_Seleccionada = Util.Abrir_Dialogo_Seleccion_URL();
+                if (Imagen_Seleccionada != "")
+                {
+                    Imagen = Imagen_Seleccionada;
+                    pictureBox3.Image = Util.Cargar_Imagen_Local(Imagen);
+
+                    pictureBox3.Image.Save(rutaGuardado);
+                    Imagen = rutaGuardado;
+                }
+
+
+
             }
-            else
+            catch
             {
-                pictureBox3.Image = null; // Si no se selecciona una imagen, limpiar el PictureBox
+
+                Imagen = "Sin Imagen";
+
             }
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -197,8 +192,8 @@ namespace Monitux_POS.Ventanas
             bool acceso;
             try
             {
-                usuario = login.ValidarUsuario(txtCodigo.Text, password_encriptado); // Valida el usuario y obtiene sus datos
-                acceso = login.ValidarUsuario(txtCodigo.Text, password_encriptado).Secuencial != null;
+                usuario = login.ValidarUsuario(txtCodigo.Text, password_encriptado,V_Menu_Principal.Secuencial_Empresa); // Valida el usuario y obtiene sus datos
+                acceso = login.ValidarUsuario(txtCodigo.Text, password_encriptado,V_Menu_Principal.Secuencial_Empresa).Secuencial != null;
             }
             catch (Exception ex)
             {
@@ -374,6 +369,11 @@ namespace Monitux_POS.Ventanas
         private void pictureBox6_Click(object sender, EventArgs e)
         {
 
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+            Secuencial = context.Usuarios.Any() ? context.Usuarios.Max(p => p.Secuencial) + 1 : 1;
+
+
 
             V_Captura_Imagen capturaImagen = new V_Captura_Imagen(Secuencial);
             capturaImagen.ShowDialog();
@@ -381,7 +381,7 @@ namespace Monitux_POS.Ventanas
             if (imagenCapturada != null)
             {
                 pictureBox3.Image = imagenCapturada; // Asigna la imagen capturada al PictureBox
-                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\USR\\Usr - " + Secuencial + ".PNG");
+                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\USR\\" + V_Menu_Principal.Secuencial_Empresa + "-Usr - " + Secuencial + ".PNG");
                 imagenCapturada.Save(rutaGuardado); // Guarda la imagen en la ruta especificada
                 Imagen = rutaGuardado; // Actualiza la variable Imagen con la ruta guardada
             }
@@ -389,6 +389,7 @@ namespace Monitux_POS.Ventanas
             {
                 V_Menu_Principal.MSG.ShowMSG("No se ha capturado ninguna imagen.", "Error");
             }
+
         }
 
         private async void V_Login_Load(object sender, EventArgs e)

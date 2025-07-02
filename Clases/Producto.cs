@@ -10,6 +10,27 @@ namespace Monitux_POS.Clases
         {
         }
 
+        public Producto(int secuencial, int secuencial_Proveedor, string codigo, string descripcion, double cantidad, double precio_Costo, double precio_Venta, string? marca, string? codigo_Barra, string? codigo_Fabricante, string? codigo_QR, string? imagen, int secuencial_Categoria, string? fecha_Caducidad, bool expira, string tipo, int secuencial_Empresa)
+        {
+            Secuencial = secuencial;
+            Secuencial_Proveedor = secuencial_Proveedor;
+            Codigo = codigo;
+            Descripcion = descripcion;
+            Cantidad = cantidad;
+            Precio_Costo = precio_Costo;
+            Precio_Venta = precio_Venta;
+            Marca = marca;
+            Codigo_Barra = codigo_Barra;
+            Codigo_Fabricante = codigo_Fabricante;
+            Codigo_QR = codigo_QR;
+            Imagen = imagen;
+            Secuencial_Categoria = secuencial_Categoria;
+            Fecha_Caducidad = fecha_Caducidad;
+            Expira = expira;
+            Tipo = tipo;
+            Secuencial_Empresa = secuencial_Empresa;
+        }
+
         [Key]
         public int Secuencial { get; set; }
         public int Secuencial_Proveedor { get; set; }
@@ -29,30 +50,9 @@ namespace Monitux_POS.Clases
         public int Secuencial_Categoria { get; set; }
 
         public bool Expira { get; set; } = false; // Indica si el producto tiene fecha de caducidad
-        public double Existencia_Minima { get; set; } 
-        public Producto(int secuencial, int secuencial_Proveedor,
-            string? codigo, string? descripcion, double cantidad,
-            double precio_Costo, double precio_Venta,
-            string? marca, string? codigo_Barra, string? codigo_Fabricante,
-            string? codigo_QR, string? imagen, int secuencial_Categoria,string fecha_caducidad, bool expira,string tipo)
-        {
-            Secuencial = secuencial;
-            Secuencial_Proveedor = secuencial_Proveedor;
-            Codigo = codigo;
-            Descripcion = descripcion;
-            Cantidad = cantidad;
-            Precio_Costo = precio_Costo;
-            Precio_Venta = precio_Venta;
-            Marca = marca;
-            Codigo_Barra = codigo_Barra;
-            Codigo_Fabricante = codigo_Fabricante;
-            Codigo_QR = codigo_QR;
-            Imagen = imagen;
-            Secuencial_Categoria = secuencial_Categoria;
-            Fecha_Caducidad = fecha_caducidad;
-            Expira = expira;
-            Tipo = tipo; // Por defecto, el tipo es Producto
-        }
+        public double Existencia_Minima { get; set; }
+
+        public int Secuencial_Empresa { get; set; }
 
        
 
@@ -72,13 +72,13 @@ namespace Monitux_POS.Clases
             Imagen = producto.Imagen;
             Secuencial_Categoria = producto.Secuencial_Categoria;
             Fecha_Caducidad = producto.Fecha_Caducidad;
+            Secuencial_Empresa = producto.Secuencial_Empresa;
         }
 
 
-        public Producto getProducto()
+      public Producto getProducto()
         {
-            // Retorna una copia del objeto Producto actual
-           return new Producto
+            return new Producto
             {
                 Secuencial = this.Secuencial,
                 Secuencial_Proveedor = this.Secuencial_Proveedor,
@@ -92,10 +92,12 @@ namespace Monitux_POS.Clases
                 Codigo_Fabricante = this.Codigo_Fabricante,
                 Codigo_QR = this.Codigo_QR,
                 Imagen = this.Imagen,
-                Secuencial_Categoria = this.Secuencial_Categoria,
                 Fecha_Caducidad = this.Fecha_Caducidad,
+                Tipo = this.Tipo,
+                Secuencial_Categoria = this.Secuencial_Categoria,
                 Expira = this.Expira,
-                Tipo = this.Tipo
+                Existencia_Minima = this.Existencia_Minima,
+                Secuencial_Empresa = this.Secuencial_Empresa
             };
         }
 
@@ -106,12 +108,12 @@ namespace Monitux_POS.Clases
 
 
 
-       
 
 
 
-            
-        
+
+
+
 
 
 

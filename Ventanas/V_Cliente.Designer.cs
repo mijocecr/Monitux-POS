@@ -121,6 +121,7 @@
             dataGridView1.TabIndex = 32;
             dataGridView1.CellClick += dataGridView1_CellClick_1;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             dataGridView1.CellEnter += dataGridView1_CellEnter;
             // 
             // pictureBox1
@@ -241,7 +242,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(430, 24);
+            menuStrip1.Size = new Size(418, 24);
             menuStrip1.TabIndex = 34;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -253,6 +254,7 @@
             archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
             archivoToolStripMenuItem.Size = new Size(69, 20);
             archivoToolStripMenuItem.Text = "Opciones";
+            archivoToolStripMenuItem.Click += archivoToolStripMenuItem_Click;
             // 
             // nuevoToolStripMenuItem
             // 
@@ -333,7 +335,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(0, 24);
             label6.Name = "label6";
-            label6.Size = new Size(430, 37);
+            label6.Size = new Size(418, 37);
             label6.TabIndex = 36;
             label6.Text = "Clientes";
             label6.TextAlign = ContentAlignment.TopCenter;
@@ -343,7 +345,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(430, 530);
+            ClientSize = new Size(418, 518);
             ControlBox = false;
             Controls.Add(label6);
             Controls.Add(panel1);

@@ -127,7 +127,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { opcionesToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(379, 24);
+            menuStrip1.Size = new Size(381, 24);
             menuStrip1.TabIndex = 5;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -264,7 +264,7 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(0, 24);
             label4.Name = "label4";
-            label4.Size = new Size(379, 37);
+            label4.Size = new Size(381, 37);
             label4.TabIndex = 12;
             label4.Text = "Categorias";
             label4.TextAlign = ContentAlignment.TopCenter;
@@ -274,7 +274,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(379, 456);
+            ClientSize = new Size(381, 452);
             ControlBox = false;
             Controls.Add(label4);
             Controls.Add(panel1);

@@ -320,8 +320,8 @@ namespace Monitux_POS
         {
 
 
-            Util.Limpiar_Cache();
-            Util.Registrar_Actividad(1, "Limpio Cache");
+            Util.Limpiar_Cache(V_Menu_Principal.Secuencial_Empresa);
+            Util.Registrar_Actividad(1, "Limpio Cache", V_Menu_Principal.Secuencial_Empresa);
 
             /*
             listBox1.Items.Add(miniatura_Producto1.cantidadSelecccionItem + "x" + miniatura_Producto1.Descripcion);

@@ -26,6 +26,7 @@ namespace Monitux_POS.Ventanas
         public static string Imagen_Usuario = "Sin Imagen"; // Variable para almacenar la imagen del usuario
         public static string Acceso_Usuario = string.Empty; // Variable para almacenar los permisos del usuario
         public static string moneda = "EUR.";
+        public static int Secuencial_Empresa = 1; // Cambiar esto, es solo para probar
         //Bloque de Variables Globales
 
 
@@ -53,20 +54,20 @@ namespace Monitux_POS.Ventanas
                 label1.Text = Nombre_Usuario; // Variable para almacenar el nombre del usuario
                 label2.Text = Acceso_Usuario; // Variable para almacenar el codigo del usuario
 
-                btn_inicio.Enabled = true;//Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de resumen solo si el usuario es administrador
-                                           //  btn_resumen.Visible = true; // Mostrar el boton de resumen solo si el usuario es administrador
-                btn_ajustes.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de ajustes solo si el usuario es administrador
+                btn_inicio.Visible = true;//Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de resumen solo si el usuario es administrador
+                                          //  btn_resumen.Visible = true; // Mostrar el boton de resumen solo si el usuario es administrador
+                btn_ajustes.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de ajustes solo si el usuario es administrador
                                                                                         // btn_ajustes.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de ajustes solo si el usuario es administrador
-                btn_cuentas.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de cuentas solo si el usuario es administrador
+                btn_cuentas.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de cuentas solo si el usuario es administrador
                                                                                         // btn_cuentas.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de cuentas solo si el usuario es administrador
-                btn_facturas.Enabled = true; //Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de facturas solo si el usuario es administrador
+                btn_facturas.Visible = true; //Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de facturas solo si el usuario es administrador
                                              //  btn_facturas.Visible = true; // Mostrar el boton de facturas solo si el usuario es administrador
                                              //btn_inventario.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
                                              //  btn_inventario.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de inventario solo si el usuario es administrador
-                btn_reportes.Enabled = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de reportes solo si el usuario es administrador
+                btn_reportes.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de reportes solo si el usuario es administrador
                                                                                          //  btn_reportes.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de reportes solo si el usuario es administrador
 
-                btn_campanas.Enabled = true;// Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de campañas solo si el usuario es administrador
+                btn_movimientos.Visible = true;// Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de campañas solo si el usuario es administrador
                 try
                 {
                     pictureBox1.Image = Util.Cargar_Imagen_Local(Imagen_Usuario);
@@ -325,7 +326,7 @@ namespace Monitux_POS.Ventanas
         private void pictureBox3_Click(object sender, EventArgs e)
         {
 
-            Util.Limpiar_Cache();
+            Util.Limpiar_Cache(V_Menu_Principal.Secuencial_Empresa);
             Application.Restart(); // Reinicia la aplicación para aplicar los cambios
 
         }
@@ -524,12 +525,22 @@ namespace Monitux_POS.Ventanas
         private void button21_Click_1(object sender, EventArgs e)
         {
             V_Venta_Rapida v_Venta_Rapida = new V_Venta_Rapida();
-            
+
             Abrir_Ventana(v_Venta_Rapida);
 
 
             lbl_Descripcion.Text = "Interfaz optimizada para agilizar el proceso de venta mediante lector de códigos de barras. " +
-                "Muestra automáticamente los 5 productos más vendidos y permite registrar ventas con rapidez y precisión.";
+                "Muestra automáticamente los 7 productos más vendidos y permite registrar ventas con rapidez y precisión.";
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

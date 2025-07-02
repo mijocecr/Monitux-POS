@@ -8,16 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Monitux_POS.Ventanas
+namespace Monitux_POS.Controles
 {
-    public partial class V_Facturas : Form
+    public partial class Miniatura_Cliente : UserControl
     {
-        public V_Facturas()
+        public Miniatura_Cliente()
         {
             InitializeComponent();
         }
 
-        private void tabPage1_Click(object sender, EventArgs e)
+        private void Miniatura_Cliente_Load(object sender, EventArgs e)
         {
 
         }

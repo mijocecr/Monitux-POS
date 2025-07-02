@@ -94,6 +94,7 @@
             // 
             // comboCliente
             // 
+            comboCliente.DropDownStyle = ComboBoxStyle.DropDownList;
             comboCliente.FormattingEnabled = true;
             comboCliente.Location = new Point(540, 58);
             comboCliente.Name = "comboCliente";
@@ -390,7 +391,7 @@
             // 
             label7.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(212, 7);
+            label7.Location = new Point(149, 3);
             label7.Name = "label7";
             label7.Size = new Size(178, 37);
             label7.TabIndex = 40;

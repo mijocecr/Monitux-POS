@@ -12,6 +12,6 @@ namespace Monitux_POS.Clases
         public string Descripcion { get; set; }
         public string Codigo { get; set; }
         public double TotalVendido { get; set; }
-        public double Venta { get; set; }
-    }
+        public double Venta { get; set; } // Hay que ajustar esto para incluir el Secuencial de la Empresa
+    }                                     //Por ahora se queda asi, pero tengo que cambiarlo
 }

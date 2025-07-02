@@ -23,6 +23,8 @@ namespace Monitux_POS.Clases
         public double Saldo { get; set; } = 0;
         public string Movimiento { get; set; }
 
+        public int Secuencial_Empresa { get; set; }
+
 
     }
 }
