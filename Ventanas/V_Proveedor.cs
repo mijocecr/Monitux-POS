@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Monitux_POS.Ventanas
@@ -19,7 +20,7 @@ namespace Monitux_POS.Ventanas
 
         int Secuencial = 0;
         string Imagen = "";
-
+        public string Nombre { get; set; }
         public V_Proveedor()
         {
             InitializeComponent();
@@ -248,7 +249,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\PRO\\"+V_Menu_Principal.Secuencial_Empresa+"-Pro - " + Secuencial + ".PNG");
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\PRO\\" + V_Menu_Principal.Secuencial_Empresa + "-Pro - " + Secuencial + ".PNG");
 
 
             try
@@ -318,7 +319,7 @@ namespace Monitux_POS.Ventanas
                 var proveedor = context.Proveedores.FirstOrDefault(p => p.Secuencial == this.Secuencial);
                 if (proveedor != null)
                 {
-                   proveedor.Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa;
+                    proveedor.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
                     proveedor.Nombre = txt_Nombre.Text;
                     proveedor.Telefono = txt_Telefono.Text;
                     proveedor.Direccion = txt_Direccion.Text;
@@ -452,7 +453,7 @@ namespace Monitux_POS.Ventanas
                 using var context = new Monitux_DB_Context();
                 context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-                var proveedor = context.Proveedores.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa);
+                var proveedor = context.Proveedores.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
                 if (proveedor != null)
                 {
                     context.Proveedores.Remove(proveedor);
@@ -623,7 +624,7 @@ namespace Monitux_POS.Ventanas
             string columnaSeleccionada = campo; // Cambia esto a la columna que desees filtrar
 
             var proveedores = context.Proveedores
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor)&&c.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa)
+                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
 
             dataGridView1.Rows.Clear();
@@ -711,7 +712,7 @@ namespace Monitux_POS.Ventanas
             if (imagenCapturada != null)
             {
                 pictureBox1.Image = imagenCapturada; // Asigna la imagen capturada al PictureBox
-                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\PRO\\"+V_Menu_Principal.Secuencial_Empresa+"-Pro - " + Secuencial + ".PNG");
+                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\PRO\\" + V_Menu_Principal.Secuencial_Empresa + "-Pro - " + Secuencial + ".PNG");
                 imagenCapturada.Save(rutaGuardado); // Guarda la imagen en la ruta especificada
                 Imagen = rutaGuardado; // Actualiza la variable Imagen con la ruta guardada
             }
@@ -719,6 +720,54 @@ namespace Monitux_POS.Ventanas
             {
                 V_Menu_Principal.MSG.ShowMSG("No se ha capturado ninguna imagen.", "Error");
             }
+        }
+
+        private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+
+
+
+
+            try
+            {
+
+
+
+
+
+                if (dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value != null)
+                {
+                    this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
+
+
+                }
+
+
+                if (dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value != null)
+                {
+                    this.Nombre = dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value?.ToString();
+
+
+                }
+
+
+                V_CTA_Proveedor v_CTA_Proveedor = new V_CTA_Proveedor(Secuencial, Nombre);
+
+                v_CTA_Proveedor.Secuencial_Proveedor = Secuencial;
+
+                v_CTA_Proveedor.ShowDialog();
+
+
+
+            }
+            catch
+            {
+
+
+
+            }
+
+
         }
     }
 }

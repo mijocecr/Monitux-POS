@@ -2,11 +2,14 @@
 using Microsoft.VisualBasic;
 using Monitux_POS.Clases;
 using Monitux_POS.Controles;
+using PdfiumViewer;
+using QuestPDF.Fluent;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -1347,6 +1350,30 @@ namespace Monitux_POS.Ventanas
             }
         }
 
+
+
+        public List<Item_Factura> ObtenerItemsDesdeGrid(DataGridView dgv)
+        {
+            var lista = new List<Item_Factura>();
+
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (!row.IsNewRow)
+                {
+                    lista.Add(new Item_Factura
+                    {
+                        Codigo = row.Cells["Codigo"].Value?.ToString(),
+                        Descripcion = row.Cells["Descripcion"].Value?.ToString(),
+                        Cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value),
+                        Precio = (double)Convert.ToDecimal(row.Cells["Precio_Venta"].Value)
+                    });
+                }
+            }
+
+            return lista;
+        }
+
+
         private void button6_Click(object sender, EventArgs e)
         {
 
@@ -1502,6 +1529,67 @@ namespace Monitux_POS.Ventanas
             // Finalizar
             V_Menu_Principal.MSG.ShowMSG("Compra registrada correctamente.", "Éxito");
             Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una compra, factura: {compra.Secuencial}, total: {Math.Round(total, 2)}", V_Menu_Principal.Secuencial_Empresa);
+            //////////////////////////
+
+
+            var factura = new FacturaCompletaPDF_Compra
+            {
+                Secuencial = compra.Secuencial,
+                Proveedor = comboCliente.SelectedItem.ToString()
+  .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
+  .Trim(),
+
+                TipoCompra = compra.Tipo,
+                MetodoPago = compra.Forma_Pago,
+                Fecha = compra.Fecha,
+                Items = ObtenerItemsDesdeGrid(dataGridView1),
+                ISV = (double)compra.Impuesto,
+                OtrosCargos = (double)compra.Otros_Cargos,
+                Descuento = (double)compra.Otros_Cargos
+            };
+
+
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\FAC\\" + V_Menu_Principal.Secuencial_Empresa);
+
+            factura.GeneratePdf($"{rutaGuardado}-{compra.Secuencial}-{factura.Proveedor}.pdf");
+
+
+            /////////////
+
+
+            string rutaPdf = $"{rutaGuardado}-{compra.Secuencial}-{factura.Proveedor}.pdf";
+
+            // Mostrar diálogo para seleccionar impresora
+            using (PrintDialog printDialog = new PrintDialog())
+            {
+                printDialog.AllowSomePages = true;
+                printDialog.AllowSelection = true;
+                printDialog.UseEXDialog = true;
+
+                if (printDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (var documento = PdfDocument.Load(rutaPdf))
+                    {
+                        using (var printDoc = documento.CreatePrintDocument())
+                        {
+                            printDoc.PrinterSettings = printDialog.PrinterSettings;
+                            printDoc.PrintController = new StandardPrintController(); // Oculta ventana de impresión
+                            printDoc.Print();
+                            Console.WriteLine("✅ Impresión enviada correctamente.");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("❌ Impresión cancelada por el usuario.");
+                }
+            }
+
+
+
+
+
+            ///////////////////
             Limpiar_Factura();
 
 

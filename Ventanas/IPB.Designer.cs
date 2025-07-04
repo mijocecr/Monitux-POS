@@ -42,7 +42,7 @@
             btn_Cancelar.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             btn_Cancelar.FlatStyle = FlatStyle.Flat;
             btn_Cancelar.ForeColor = Color.White;
-            btn_Cancelar.Location = new Point(7, 107);
+            btn_Cancelar.Location = new Point(8, 107);
             btn_Cancelar.Name = "btn_Cancelar";
             btn_Cancelar.Size = new Size(75, 23);
             btn_Cancelar.TabIndex = 5;
@@ -56,7 +56,7 @@
             btn_Aceptar.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             btn_Aceptar.FlatStyle = FlatStyle.Flat;
             btn_Aceptar.ForeColor = Color.White;
-            btn_Aceptar.Location = new Point(203, 107);
+            btn_Aceptar.Location = new Point(204, 107);
             btn_Aceptar.Name = "btn_Aceptar";
             btn_Aceptar.Size = new Size(75, 23);
             btn_Aceptar.TabIndex = 4;
@@ -80,7 +80,7 @@
             panel1.BackColor = Color.FromArgb(35, 32, 45);
             panel1.Controls.Add(textBox1);
             panel1.Controls.Add(lbl_Mensaje);
-            panel1.Location = new Point(7, 7);
+            panel1.Location = new Point(8, 7);
             panel1.Name = "panel1";
             panel1.Size = new Size(271, 92);
             panel1.TabIndex = 3;
@@ -99,7 +99,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(287, 135);
+            ClientSize = new Size(287, 142);
             ControlBox = false;
             Controls.Add(btn_Cancelar);
             Controls.Add(btn_Aceptar);

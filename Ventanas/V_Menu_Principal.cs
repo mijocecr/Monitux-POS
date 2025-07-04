@@ -10,10 +10,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Xml;
+using System.ServiceModel.Syndication;
+
 namespace Monitux_POS.Ventanas
 {
     public partial class V_Menu_Principal : Form
     {
+
+
+
+
+        List<(string Titulo, string Enlace)> titularesRSS = new();
+        int indiceActual = 0;
+        int titularesMostrados = 0;
+        int maxTitularesPorCiclo = 10;
+        string enlaceActual = "";
+
+
 
         //Bloque de Variables Globales
 
@@ -27,6 +41,12 @@ namespace Monitux_POS.Ventanas
         public static string Acceso_Usuario = string.Empty; // Variable para almacenar los permisos del usuario
         public static string moneda = "EUR.";
         public static int Secuencial_Empresa = 1; // Cambiar esto, es solo para probar
+        public static string Nombre_Empresa = "One Click Solutions";
+        public static string Direccion_Empresa = "Calle Lagreo, 4, Benidorm 03502";
+        public static string Telefono_Empresa = "+34642883288";
+        public static string Email_Empresa = "miguel.cerrato.es@gmail.com";
+        public static string RSS = "http://www.bbc.co.uk/mundo/ultimas_noticias/index.xml";
+
         //Bloque de Variables Globales
 
 
@@ -40,10 +60,51 @@ namespace Monitux_POS.Ventanas
             InitializeComponent();
         }
 
+
+
+        private void MostrarSiguienteTitular()
+        {
+            if (titularesRSS.Count == 0) return;
+
+            lbl_Cinta.Text = titularesRSS[indiceActual].Titulo;
+            enlaceActual = titularesRSS[indiceActual].Enlace;
+            lbl_Cinta.Left = panel10.Width;
+
+            indiceActual = (indiceActual + 1) % titularesRSS.Count;
+        }
+
+
+
+        private void CargarTitularesRSS(string url= "http://www.bbc.co.uk/mundo/ultimas_noticias/index.xml")
+        {
+            try
+            {
+                using var reader = XmlReader.Create(url); // Cambia si usas HRN
+                var feed = SyndicationFeed.Load(reader);
+
+                titularesRSS = feed.Items
+                    .Take(30)
+                    .Select(item => (
+                        "🗞️ " + item.Title.Text.Trim(),
+                        item.Links.FirstOrDefault()?.Uri.ToString() ?? ""))
+                    .ToList();
+            }
+            catch
+            {
+                titularesRSS = new() { ("No se pudieron cargar las noticias.", "") };
+            }
+
+            indiceActual = 0;
+            titularesMostrados = 0;
+            MostrarSiguienteTitular();
+        }
+
+
+
         private void V_Menu_Principal_Load(object sender, EventArgs e)
         {
 
-
+            CargarTitularesRSS();
             lbl_Titulo.Text = "Monitux-POS v." + VER;
             //Abrir_Ventana(v_Login);
             if (v_Login.ShowDialog() == DialogResult.OK)
@@ -349,14 +410,23 @@ namespace Monitux_POS.Ventanas
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            lbl_Cinta.Left -= 4; // Mueve el texto hacia la izquierda
 
-            // Si el texto se sale de la izquierda, lo reinicia a la derecha
-            if (lbl_Cinta.Left < -900)
+            lbl_Cinta.Left -= 4;
+
+            if (lbl_Cinta.Right < 0)
             {
-                lbl_Cinta.Left = panel10.Right;
-                lbl_Cinta.Text = "Prueba de Concepto..."; //Util.Obtener_Mensaje_Cinta(); // Actualiza el texto
+                titularesMostrados++;
+
+                if (titularesMostrados >= maxTitularesPorCiclo)
+                {
+                    CargarTitularesRSS(V_Menu_Principal.RSS); // Recarga titulares y reinicia contador
+                }
+                else
+                {
+                    MostrarSiguienteTitular();
+                }
             }
+
         }
 
         private void lbl_Cinta_Click(object sender, EventArgs e)
@@ -416,11 +486,13 @@ namespace Monitux_POS.Ventanas
         private void button9_Click_1(object sender, EventArgs e)
         {
             Mostrar_SubMenu(panel11);
+            lbl_Descripcion.Text = "Punto de partida para gestionar clientes, proveedores y obtener una visión general en tiempo real del estado del negocio.";
         }
 
         private void button11_Click(object sender, EventArgs e)
         {
             Mostrar_SubMenu(panel12);
+            lbl_Descripcion.Text = "Configuración general del sistema, gestión de usuarios e información del programa.";
         }
 
         private void button24_Click(object sender, EventArgs e)
@@ -541,6 +613,39 @@ namespace Monitux_POS.Ventanas
         private void button22_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lbl_Cinta_MouseEnter(object sender, EventArgs e)
+        {
+            lbl_Cinta.Cursor = Cursors.Hand;
+            lbl_Cinta.ForeColor = Color.RoyalBlue;
+            lbl_Cinta.Font = new Font(lbl_Cinta.Font, FontStyle.Underline);
+        }
+
+        private void lbl_Cinta_MouseLeave(object sender, EventArgs e)
+        {
+            lbl_Cinta.Cursor = Cursors.Default;
+            lbl_Cinta.ForeColor = Color.FromArgb(128, 255, 255);
+            lbl_Cinta.Font = new Font(lbl_Cinta.Font, FontStyle.Regular);
+        }
+
+        private void lbl_Cinta_DoubleClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(enlaceActual))
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = enlaceActual,
+                        UseShellExecute = true
+                    });
+                }
+                catch
+                {
+                    MessageBox.Show("No se pudo abrir la noticia.");
+                }
+            }
         }
     }
 }

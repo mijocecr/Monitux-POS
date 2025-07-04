@@ -401,8 +401,8 @@ namespace Monitux_POS.Clases
                 kardex.Saldo = existencia - cantidad_unidades;
             }
             
-            kardex.Costo_Total = kardex.Saldo * costo;
-            kardex.Venta_Total = kardex.Saldo * venta;
+            kardex.Costo_Total = Math.Round(kardex.Saldo * costo,2);
+            kardex.Venta_Total = Math.Round(kardex.Saldo * venta,2);
 
 
 

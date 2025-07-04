@@ -1,6 +1,6 @@
 ﻿namespace Monitux_POS.Ventanas
 {
-    partial class V_CTA_Cliente
+    partial class V_CTA_Proveedor
     {
         /// <summary>
         /// Required designer variable.
@@ -29,11 +29,6 @@
         private void InitializeComponent()
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            panel1 = new Panel();
-            dataGridView1 = new DataGridView();
-            button1 = new Button();
-            label6 = new Label();
-            label1 = new Label();
             panel2 = new Panel();
             label3 = new Label();
             label2 = new Label();
@@ -41,69 +36,17 @@
             label5 = new Label();
             panel3 = new Panel();
             label4 = new Label();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            button1 = new Button();
+            label1 = new Label();
+            label6 = new Label();
+            panel1 = new Panel();
+            dataGridView1 = new DataGridView();
             panel2.SuspendLayout();
             panel4.SuspendLayout();
             panel3.SuspendLayout();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.FromArgb(35, 32, 40);
-            panel1.Controls.Add(dataGridView1);
-            panel1.Location = new Point(12, 82);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(445, 262);
-            panel1.TabIndex = 0;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(4, 10);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(437, 239);
-            dataGridView1.TabIndex = 0;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.Lime;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.Black;
-            button1.Location = new Point(333, 52);
-            button1.Name = "button1";
-            button1.Size = new Size(124, 24);
-            button1.TabIndex = 39;
-            button1.Text = "Registrar Abono";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
-            // 
-            // label6
-            // 
-            label6.Dock = DockStyle.Top;
-            label6.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(0, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(469, 37);
-            label6.TabIndex = 37;
-            label6.Text = "Estado de Cuenta";
-            label6.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(12, 57);
-            label1.Name = "label1";
-            label1.Size = new Size(141, 21);
-            label1.TabIndex = 38;
-            label1.Text = "Nombre de Cliente";
             // 
             // panel2
             // 
@@ -112,10 +55,10 @@
             panel2.Controls.Add(label2);
             panel2.Controls.Add(panel4);
             panel2.Controls.Add(panel3);
-            panel2.Location = new Point(12, 353);
+            panel2.Location = new Point(12, 359);
             panel2.Name = "panel2";
             panel2.Size = new Size(445, 83);
-            panel2.TabIndex = 40;
+            panel2.TabIndex = 45;
             // 
             // label3
             // 
@@ -177,11 +120,68 @@
             label4.Text = "Saldo Actual";
             label4.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // V_CTA_Cliente
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(128, 255, 255);
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.Black;
+            button1.Location = new Point(333, 58);
+            button1.Name = "button1";
+            button1.Size = new Size(124, 24);
+            button1.TabIndex = 44;
+            button1.Text = "Registrar Abono";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(12, 63);
+            label1.Name = "label1";
+            label1.Size = new Size(165, 21);
+            label1.TabIndex = 43;
+            label1.Text = "Nombre de Proveedor";
+            // 
+            // label6
+            // 
+            label6.Dock = DockStyle.Top;
+            label6.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(0, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(469, 37);
+            label6.TabIndex = 42;
+            label6.Text = "Estado de Cuenta";
+            label6.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(35, 32, 40);
+            panel1.Controls.Add(dataGridView1);
+            panel1.Location = new Point(12, 88);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(445, 262);
+            panel1.TabIndex = 41;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(4, 10);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(437, 239);
+            dataGridView1.TabIndex = 0;
+            // 
+            // V_CTA_Proveedor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(11, 8, 20);
+            BackColor = Color.FromArgb(11, 20, 8);
             ClientSize = new Size(469, 448);
             Controls.Add(panel2);
             Controls.Add(button1);
@@ -191,34 +191,34 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "V_CTA_Cliente";
+            Name = "V_CTA_Proveedor";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "V_CTA_Cliente";
-            Load += V_CTA_Cliente_Load;
-            panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Text = "V_CTA_Proveedor";
+            Load += V_CTA_Proveedor_Load;
             panel2.ResumeLayout(false);
             panel4.ResumeLayout(false);
             panel3.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Panel panel1;
-        private DataGridView dataGridView1;
-        private Label label6;
-        private Label label1;
-        private Button button1;
         private Panel panel2;
+        private Label label3;
         private Label label2;
         private Panel panel4;
-        private Panel panel3;
-        private Label label3;
         private Label label5;
+        private Panel panel3;
         private Label label4;
+        private Button button1;
+        private Label label1;
+        private Label label6;
+        private Panel panel1;
+        private DataGridView dataGridView1;
     }
 }

@@ -879,6 +879,9 @@
             lbl_Cinta.TabIndex = 0;
             lbl_Cinta.Text = "¡Bienvenido a tu cinta LED personalizada en C#!";
             lbl_Cinta.Click += lbl_Cinta_Click;
+            lbl_Cinta.DoubleClick += lbl_Cinta_DoubleClick;
+            lbl_Cinta.MouseEnter += lbl_Cinta_MouseEnter;
+            lbl_Cinta.MouseLeave += lbl_Cinta_MouseLeave;
             // 
             // timer1
             // 

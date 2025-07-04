@@ -12,65 +12,43 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Monitux_POS.Ventanas
 {
-    public partial class V_CTA_Cliente : Form
+    public partial class V_CTA_Proveedor : Form
     {
 
-        
-        public int Secuencial_Cliente { get; set; }
-        public int Secuencial {  get; set; }
+
+
+
+        public int Secuencial_Proveedor { get; set; }
+        public int Secuencial { get; set; }
         public string Nombre { get; set; }
         public int Secuencial_Factura { get; set; }
 
         public double Gran_Total { get; set; }
-        
 
-        public V_CTA_Cliente(int secuencial_cliente, string nombre)
+
+
+
+        public V_CTA_Proveedor(int secuencial_proveedor, string nombre)
         {
+
             InitializeComponent();
+
             label1.Text = nombre;
-            Secuencial_Cliente = secuencial_cliente;
-            Nombre = nombre;    
-            
+            Secuencial_Proveedor = secuencial_proveedor;
+            Nombre = nombre;
+
+
+
         }
 
-
-        /*
-        private void Cargar_Datos_CTAS()
+        private void V_CTA_Proveedor_Load(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Clear();
-            SQLitePCL.Batteries.Init();
-
-            using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-            var ctas_cobrar = context.Cuentas_Cobrar
-             .Where(c => c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa
-                      && c.Secuencial_Cliente == this.Secuencial_Cliente) // Usa una variable válida aquí
-             .ToList();
-
-
-
-            foreach (var item in ctas_cobrar)
-            {
-                dataGridView1.Rows.Add(
-                    item.Secuencial,
-                    item.Fecha,
-                    item.Fecha_Vencimiento,
-                    item.Gran_Total, 2,
-                    item.Saldo, 2,
-                    item.Pagado, 2
-                    
-
-
-                );
-
-
-            }
-
-
+            label2.Text = label2.Text + " en " + V_Menu_Principal.moneda;
+            label3.Text = label3.Text + " en " + V_Menu_Principal.moneda;
+            this.Text = "Monitux-POS v." + V_Menu_Principal.VER;
+            Configurar_DataGridView();
+            Cargar_Datos_CTAS();
         }
-        */
-
 
 
 
@@ -86,13 +64,13 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Asegura la existencia de la base de datos
 
-            var ctas_cobrar = context.Cuentas_Cobrar
+            var ctas_pagar = context.Cuentas_Pagar
                 .Where(c =>
                     c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa &&
-                    c.Secuencial_Cliente == this.Secuencial_Cliente)
+                    c.Secuencial_Proveedor == this.Secuencial_Proveedor)
                 .ToList();
 
-            foreach (var item in ctas_cobrar)
+            foreach (var item in ctas_pagar)
             {
                 saldo_pendiente += (double)item.Saldo;
                 total_facturas += (double)item.Total;
@@ -127,6 +105,7 @@ namespace Monitux_POS.Ventanas
 
 
 
+
         public void Configurar_DataGridView()
         {
             dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -150,17 +129,6 @@ namespace Monitux_POS.Ventanas
                 = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.ReadOnly = true;
-        }
-
-
-
-        private void V_CTA_Cliente_Load(object sender, EventArgs e)
-        {
-            label2.Text = label2.Text + " en " + V_Menu_Principal.moneda;
-            label3.Text = label3.Text + " en " + V_Menu_Principal.moneda;
-            this.Text = "Monitux-POS v." + V_Menu_Principal.VER;
-            Configurar_DataGridView();
-            Cargar_Datos_CTAS();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -189,28 +157,29 @@ namespace Monitux_POS.Ventanas
                     this.Secuencial = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Secuencial"].Value);
                 }
 
-               
 
 
 
 
-                V_Abono_Cliente v_Abono_Cliente = new V_Abono_Cliente(Secuencial,Secuencial_Cliente,label1.Text, this.Gran_Total);
 
-                
+                V_Abono_Proveedor v_Abono_Proveedor = new V_Abono_Proveedor(Secuencial, Secuencial_Proveedor, label1.Text, this.Gran_Total);
 
-                v_Abono_Cliente.ShowDialog();
-                v_Abono_Cliente.Cliente_Nombre=label1.Text;
+
+
+                v_Abono_Proveedor.ShowDialog();
+                v_Abono_Proveedor.Proveedor_Nombre = label1.Text;
 
 
             }
             catch (Exception ex)
             {
 
-               // MessageBox.Show("error: "+ex);
+                // MessageBox.Show("error: "+ex);
 
             }
 
             Cargar_Datos_CTAS();
+
 
 
 
