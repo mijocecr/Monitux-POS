@@ -752,5 +752,14 @@ namespace Monitux_POS.Ventanas
 
 
         }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+
+            V_CTAS_Pagar v_CTAS_Pagar = new V_CTAS_Pagar();
+            Abrir_Ventana(v_CTAS_Pagar);
+            lbl_Descripcion.Text = "Consulte rápidamente sus cuentas por pagar y obtenga una visión general del estado de sus compras a crédito.";
+
+        }
     }
 }

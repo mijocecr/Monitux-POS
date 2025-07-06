@@ -158,9 +158,9 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(4, 121);
+            dataGridView1.Location = new Point(7, 121);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(785, 394);
+            dataGridView1.Size = new Size(779, 394);
             dataGridView1.TabIndex = 61;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
@@ -213,6 +213,7 @@
             groupBox2.Size = new Size(318, 75);
             groupBox2.TabIndex = 73;
             groupBox2.TabStop = false;
+            groupBox2.Enter += groupBox2_Enter;
             // 
             // label3
             // 
@@ -271,11 +272,11 @@
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label11.ForeColor = Color.White;
-            label11.Location = new Point(354, 521);
+            label11.Location = new Point(360, 521);
             label11.Name = "label11";
-            label11.Size = new Size(224, 25);
+            label11.Size = new Size(213, 25);
             label11.TabIndex = 77;
-            label11.Text = "Total Vendido en Credito:";
+            label11.Text = "Total Vendido a Credito:";
             // 
             // V_CTAS_Cobrar
             // 

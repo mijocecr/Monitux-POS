@@ -554,6 +554,7 @@
             button5.Text = "CTAS. a Pagar";
             button5.TextAlign = ContentAlignment.MiddleLeft;
             button5.UseVisualStyleBackColor = false;
+            button5.Click += button5_Click_1;
             // 
             // button6
             // 

@@ -111,15 +111,15 @@
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(pictureBox1);
-            panel1.Location = new Point(8, 67);
+            panel1.Location = new Point(6, 66);
             panel1.Name = "panel1";
-            panel1.Size = new Size(402, 448);
+            panel1.Size = new Size(402, 457);
             panel1.TabIndex = 0;
             // 
             // pictureBox6
             // 
             pictureBox6.Image = (Image)resources.GetObject("pictureBox6.Image");
-            pictureBox6.Location = new Point(363, 271);
+            pictureBox6.Location = new Point(353, 271);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new Size(31, 25);
             pictureBox6.TabIndex = 65;
@@ -141,7 +141,7 @@
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Producto", "Servicio" });
-            comboBox1.Location = new Point(229, 272);
+            comboBox1.Location = new Point(235, 272);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(91, 23);
             comboBox1.TabIndex = 29;
@@ -231,6 +231,7 @@
             txtExistenciaMinima.Size = new Size(51, 23);
             txtExistenciaMinima.TabIndex = 9;
             txtExistenciaMinima.TextAlign = HorizontalAlignment.Center;
+            txtExistenciaMinima.KeyPress += txtExistenciaMinima_KeyPress;
             // 
             // txtPrecioVenta
             // 
@@ -242,6 +243,7 @@
             txtPrecioVenta.Size = new Size(132, 23);
             txtPrecioVenta.TabIndex = 8;
             txtPrecioVenta.TextAlign = HorizontalAlignment.Center;
+            txtPrecioVenta.KeyPress += txtPrecioVenta_KeyPress;
             // 
             // txtPrecioCosto
             // 
@@ -253,6 +255,7 @@
             txtPrecioCosto.Size = new Size(132, 23);
             txtPrecioCosto.TabIndex = 7;
             txtPrecioCosto.TextAlign = HorizontalAlignment.Center;
+            txtPrecioCosto.KeyPress += txtPrecioCosto_KeyPress;
             // 
             // txtCodigoBarra
             // 
@@ -287,6 +290,8 @@
             txtCantidad.Size = new Size(121, 23);
             txtCantidad.TabIndex = 2;
             txtCantidad.TextAlign = HorizontalAlignment.Center;
+            txtCantidad.TextChanged += txtCantidad_TextChanged;
+            txtCantidad.KeyPress += txtCantidad_KeyPress;
             // 
             // txtCodigo
             // 
@@ -458,7 +463,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(413, 24);
+            menuStrip1.Size = new Size(416, 24);
             menuStrip1.TabIndex = 1;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -479,7 +484,7 @@
             Menu_Agregar.ForeColor = Color.Black;
             Menu_Agregar.Image = (Image)resources.GetObject("Menu_Agregar.Image");
             Menu_Agregar.Name = "Menu_Agregar";
-            Menu_Agregar.Size = new Size(180, 22);
+            Menu_Agregar.Size = new Size(120, 22);
             Menu_Agregar.Text = "Registrar";
             // 
             // nuevoProveedorToolStripMenuItem
@@ -504,7 +509,7 @@
             Menu_Guardar.ForeColor = Color.ForestGreen;
             Menu_Guardar.Image = (Image)resources.GetObject("Menu_Guardar.Image");
             Menu_Guardar.Name = "Menu_Guardar";
-            Menu_Guardar.Size = new Size(180, 22);
+            Menu_Guardar.Size = new Size(120, 22);
             Menu_Guardar.Text = "Guardar";
             Menu_Guardar.Click += Menu_Guardar_Click;
             // 
@@ -514,7 +519,7 @@
             Menu_Eliminar.ForeColor = Color.Red;
             Menu_Eliminar.Image = (Image)resources.GetObject("Menu_Eliminar.Image");
             Menu_Eliminar.Name = "Menu_Eliminar";
-            Menu_Eliminar.Size = new Size(180, 22);
+            Menu_Eliminar.Size = new Size(120, 22);
             Menu_Eliminar.Text = "Eliminar";
             Menu_Eliminar.Click += Menu_Eliminar_Click;
             // 
@@ -522,14 +527,14 @@
             // 
             toolStripSeparator1.BackColor = Color.FromArgb(35, 32, 40);
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(117, 6);
             // 
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.BackColor = SystemColors.Control;
             salirToolStripMenuItem.Image = (Image)resources.GetObject("salirToolStripMenuItem.Image");
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(180, 22);
+            salirToolStripMenuItem.Size = new Size(120, 22);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 
@@ -549,7 +554,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(413, 522);
+            ClientSize = new Size(416, 535);
             ControlBox = false;
             Controls.Add(label13);
             Controls.Add(panel1);

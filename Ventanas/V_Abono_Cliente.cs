@@ -84,7 +84,7 @@ namespace Monitux_POS.Ventanas
             var venta = context.Ventas
                 .Where(c =>
                     c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa &&
-                    c.Secuencial_Cliente == Secuencial_Cliente)
+                    c.Secuencial_Cliente == Secuencial_Cliente&&c.Tipo=="Credito")
                 .AsEnumerable() // Evaluación en memoria para evitar errores de traducción en EF
                 .Where(c =>
                     Math.Abs(Convert.ToDouble(c.Gran_Total) - valorRef) < tolerancia)

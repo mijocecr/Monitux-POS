@@ -148,7 +148,7 @@ namespace Monitux_POS.Ventanas
             //var proveedores = context.Proveedores.ToList();
 
             var proveedores = context.Proveedores
-    .Where(p => (bool)p.Activo&&p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa)
+    .Where(p => (bool)p.Activo && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
     .ToList();
 
 
@@ -244,6 +244,10 @@ namespace Monitux_POS.Ventanas
         {
 
 
+            txtCantidad.KeyPress += txtCantidad_KeyPress;
+            txtPrecioCosto.KeyPress += txtPrecioCosto_KeyPress;
+            txtPrecioVenta.KeyPress += txtPrecioVenta_KeyPress;
+            txtExistenciaMinima.KeyPress += txtExistenciaMinima_KeyPress;
 
 
 
@@ -268,6 +272,11 @@ namespace Monitux_POS.Ventanas
 
 
 
+        }
+
+        private void TxtPrecioCosto_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -346,7 +355,7 @@ namespace Monitux_POS.Ventanas
             }
 
             // Asignación común
-            producto.Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa;
+            producto.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
             producto.Secuencial = secuencial;
             producto.Codigo = txtCodigo.Text;
             producto.Descripcion = txtDescripcion.Text;
@@ -360,7 +369,7 @@ namespace Monitux_POS.Ventanas
             producto.Fecha_Caducidad = producto.Expira
                 ? dateTimePicker1.Value.ToString("dd/MM/yyyy")
                 : "No Expira";
-            producto.Codigo_QR = Path.GetFullPath($"{Directory.GetCurrentDirectory()}\\Resources\\QR\\{ V_Menu_Principal.Secuencial_Empresa}-QR-{producto.Secuencial}.PNG");
+            producto.Codigo_QR = Path.GetFullPath($"{Directory.GetCurrentDirectory()}\\Resources\\QR\\{V_Menu_Principal.Secuencial_Empresa}-QR-{producto.Secuencial}.PNG");
             producto.Tipo = comboBox1.SelectedItem.ToString();
 
             // Si no es servicio, asignar inventario y relaciones
@@ -713,7 +722,7 @@ namespace Monitux_POS.Ventanas
             {
                 pictureBox3.Image?.Dispose(); // Liberar la imagen anterior si existe
                 pictureBox3.Image = Util.Generar_Codigo_Barra(Secuencial, txtCodigoBarra.Text, V_Menu_Principal.Secuencial_Empresa);
-                pictureBox3.Image.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\"+V_Menu_Principal.Secuencial_Empresa+"-BC-" + Secuencial + ".PNG"));
+                pictureBox3.Image.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\" + V_Menu_Principal.Secuencial_Empresa + "-BC-" + Secuencial + ".PNG"));
             }
         }
 
@@ -722,7 +731,7 @@ namespace Monitux_POS.Ventanas
             string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
             pictureBox2.Image?.Dispose();
             pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
-            pictureBox2.Image.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\"+V_Menu_Principal.Secuencial_Empresa+"-QR-" + Secuencial + ".PNG"));
+            pictureBox2.Image.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\" + V_Menu_Principal.Secuencial_Empresa + "-QR-" + Secuencial + ".PNG"));
 
         }
 
@@ -840,7 +849,7 @@ namespace Monitux_POS.Ventanas
                         if (producto.Tipo != "Servicio")
                         {
 
-                            Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, producto.Cantidad, 
+                            Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, producto.Cantidad,
                                 producto.Precio_Costo, producto.Precio_Venta, "Salida", V_Menu_Principal.Secuencial_Empresa);
 
                         }
@@ -988,6 +997,79 @@ namespace Monitux_POS.Ventanas
             else
             {
                 V_Menu_Principal.MSG.ShowMSG("No se pudo capturar la imagen.", "Error");
+            }
+
+        }
+
+        private void txtCantidad_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCantidad_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            // Permitir solo dígitos, retroceso y punto
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+
+            // Solo un punto decimal permitido
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        private void txtPrecioCosto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            // Permitir solo dígitos, retroceso y punto
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+
+            // Solo un punto decimal permitido
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        private void txtPrecioVenta_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            // Permitir solo dígitos, retroceso y punto
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+
+            // Solo un punto decimal permitido
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        private void txtExistenciaMinima_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            // Permitir solo dígitos, retroceso y punto
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+
+            // Solo un punto decimal permitido
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.Contains("."))
+            {
+                e.Handled = true;
             }
 
         }
