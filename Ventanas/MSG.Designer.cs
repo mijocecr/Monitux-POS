@@ -100,7 +100,7 @@
             MinimizeBox = false;
             Name = "MSG";
             ShowInTaskbar = false;
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MSG";
             Load += MSG_Load;
             panel1.ResumeLayout(false);

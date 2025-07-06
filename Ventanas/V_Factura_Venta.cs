@@ -1343,7 +1343,7 @@ namespace Monitux_POS.Ventanas
                 };
 
                 context.Cuentas_Cobrar.Add(cuenta);
-                Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una venta al crédito, factura: {venta.Secuencial}, valor: {cuenta.Total}", V_Menu_Principal.Secuencial_Empresa);
+                Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una venta al crédito, factura: {venta.Secuencial}, por un valor de: {cuenta.Total} {V_Menu_Principal.moneda}", V_Menu_Principal.Secuencial_Empresa);
             }
             else
             {
@@ -1386,7 +1386,7 @@ namespace Monitux_POS.Ventanas
 
             // Confirmar venta
             V_Menu_Principal.MSG.ShowMSG("Venta registrada correctamente.", "Éxito");
-            Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una venta, factura: {venta.Secuencial}, total: {Math.Round(total, 2)}", V_Menu_Principal.Secuencial_Empresa);
+            Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una venta, factura: {venta.Secuencial}, por un valor de:  {Math.Round(total, 2)}   {V_Menu_Principal.moneda}", V_Menu_Principal.Secuencial_Empresa);
 
             var factura = new FacturaCompletaPDF_Venta
             {

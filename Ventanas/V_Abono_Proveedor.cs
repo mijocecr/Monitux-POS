@@ -204,7 +204,8 @@ namespace Monitux_POS.Ventanas
 
                     // 🔔 Feedback al usuario
                     Util.Registrar_Actividad(Secuencial_Usuario,
-                        $"Ha registrado un pago a CTA de  {label6.Text} por un monto de: {textBox1.Text} a Factura: {label11.Text}",
+                        
+                        $"Ha registrado un pago a CTA: {Secuencial_CTAP} de  {label6.Text} por un monto de: {textBox1.Text} {V_Menu_Principal.moneda} a Factura : {label11.Text}",
                         V_Menu_Principal.Secuencial_Empresa);
 
                     V_Menu_Principal.MSG.ShowMSG("Pago registrado correctamente", "Éxito");

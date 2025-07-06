@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using System.Xml;
-using System.ServiceModel.Syndication;
 
 namespace Monitux_POS.Ventanas
 {
@@ -24,7 +24,7 @@ namespace Monitux_POS.Ventanas
         List<(string Titulo, string Enlace)> titularesRSS = new();
         int indiceActual = 0;
         int titularesMostrados = 0;
-        int maxTitularesPorCiclo = 10;
+        int maxTitularesPorCiclo = 20;
         string enlaceActual = "";
 
 
@@ -39,13 +39,20 @@ namespace Monitux_POS.Ventanas
         public static string Codigo_Usuario = string.Empty;
         public static string Imagen_Usuario = "Sin Imagen"; // Variable para almacenar la imagen del usuario
         public static string Acceso_Usuario = string.Empty; // Variable para almacenar los permisos del usuario
-        public static string moneda = "EUR.";
+
+
         public static int Secuencial_Empresa = 1; // Cambiar esto, es solo para probar
+
+        public static string moneda;
+
+        //Estos settings hay que crearlos
         public static string Nombre_Empresa = "One Click Solutions";
         public static string Direccion_Empresa = "Calle Lagreo, 4, Benidorm 03502";
         public static string Telefono_Empresa = "+34642883288";
         public static string Email_Empresa = "miguel.cerrato.es@gmail.com";
         public static string RSS = "http://www.bbc.co.uk/mundo/ultimas_noticias/index.xml";
+        //Estos settings hay que crearlos
+
 
         //Bloque de Variables Globales
 
@@ -75,23 +82,41 @@ namespace Monitux_POS.Ventanas
 
 
 
-        private void CargarTitularesRSS(string url= "http://www.bbc.co.uk/mundo/ultimas_noticias/index.xml")
+
+        private List<string> titularesYaMostrados = new();
+
+
+
+
+        //https://www.tunota.com/rss/honduras-hoy.xml
+        //http://www.bbc.co.uk/mundo/ultimas_noticias/index.xml
+        private void CargarTitularesRSS(string url = "https://www.tunota.com/rss/honduras-hoy.xml")
         {
             try
             {
-                using var reader = XmlReader.Create(url); // Cambia si usas HRN
+                using var reader = XmlReader.Create(url);
                 var feed = SyndicationFeed.Load(reader);
 
-                titularesRSS = feed.Items
-                    .Take(30)
+                var nuevosTitulares = feed.Items
+                    .OrderByDescending(item => item.PublishDate) // Asegura orden por fecha
+                    .Take(20)
+                    .Where(item => !titularesYaMostrados.Contains(item.Title.Text.Trim()))
                     .Select(item => (
                         "🗞️ " + item.Title.Text.Trim(),
                         item.Links.FirstOrDefault()?.Uri.ToString() ?? ""))
                     .ToList();
+
+                // Agregar los nuevos títulos al historial
+                titularesYaMostrados.AddRange(nuevosTitulares.Select(t => t.Item1));
+
+                // Actualizar la lista de titulares
+                titularesRSS = nuevosTitulares.Any()
+                    ? nuevosTitulares
+                    : new() { ("No hay titulares nuevos.", "") };
             }
-            catch
+            catch (Exception ex)
             {
-                titularesRSS = new() { ("No se pudieron cargar las noticias.", "") };
+                titularesRSS = new() { ($"No se pudieron cargar las noticias: {ex.Message}", "") };
             }
 
             indiceActual = 0;
@@ -101,8 +126,52 @@ namespace Monitux_POS.Ventanas
 
 
 
+
+
+        /*  private void CargarTitularesRSS(string url = "http://www.bbc.co.uk/mundo/ultimas_noticias/index.xml")
+          {
+              try
+              {
+                  using var reader = XmlReader.Create(url);
+                  var feed = SyndicationFeed.Load(reader);
+
+                  var nuevosTitulares = feed.Items
+                      .Take(20)
+                      .Where(item => !titularesYaMostrados.Contains(item.Title.Text.Trim()))
+                      .Select(item => (
+                          "🗞️ " + item.Title.Text.Trim(),
+                          item.Links.FirstOrDefault()?.Uri.ToString() ?? ""))
+                      .ToList();
+
+                  // Agregar los nuevos títulos al historial
+                  titularesYaMostrados.AddRange(nuevosTitulares.Select(t => t.Item1));
+
+                  // Actualizar la lista de titulares
+                  titularesRSS = nuevosTitulares.Any()
+                      ? nuevosTitulares
+                      : new() { ("No hay titulares nuevos.", "") };
+              }
+              catch
+              {
+                  titularesRSS = new() { ("No se pudieron cargar las noticias.", "") };
+              }
+
+              indiceActual = 0;
+              titularesMostrados = 0;
+              MostrarSiguienteTitular();
+          }
+
+          */
+
+
+
+
         private void V_Menu_Principal_Load(object sender, EventArgs e)
         {
+
+            string cultura = Properties.Settings.Default.CulturaMoneda;
+            CultureInfo info = new CultureInfo(cultura);
+            moneda = info.NumberFormat.CurrencySymbol;
 
             CargarTitularesRSS();
             lbl_Titulo.Text = "Monitux-POS v." + VER;
@@ -419,7 +488,7 @@ namespace Monitux_POS.Ventanas
 
                 if (titularesMostrados >= maxTitularesPorCiclo)
                 {
-                    CargarTitularesRSS(V_Menu_Principal.RSS); // Recarga titulares y reinicia contador
+                    CargarTitularesRSS(); // Recarga titulares y reinicia contador
                 }
                 else
                 {
@@ -486,7 +555,7 @@ namespace Monitux_POS.Ventanas
         private void button9_Click_1(object sender, EventArgs e)
         {
             Mostrar_SubMenu(panel11);
-            lbl_Descripcion.Text = "Punto de partida para gestionar clientes, proveedores y obtener una visión general en tiempo real del estado del negocio.";
+            lbl_Descripcion.Text = "Punto de partida para gestionar clientes, proveedores, venta rapida y obtener una visión general en tiempo real del estado del negocio. Tambien puede realizar abonos y consultar los saldos de CTAS.";
         }
 
         private void button11_Click(object sender, EventArgs e)
@@ -607,11 +676,23 @@ namespace Monitux_POS.Ventanas
 
         private void button1_Click_2(object sender, EventArgs e)
         {
+            V_Actividades v_Actividades = new V_Actividades();
+            Abrir_Ventana(v_Actividades);
+            lbl_Descripcion.Text = "Bitácora de actividades ventana que muestra un registro cronológico de tareas o eventos realizados, útil para el seguimiento y control de actividades.";
 
         }
 
         private void button22_Click(object sender, EventArgs e)
         {
+
+
+            V_Cliente v_Cliente = new V_Cliente();
+            v_Cliente.Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario;
+
+            v_Cliente.ShowDialog();
+
+
+
 
         }
 
@@ -646,6 +727,30 @@ namespace Monitux_POS.Ventanas
                     MessageBox.Show("No se pudo abrir la noticia.");
                 }
             }
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+
+            V_Proveedor v_Proveedor = new V_Proveedor();
+            v_Proveedor.Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario;
+
+            v_Proveedor.ShowDialog();
+
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+
+            V_CTAS_Cobrar v_CTAS_Cobrar = new V_CTAS_Cobrar();
+            Abrir_Ventana(v_CTAS_Cobrar);
+            lbl_Descripcion.Text = "Consulte rápidamente sus cuentas por cobrar y obtenga una visión general del estado de sus ventas a crédito.";
+
+
+
+
         }
     }
 }

@@ -41,25 +41,15 @@
             comboBox3 = new ComboBox();
             textBox1 = new TextBox();
             panel3 = new Panel();
-            dataGridView2 = new DataGridView();
             dataGridView1 = new DataGridView();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            dataGridView2 = new DataGridView();
             panel2 = new Panel();
             button8 = new Button();
             button2 = new Button();
             button3 = new Button();
             button1 = new Button();
             button4 = new Button();
-            groupBox2 = new GroupBox();
-            button7 = new Button();
-            button6 = new Button();
-            button5 = new Button();
-            dateTimePicker1 = new DateTimePicker();
-            comboProveedor = new ComboBox();
-            label3 = new Label();
-            comboCategoria = new ComboBox();
-            label2 = new Label();
-            label1 = new Label();
             groupBox1 = new GroupBox();
             button9 = new Button();
             textBox2 = new TextBox();
@@ -70,16 +60,26 @@
             label7 = new Label();
             label5 = new Label();
             fecha_inicio = new DateTimePicker();
+            groupBox2 = new GroupBox();
+            button7 = new Button();
+            button6 = new Button();
+            button5 = new Button();
+            dateTimePicker1 = new DateTimePicker();
+            comboProveedor = new ComboBox();
+            label3 = new Label();
+            comboCategoria = new ComboBox();
+            label2 = new Label();
+            label1 = new Label();
             label6 = new Label();
             panel1.SuspendLayout();
             panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             panel2.SuspendLayout();
-            groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -194,35 +194,20 @@
             // 
             // panel3
             // 
-            panel3.Controls.Add(dataGridView2);
             panel3.Controls.Add(dataGridView1);
             panel3.Controls.Add(flowLayoutPanel1);
+            panel3.Controls.Add(dataGridView2);
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 139);
             panel3.Name = "panel3";
             panel3.Size = new Size(795, 404);
             panel3.TabIndex = 61;
             // 
-            // dataGridView2
-            // 
-            dataGridView2.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
-            dataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(12, 0);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.Size = new Size(775, 405);
-            dataGridView2.TabIndex = 55;
-            dataGridView2.Visible = false;
-            dataGridView2.CellDoubleClick += dataGridView2_CellDoubleClick;
-            // 
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(224, 224, 224);
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -243,6 +228,21 @@
             flowLayoutPanel1.TabIndex = 54;
             flowLayoutPanel1.Visible = false;
             // 
+            // dataGridView2
+            // 
+            dataGridView2.AllowUserToAddRows = false;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.Location = new Point(12, 0);
+            dataGridView2.Name = "dataGridView2";
+            dataGridView2.Size = new Size(775, 405);
+            dataGridView2.TabIndex = 55;
+            dataGridView2.Visible = false;
+            dataGridView2.CellDoubleClick += dataGridView2_CellDoubleClick;
+            // 
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(44, 117, 255);
@@ -251,8 +251,8 @@
             panel2.Controls.Add(button3);
             panel2.Controls.Add(button1);
             panel2.Controls.Add(button4);
-            panel2.Controls.Add(groupBox1);
             panel2.Controls.Add(groupBox2);
+            panel2.Controls.Add(groupBox1);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 37);
             panel2.Name = "panel2";
@@ -339,6 +339,113 @@
             button4.TextImageRelation = TextImageRelation.ImageAboveText;
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(button9);
+            groupBox1.Controls.Add(textBox2);
+            groupBox1.Controls.Add(label10);
+            groupBox1.Controls.Add(comboBox1);
+            groupBox1.Controls.Add(fecha_fin);
+            groupBox1.Controls.Add(label9);
+            groupBox1.Controls.Add(label7);
+            groupBox1.Controls.Add(label5);
+            groupBox1.Controls.Add(fecha_inicio);
+            groupBox1.Location = new Point(446, 2);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(339, 97);
+            groupBox1.TabIndex = 65;
+            groupBox1.TabStop = false;
+            groupBox1.Visible = false;
+            // 
+            // button9
+            // 
+            button9.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
+            button9.FlatStyle = FlatStyle.Flat;
+            button9.ForeColor = Color.White;
+            button9.Image = (Image)resources.GetObject("button9.Image");
+            button9.Location = new Point(256, 13);
+            button9.Name = "button9";
+            button9.Size = new Size(75, 77);
+            button9.TabIndex = 68;
+            button9.Text = "Ejecutar Consulta";
+            button9.TextAlign = ContentAlignment.BottomCenter;
+            button9.TextImageRelation = TextImageRelation.ImageAboveText;
+            button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(28, 64);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(100, 23);
+            textBox2.TabIndex = 67;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.ForeColor = Color.White;
+            label10.Location = new Point(28, 46);
+            label10.Name = "label10";
+            label10.Size = new Size(49, 15);
+            label10.TabIndex = 66;
+            label10.Text = "Codigo:";
+            // 
+            // comboBox1
+            // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Entrada", "Salida" });
+            comboBox1.Location = new Point(148, 64);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(100, 23);
+            comboBox1.TabIndex = 65;
+            // 
+            // fecha_fin
+            // 
+            fecha_fin.Format = DateTimePickerFormat.Short;
+            fecha_fin.Location = new Point(150, 13);
+            fecha_fin.Name = "fecha_fin";
+            fecha_fin.Size = new Size(100, 23);
+            fecha_fin.TabIndex = 64;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.ForeColor = Color.White;
+            label9.Location = new Point(132, 19);
+            label9.Name = "label9";
+            label9.Size = new Size(18, 15);
+            label9.TabIndex = 63;
+            label9.Text = "A:";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.ForeColor = Color.White;
+            label7.Location = new Point(148, 46);
+            label7.Name = "label7";
+            label7.Size = new Size(75, 15);
+            label7.TabIndex = 62;
+            label7.Text = "Movimiento:";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(4, 19);
+            label5.Name = "label5";
+            label5.Size = new Size(24, 15);
+            label5.TabIndex = 61;
+            label5.Text = "De:";
+            // 
+            // fecha_inicio
+            // 
+            fecha_inicio.Format = DateTimePickerFormat.Short;
+            fecha_inicio.Location = new Point(28, 13);
+            fecha_inicio.Name = "fecha_inicio";
+            fecha_inicio.Size = new Size(100, 23);
+            fecha_inicio.TabIndex = 59;
             // 
             // groupBox2
             // 
@@ -450,113 +557,6 @@
             label1.TabIndex = 55;
             label1.Text = "Proveedor:";
             // 
-            // groupBox1
-            // 
-            groupBox1.Controls.Add(button9);
-            groupBox1.Controls.Add(textBox2);
-            groupBox1.Controls.Add(label10);
-            groupBox1.Controls.Add(comboBox1);
-            groupBox1.Controls.Add(fecha_fin);
-            groupBox1.Controls.Add(label9);
-            groupBox1.Controls.Add(label7);
-            groupBox1.Controls.Add(label5);
-            groupBox1.Controls.Add(fecha_inicio);
-            groupBox1.Location = new Point(446, 2);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(339, 97);
-            groupBox1.TabIndex = 65;
-            groupBox1.TabStop = false;
-            groupBox1.Visible = false;
-            // 
-            // button9
-            // 
-            button9.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
-            button9.FlatStyle = FlatStyle.Flat;
-            button9.ForeColor = Color.White;
-            button9.Image = (Image)resources.GetObject("button9.Image");
-            button9.Location = new Point(256, 13);
-            button9.Name = "button9";
-            button9.Size = new Size(75, 77);
-            button9.TabIndex = 68;
-            button9.Text = "Ejecutar Consulta";
-            button9.TextAlign = ContentAlignment.BottomCenter;
-            button9.TextImageRelation = TextImageRelation.ImageAboveText;
-            button9.UseVisualStyleBackColor = true;
-            button9.Click += button9_Click;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(28, 64);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(100, 23);
-            textBox2.TabIndex = 67;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.ForeColor = Color.White;
-            label10.Location = new Point(28, 46);
-            label10.Name = "label10";
-            label10.Size = new Size(49, 15);
-            label10.TabIndex = 66;
-            label10.Text = "Codigo:";
-            // 
-            // comboBox1
-            // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Entrada", "Salida" });
-            comboBox1.Location = new Point(148, 64);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(100, 23);
-            comboBox1.TabIndex = 65;
-            // 
-            // fecha_fin
-            // 
-            fecha_fin.Format = DateTimePickerFormat.Short;
-            fecha_fin.Location = new Point(150, 13);
-            fecha_fin.Name = "fecha_fin";
-            fecha_fin.Size = new Size(100, 23);
-            fecha_fin.TabIndex = 64;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.ForeColor = Color.White;
-            label9.Location = new Point(132, 19);
-            label9.Name = "label9";
-            label9.Size = new Size(18, 15);
-            label9.TabIndex = 63;
-            label9.Text = "A:";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.ForeColor = Color.White;
-            label7.Location = new Point(148, 46);
-            label7.Name = "label7";
-            label7.Size = new Size(75, 15);
-            label7.TabIndex = 62;
-            label7.Text = "Movimiento:";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.ForeColor = Color.White;
-            label5.Location = new Point(4, 19);
-            label5.Name = "label5";
-            label5.Size = new Size(24, 15);
-            label5.TabIndex = 61;
-            label5.Text = "De:";
-            // 
-            // fecha_inicio
-            // 
-            fecha_inicio.Format = DateTimePickerFormat.Short;
-            fecha_inicio.Location = new Point(28, 13);
-            fecha_inicio.Name = "fecha_inicio";
-            fecha_inicio.Size = new Size(100, 23);
-            fecha_inicio.TabIndex = 59;
-            // 
             // label6
             // 
             label6.BackColor = Color.FromArgb(11, 8, 20);
@@ -591,13 +591,13 @@
             panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             panel2.ResumeLayout(false);
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
         }
 

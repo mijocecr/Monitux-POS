@@ -688,7 +688,7 @@ namespace Monitux_POS.Ventanas
 
             // Confirmar y limpiar
             V_Menu_Principal.MSG.ShowMSG("Venta registrada correctamente.", "Éxito");
-            Util.Registrar_Actividad(venta.Secuencial_Usuario, $"Ha registrado una venta según factura: {venta.Secuencial}\nPor valor de: {Math.Round(total, 2):C}", V_Menu_Principal.Secuencial_Empresa);
+            Util.Registrar_Actividad(venta.Secuencial_Usuario, $"Ha registrado una venta según factura: {venta.Secuencial}, por un valor de: {Math.Round(total, 2):C}", V_Menu_Principal.Secuencial_Empresa);
 
 
 

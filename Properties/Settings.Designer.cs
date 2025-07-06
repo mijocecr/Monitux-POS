@@ -57,5 +57,17 @@ namespace Monitux_POS.Properties {
                 this["FechaExpiracion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("es-ES")]
+        public string CulturaMoneda {
+            get {
+                return ((string)(this["CulturaMoneda"]));
+            }
+            set {
+                this["CulturaMoneda"] = value;
+            }
+        }
     }
 }

@@ -138,9 +138,9 @@
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
             panel3.Controls.Add(btn_inicio);
-            panel3.Location = new Point(0, 213);
+            panel3.Location = new Point(0, 207);
             panel3.Name = "panel3";
-            panel3.Size = new Size(176, 459);
+            panel3.Size = new Size(176, 1013);
             panel3.TabIndex = 3;
             // 
             // p_Campania
@@ -170,7 +170,7 @@
             button1.Padding = new Padding(35, 0, 0, 0);
             button1.Size = new Size(166, 26);
             button1.TabIndex = 3;
-            button1.Text = "Caja";
+            button1.Text = "Bitácora";
             button1.TextAlign = ContentAlignment.MiddleLeft;
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click_2;
@@ -572,6 +572,7 @@
             button6.Text = "CTAS. a Cobrar";
             button6.TextAlign = ContentAlignment.MiddleLeft;
             button6.UseVisualStyleBackColor = false;
+            button6.Click += button6_Click;
             // 
             // btn_cuentas
             // 
@@ -712,6 +713,7 @@
             button23.Text = "Proveedores";
             button23.TextAlign = ContentAlignment.MiddleLeft;
             button23.UseVisualStyleBackColor = false;
+            button23.Click += button23_Click;
             // 
             // button22
             // 

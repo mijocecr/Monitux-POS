@@ -33,6 +33,10 @@ namespace Monitux_POS.Ventanas
             if (ok)
             {
                 V_Menu_Principal.MSG.ShowMSG("✅ Licencia activada correctamente","Monitux-POS");
+                lblResultado.Text = "✅ Licencia válida";
+                lblCliente.Text = Properties.Settings.Default.NombreCliente;
+                lblExpira.Text = Properties.Settings.Default.FechaExpiracion.ToString("dd/MM/yyyy");
+
                 // Continuar con la app
             }
             else
@@ -64,9 +68,7 @@ namespace Monitux_POS.Ventanas
 
             if (resultado.EsValido)
             {
-                lblResultado.Text = "✅ Licencia válida";
-                lblCliente.Text = $"Cliente: {resultado.NombreCliente}";
-                lblExpira.Text = $"Expira: {resultado.FechaExpiracion:dd/MM/yyyy}";
+               
                 Properties.Settings.Default.LicenciaValida = true;
                 Properties.Settings.Default.Save();
             }

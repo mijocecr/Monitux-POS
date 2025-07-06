@@ -397,51 +397,34 @@ namespace Monitux_POS.Ventanas
 
 
 
+            // ======================================
+            // 🔐 Validación de Licencia
+            // ======================================
 
-            //Para reiniciar la configuración de la aplicación
-
+            // Si deseas reiniciar la configuración (solo para pruebas o soporte):
             // Properties.Settings.Default.Reset();
             // Properties.Settings.Default.Save();
 
-            //======================================Logica de Validación de Licencia========================================
-
-            ///////////////////////////////////////////////////////////////////////////
-            V_Validador_Licencia validador = new V_Validador_Licencia();
-            //////////////////////////////////////////////////////////////////////////
-            if (Properties.Settings.Default.LicenciaValida == false)
+            if (!Properties.Settings.Default.LicenciaValida)
             {
-                V_Menu_Principal.MSG.ShowMSG("❌ Licencia no válida o vencida. \nPor favor, valide su licencia para continuar.", "Error");
-               
-                validador.ShowDialog(); // Muestra el formulario de validación de licencia
+                V_Menu_Principal.MSG.ShowMSG(
+                    "❌ Licencia no válida o vencida.\nPor favor, valide su licencia para continuar.",
+                    "Error"
+                );
 
+                using var validador = new V_Validador_Licencia();
+                validador.ShowDialog();
 
+                // Verifica si la licencia fue validada después del diálogo
+                if (!Properties.Settings.Default.LicenciaValida)
+                {
+                    System.Windows.Forms.Application.Exit(); // Cierra la app si no se valida
+                    return;
+                }
             }
-            else
-            {
-                //V_Menu_Principal.MSG.ShowMSG("✅ Licencia válida. Bienvenido al sistema.", "Éxito");
-            }
-            //////////////////////////////////////////////////////////////////////////
 
-            //======================================Logica de Validación de Licencia========================================
-
-
-
-
-            /*
-
-            Properties.Settings.Default.LicenciaValida = true;
-            Properties.Settings.Default.NombreCliente = "Miguel López";
-            Properties.Settings.Default.FechaExpiracion = new DateTime(2025, 12, 31);
-
-
-            */
-
-
-
-
-
-
-
+            // Si llegamos aquí, la licencia es válida
+            // V_Menu_Principal.MSG.ShowMSG("✅ Licencia válida. Bienvenido al sistema.", "Éxito");
 
 
 

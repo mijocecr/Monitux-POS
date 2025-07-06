@@ -105,6 +105,7 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "V_Captura_Imagen";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "V_Captura_Imagen";
             FormClosing += V_Captura_Imagen_FormClosing;
             Load += V_Captura_Imagen_Load;
