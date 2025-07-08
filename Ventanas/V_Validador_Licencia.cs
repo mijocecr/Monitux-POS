@@ -36,12 +36,16 @@ namespace Monitux_POS.Ventanas
                 lblResultado.Text = "✅ Licencia válida";
                 lblCliente.Text = Properties.Settings.Default.NombreCliente;
                 lblExpira.Text = Properties.Settings.Default.FechaExpiracion.ToString("dd/MM/yyyy");
-
+                Properties.Settings.Default.Codigo_Licencia = txtLicencia.Text; 
+                Properties.Settings.Default.Save();
+                this.Dispose();
                 // Continuar con la app
             }
             else
             {
                 V_Menu_Principal.MSG.ShowMSG("❌ Licencia inválida, vencida o ya usada\nContacte con: hn.one.click.solutions@gmail.com", "Monitux-POS");
+
+                
             }
         
 

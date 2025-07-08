@@ -150,6 +150,7 @@
             button1.TabIndex = 1;
             button1.Text = "Ver Abonos";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // label4
             // 

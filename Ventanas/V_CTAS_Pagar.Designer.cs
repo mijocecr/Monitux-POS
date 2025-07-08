@@ -254,7 +254,7 @@
             label6.BackColor = Color.FromArgb(11, 8, 20);
             label6.Dock = DockStyle.Top;
             label6.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.White;
+            label6.ForeColor = Color.FromArgb(128, 255, 255);
             label6.Location = new Point(0, 0);
             label6.Name = "label6";
             label6.Size = new Size(798, 37);
@@ -271,6 +271,7 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Cursor = Cursors.Hand;
             dataGridView1.Location = new Point(7, 121);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(779, 394);
@@ -281,7 +282,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(44, 117, 255);
+            BackColor = Color.FromArgb(35, 32, 40);
             ClientSize = new Size(798, 601);
             Controls.Add(dataGridView1);
             Controls.Add(label10);

@@ -457,6 +457,8 @@
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.None;
             Name = "V_Login";
+            ShowIcon = false;
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "V_Login";
             Load += V_Login_Load;

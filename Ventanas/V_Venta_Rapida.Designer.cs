@@ -69,7 +69,7 @@
             // 
             // panel3
             // 
-            panel3.BackColor = Color.FromArgb(44, 117, 255);
+            panel3.BackColor = Color.FromArgb(35, 32, 45);
             panel3.Controls.Add(comboCliente);
             panel3.Controls.Add(checkBox1);
             panel3.Controls.Add(label4);
@@ -379,7 +379,7 @@
             // 
             // panel2
             // 
-            panel2.BackColor = Color.FromArgb(44, 117, 255);
+            panel2.BackColor = Color.FromArgb(35, 32, 45);
             panel2.Controls.Add(label7);
             panel2.ForeColor = Color.Black;
             panel2.Location = new Point(177, 0);

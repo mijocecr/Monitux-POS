@@ -84,7 +84,7 @@ namespace Monitux_POS.Ventanas
             var compra = context.Compras
                 .Where(c =>
                     c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa &&
-                    c.Secuencial_Proveedor == Secuencial_Proveedor&&c.Tipo=="Credito")
+                    c.Secuencial_Proveedor == Secuencial_Proveedor && c.Tipo == "Credito")
                 .AsEnumerable() // Evaluación en memoria para evitar errores de traducción en EF
                 .Where(c =>
                     Math.Abs(Convert.ToDouble(c.Gran_Total) - valorRef) < tolerancia)
@@ -182,7 +182,7 @@ namespace Monitux_POS.Ventanas
                     };
 
 
-                   
+
 
                     context.Egresos.Add(egreso);
 
@@ -204,7 +204,7 @@ namespace Monitux_POS.Ventanas
 
                     // 🔔 Feedback al usuario
                     Util.Registrar_Actividad(Secuencial_Usuario,
-                        
+
                         $"Ha registrado un pago a CTA: {Secuencial_CTAP} de  {label6.Text} por un monto de: {textBox1.Text} {V_Menu_Principal.moneda} a Factura : {label11.Text}",
                         V_Menu_Principal.Secuencial_Empresa);
 
@@ -228,6 +228,14 @@ namespace Monitux_POS.Ventanas
 
 
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            V_Abonos v_Abonos = new V_Abonos(Secuencial_CTAP, false, label6.Text, int.Parse(label11.Text));
+
+
+            v_Abonos.ShowDialog();
         }
     }
 }

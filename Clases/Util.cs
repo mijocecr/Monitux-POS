@@ -9,6 +9,8 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.Management;
 using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -346,6 +348,45 @@ namespace Monitux_POS.Clases
 
 
         }
+
+
+
+        public static void EnviarCorreoConPdf(
+       string remitente,
+       string destinatario,
+       string asunto,
+       string cuerpo,
+       string rutaPdf,
+       string smtpServidor,
+       int puerto,
+       string usuario,
+       string contraseña)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(remitente);
+                mail.To.Add(destinatario);
+                mail.Subject = asunto;
+                mail.Body = cuerpo;
+
+                Attachment adjunto = new Attachment(rutaPdf, MediaTypeNames.Application.Pdf);
+                mail.Attachments.Add(adjunto);
+
+                SmtpClient smtp = new SmtpClient(smtpServidor= "smtp.gmail.com", puerto=587);
+                smtp.Credentials = new NetworkCredential(usuario, contraseña);
+                smtp.EnableSsl = true;
+
+                smtp.Send(mail);
+                Console.WriteLine("Correo enviado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                V_Menu_Principal.MSG.ShowMSG("Error al enviar el correo: " + ex.Message,"Error");
+            }
+        }
+
+
 
 
         public static void Registrar_Actividad(int secuencial_usuario,string descripcion,int secuencial_empresa)

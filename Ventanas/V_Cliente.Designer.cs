@@ -114,6 +114,7 @@
             dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Cursor = Cursors.Hand;
             dataGridView1.Location = new Point(6, 183);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
@@ -242,7 +243,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(430, 24);
+            menuStrip1.Size = new Size(426, 24);
             menuStrip1.TabIndex = 34;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -335,7 +336,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(0, 24);
             label6.Name = "label6";
-            label6.Size = new Size(430, 37);
+            label6.Size = new Size(426, 37);
             label6.TabIndex = 36;
             label6.Text = "Clientes";
             label6.TextAlign = ContentAlignment.TopCenter;
@@ -345,7 +346,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(430, 534);
+            ClientSize = new Size(426, 530);
             ControlBox = false;
             Controls.Add(label6);
             Controls.Add(panel1);

@@ -1,4 +1,7 @@
-﻿using Monitux_POS.Clases;
+﻿using Microsoft.Web.WebView2.WinForms;
+using Microsoft.Web.WebView2.Wpf;
+using Monitux_POS.Clases;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,17 +9,30 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Reflection;
 using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using ZXing;
+using WebView2 = Microsoft.Web.WebView2.WinForms.WebView2;
 
 namespace Monitux_POS.Ventanas
 {
     public partial class V_Menu_Principal : Form
     {
+
+
+
+        private IWavePlayer waveOut;
+        private MediaFoundationReader reader;
+        private bool isPlaying = false;
+        private string streamUrl; //= "https://hchradio.innovandote.com:8000/stream";
+
 
 
 
@@ -759,6 +775,83 @@ namespace Monitux_POS.Ventanas
             V_CTAS_Pagar v_CTAS_Pagar = new V_CTAS_Pagar();
             Abrir_Ventana(v_CTAS_Pagar);
             lbl_Descripcion.Text = "Consulte rápidamente sus cuentas por pagar y obtenga una visión general del estado de sus compras a crédito.";
+
+        }
+
+        private void btn_reportes_Click(object sender, EventArgs e)
+        {
+            Mostrar_SubMenu(p_Reportes);
+        }
+
+        private void pictureBox2_ClickAsync(object sender, EventArgs e)
+        {
+
+
+
+
+            /*
+            
+            // Si decides volver a usar la lógica de reproducción directa:
+            if (!isPlaying)
+            {
+                try
+                {
+                    reader = new MediaFoundationReader(streamUrl="https://hchradio.innovandote.com:8000/stream");
+                    waveOut = new WaveOutEvent();
+                    waveOut.Init(reader);
+                    waveOut.Play();
+                    isPlaying = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al reproducir: " + ex.Message);
+                }
+            }
+            else
+            {
+                waveOut?.Stop();
+                reader?.Dispose();
+                waveOut?.Dispose();
+                isPlaying = false;
+            }
+            
+            */
+
+        }
+
+        private void button4_Click_2(object sender, EventArgs e)
+        {
+
+
+            try
+            {
+                // Configura el mensaje
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("miguel.cerrato.es@gmail.com");
+                mail.To.Add("cerratonix@gmail.com");
+                mail.Subject = "Envío de PDF desde C#";
+                mail.Body = "Hola, adjunto te envío el archivo PDF.";
+
+                // Adjuntar el PDF
+                string rutaPdf = @"C:\Users\Miguel Cerrato\Desktop\Factura.pdf";
+                Attachment adjunto = new Attachment(rutaPdf, MediaTypeNames.Application.Pdf);
+                mail.Attachments.Add(adjunto);
+
+                // Configura el servidor SMTP
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+
+                smtp.Credentials = new NetworkCredential("miguel.cerrato.es@gmail.com", "pnma abut vzvp rdld");
+                smtp.EnableSsl = true;
+
+                // Enviar
+                smtp.Send(mail);
+                Console.WriteLine("Correo enviado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al enviar el correo: " + ex.Message);
+            }
+
 
         }
     }

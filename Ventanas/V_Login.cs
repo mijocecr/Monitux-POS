@@ -261,6 +261,10 @@ namespace Monitux_POS.Ventanas
 
         private void pictureBox4_Click(object sender, EventArgs e)
         {
+            
+
+            
+
             this.Close(); // Cierra la ventana de login
         }
 
@@ -395,7 +399,7 @@ namespace Monitux_POS.Ventanas
         private async void V_Login_Load(object sender, EventArgs e)
         {
 
-
+          
 
             // ======================================
             // 🔐 Validación de Licencia
@@ -403,7 +407,7 @@ namespace Monitux_POS.Ventanas
 
             // Si deseas reiniciar la configuración (solo para pruebas o soporte):
             // Properties.Settings.Default.Reset();
-            // Properties.Settings.Default.Save();
+             //Properties.Settings.Default.Save();
 
             if (!Properties.Settings.Default.LicenciaValida)
             {

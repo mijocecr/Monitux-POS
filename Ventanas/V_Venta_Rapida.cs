@@ -719,6 +719,30 @@ namespace Monitux_POS.Ventanas
 
             string rutaPdf = $"{rutaGuardado}-{venta.Secuencial}-{factura.Cliente}.pdf";
 
+
+
+            var destinatariocliente = context.Clientes.FirstOrDefault(c => c.Secuencial == venta.Secuencial_Cliente);
+            string? destinatario = "";
+            if (destinatariocliente != null)
+            {
+                destinatario = destinatariocliente.Email;
+            }
+
+            Util.EnviarCorreoConPdf("monitux.pos@gmail.com",
+                destinatario,
+                V_Menu_Principal.Nombre_Empresa + " - " + "Comprobante",
+                "Gracias por su compra. Adjunto tiene su comprobante.",
+                rutaPdf,
+                "smtp.gmail.com",
+                587,
+                "monitux.pos", "ffeg qqnx zaij otmb");
+
+
+
+
+
+
+
             // Mostrar diálogo para seleccionar impresora
             using (PrintDialog printDialog = new PrintDialog())
             {

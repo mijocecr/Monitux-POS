@@ -69,5 +69,17 @@ namespace Monitux_POS.Properties {
                 this["CulturaMoneda"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Codigo_Licencia {
+            get {
+                return ((string)(this["Codigo_Licencia"]));
+            }
+            set {
+                this["Codigo_Licencia"] = value;
+            }
+        }
     }
 }

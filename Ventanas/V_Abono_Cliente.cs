@@ -19,7 +19,7 @@ namespace Monitux_POS.Ventanas
 
         public int Secuencial_CTAC { get; set; }
         public string Cliente_Nombre { get; set; }
-      
+
 
         public int Secuencial_Cliente { get; set; }
 
@@ -42,7 +42,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-      
+
 
 
 
@@ -84,7 +84,7 @@ namespace Monitux_POS.Ventanas
             var venta = context.Ventas
                 .Where(c =>
                     c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa &&
-                    c.Secuencial_Cliente == Secuencial_Cliente&&c.Tipo=="Credito")
+                    c.Secuencial_Cliente == Secuencial_Cliente && c.Tipo == "Credito")
                 .AsEnumerable() // Evaluación en memoria para evitar errores de traducción en EF
                 .Where(c =>
                     Math.Abs(Convert.ToDouble(c.Gran_Total) - valorRef) < tolerancia)
@@ -204,7 +204,8 @@ namespace Monitux_POS.Ventanas
                 this.Dispose();
 
             }
-            else {
+            else
+            {
 
                 V_Menu_Principal.MSG.ShowMSG("El monto a recibir es invalido.", "Error");
                 return;
@@ -311,7 +312,7 @@ namespace Monitux_POS.Ventanas
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-       
+
             // Permitir solo dígitos, retroceso y punto
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
@@ -323,8 +324,18 @@ namespace Monitux_POS.Ventanas
             {
                 e.Handled = true;
             }
-        
 
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            V_Abonos v_Abonos = new V_Abonos(Secuencial_CTAC, true,label6.Text, int.Parse(label11.Text));
+            
+
+            v_Abonos.ShowDialog();
+
+
+        }
     }
-}
 }
