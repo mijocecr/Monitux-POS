@@ -378,7 +378,7 @@ namespace Monitux_POS.Clases
                 smtp.EnableSsl = true;
 
                 smtp.Send(mail);
-                Console.WriteLine("Correo enviado correctamente.");
+                V_Menu_Principal.MSG.ShowMSG("Correo enviado existosamente.", "Exito");
             }
             catch (Exception ex)
             {

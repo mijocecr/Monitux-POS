@@ -139,7 +139,7 @@
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
             panel3.Controls.Add(btn_inicio);
-            panel3.Location = new Point(0, 205);
+            panel3.Location = new Point(0, 113);
             panel3.Name = "panel3";
             panel3.Size = new Size(176, 1013);
             panel3.TabIndex = 3;
@@ -463,7 +463,7 @@
             button10.Padding = new Padding(35, 0, 0, 0);
             button10.Size = new Size(166, 26);
             button10.TabIndex = 3;
-            button10.Text = "Gestionar Facturas";
+            button10.Text = "Gestiónar Facturas";
             button10.TextAlign = ContentAlignment.MiddleLeft;
             button10.UseVisualStyleBackColor = false;
             button10.Click += button10_Click_1;

@@ -624,6 +624,9 @@ namespace Monitux_POS.Ventanas
 
         private void button10_Click_1(object sender, EventArgs e)
         {
+            V_Compras_Ventas v_Compras_Ventas= new V_Compras_Ventas();
+            Abrir_Ventana(v_Compras_Ventas);
+            lbl_Descripcion.Text = "En esta pantalla, puede consultar las compras y ventas registradas por proveedor / cliente. Imprimir la factura; como tambien enviarla por email a cliente.";
 
         }
 
