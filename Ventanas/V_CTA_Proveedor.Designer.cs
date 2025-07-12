@@ -67,7 +67,7 @@
             label3.Name = "label3";
             label3.Size = new Size(196, 20);
             label3.TabIndex = 43;
-            label3.Text = "Total en Facturas";
+            label3.Text = "Total en Facturas Credito";
             label3.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label2

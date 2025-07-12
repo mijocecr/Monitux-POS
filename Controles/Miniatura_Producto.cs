@@ -1008,6 +1008,28 @@ namespace Monitux_POS
 
             }
 
+
+
+            else if (origen == "Editar_Factura_Venta")
+            {
+
+                V_Producto form = new V_Producto(false, this.getProducto());
+                V_Editar_Factura_Venta principal = this.FindForm() as V_Editar_Factura_Venta;
+
+                if (principal != null)
+                {
+                    form.OnProductoEditado += () => principal.Cargar_Items(); // pasa el objeto que usas normalmente }
+
+                }
+
+                form.ShowDialog();
+
+            }
+
+
+
+
+
             else
             {
                 V_Menu_Principal.MSG.ShowMSG("Origen no reconocido para la edición del producto.", "Error de Origen");

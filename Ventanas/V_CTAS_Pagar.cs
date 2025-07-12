@@ -171,8 +171,8 @@ namespace Monitux_POS.Ventanas
             }
 
 
-            label10.Text = total_facturas.ToString() + " " + V_Menu_Principal.moneda;
-            label8.Text = saldo_pendiente.ToString() + " " + V_Menu_Principal.moneda;
+            label10.Text = Math.Round(total_facturas, 2).ToString() + " " + V_Menu_Principal.moneda;
+            label8.Text = Math.Round(saldo_pendiente, 2).ToString() + " " + V_Menu_Principal.moneda;
 
         }
 

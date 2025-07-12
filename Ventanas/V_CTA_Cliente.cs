@@ -15,22 +15,22 @@ namespace Monitux_POS.Ventanas
     public partial class V_CTA_Cliente : Form
     {
 
-        
+
         public int Secuencial_Cliente { get; set; }
-        public int Secuencial {  get; set; }
+        public int Secuencial { get; set; }
         public string Nombre { get; set; }
         public int Secuencial_Factura { get; set; }
 
         public double Gran_Total { get; set; }
-        
+
 
         public V_CTA_Cliente(int secuencial_cliente, string nombre)
         {
             InitializeComponent();
             label1.Text = nombre;
             Secuencial_Cliente = secuencial_cliente;
-            Nombre = nombre;    
-            
+            Nombre = nombre;
+
         }
 
 
@@ -189,30 +189,38 @@ namespace Monitux_POS.Ventanas
                     this.Secuencial = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Secuencial"].Value);
                 }
 
-               
+
+               if (Secuencial_Cliente == 0)
+                {
+                    return;
+                }
 
 
 
+                V_Abono_Cliente v_Abono_Cliente = new V_Abono_Cliente(Secuencial, Secuencial_Cliente, label1.Text, this.Gran_Total);
 
-                V_Abono_Cliente v_Abono_Cliente = new V_Abono_Cliente(Secuencial,Secuencial_Cliente,label1.Text, this.Gran_Total);
 
-                
 
                 v_Abono_Cliente.ShowDialog();
-                v_Abono_Cliente.Cliente_Nombre=label1.Text;
-
+                v_Abono_Cliente.Cliente_Nombre = label1.Text;
+                
 
             }
             catch (Exception ex)
             {
 
-               // MessageBox.Show("error: "+ex);
+                // MessageBox.Show("error: "+ex);
 
             }
 
             Cargar_Datos_CTAS();
 
 
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }

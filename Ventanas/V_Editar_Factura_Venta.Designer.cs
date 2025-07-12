@@ -74,6 +74,7 @@
             label4 = new Label();
             button3 = new Button();
             button7 = new Button();
+            label17 = new Label();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
@@ -178,7 +179,6 @@
             txt_Descuento.Size = new Size(39, 23);
             txt_Descuento.TabIndex = 45;
             txt_Descuento.TextAlign = HorizontalAlignment.Center;
-            txt_Descuento.Visible = false;
             txt_Descuento.TextChanged += txt_Descuento_TextChanged;
             txt_Descuento.KeyDown += txt_Descuento_KeyDown;
             // 
@@ -189,7 +189,6 @@
             txt_Impuesto.Size = new Size(39, 23);
             txt_Impuesto.TabIndex = 44;
             txt_Impuesto.TextAlign = HorizontalAlignment.Center;
-            txt_Impuesto.Visible = false;
             txt_Impuesto.TextChanged += txt_Impuesto_TextChanged;
             txt_Impuesto.KeyDown += txt_Impuesto_KeyDown;
             // 
@@ -200,7 +199,6 @@
             txt_OtrosCargos.Size = new Size(47, 23);
             txt_OtrosCargos.TabIndex = 43;
             txt_OtrosCargos.TextAlign = HorizontalAlignment.Center;
-            txt_OtrosCargos.Visible = false;
             txt_OtrosCargos.TextChanged += txt_OtrosCargos_TextChanged;
             txt_OtrosCargos.KeyDown += txt_OtrosCargos_KeyDown;
             // 
@@ -609,12 +607,24 @@
             button7.UseVisualStyleBackColor = false;
             button7.Click += button7_Click;
             // 
+            // label17
+            // 
+            label17.ForeColor = Color.White;
+            label17.Location = new Point(267, 44);
+            label17.Name = "label17";
+            label17.Size = new Size(138, 67);
+            label17.TabIndex = 49;
+            label17.Text = "El impuesto y el descuento deben recalcularse al editar factura. (si aplica)";
+            label17.TextAlign = ContentAlignment.MiddleCenter;
+            label17.Click += label17_Click;
+            // 
             // V_Editar_Factura_Venta
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Highlight;
             ClientSize = new Size(802, 586);
+            Controls.Add(label17);
             Controls.Add(button7);
             Controls.Add(label16);
             Controls.Add(label15);
@@ -629,6 +639,7 @@
             Controls.Add(button3);
             Name = "V_Editar_Factura_Venta";
             Text = "V_Editar_Factura_Venta";
+            FormClosing += V_Editar_Factura_Venta_FormClosing;
             Load += V_Editar_Factura_Venta_Load;
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
@@ -684,5 +695,6 @@
         private Label label4;
         private Button button3;
         private Button button7;
+        private Label label17;
     }
 }

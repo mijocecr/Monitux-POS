@@ -1508,7 +1508,7 @@ namespace Monitux_POS.Ventanas
                     Gran_Total = compra.Gran_Total
                 };
                 context.Cuentas_Pagar.Add(cuenta);
-                Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una compra al crédito, factura: {compra.Secuencial}, por un valor de: {cuenta.Total} {V_Menu_Principal.moneda}", V_Menu_Principal.Secuencial_Empresa);
+                
             }
             else
             {
@@ -1528,7 +1528,7 @@ namespace Monitux_POS.Ventanas
 
             // Finalizar
             V_Menu_Principal.MSG.ShowMSG("Compra registrada correctamente.", "Éxito");
-            Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una compra, factura: {compra.Secuencial}, por un valor de: {Math.Round(total, 2)} {V_Menu_Principal.moneda}", V_Menu_Principal.Secuencial_Empresa);
+           
             //////////////////////////
 
 
@@ -1590,6 +1590,22 @@ namespace Monitux_POS.Ventanas
 
 
             ///////////////////
+            if (compra.Tipo == "Credito")
+            {
+                V_Menu_Principal.MSG.ShowMSG("Compra al crédito registrada correctamente.\n\nRecuerde que debe pagar la cuenta pendiente antes de la fecha de vencimiento.", "Éxito");
+                Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una compra al crédito, factura: {compra.Secuencial}, por un valor de: {compra.Total} {V_Menu_Principal.moneda}", V_Menu_Principal.Secuencial_Empresa);
+            }
+            else
+            {
+                V_Menu_Principal.MSG.ShowMSG("Compra registrada correctamente.", "Éxito");
+                Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una compra, factura: {compra.Secuencial}, por un valor de:  {Math.Round(total, 2)}   {V_Menu_Principal.moneda}", V_Menu_Principal.Secuencial_Empresa);
+            }
+
+
+
+
+
+
             Limpiar_Factura();
 
 

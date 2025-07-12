@@ -896,6 +896,13 @@ namespace Monitux_POS.Ventanas
 
                 */
 
+                if (Secuencial_Venta == 0)
+            {
+
+                V_Menu_Principal.MSG.ShowMSG("Seleccione Factura", "Monitux-POS");
+                return;
+            }
+
                 V_Editar_Factura_Venta v_Editar_Factura_Venta = new V_Editar_Factura_Venta();
 
             v_Editar_Factura_Venta.Secuencial_Cliente=Secuencial_Cliente;

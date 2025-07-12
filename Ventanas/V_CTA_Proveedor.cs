@@ -158,7 +158,10 @@ namespace Monitux_POS.Ventanas
                 }
 
 
-
+                if (Secuencial_Proveedor == 0)
+                {
+                    return;
+                }
 
 
 
@@ -168,7 +171,7 @@ namespace Monitux_POS.Ventanas
 
                 v_Abono_Proveedor.ShowDialog();
                 v_Abono_Proveedor.Proveedor_Nombre = label1.Text;
-
+                
 
             }
             catch (Exception ex)
