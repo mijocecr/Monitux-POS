@@ -179,6 +179,7 @@
             txt_Descuento.Size = new Size(39, 23);
             txt_Descuento.TabIndex = 45;
             txt_Descuento.TextAlign = HorizontalAlignment.Center;
+            txt_Descuento.Visible = false;
             txt_Descuento.TextChanged += txt_Descuento_TextChanged;
             txt_Descuento.KeyDown += txt_Descuento_KeyDown;
             // 
@@ -189,6 +190,7 @@
             txt_Impuesto.Size = new Size(39, 23);
             txt_Impuesto.TabIndex = 44;
             txt_Impuesto.TextAlign = HorizontalAlignment.Center;
+            txt_Impuesto.Visible = false;
             txt_Impuesto.TextChanged += txt_Impuesto_TextChanged;
             txt_Impuesto.KeyDown += txt_Impuesto_KeyDown;
             // 
@@ -199,6 +201,7 @@
             txt_OtrosCargos.Size = new Size(47, 23);
             txt_OtrosCargos.TabIndex = 43;
             txt_OtrosCargos.TextAlign = HorizontalAlignment.Center;
+            txt_OtrosCargos.Visible = false;
             txt_OtrosCargos.TextChanged += txt_OtrosCargos_TextChanged;
             txt_OtrosCargos.KeyDown += txt_OtrosCargos_KeyDown;
             // 
@@ -407,7 +410,7 @@
             // 
             button1.BackColor = Color.FromArgb(35, 32, 45);
             button1.ForeColor = Color.Lime;
-            button1.Location = new Point(296, 437);
+            button1.Location = new Point(288, 437);
             button1.Name = "button1";
             button1.Size = new Size(75, 90);
             button1.TabIndex = 20;
@@ -638,6 +641,8 @@
             Controls.Add(label4);
             Controls.Add(button3);
             Name = "V_Editar_Factura_Venta";
+            ShowIcon = false;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "V_Editar_Factura_Venta";
             FormClosing += V_Editar_Factura_Venta_FormClosing;
             Load += V_Editar_Factura_Venta_Load;

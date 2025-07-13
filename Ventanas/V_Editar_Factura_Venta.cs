@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static QuestPDF.Helpers.Colors;
 
 namespace Monitux_POS.Ventanas
 {
@@ -344,6 +345,12 @@ namespace Monitux_POS.Ventanas
 
                 miniatura_Producto1.Item_Imagen.Click += async (s, ev) =>
                 {
+
+                    //Prueba
+
+                    button8.Enabled = false;
+
+                    //Prueba
 
 
                     Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
@@ -806,7 +813,7 @@ namespace Monitux_POS.Ventanas
             subTotal = 0.0;
             lbl_sub_Total.Text = "0.00";
             lbl_Total.Text = "0.00";
-
+            button8.Enabled = true;
 
 
             // ✅ Actualiza cantidades seleccionadas desde el panel
@@ -1033,6 +1040,7 @@ namespace Monitux_POS.Ventanas
         private void button8_Click(object sender, EventArgs e)
         {
 
+
             this.Text = Lista_de_Items_Eliminar.Values.Count.ToString();
 
             using var context = new Monitux_DB_Context();
@@ -1040,6 +1048,8 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated();
 
             var controles = flowLayoutPanel2.Controls.OfType<Selector_Cantidad>().ToList();
+
+
 
             foreach (var control in controles)
             {
@@ -1081,16 +1091,55 @@ namespace Monitux_POS.Ventanas
 
                 ActualizarCuentas(context, copia.Precio_Venta);
                 ActualizarVenta(context, copia.Precio_Venta);
-                EliminarDetalle(context, codigo);
-                RegistrarSalidaKardex(context, copia);
-                Actualizar_Inventario(context, copia);
+             
 
-                Util.Registrar_Actividad(Secuencial_Usuario,
-                    $"Eliminó el Item: {codigo} de la Factura No. {Secuencial_Venta}\n" +
-                    $"Registrado a: {copia.Precio_Venta} {V_Menu_Principal.moneda}, cantidad: {copia.cantidadSelecccionItem}\n" +
-                    $"Total: {copia.cantidadSelecccionItem * copia.Precio_Venta}",
-                    Secuencial_Empresa);
-            }
+
+                ////////////////////////////
+
+
+                bool existeDetalle = context.Ventas_Detalles.Any(vd => vd.Codigo == copia.Codigo && vd.Secuencial_Factura == Secuencial_Venta);
+
+                if (existeDetalle)
+                {
+
+
+                    if (copia.Tipo != "Servicio")
+                    {
+
+                        RegistrarSalidaKardex(context, copia);
+                        Actualizar_Inventario(context, copia);
+
+                    }
+
+
+
+                    Util.Registrar_Actividad(Secuencial_Usuario,
+                        $"Eliminó el Item: {codigo} de la Factura No. {Secuencial_Venta}\n" + $" Registrado a: {copia.Precio_Venta} {V_Menu_Principal.moneda}, cantidad: {copia.cantidadSelecccionItem}\n " +
+                        $"Total: {copia.cantidadSelecccionItem * copia.Precio_Venta}",
+                        Secuencial_Empresa);
+
+
+
+                }
+                else
+                {
+                    // Si no existe el detalle → no hace nada
+                    V_Menu_Principal.MSG.ShowMSG($"El item {codigo} no se encontró en detalles de ventas para esta factura. No se actualizó Kardex ni se registro actividad.", "Info");
+                }
+
+
+                EliminarDetalle(context, codigo);
+
+
+                ////////////////////////////
+
+
+
+
+
+
+
+            }//Fin del foreach
 
             Cargar_Items();
             label5.Text = Lista_de_Items.Count.ToString();
@@ -1426,8 +1475,8 @@ namespace Monitux_POS.Ventanas
             Lista_de_Items.Clear();
             Lista_de_Items_Eliminar.Clear();
 
-
-
+            V_Menu_Principal.MSG.ShowMSG($"Factura No. {venta.Secuencial} actualizada correctamente.", "Ventas");
+            this.Dispose();
         }
 
         private void label17_Click(object sender, EventArgs e)

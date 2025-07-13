@@ -915,6 +915,8 @@ namespace Monitux_POS.Ventanas
 
             v_Editar_Factura_Venta.ShowDialog();
 
+            Filtrar_Venta("Secuencial_Cliente", comboCliente.SelectedItem.ToString().Split('-')[0].Trim());
+            Filtrar_Detalle_Venta("Secuencial_Factura", this.Secuencial_Venta.ToString());
 
 
         }
