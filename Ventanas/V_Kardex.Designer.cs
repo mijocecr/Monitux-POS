@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Kardex));
             label6 = new Label();
             panel1 = new Panel();
+            label8 = new Label();
             label5 = new Label();
             label7 = new Label();
             label4 = new Label();
@@ -71,54 +72,65 @@
             panel1.Controls.Add(label2);
             panel1.Location = new Point(5, 43);
             panel1.Name = "panel1";
-            panel1.Size = new Size(421, 399);
+            panel1.Size = new Size(421, 387);
             panel1.TabIndex = 40;
+            // 
+            // label8
+            // 
+            label8.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.ForeColor = Color.White;
+            label8.Location = new Point(5, 434);
+            label8.Name = "label8";
+            label8.Size = new Size(421, 23);
+            label8.TabIndex = 42;
+            label8.Text = "Saldo Actual";
+            label8.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label5
             // 
             label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.Red;
-            label5.Location = new Point(350, 368);
+            label5.Location = new Point(333, 332);
             label5.Name = "label5";
             label5.Size = new Size(63, 15);
             label5.TabIndex = 41;
             label5.Text = "0";
-            label5.TextAlign = ContentAlignment.MiddleLeft;
+            label5.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label7
             // 
             label7.ForeColor = Color.White;
             label7.Image = (Image)resources.GetObject("label7.Image");
-            label7.Location = new Point(301, 356);
+            label7.Location = new Point(347, 351);
             label7.Name = "label7";
-            label7.Size = new Size(46, 34);
+            label7.Size = new Size(30, 32);
             label7.TabIndex = 40;
             // 
             // label4
             // 
             label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.Lime;
-            label4.Location = new Point(189, 368);
+            label4.Location = new Point(253, 332);
             label4.Name = "label4";
             label4.Size = new Size(64, 15);
             label4.TabIndex = 39;
             label4.Text = "0";
-            label4.TextAlign = ContentAlignment.MiddleLeft;
+            label4.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
             label1.ForeColor = Color.White;
             label1.Image = (Image)resources.GetObject("label1.Image");
-            label1.Location = new Point(139, 356);
+            label1.Location = new Point(270, 351);
             label1.Name = "label1";
-            label1.Size = new Size(44, 34);
+            label1.Size = new Size(30, 32);
             label1.TabIndex = 38;
             // 
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(7, 42);
+            dataGridView1.Location = new Point(7, 28);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 10;
@@ -129,7 +141,7 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = Color.White;
-            label3.Location = new Point(198, 24);
+            label3.Location = new Point(198, 10);
             label3.Name = "label3";
             label3.Size = new Size(55, 15);
             label3.TabIndex = 37;
@@ -140,7 +152,7 @@
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.Enabled = false;
-            dataGridView2.Location = new Point(7, 208);
+            dataGridView2.Location = new Point(7, 191);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.RowHeadersWidth = 10;
             dataGridView2.Size = new Size(406, 138);
@@ -148,7 +160,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(7, 361);
+            button2.Location = new Point(7, 345);
             button2.Name = "button2";
             button2.Size = new Size(88, 29);
             button2.TabIndex = 36;
@@ -160,7 +172,7 @@
             // 
             label2.AutoSize = true;
             label2.ForeColor = Color.White;
-            label2.Location = new Point(198, 190);
+            label2.Location = new Point(198, 173);
             label2.Name = "label2";
             label2.Size = new Size(46, 15);
             label2.TabIndex = 34;
@@ -171,8 +183,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(432, 453);
+            ClientSize = new Size(432, 460);
             ControlBox = false;
+            Controls.Add(label8);
             Controls.Add(label6);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -201,5 +214,6 @@
         private Label label5;
         private Label label7;
         private Label label4;
+        private Label label8;
     }
 }

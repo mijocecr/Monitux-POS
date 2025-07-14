@@ -98,7 +98,7 @@
             label15.Name = "label15";
             label15.Size = new Size(379, 37);
             label15.TabIndex = 52;
-            label15.Text = "Editar Venta";
+            label15.Text = "Modificar Venta";
             label15.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // groupBox2
@@ -594,13 +594,12 @@
             // 
             // button7
             // 
-            button7.BackColor = Color.White;
+            button7.BackColor = Color.FromArgb(35, 32, 45);
             button7.FlatAppearance.BorderColor = Color.FromArgb(252, 114, 95);
             button7.FlatAppearance.MouseDownBackColor = Color.FromArgb(252, 114, 95);
             button7.FlatStyle = FlatStyle.Flat;
             button7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button7.ForeColor = Color.Red;
-            button7.Image = (Image)resources.GetObject("button7.Image");
             button7.Location = new Point(6, 501);
             button7.Name = "button7";
             button7.Size = new Size(74, 73);
@@ -625,7 +624,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Highlight;
+            BackColor = Color.FromArgb(11, 8, 20);
             ClientSize = new Size(802, 586);
             Controls.Add(label17);
             Controls.Add(button7);
@@ -640,8 +639,12 @@
             Controls.Add(groupBox1);
             Controls.Add(label4);
             Controls.Add(button3);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "V_Editar_Factura_Venta";
             ShowIcon = false;
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "V_Editar_Factura_Venta";
             FormClosing += V_Editar_Factura_Venta_FormClosing;

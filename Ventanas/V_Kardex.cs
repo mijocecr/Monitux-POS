@@ -165,6 +165,45 @@ namespace Monitux_POS.Ventanas
 
             label4.Text= dataGridView1.Rows.Count.ToString();
             label5.Text = dataGridView2.Rows.Count.ToString();
+
+
+
+            SQLitePCL.Batteries.Init();
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+
+            var ultimoMovimiento = (from k in context.Kardex
+                                    join p in context.Productos
+                                    on k.Secuencial_Producto equals p.Secuencial
+                                    where k.Secuencial_Producto == Secuencial_Producto &&
+                                          k.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa
+                                    orderby k.Fecha descending
+                                    select new
+                                    {
+                                        k.Fecha,
+                                        k.Cantidad,
+                                       Codigo_Producto = p.Codigo,
+                                        k.Saldo,
+                                        ProductoDescripcion = p.Descripcion,
+                                        ProductoTipo = p.Tipo
+                                    })
+                                 .FirstOrDefault();
+
+
+            if (ultimoMovimiento != null)
+            {
+                double saldoActual = ultimoMovimiento.Saldo; // ← O la propiedad que indique el stock
+                label8.Text = $"Saldo actual de {ultimoMovimiento.Codigo_Producto}: [ {saldoActual} ]"; 
+            }
+            else
+            {
+               label8.Text ="No se encontraron movimientos en el Kardex para este producto.";
+            }
+
+
+
         }
     }
 }

@@ -117,7 +117,7 @@
             button6.Name = "button6";
             button6.Size = new Size(111, 29);
             button6.TabIndex = 51;
-            button6.Text = "Modificar Factura";
+            button6.Text = "Modificar";
             button6.UseVisualStyleBackColor = false;
             // 
             // dataGridView3
@@ -312,7 +312,7 @@
             button1.Name = "button1";
             button1.Size = new Size(111, 29);
             button1.TabIndex = 46;
-            button1.Text = "Modificar Factura";
+            button1.Text = "Modificar";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 

@@ -883,6 +883,88 @@ namespace Monitux_POS.Ventanas
         private void button7_Click(object sender, EventArgs e)
         {
 
+
+            try
+            {
+                var secuencialFactura = Secuencial_Venta;
+
+                var confirmResult = V_Menu_Principal.MSG.ShowMSG(
+                    $"¿Está seguro de eliminar la Factura No. {secuencialFactura}?",
+                    "Confirmar Eliminación");
+
+                if (confirmResult != DialogResult.Yes)
+                    return;
+
+                using var context = new Monitux_DB_Context();
+                SQLitePCL.Batteries.Init();
+
+                var factura = context.Ventas.FirstOrDefault(v => v.Secuencial == secuencialFactura);
+                if (factura == null)
+                {
+                    V_Menu_Principal.MSG.ShowMSG("Factura no encontrada.", "Error");
+                    return;
+                }
+
+                var ctac = context.Cuentas_Cobrar.FirstOrDefault(c =>
+                    c.Secuencial_Factura == secuencialFactura &&
+                    c.Secuencial_Cliente == Secuencial_Cliente &&
+                    c.Secuencial_Empresa == Secuencial_Empresa);
+
+                if (ctac != null)
+                    context.Cuentas_Cobrar.Remove(ctac);
+
+                var detalles = context.Ventas_Detalles
+                    .Where(vd => vd.Secuencial_Factura == secuencialFactura)
+                    .ToList();
+
+                foreach (var detalle in detalles)
+                {
+                    var producto = context.Productos.FirstOrDefault(p => p.Codigo == detalle.Codigo);
+
+                    if (producto != null && producto.Tipo != "Servicio" && detalle.Cantidad != null)
+                    {
+                        double cantidadDevuelta = (double)detalle.Cantidad;
+                        
+
+                        // ✅ Registrar solo la cantidad devuelta, no el stock total
+                        Util.Registrar_Movimiento_Kardex(
+                            producto.Secuencial,
+                            producto.Cantidad,
+                            producto.Descripcion,
+                            cantidadDevuelta,
+                            producto.Precio_Costo,
+                            producto.Precio_Venta,
+                            "Entrada",
+                            Secuencial_Empresa
+                        );
+                        producto.Cantidad += cantidadDevuelta;
+                    }
+                }
+
+                context.Ventas_Detalles.RemoveRange(detalles);
+                context.Ventas.Remove(factura);
+
+                Util.Registrar_Actividad(
+                    Secuencial_Usuario,
+                    $"Eliminó la Factura No. {secuencialFactura} con {detalles.Count} productos. Registrada por un monto de {factura.Gran_Total} {V_Menu_Principal.moneda}",
+                    Secuencial_Empresa
+                );
+
+                context.SaveChanges();
+
+                V_Menu_Principal.MSG.ShowMSG(
+                    $"Factura No. {secuencialFactura} eliminada correctamente.",
+                    "Operación Exitosa");
+
+                // Limpieza visual opcional
+                // this.Dispose();
+            }
+            catch (Exception ex)
+            {
+                V_Menu_Principal.MSG.ShowMSG($"Error al eliminar factura: {ex.Message}", "Error");
+            }
+
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
