@@ -457,6 +457,43 @@ namespace Monitux_POS.Clases
 
 
 
+        public static void ExportarDataGridViewAExcel(DataGridView dgv, string nombreHoja, string nombreArchivoBase)
+        {
+            try
+            {
+                using var wb = new ClosedXML.Excel.XLWorkbook();
+                var ws = wb.Worksheets.Add(nombreHoja);
+
+                // 🔠 Encabezados
+                for (int col = 0; col < dgv.Columns.Count; col++)
+                {
+                    ws.Cell(1, col + 1).Value = dgv.Columns[col].HeaderText;
+                    ws.Cell(1, col + 1).Style.Font.Bold = true;
+                }
+
+                // 📋 Filas
+                for (int row = 0; row < dgv.Rows.Count; row++)
+                {
+                    for (int col = 0; col < dgv.Columns.Count; col++)
+                    {
+                        var value = dgv.Rows[row].Cells[col].Value;
+                        ws.Cell(row + 2, col + 1).Value = value?.ToString();
+                    }
+                }
+
+                // 💾 Guardar archivo
+                string timestamp = DateTime.Now.ToString("dd-MM-yyyy");
+                string nombreArchivo = $"{nombreArchivoBase}.{timestamp}.xlsx";
+                string ruta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), nombreArchivo);
+
+                wb.SaveAs(ruta);
+                V_Menu_Principal.MSG.ShowMSG($"Exportado correctamente a:\n{ruta}", "Excel generado");
+            }
+            catch (Exception ex)
+            {
+                V_Menu_Principal.MSG.ShowMSG($"Error al exportar a Excel: {ex.Message}", "Error");
+            }
+        }
 
 
 

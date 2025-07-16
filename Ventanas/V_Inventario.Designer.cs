@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Inventario));
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             panel1 = new Panel();
             panel4 = new Panel();
             linkLabel2 = new LinkLabel();
@@ -42,6 +43,8 @@
             textBox1 = new TextBox();
             panel3 = new Panel();
             dataGridView1 = new DataGridView();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            exportarAExcelToolStripMenuItem = new ToolStripMenuItem();
             flowLayoutPanel1 = new FlowLayoutPanel();
             dataGridView2 = new DataGridView();
             panel2 = new Panel();
@@ -76,6 +79,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             panel2.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -197,9 +201,9 @@
             // panel3
             // 
             panel3.BackColor = Color.FromArgb(44, 117, 255);
-            panel3.Controls.Add(dataGridView2);
             panel3.Controls.Add(dataGridView1);
             panel3.Controls.Add(flowLayoutPanel1);
+            panel3.Controls.Add(dataGridView2);
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 139);
             panel3.Name = "panel3";
@@ -209,8 +213,8 @@
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(224, 224, 224);
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -221,6 +225,20 @@
             dataGridView1.TabIndex = 53;
             dataGridView1.Visible = false;
             dataGridView1.MouseDoubleClick += dataGridView1_MouseDoubleClick;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { exportarAExcelToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(156, 26);
+            // 
+            // exportarAExcelToolStripMenuItem
+            // 
+            exportarAExcelToolStripMenuItem.Image = (Image)resources.GetObject("exportarAExcelToolStripMenuItem.Image");
+            exportarAExcelToolStripMenuItem.Name = "exportarAExcelToolStripMenuItem";
+            exportarAExcelToolStripMenuItem.Size = new Size(155, 22);
+            exportarAExcelToolStripMenuItem.Text = "Exportar a Excel";
+            exportarAExcelToolStripMenuItem.Click += exportarAExcelToolStripMenuItem_Click;
             // 
             // flowLayoutPanel1
             // 
@@ -235,8 +253,8 @@
             // dataGridView2
             // 
             dataGridView2.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
-            dataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -597,6 +615,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             panel2.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
@@ -648,5 +667,7 @@
         private Button button9;
         private LinkLabel linkLabel2;
         private LinkLabel linkLabel1;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem exportarAExcelToolStripMenuItem;
     }
 }

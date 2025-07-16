@@ -22,10 +22,12 @@ namespace Monitux_POS.Ventanas
         public int Secuencial_Compra { get; set; }
         public int Secuencial_Cliente { get; set; }
 
+        public int Secuencial_Proveedor { get; set; }
 
         //public int Secuencial { get; set; }
         public static Dictionary<string, double> Lista = new Dictionary<string, double>();
         public static string cliente_seleccionado;
+        public static string proveedor_seleccionado;
 
 
 
@@ -552,6 +554,18 @@ namespace Monitux_POS.Ventanas
 
         private void V_Compras_Ventas_Load(object sender, EventArgs e)
         {
+
+            if (V_Menu_Principal.Acceso_Usuario == "Administrador")
+            {
+                button1.Visible = true;
+                button6.Visible = true;
+            }
+            else {                 
+                
+                button1.Visible = false;
+                button6.Visible = false;
+            }
+
             Configurar_DataGridView_Ventas();
             Configurar_DataGridView_Detalle_Venta();
             Configurar_DataGridView_Compras();
@@ -854,62 +868,62 @@ namespace Monitux_POS.Ventanas
             V_Editar_Factura_Venta.Lista_de_Items.Clear();
             if (dataGridView1.Rows.Count == 0)
             {
-                V_Menu_Principal.MSG.ShowMSG("No hay facturas disponibles para modificar.", "Error");
+                V_Menu_Principal.MSG.ShowMSG("No hay factura seleccionada para modificar.", "Error");
                 return;
             }
 
-         
-                cliente_seleccionado = comboCliente.SelectedItem.ToString();
 
-            
-                Lista.Clear(); // Limpiar la lista antes de importar
-                foreach (DataGridViewRow row in dataGridView2.Rows)
+            cliente_seleccionado = comboCliente.SelectedItem.ToString();
+
+
+            Lista.Clear(); // Limpiar la lista antes de importar
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                if (!row.IsNewRow && row.Cells["Codigo"].Value != null && row.Cells["Cantidad"].Value != null)
                 {
-                    if (!row.IsNewRow && row.Cells["Codigo"].Value != null && row.Cells["Cantidad"].Value != null)
-                    {
-                        string codigo = row.Cells["Codigo"].Value.ToString();
+                    string codigo = row.Cells["Codigo"].Value.ToString();
 
-                        if (!Lista.ContainsKey(codigo) && double.TryParse(row.Cells["Cantidad"].Value.ToString(), out double cantidad))
-                        {
-                            Lista.Add(codigo, cantidad);
-                        }
+                    if (!Lista.ContainsKey(codigo) && double.TryParse(row.Cells["Cantidad"].Value.ToString(), out double cantidad))
+                    {
+                        Lista.Add(codigo, cantidad);
                     }
                 }
+            }
 
-              
-               
 
-                /* Esta Logica es necesaria luego de momento se queda comentada, igual va en otro lugar
 
-                SQLitePCL.Batteries.Init();
 
-                using var context1 = new Monitux_DB_Context();
-                context1.Database.EnsureCreated();
+            /* Esta Logica es necesaria luego de momento se queda comentada, igual va en otro lugar
 
-                var cotizacion_detalle = context1.Cotizaciones_Detalles.Where(p => p.Secuencial_Cotizacion == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa).ToList();
+            SQLitePCL.Batteries.Init();
 
-                if (cotizacion_detalle.Any()) // Verifica si hay elementos en la lista
-                {
-                    context1.Cotizaciones_Detalles.RemoveRange(cotizacion_detalle); // Elimina múltiples registros
-                    context1.SaveChanges();
-                }
+            using var context1 = new Monitux_DB_Context();
+            context1.Database.EnsureCreated();
 
-                */
+            var cotizacion_detalle = context1.Cotizaciones_Detalles.Where(p => p.Secuencial_Cotizacion == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa).ToList();
 
-                if (Secuencial_Venta == 0)
+            if (cotizacion_detalle.Any()) // Verifica si hay elementos en la lista
+            {
+                context1.Cotizaciones_Detalles.RemoveRange(cotizacion_detalle); // Elimina múltiples registros
+                context1.SaveChanges();
+            }
+
+            */
+
+            if (Secuencial_Venta == 0)
             {
 
                 V_Menu_Principal.MSG.ShowMSG("Seleccione Factura", "Monitux-POS");
                 return;
             }
 
-                V_Editar_Factura_Venta v_Editar_Factura_Venta = new V_Editar_Factura_Venta();
+            V_Editar_Factura_Venta v_Editar_Factura_Venta = new V_Editar_Factura_Venta();
 
-            v_Editar_Factura_Venta.Secuencial_Cliente=Secuencial_Cliente;
-            v_Editar_Factura_Venta.Secuencial_Venta=Secuencial_Venta;
-            v_Editar_Factura_Venta.Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa;
+            v_Editar_Factura_Venta.Secuencial_Cliente = Secuencial_Cliente;
+            v_Editar_Factura_Venta.Secuencial_Venta = Secuencial_Venta;
+            v_Editar_Factura_Venta.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
 
-          
+
 
 
 
@@ -917,6 +931,66 @@ namespace Monitux_POS.Ventanas
 
             Filtrar_Venta("Secuencial_Cliente", comboCliente.SelectedItem.ToString().Split('-')[0].Trim());
             Filtrar_Detalle_Venta("Secuencial_Factura", this.Secuencial_Venta.ToString());
+
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+
+
+            Lista.Clear();
+            V_Editar_Factura_Compra.Lista_de_Items.Clear();
+
+            if (dataGridView3.Rows.Count == 0)
+            {
+                V_Menu_Principal.MSG.ShowMSG("No hay factura seleccionada para modificar.", "Error");
+                return;
+            }
+
+            // ✅ Asignar Secuencial_Proveedor correctamente desde el combo
+            string proveedorSeleccionado = comboProveedor.SelectedItem.ToString();
+            Secuencial_Proveedor = int.Parse(proveedorSeleccionado.Split('-')[0].Trim());
+
+            proveedor_seleccionado = proveedorSeleccionado;
+
+            // ✅ Importar productos y cantidades desde dataGridView4
+            Lista.Clear();
+            foreach (DataGridViewRow row in dataGridView4.Rows)
+            {
+                if (!row.IsNewRow && row.Cells["Codigo"].Value != null && row.Cells["Cantidad"].Value != null)
+                {
+                    string codigo = row.Cells["Codigo"].Value.ToString();
+
+                    if (!Lista.ContainsKey(codigo) && double.TryParse(row.Cells["Cantidad"].Value.ToString(), out double cantidad))
+                    {
+                        Lista.Add(codigo, cantidad);
+                    }
+                }
+            }
+
+         
+
+            if (Secuencial_Compra == 0)
+            {
+                V_Menu_Principal.MSG.ShowMSG("Seleccione Factura", "Monitux-POS");
+                return;
+            }
+
+            V_Editar_Factura_Compra v_Editar_Factura_Compra = new V_Editar_Factura_Compra();
+
+            v_Editar_Factura_Compra.Secuencial_Proveedor = Secuencial_Proveedor;
+            v_Editar_Factura_Compra.Secuencial_Compra = Secuencial_Compra;
+            v_Editar_Factura_Compra.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
+
+            v_Editar_Factura_Compra.ShowDialog();
+
+            // ✅ Refresca vista
+            Filtrar_Compra("Secuencial_Proveedor", Secuencial_Proveedor.ToString());
+            Filtrar_Detalle_Compra("Secuencial_Factura", Secuencial_Compra.ToString());
+
+
 
 
         }

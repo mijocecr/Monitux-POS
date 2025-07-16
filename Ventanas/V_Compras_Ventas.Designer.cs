@@ -99,7 +99,7 @@
             // 
             button5.FlatStyle = FlatStyle.Flat;
             button5.ForeColor = Color.White;
-            button5.Location = new Point(207, 465);
+            button5.Location = new Point(262, 465);
             button5.Name = "button5";
             button5.Size = new Size(111, 29);
             button5.TabIndex = 52;
@@ -112,13 +112,14 @@
             button6.BackColor = Color.FromArgb(35, 32, 45);
             button6.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 128, 0);
             button6.FlatStyle = FlatStyle.Flat;
-            button6.ForeColor = Color.Yellow;
-            button6.Location = new Point(71, 466);
+            button6.ForeColor = Color.White;
+            button6.Location = new Point(137, 465);
             button6.Name = "button6";
             button6.Size = new Size(111, 29);
             button6.TabIndex = 51;
             button6.Text = "Modificar";
             button6.UseVisualStyleBackColor = false;
+            button6.Click += button6_Click;
             // 
             // dataGridView3
             // 
@@ -246,7 +247,7 @@
             // 
             button3.FlatStyle = FlatStyle.Flat;
             button3.ForeColor = Color.White;
-            button3.Location = new Point(132, 466);
+            button3.Location = new Point(8, 466);
             button3.Name = "button3";
             button3.Size = new Size(111, 29);
             button3.TabIndex = 49;
@@ -307,8 +308,8 @@
             button1.BackColor = Color.FromArgb(35, 32, 45);
             button1.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 128, 0);
             button1.FlatStyle = FlatStyle.Flat;
-            button1.ForeColor = Color.Yellow;
-            button1.Location = new Point(8, 466);
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(136, 466);
             button1.Name = "button1";
             button1.Size = new Size(111, 29);
             button1.TabIndex = 46;

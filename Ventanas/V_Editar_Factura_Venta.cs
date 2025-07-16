@@ -108,7 +108,7 @@ namespace Monitux_POS.Ventanas
                     miniatura_Producto.Expira = item.Expira; // Asignar si el producto expira o no
                     miniatura_Producto.cantidadSelecccionItem = Lista.TryGetValue(item_C.Key, out double cantidad) ? cantidad : 0.0; // Asignar la cantidad seleccionada desde el diccionario, o 0.0 si no se encuentra
                     miniatura_Producto.Tipo = item.Tipo;
-                    miniatura_Producto.Origen = "Factura_Venta"; // Asignar el origen del producto a "Factura_Venta"
+                    miniatura_Producto.Origen = "Editar_Factura_Venta"; // Asignar el origen del producto a "Factura_Venta"
                     Selector_Cantidad selector_Cantidad = new Selector_Cantidad();
                     selector_Cantidad.SetCodigo(miniatura_Producto.Codigo);
                     selector_Cantidad.numericUpDown1.Value = Convert.ToDecimal(miniatura_Producto.cantidadSelecccionItem);
@@ -257,7 +257,7 @@ namespace Monitux_POS.Ventanas
 
         private void V_Editar_Factura_Venta_Load(object sender, EventArgs e)
         {
-
+            this.Text= "Factura No: "+Secuencial_Venta;
             llenar_Combo_Cliente();
             lbl_Descuento.Text = $"{lbl_Descuento:0.00}";
             lbl_Impuesto.Text = $"{lbl_Impuesto:0.00}";
@@ -875,7 +875,7 @@ namespace Monitux_POS.Ventanas
 
             // ✅ Actualiza contador
             label5.Text = Lista_de_Items.Count.ToString();
-            this.Text = Lista_de_Items_Eliminar.Count.ToString();
+            
 
 
         }
@@ -924,7 +924,7 @@ namespace Monitux_POS.Ventanas
                     if (producto != null && producto.Tipo != "Servicio" && detalle.Cantidad != null)
                     {
                         double cantidadDevuelta = (double)detalle.Cantidad;
-                        
+
 
                         // ✅ Registrar solo la cantidad devuelta, no el stock total
                         Util.Registrar_Movimiento_Kardex(
@@ -950,6 +950,25 @@ namespace Monitux_POS.Ventanas
                     Secuencial_Empresa
                 );
 
+
+                // ✅ Eliminar ingreso vinculado a la factura
+                var ingresoAsociado = context.Ingresos.FirstOrDefault(i =>
+                    i.Secuencial_Factura == secuencialFactura &&
+                    i.Secuencial_Empresa == Secuencial_Empresa);
+
+                if (ingresoAsociado != null)
+                {
+                    context.Ingresos.Remove(ingresoAsociado);
+                    Util.Registrar_Actividad(
+                        Secuencial_Usuario,
+                        $"Se eliminó el ingreso relacionado a la Factura No. {secuencialFactura}",
+                        Secuencial_Empresa
+                    );
+                }
+
+
+
+
                 context.SaveChanges();
 
                 V_Menu_Principal.MSG.ShowMSG(
@@ -957,7 +976,7 @@ namespace Monitux_POS.Ventanas
                     "Operación Exitosa");
 
                 // Limpieza visual opcional
-                // this.Dispose();
+                this.Dispose();
             }
             catch (Exception ex)
             {
@@ -1123,7 +1142,7 @@ namespace Monitux_POS.Ventanas
         {
 
 
-            this.Text = Lista_de_Items_Eliminar.Values.Count.ToString();
+            //  this.Text = Lista_de_Items_Eliminar.Values.Count.ToString();
 
             using var context = new Monitux_DB_Context();
             SQLitePCL.Batteries.Init();
@@ -1169,11 +1188,11 @@ namespace Monitux_POS.Ventanas
                 flowLayoutPanel2.Controls.Remove(control);
                 button1.Enabled = true;
 
-                V_Menu_Principal.MSG.ShowMSG($"El item {codigo} se removió de la factura", "Ventas");
+                V_Menu_Principal.MSG.ShowMSG($"El item {codigo} se removió de la factura, no olvide guardar los cambios efectuados al finalizar.", "Ventas");
 
                 ActualizarCuentas(context, copia.Precio_Venta);
                 ActualizarVenta(context, copia.Precio_Venta);
-             
+
 
 
                 ////////////////////////////
@@ -1223,9 +1242,15 @@ namespace Monitux_POS.Ventanas
 
             }//Fin del foreach
 
+
+
             Cargar_Items();
             label5.Text = Lista_de_Items.Count.ToString();
             button2_Click(sender, e);
+
+
+          
+
 
 
 
@@ -1306,11 +1331,11 @@ namespace Monitux_POS.Ventanas
 
 
 
-            ////////////////////////////
-            
-            
-            
-            ///////////////////////////
+        ////////////////////////////
+
+
+
+        ///////////////////////////
 
 
 
@@ -1319,7 +1344,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        
+
 
 
 
@@ -1390,7 +1415,7 @@ namespace Monitux_POS.Ventanas
             venta.Descuento = descuento;
 
 
-          
+
 
 
             using var context1 = new Monitux_DB_Context();
@@ -1422,7 +1447,7 @@ namespace Monitux_POS.Ventanas
                     d.Secuencial_Factura == venta.Secuencial &&
                     d.Secuencial_Producto == pro.Secuencial &&
                     d.Secuencial_Empresa == venta.Secuencial_Empresa);
-                    
+
 
                 int nuevaCantidad = (int)pro.cantidadSelecccionItem;
 
@@ -1431,7 +1456,7 @@ namespace Monitux_POS.Ventanas
                     if (pro.Tipo != "Servicio")
                     {
 
-                       
+
 
 
                         int cantidadAnterior = (int)detalleExistente.Cantidad;
@@ -1444,8 +1469,8 @@ namespace Monitux_POS.Ventanas
 
                             Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion, cantidadMovimiento, pro.Precio_Costo, pro.Precio_Venta, tipoMovimiento, Secuencial_Empresa);
 
-                            
-                            
+
+
                             string accion = diferencia > 0 ? "Agregó" : "Quitó";
                             Util.Registrar_Actividad(Secuencial_Usuario, $"{accion} {cantidadMovimiento} unidades de {pro.Codigo} en modificación de factura No: {venta.Secuencial}", Secuencial_Empresa);
 
@@ -1511,8 +1536,29 @@ namespace Monitux_POS.Ventanas
                 }
             }
 
+
+
+
+            var ingresoExistente = context.Ingresos.FirstOrDefault(i =>
+                   i.Secuencial_Factura == venta.Secuencial &&
+                   i.Secuencial_Empresa == venta.Secuencial_Empresa);
+
+            if (ingresoExistente != null)
+            {
+                ingresoExistente.Total = (double)venta.Gran_Total;
+                ingresoExistente.Descripcion = $"Actualización de ingreso por compra No. {venta.Secuencial}";
+                ingresoExistente.Fecha = DateTime.Now.ToString();
+                ingresoExistente.Tipo_Ingreso = venta.Tipo;
+                ingresoExistente.Secuencial_Usuario = venta.Secuencial_Usuario;
+            }
+
+            // ✅ Guardar todos los cambios, incluyendo el ingreso
             context.SaveChanges();
             context1.SaveChanges();
+
+
+
+
 
 
 
@@ -1570,6 +1616,11 @@ namespace Monitux_POS.Ventanas
         {
             Lista_de_Items.Clear();
             Lista_de_Items_Eliminar.Clear();
+        }
+
+        private void comboCliente_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

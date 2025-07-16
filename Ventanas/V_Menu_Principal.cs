@@ -521,7 +521,7 @@ namespace Monitux_POS.Ventanas
 
         private void button10_Click(object sender, EventArgs e)
         {
-            MSG.ShowMSG("Mensaje de Prueba", "Titulo de Prueba");
+
         }
 
         private void panel7_Paint(object sender, PaintEventArgs e)
@@ -590,14 +590,7 @@ namespace Monitux_POS.Ventanas
         {
             Mostrar_SubMenu(panel6);
             lbl_Descripcion.Text = "Desde aquí podrá generar cotizaciones, emitir órdenes de compra y registrar todas sus compras y ventas fácilmente.";
-            if (V_Menu_Principal.Acceso_Usuario != "Administrador")
-            {
-                button10.Enabled = false; // Oculta el botón de eliminar si el usuario no es administrador
-            }
-            else
-            {
-                button10.Enabled = true; // Muestra el botón de eliminar si el usuario es administrador
-            }
+
 
         }
 
@@ -624,7 +617,7 @@ namespace Monitux_POS.Ventanas
 
         private void button10_Click_1(object sender, EventArgs e)
         {
-            V_Compras_Ventas v_Compras_Ventas= new V_Compras_Ventas();
+            V_Compras_Ventas v_Compras_Ventas = new V_Compras_Ventas();
             Abrir_Ventana(v_Compras_Ventas);
             lbl_Descripcion.Text = "En esta pantalla, puede consultar las compras y ventas registradas por proveedor / cliente. Imprimir la factura; como tambien enviarla por email a cliente.";
 
@@ -826,7 +819,7 @@ namespace Monitux_POS.Ventanas
         {
 
 
-            try
+          /*  try
             {
                 // Configura el mensaje
                 MailMessage mail = new MailMessage();
@@ -853,8 +846,16 @@ namespace Monitux_POS.Ventanas
             catch (Exception ex)
             {
                 MessageBox.Show("Error al enviar el correo: " + ex.Message);
-            }
+            }*/
 
+
+        }
+
+        private void button30_Click(object sender, EventArgs e)
+        {
+            V_Ingresos v_Ingresos = new V_Ingresos();
+            Abrir_Ventana(v_Ingresos);
+            lbl_Descripcion.Text = "Consulte de forma rápida y sencilla los ingresos registrados en el sistema, tanto automáticos como manuales. Además, tiene la opción de añadir ingresos independientes al proceso de venta.";
 
         }
     }

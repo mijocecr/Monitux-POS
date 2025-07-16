@@ -481,7 +481,7 @@ namespace Monitux_POS.Ventanas
             lbl_Total.AutoSize = true;
             lbl_Total.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
             lbl_Total.ForeColor = Color.Yellow;
-            lbl_Total.Location = new Point(279, 365);
+            lbl_Total.Location = new Point(264, 365);
             lbl_Total.Name = "lbl_Total";
             lbl_Total.Size = new Size(25, 30);
             lbl_Total.TabIndex = 38;
@@ -561,7 +561,7 @@ namespace Monitux_POS.Ventanas
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(210, 367);
+            label6.Location = new Point(202, 367);
             label6.Name = "label6";
             label6.Size = new Size(67, 30);
             label6.TabIndex = 31;

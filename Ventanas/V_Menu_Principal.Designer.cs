@@ -139,7 +139,7 @@
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
             panel3.Controls.Add(btn_inicio);
-            panel3.Location = new Point(0, 113);
+            panel3.Location = new Point(0, -73);
             panel3.Name = "panel3";
             panel3.Size = new Size(176, 1013);
             panel3.TabIndex = 3;
@@ -395,6 +395,7 @@
             button30.Text = "Ingresos";
             button30.TextAlign = ContentAlignment.MiddleLeft;
             button30.UseVisualStyleBackColor = false;
+            button30.Click += button30_Click;
             // 
             // btn_movimientos
             // 
@@ -623,7 +624,7 @@
             button25.Padding = new Padding(35, 0, 0, 0);
             button25.Size = new Size(166, 26);
             button25.TabIndex = 3;
-            button25.Text = "Acerca de...";
+            button25.Text = "Manual de Usuario";
             button25.TextAlign = ContentAlignment.MiddleLeft;
             button25.UseVisualStyleBackColor = false;
             // 
@@ -904,9 +905,9 @@
             // label1
             // 
             label1.ForeColor = SystemColors.ActiveCaption;
-            label1.Location = new Point(26, 182);
+            label1.Location = new Point(12, 165);
             label1.Name = "label1";
-            label1.Size = new Size(100, 23);
+            label1.Size = new Size(130, 32);
             label1.TabIndex = 5;
             label1.Text = "Nombre";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -914,12 +915,12 @@
             // label2
             // 
             label2.ForeColor = SystemColors.ActiveCaption;
-            label2.Location = new Point(28, 163);
+            label2.Location = new Point(28, 26);
             label2.Name = "label2";
-            label2.Size = new Size(98, 25);
+            label2.Size = new Size(98, 18);
             label2.TabIndex = 8;
             label2.Text = "Acceso";
-            label2.TextAlign = ContentAlignment.MiddleCenter;
+            label2.TextAlign = ContentAlignment.BottomCenter;
             // 
             // V_Menu_Principal
             // 

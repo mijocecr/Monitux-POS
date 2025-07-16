@@ -1,6 +1,6 @@
 ﻿namespace Monitux_POS.Ventanas
 {
-    partial class V_Factura_Compra
+    partial class V_Editar_Factura_Compra
     {
         /// <summary>
         /// Required designer variable.
@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Factura_Compra));
-            panel1 = new Panel();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Editar_Factura_Compra));
+            label17 = new Label();
+            button7 = new Button();
             label16 = new Label();
             label15 = new Label();
             groupBox2 = new GroupBox();
-            checkBox1 = new CheckBox();
             label14 = new Label();
             label13 = new Label();
             label12 = new Label();
@@ -53,21 +54,18 @@
             comboBox1 = new ComboBox();
             label7 = new Label();
             label6 = new Label();
-            textBox2 = new TextBox();
             linkLabel3 = new LinkLabel();
             linkLabel2 = new LinkLabel();
             linkLabel1 = new LinkLabel();
             dataGridView1 = new DataGridView();
-            button6 = new Button();
             label3 = new Label();
             button1 = new Button();
-            comboCliente = new ComboBox();
+            comboProveedor = new ComboBox();
             dateTimePicker1 = new DateTimePicker();
             label1 = new Label();
             comboBox3 = new ComboBox();
             label2 = new Label();
             flowLayoutPanel2 = new FlowLayoutPanel();
-            button7 = new Button();
             label5 = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
             button8 = new Button();
@@ -77,62 +75,62 @@
             textBox1 = new TextBox();
             label4 = new Label();
             button3 = new Button();
-            button5 = new Button();
-            button4 = new Button();
-            panel1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
-            // panel1
+            // label17
             // 
-            panel1.BackColor = Color.FromArgb(11, 8, 20);
-            panel1.Controls.Add(label16);
-            panel1.Controls.Add(label15);
-            panel1.Controls.Add(groupBox2);
-            panel1.Controls.Add(flowLayoutPanel2);
-            panel1.Controls.Add(button7);
-            panel1.Controls.Add(label5);
-            panel1.Controls.Add(flowLayoutPanel1);
-            panel1.Controls.Add(button8);
-            panel1.Controls.Add(button2);
-            panel1.Controls.Add(groupBox1);
-            panel1.Controls.Add(label4);
-            panel1.Controls.Add(button3);
-            panel1.Controls.Add(button5);
-            panel1.Controls.Add(button4);
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(798, 592);
-            panel1.TabIndex = 35;
+            label17.ForeColor = Color.White;
+            label17.Location = new Point(267, 44);
+            label17.Name = "label17";
+            label17.Size = new Size(138, 67);
+            label17.TabIndex = 61;
+            label17.Text = "El impuesto y el descuento deben recalcularse al editar factura. (si aplica)";
+            label17.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // button7
+            // 
+            button7.BackColor = Color.Black;
+            button7.FlatAppearance.BorderColor = Color.FromArgb(252, 114, 95);
+            button7.FlatAppearance.MouseDownBackColor = Color.FromArgb(252, 114, 95);
+            button7.FlatStyle = FlatStyle.Flat;
+            button7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button7.ForeColor = Color.Red;
+            button7.Location = new Point(6, 501);
+            button7.Name = "button7";
+            button7.Size = new Size(70, 73);
+            button7.TabIndex = 67;
+            button7.Text = "Eliminar Factura";
+            button7.TextImageRelation = TextImageRelation.ImageAboveText;
+            button7.UseVisualStyleBackColor = false;
+            button7.Click += button7_Click;
             // 
             // label16
             // 
             label16.AutoSize = true;
-            label16.ForeColor = Color.Yellow;
-            label16.Location = new Point(8, 22);
+            label16.ForeColor = Color.FromArgb(255, 255, 128);
+            label16.Location = new Point(9, 14);
             label16.Name = "label16";
             label16.Size = new Size(372, 15);
-            label16.TabIndex = 39;
+            label16.TabIndex = 66;
             label16.Text = "Mecanica: Señale Producto -> Click -> Cantidad -> Actualizar Detalle";
             // 
             // label15
             // 
             label15.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label15.ForeColor = Color.FromArgb(128, 255, 255);
-            label15.Location = new Point(412, 9);
+            label15.ForeColor = Color.Yellow;
+            label15.Location = new Point(413, 1);
             label15.Name = "label15";
             label15.Size = new Size(379, 37);
-            label15.TabIndex = 38;
-            label15.Text = "Registrar Compra";
+            label15.TabIndex = 65;
+            label15.Text = "Modificar Compra";
             label15.TextAlign = ContentAlignment.MiddleCenter;
-            label15.Click += label15_Click;
             // 
             // groupBox2
             // 
             groupBox2.BackColor = Color.FromArgb(0, 75, 160);
-            groupBox2.Controls.Add(checkBox1);
             groupBox2.Controls.Add(label14);
             groupBox2.Controls.Add(label13);
             groupBox2.Controls.Add(label12);
@@ -151,42 +149,23 @@
             groupBox2.Controls.Add(comboBox1);
             groupBox2.Controls.Add(label7);
             groupBox2.Controls.Add(label6);
-            groupBox2.Controls.Add(textBox2);
             groupBox2.Controls.Add(linkLabel3);
             groupBox2.Controls.Add(linkLabel2);
             groupBox2.Controls.Add(linkLabel1);
             groupBox2.Controls.Add(dataGridView1);
-            groupBox2.Controls.Add(button6);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(button1);
-            groupBox2.Controls.Add(comboCliente);
+            groupBox2.Controls.Add(comboProveedor);
             groupBox2.Controls.Add(dateTimePicker1);
             groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(comboBox3);
             groupBox2.Controls.Add(label2);
             groupBox2.ForeColor = Color.Black;
-            groupBox2.Location = new Point(412, 40);
+            groupBox2.Location = new Point(413, 32);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(379, 543);
-            groupBox2.TabIndex = 26;
+            groupBox2.Size = new Size(379, 542);
+            groupBox2.TabIndex = 59;
             groupBox2.TabStop = false;
-            groupBox2.Enter += groupBox2_Enter;
-            groupBox2.MouseHover += groupBox2_MouseHover;
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Checked = true;
-            checkBox1.CheckState = CheckState.Checked;
-            checkBox1.ForeColor = Color.White;
-            checkBox1.Location = new Point(256, 407);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(112, 19);
-            checkBox1.TabIndex = 49;
-            checkBox1.Text = "Calcular cambio";
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.Visible = false;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // label14
             // 
@@ -228,8 +207,6 @@
             txt_Descuento.TabIndex = 45;
             txt_Descuento.TextAlign = HorizontalAlignment.Center;
             txt_Descuento.Visible = false;
-            txt_Descuento.TextChanged += txt_Descuento_TextChanged;
-            txt_Descuento.KeyDown += txt_Descuento_KeyDown;
             // 
             // txt_Impuesto
             // 
@@ -239,8 +216,6 @@
             txt_Impuesto.TabIndex = 44;
             txt_Impuesto.TextAlign = HorizontalAlignment.Center;
             txt_Impuesto.Visible = false;
-            txt_Impuesto.TextChanged += txt_Impuesto_TextChanged;
-            txt_Impuesto.KeyDown += txt_Impuesto_KeyDown;
             // 
             // txt_OtrosCargos
             // 
@@ -250,8 +225,6 @@
             txt_OtrosCargos.TabIndex = 43;
             txt_OtrosCargos.TextAlign = HorizontalAlignment.Center;
             txt_OtrosCargos.Visible = false;
-            txt_OtrosCargos.TextChanged += txt_OtrosCargos_TextChanged;
-            txt_OtrosCargos.KeyDown += txt_OtrosCargos_KeyDown;
             // 
             // lbl_Descuento
             // 
@@ -263,7 +236,6 @@
             lbl_Descuento.Size = new Size(15, 17);
             lbl_Descuento.TabIndex = 42;
             lbl_Descuento.Text = "0";
-            lbl_Descuento.Visible = false;
             // 
             // lbl_Impuesto
             // 
@@ -275,7 +247,6 @@
             lbl_Impuesto.Size = new Size(15, 17);
             lbl_Impuesto.TabIndex = 41;
             lbl_Impuesto.Text = "0";
-            lbl_Impuesto.Visible = false;
             // 
             // lbl_OtrosCargos
             // 
@@ -287,7 +258,6 @@
             lbl_OtrosCargos.Size = new Size(15, 17);
             lbl_OtrosCargos.TabIndex = 40;
             lbl_OtrosCargos.Text = "0";
-            lbl_OtrosCargos.Visible = false;
             // 
             // lbl_sub_Total
             // 
@@ -305,7 +275,7 @@
             lbl_Total.AutoSize = true;
             lbl_Total.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
             lbl_Total.ForeColor = Color.Yellow;
-            lbl_Total.Location = new Point(263, 365);
+            lbl_Total.Location = new Point(264, 365);
             lbl_Total.Name = "lbl_Total";
             lbl_Total.Size = new Size(25, 30);
             lbl_Total.TabIndex = 38;
@@ -321,7 +291,6 @@
             label11.Size = new Size(77, 17);
             label11.TabIndex = 37;
             label11.Text = "Descuento:";
-            label11.Visible = false;
             // 
             // label10
             // 
@@ -333,7 +302,6 @@
             label10.Size = new Size(70, 17);
             label10.TabIndex = 36;
             label10.Text = "Impuesto:";
-            label10.Visible = false;
             // 
             // label9
             // 
@@ -345,7 +313,6 @@
             label9.Size = new Size(92, 17);
             label9.TabIndex = 35;
             label9.Text = "Otros Cargos:";
-            label9.Visible = false;
             // 
             // label8
             // 
@@ -361,13 +328,13 @@
             // comboBox1
             // 
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.Enabled = false;
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Otro", "Ninguno" });
             comboBox1.Location = new Point(111, 94);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(91, 23);
             comboBox1.TabIndex = 33;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label7
             // 
@@ -384,26 +351,16 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(201, 367);
+            label6.Location = new Point(202, 367);
             label6.Name = "label6";
             label6.Size = new Size(67, 30);
             label6.TabIndex = 31;
             label6.Text = "Total:";
             // 
-            // textBox2
-            // 
-            textBox2.ForeColor = Color.FromArgb(192, 0, 192);
-            textBox2.Location = new Point(296, 35);
-            textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "Telefono...";
-            textBox2.Size = new Size(75, 23);
-            textBox2.TabIndex = 30;
-            textBox2.TextChanged += textBox2_TextChanged;
-            // 
             // linkLabel3
             // 
             linkLabel3.AutoSize = true;
-            linkLabel3.LinkColor = Color.FromArgb(192, 255, 192);
+            linkLabel3.LinkColor = Color.Thistle;
             linkLabel3.Location = new Point(18, 353);
             linkLabel3.Name = "linkLabel3";
             linkLabel3.Size = new Size(121, 15);
@@ -415,7 +372,7 @@
             // linkLabel2
             // 
             linkLabel2.AutoSize = true;
-            linkLabel2.LinkColor = Color.FromArgb(192, 255, 192);
+            linkLabel2.LinkColor = Color.Thistle;
             linkLabel2.Location = new Point(18, 406);
             linkLabel2.Name = "linkLabel2";
             linkLabel2.Size = new Size(108, 15);
@@ -427,7 +384,7 @@
             // linkLabel1
             // 
             linkLabel1.AutoSize = true;
-            linkLabel1.LinkColor = Color.FromArgb(192, 255, 192);
+            linkLabel1.LinkColor = Color.Thistle;
             linkLabel1.Location = new Point(18, 379);
             linkLabel1.Name = "linkLabel1";
             linkLabel1.Size = new Size(102, 15);
@@ -442,6 +399,14 @@
             dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
             dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.Location = new Point(6, 143);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
@@ -451,25 +416,11 @@
             dataGridView1.Size = new Size(365, 181);
             dataGridView1.TabIndex = 8;
             // 
-            // button6
-            // 
-            button6.BackColor = Color.FromArgb(35, 32, 45);
-            button6.FlatAppearance.BorderColor = Color.White;
-            button6.FlatAppearance.BorderSize = 0;
-            button6.ForeColor = Color.FromArgb(128, 255, 255);
-            button6.Location = new Point(296, 438);
-            button6.Name = "button6";
-            button6.Size = new Size(75, 90);
-            button6.TabIndex = 21;
-            button6.Text = "Generar Compra";
-            button6.UseVisualStyleBackColor = false;
-            button6.Click += button6_Click;
-            // 
             // label3
             // 
             label3.AutoSize = true;
             label3.ForeColor = Color.White;
-            label3.Location = new Point(226, 72);
+            label3.Location = new Point(256, 72);
             label3.Name = "label3";
             label3.Size = new Size(56, 15);
             label3.TabIndex = 25;
@@ -479,31 +430,30 @@
             // button1
             // 
             button1.BackColor = Color.FromArgb(35, 32, 45);
-            button1.FlatAppearance.BorderColor = Color.White;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.ForeColor = Color.Yellow;
-            button1.Location = new Point(215, 440);
+            button1.ForeColor = Color.Lime;
+            button1.Location = new Point(288, 437);
             button1.Name = "button1";
-            button1.Size = new Size(75, 88);
+            button1.Size = new Size(75, 90);
             button1.TabIndex = 20;
-            button1.Text = "Generar Orden";
+            button1.Text = "Guardar";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 
-            // comboCliente
+            // comboProveedor
             // 
-            comboCliente.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboCliente.FormattingEnabled = true;
-            comboCliente.Location = new Point(72, 35);
-            comboCliente.Name = "comboCliente";
-            comboCliente.Size = new Size(218, 23);
-            comboCliente.TabIndex = 9;
-            comboCliente.SelectedIndexChanged += comboCliente_SelectedIndexChanged;
+            comboProveedor.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboProveedor.Enabled = false;
+            comboProveedor.FormattingEnabled = true;
+            comboProveedor.Location = new Point(111, 35);
+            comboProveedor.Name = "comboProveedor";
+            comboProveedor.Size = new Size(222, 23);
+            comboProveedor.TabIndex = 9;
             // 
             // dateTimePicker1
             // 
+            dateTimePicker1.Enabled = false;
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(288, 68);
+            dateTimePicker1.Location = new Point(250, 90);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(83, 23);
             dateTimePicker1.TabIndex = 24;
@@ -513,7 +463,7 @@
             // 
             label1.AutoSize = true;
             label1.ForeColor = Color.White;
-            label1.Location = new Point(7, 38);
+            label1.Location = new Point(40, 38);
             label1.Name = "label1";
             label1.Size = new Size(64, 15);
             label1.TabIndex = 10;
@@ -522,23 +472,23 @@
             // comboBox3
             // 
             comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox3.Enabled = false;
             comboBox3.FormattingEnabled = true;
             comboBox3.Items.AddRange(new object[] { "Contado", "Credito" });
             comboBox3.Location = new Point(111, 66);
             comboBox3.Name = "comboBox3";
             comboBox3.Size = new Size(91, 23);
             comboBox3.TabIndex = 23;
-            comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.ForeColor = Color.White;
-            label2.Location = new Point(7, 72);
+            label2.Location = new Point(21, 72);
             label2.Name = "label2";
-            label2.Size = new Size(96, 15);
+            label2.Size = new Size(82, 15);
             label2.TabIndex = 22;
-            label2.Text = "Tipo de Compra:";
+            label2.Text = "Tipo de Venta:";
             // 
             // flowLayoutPanel2
             // 
@@ -546,40 +496,21 @@
             flowLayoutPanel2.BackColor = Color.FromArgb(35, 32, 45);
             flowLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             flowLayoutPanel2.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel2.Location = new Point(159, 495);
+            flowLayoutPanel2.Location = new Point(160, 486);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
             flowLayoutPanel2.Size = new Size(168, 88);
-            flowLayoutPanel2.TabIndex = 32;
+            flowLayoutPanel2.TabIndex = 64;
             flowLayoutPanel2.WrapContents = false;
-            // 
-            // button7
-            // 
-            button7.BackColor = Color.FromArgb(11, 8, 20);
-            button7.FlatAppearance.BorderColor = Color.FromArgb(252, 114, 95);
-            button7.FlatAppearance.MouseDownBackColor = Color.FromArgb(252, 114, 95);
-            button7.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
-            button7.FlatStyle = FlatStyle.Flat;
-            button7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button7.ForeColor = Color.White;
-            button7.Image = (Image)resources.GetObject("button7.Image");
-            button7.Location = new Point(5, 509);
-            button7.Name = "button7";
-            button7.Size = new Size(74, 74);
-            button7.TabIndex = 27;
-            button7.Text = "Reset Factura";
-            button7.TextImageRelation = TextImageRelation.ImageAboveText;
-            button7.UseVisualStyleBackColor = false;
-            button7.Click += button7_Click;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.ForeColor = Color.DodgerBlue;
-            label5.Location = new Point(123, 489);
+            label5.ForeColor = Color.FromArgb(255, 128, 0);
+            label5.Location = new Point(124, 480);
             label5.Name = "label5";
             label5.Size = new Size(15, 17);
-            label5.TabIndex = 31;
+            label5.TabIndex = 63;
             label5.Text = "0";
             // 
             // flowLayoutPanel1
@@ -587,24 +518,22 @@
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.BackColor = Color.FromArgb(35, 32, 45);
             flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
-            flowLayoutPanel1.Location = new Point(8, 144);
+            flowLayoutPanel1.Location = new Point(9, 135);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(396, 342);
-            flowLayoutPanel1.TabIndex = 7;
-            flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
-            flowLayoutPanel1.MouseMove += flowLayoutPanel1_MouseMove;
+            flowLayoutPanel1.TabIndex = 55;
             // 
             // button8
             // 
-            button8.BackColor = Color.FromArgb(11, 8, 20);
+            button8.BackColor = Color.FromArgb(35, 32, 45);
             button8.FlatStyle = FlatStyle.Flat;
             button8.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button8.ForeColor = Color.White;
             button8.Image = (Image)resources.GetObject("button8.Image");
-            button8.Location = new Point(81, 509);
+            button8.Location = new Point(82, 501);
             button8.Name = "button8";
-            button8.Size = new Size(74, 74);
-            button8.TabIndex = 30;
+            button8.Size = new Size(72, 73);
+            button8.TabIndex = 62;
             button8.Text = "Quitar Elemento";
             button8.TextImageRelation = TextImageRelation.ImageAboveText;
             button8.UseVisualStyleBackColor = false;
@@ -616,23 +545,23 @@
             button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
             button2.FlatStyle = FlatStyle.Flat;
             button2.ForeColor = Color.White;
-            button2.Location = new Point(332, 495);
+            button2.Location = new Point(333, 486);
             button2.Name = "button2";
             button2.Size = new Size(74, 88);
-            button2.TabIndex = 12;
+            button2.TabIndex = 56;
             button2.Text = "Actualizar Detalle";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click_1;
+            button2.Click += button2_Click;
             // 
             // groupBox1
             // 
             groupBox1.Controls.Add(comboBox2);
             groupBox1.Controls.Add(textBox1);
             groupBox1.ForeColor = Color.White;
-            groupBox1.Location = new Point(8, 40);
+            groupBox1.Location = new Point(102, 32);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(159, 98);
-            groupBox1.TabIndex = 16;
+            groupBox1.TabIndex = 57;
             groupBox1.TabStop = false;
             groupBox1.Text = "Buscar Por:";
             // 
@@ -660,10 +589,10 @@
             // 
             label4.AutoSize = true;
             label4.ForeColor = Color.White;
-            label4.Location = new Point(10, 490);
+            label4.Location = new Point(11, 481);
             label4.Name = "label4";
             label4.Size = new Size(107, 15);
-            label4.TabIndex = 29;
+            label4.TabIndex = 60;
             label4.Text = "Productos en Lista:";
             // 
             // button3
@@ -672,72 +601,61 @@
             button3.FlatStyle = FlatStyle.Flat;
             button3.ForeColor = Color.White;
             button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(174, 48);
+            button3.Location = new Point(12, 40);
             button3.Name = "button3";
-            button3.Size = new Size(75, 90);
-            button3.TabIndex = 17;
+            button3.Size = new Size(75, 89);
+            button3.TabIndex = 58;
             button3.Text = "Nuevo Producto";
             button3.TextAlign = ContentAlignment.BottomCenter;
             button3.TextImageRelation = TextImageRelation.ImageAboveText;
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
             // 
-            // button5
-            // 
-            button5.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
-            button5.FlatStyle = FlatStyle.Flat;
-            button5.ForeColor = Color.White;
-            button5.Image = (Image)resources.GetObject("button5.Image");
-            button5.Location = new Point(331, 48);
-            button5.Name = "button5";
-            button5.Size = new Size(75, 90);
-            button5.TabIndex = 19;
-            button5.Text = "Importar Orden";
-            button5.TextImageRelation = TextImageRelation.ImageAboveText;
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
-            // 
-            // button4
-            // 
-            button4.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
-            button4.FlatStyle = FlatStyle.Flat;
-            button4.ForeColor = Color.White;
-            button4.Image = (Image)resources.GetObject("button4.Image");
-            button4.Location = new Point(253, 48);
-            button4.Name = "button4";
-            button4.Size = new Size(75, 90);
-            button4.TabIndex = 18;
-            button4.Text = "Gestionar Proveedor";
-            button4.TextImageRelation = TextImageRelation.ImageAboveText;
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
-            // 
-            // V_Factura_Compra
+            // V_Editar_Factura_Compra
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(798, 590);
-            Controls.Add(panel1);
-            FormBorderStyle = FormBorderStyle.None;
-            Name = "V_Factura_Compra";
-            Text = "V_Factura_Compra";
-            WindowState = FormWindowState.Maximized;
-            Load += V_Factura_Compra_Load;
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            BackColor = Color.FromArgb(11, 8, 20);
+            ClientSize = new Size(802, 586);
+            Controls.Add(label17);
+            Controls.Add(button7);
+            Controls.Add(label16);
+            Controls.Add(label15);
+            Controls.Add(groupBox2);
+            Controls.Add(flowLayoutPanel2);
+            Controls.Add(label5);
+            Controls.Add(flowLayoutPanel1);
+            Controls.Add(button8);
+            Controls.Add(button2);
+            Controls.Add(groupBox1);
+            Controls.Add(label4);
+            Controls.Add(button3);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "V_Editar_Factura_Compra";
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "V_Editar_Factura_Compra";
+            FormClosing += V_Editar_Factura_Compra_FormClosing;
+            Load += V_Editar_Factura_Compra_Load;
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private Panel panel1;
+        private Label label17;
+        private Button button7;
+        private Label label16;
+        private Label label15;
         private GroupBox groupBox2;
-        private CheckBox checkBox1;
         private Label label14;
         private Label label13;
         private Label label12;
@@ -756,21 +674,20 @@
         private ComboBox comboBox1;
         private Label label7;
         private Label label6;
-        private TextBox textBox2;
         private LinkLabel linkLabel3;
         private LinkLabel linkLabel2;
         private LinkLabel linkLabel1;
         private DataGridView dataGridView1;
-        private Button button6;
         private Label label3;
         private Button button1;
-        private ComboBox comboCliente;
+        private ComboBox comboProveedor;
         private DateTimePicker dateTimePicker1;
         public Label label1;
         private ComboBox comboBox3;
         private Label label2;
-        private Button button7;
+        public FlowLayoutPanel flowLayoutPanel2;
         private Label label5;
+        public FlowLayoutPanel flowLayoutPanel1;
         private Button button8;
         private Button button2;
         private GroupBox groupBox1;
@@ -778,11 +695,5 @@
         private TextBox textBox1;
         private Label label4;
         private Button button3;
-        private Button button4;
-        public  FlowLayoutPanel flowLayoutPanel2;
-        public  FlowLayoutPanel flowLayoutPanel1;
-        public Button button5;
-        private Label label15;
-        private Label label16;
     }
 }

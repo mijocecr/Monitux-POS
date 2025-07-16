@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Editar_Factura_Venta));
             label16 = new Label();
             label15 = new Label();
@@ -254,7 +254,7 @@
             lbl_Total.AutoSize = true;
             lbl_Total.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
             lbl_Total.ForeColor = Color.Yellow;
-            lbl_Total.Location = new Point(279, 365);
+            lbl_Total.Location = new Point(262, 365);
             lbl_Total.Name = "lbl_Total";
             lbl_Total.Size = new Size(25, 30);
             lbl_Total.TabIndex = 38;
@@ -330,7 +330,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(210, 367);
+            label6.Location = new Point(200, 367);
             label6.Name = "label6";
             label6.Size = new Size(67, 30);
             label6.TabIndex = 31;
@@ -375,17 +375,17 @@
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle4.ForeColor = Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
             dataGridView1.Location = new Point(6, 143);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
@@ -427,6 +427,7 @@
             comboCliente.Name = "comboCliente";
             comboCliente.Size = new Size(222, 23);
             comboCliente.TabIndex = 9;
+            comboCliente.SelectedIndexChanged += comboCliente_SelectedIndexChanged;
             // 
             // dateTimePicker1
             // 
@@ -513,7 +514,7 @@
             button8.Image = (Image)resources.GetObject("button8.Image");
             button8.Location = new Point(82, 501);
             button8.Name = "button8";
-            button8.Size = new Size(74, 73);
+            button8.Size = new Size(72, 73);
             button8.TabIndex = 49;
             button8.Text = "Quitar Elemento";
             button8.TextImageRelation = TextImageRelation.ImageAboveText;
@@ -594,7 +595,7 @@
             // 
             // button7
             // 
-            button7.BackColor = Color.FromArgb(35, 32, 45);
+            button7.BackColor = Color.Black;
             button7.FlatAppearance.BorderColor = Color.FromArgb(252, 114, 95);
             button7.FlatAppearance.MouseDownBackColor = Color.FromArgb(252, 114, 95);
             button7.FlatStyle = FlatStyle.Flat;
@@ -602,7 +603,7 @@
             button7.ForeColor = Color.Red;
             button7.Location = new Point(6, 501);
             button7.Name = "button7";
-            button7.Size = new Size(74, 73);
+            button7.Size = new Size(70, 73);
             button7.TabIndex = 54;
             button7.Text = "Eliminar Factura";
             button7.TextImageRelation = TextImageRelation.ImageAboveText;
