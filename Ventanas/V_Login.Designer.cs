@@ -30,8 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Login));
             panel1 = new Panel();
+            label12 = new Label();
             pictureBox2 = new PictureBox();
             label2 = new Label();
+            comboEmpresa = new ComboBox();
             pictureBox4 = new PictureBox();
             label11 = new Label();
             linkLabel1 = new LinkLabel();
@@ -76,8 +78,10 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(44, 117, 255);
+            panel1.Controls.Add(label12);
             panel1.Controls.Add(pictureBox2);
             panel1.Controls.Add(label2);
+            panel1.Controls.Add(comboEmpresa);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
@@ -86,6 +90,18 @@
             panel1.Paint += panel1_Paint;
             panel1.MouseHover += panel1_MouseHover;
             panel1.MouseMove += panel1_MouseMove;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.ForeColor = Color.White;
+            label12.Location = new Point(49, 542);
+            label12.Name = "label12";
+            label12.Size = new Size(55, 15);
+            label12.TabIndex = 6;
+            label12.Text = "Empresa:";
+            label12.Click += label12_Click;
+            label12.MouseClick += comboEmpresa_MouseClick;
             // 
             // pictureBox2
             // 
@@ -107,6 +123,17 @@
             label2.Size = new Size(397, 152);
             label2.TabIndex = 2;
             label2.Text = resources.GetString("label2.Text");
+            // 
+            // comboEmpresa
+            // 
+            comboEmpresa.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboEmpresa.FormattingEnabled = true;
+            comboEmpresa.Location = new Point(110, 539);
+            comboEmpresa.Name = "comboEmpresa";
+            comboEmpresa.Size = new Size(211, 23);
+            comboEmpresa.TabIndex = 5;
+            comboEmpresa.SelectedIndexChanged += comboEmpresa_SelectedIndexChanged;
+            comboEmpresa.MouseClick += comboEmpresa_MouseClick;
             // 
             // pictureBox4
             // 
@@ -281,6 +308,7 @@
             panel4.Size = new Size(332, 284);
             panel4.TabIndex = 5;
             panel4.Visible = false;
+            panel4.Paint += panel4_Paint;
             // 
             // pictureBox6
             // 
@@ -463,6 +491,7 @@
             Text = "V_Login";
             Load += V_Login_Load;
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             panel3.ResumeLayout(false);
@@ -512,5 +541,7 @@
         private Label label11;
         private PictureBox pictureBox5;
         private PictureBox pictureBox6;
+        private Label label12;
+        private ComboBox comboEmpresa;
     }
 }

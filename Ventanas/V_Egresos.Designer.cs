@@ -1,6 +1,6 @@
 ﻿namespace Monitux_POS.Ventanas
 {
-    partial class V_Ingresos
+    partial class V_Egresos
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Ingresos));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Egresos));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            label15 = new Label();
             panel1 = new Panel();
             button4 = new Button();
             button2 = new Button();
@@ -49,24 +48,12 @@
             fecha_fin = new DateTimePicker();
             label9 = new Label();
             dataGridView1 = new DataGridView();
+            label15 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // label15
-            // 
-            label15.Dock = DockStyle.Top;
-            label15.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label15.ForeColor = Color.Lime;
-            label15.Location = new Point(0, 0);
-            label15.Name = "label15";
-            label15.Size = new Size(802, 37);
-            label15.TabIndex = 40;
-            label15.Text = "Gestión de Ingresos";
-            label15.TextAlign = ContentAlignment.MiddleCenter;
-            label15.Click += label15_Click;
             // 
             // panel1
             // 
@@ -82,10 +69,10 @@
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(groupBox1);
             panel1.Controls.Add(dataGridView1);
-            panel1.Location = new Point(13, 46);
+            panel1.Location = new Point(13, 48);
             panel1.Name = "panel1";
             panel1.Size = new Size(778, 548);
-            panel1.TabIndex = 41;
+            panel1.TabIndex = 43;
             panel1.Paint += panel1_Paint;
             // 
             // button4
@@ -114,7 +101,7 @@
             button2.Name = "button2";
             button2.Size = new Size(75, 78);
             button2.TabIndex = 86;
-            button2.Text = "Eliminar Ingreso";
+            button2.Text = "Eliminar Egreso";
             button2.TextAlign = ContentAlignment.BottomCenter;
             button2.TextImageRelation = TextImageRelation.ImageAboveText;
             button2.UseVisualStyleBackColor = true;
@@ -130,7 +117,7 @@
             button3.Name = "button3";
             button3.Size = new Size(75, 78);
             button3.TabIndex = 85;
-            button3.Text = "Nuevo Ingreso";
+            button3.Text = "Nuevo Egreso";
             button3.TextAlign = ContentAlignment.BottomCenter;
             button3.TextImageRelation = TextImageRelation.ImageAboveText;
             button3.UseVisualStyleBackColor = true;
@@ -154,15 +141,15 @@
             label11.ForeColor = Color.White;
             label11.Location = new Point(431, 471);
             label11.Name = "label11";
-            label11.Size = new Size(138, 25);
+            label11.Size = new Size(132, 25);
             label11.TabIndex = 83;
-            label11.Text = "Otros Ingresos:";
+            label11.Text = "Otros Egresos:";
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold);
-            label8.ForeColor = Color.Lime;
+            label8.ForeColor = Color.FromArgb(128, 255, 255);
             label8.Location = new Point(154, 471);
             label8.Name = "label8";
             label8.Size = new Size(23, 25);
@@ -176,9 +163,9 @@
             label7.ForeColor = Color.White;
             label7.Location = new Point(7, 471);
             label7.Name = "label7";
-            label7.Size = new Size(150, 25);
+            label7.Size = new Size(144, 25);
             label7.TabIndex = 81;
-            label7.Text = "Ingresos Totales:";
+            label7.Text = "Egresos Totales:";
             // 
             // label4
             // 
@@ -187,7 +174,7 @@
             label4.Name = "label4";
             label4.Size = new Size(708, 35);
             label4.TabIndex = 80;
-            label4.Text = "No se puede eliminar ningun ingreso asociado a una factura o a un abono de cuentas por cobrar. La funcion \"Eliminar Ingreso\" solo puede aplicarse a registros manuales de ingresos.";
+            label4.Text = "No se puede eliminar ningun egreso asociado a una factura o a un abono de cuentas por pagar. La funcion \"Eliminar Egreso\" solo puede aplicarse a registros manuales de egresos.";
             // 
             // pictureBox1
             // 
@@ -198,7 +185,6 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 79;
             pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
             // 
             // groupBox1
             // 
@@ -220,9 +206,9 @@
             label2.ForeColor = Color.Yellow;
             label2.Location = new Point(53, 56);
             label2.Name = "label2";
-            label2.Size = new Size(223, 15);
+            label2.Size = new Size(219, 15);
             label2.TabIndex = 72;
-            label2.Text = "Todas los ingresos en un rango de fechas";
+            label2.Text = "Todas los egresos en un rango de fechas";
             // 
             // button1
             // 
@@ -287,10 +273,22 @@
             dataGridView1.Size = new Size(763, 373);
             dataGridView1.TabIndex = 62;
             dataGridView1.CellClick += dataGridView1_CellClick;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellEnter += dataGridView1_CellEnter;
             // 
-            // V_Ingresos
+            // label15
+            // 
+            label15.Dock = DockStyle.Top;
+            label15.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label15.ForeColor = Color.FromArgb(128, 255, 255);
+            label15.Location = new Point(0, 0);
+            label15.Name = "label15";
+            label15.Size = new Size(802, 37);
+            label15.TabIndex = 42;
+            label15.Text = "Gestión de Egresos";
+            label15.TextAlign = ContentAlignment.MiddleCenter;
+            label15.Click += label15_Click;
+            // 
+            // V_Egresos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -299,14 +297,12 @@
             Controls.Add(panel1);
             Controls.Add(label15);
             FormBorderStyle = FormBorderStyle.None;
-            MaximizeBox = false;
-            MinimizeBox = false;
-            Name = "V_Ingresos";
+            Name = "V_Egresos";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "V_Ingresos";
-            Load += V_Ingresos_Load;
+            Text = "V_Egresos";
+            Load += V_Egresos_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -318,8 +314,16 @@
 
         #endregion
 
-        private Label label15;
         private Panel panel1;
+        private Button button4;
+        private Button button2;
+        private Button button3;
+        private Label label10;
+        private Label label11;
+        private Label label8;
+        private Label label7;
+        private Label label4;
+        private PictureBox pictureBox1;
         private GroupBox groupBox1;
         private Label label2;
         private Button button1;
@@ -328,14 +332,6 @@
         private DateTimePicker fecha_fin;
         private Label label9;
         private DataGridView dataGridView1;
-        private Label label10;
-        private Label label11;
-        private Label label8;
-        private Label label7;
-        private Label label4;
-        private PictureBox pictureBox1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
+        private Label label15;
     }
 }

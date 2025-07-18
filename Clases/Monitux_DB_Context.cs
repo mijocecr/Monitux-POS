@@ -52,6 +52,8 @@
 
         public DbSet<Cuentas_Pagar> Cuentas_Pagar { get; set; }
 
+        public DbSet<Empresa> Empresas { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             

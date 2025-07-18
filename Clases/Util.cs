@@ -497,37 +497,114 @@ namespace Monitux_POS.Clases
 
 
 
+
+     
+            public static bool VerificarLicencia()
+            {
+                if (Properties.Settings.Default.LicenciaValida)
+                    return true;
+
+                V_Menu_Principal.MSG.ShowMSG(
+                    "❌ Licencia no válida o vencida.\nPor favor, valide su licencia para continuar.",
+                    "Error"
+                );
+
+                using (var validador = new V_Validador_Licencia())
+                {
+                    validador.ShowDialog();
+                }
+
+                return Properties.Settings.Default.LicenciaValida;
+            }
+
+
+
+
+
+
+
+
+
+        /*      public static void Registrar_Movimiento_Kardex(int secuencial_producto, double existencia,
+          string descripcion, double cantidad_unidades, double costo, double venta,
+          string movimiento, int secuencial_empresa)
+              {
+                  if (cantidad_unidades <= 0 || costo < 0 || venta < 0)
+                      throw new ArgumentException("Valores inválidos para movimiento de inventario.");
+
+
+                  double saldoNuevo = movimiento == "Entrada"
+                      ? existencia + cantidad_unidades
+                      : existencia - cantidad_unidades;
+
+                  var kardex = new Kardex
+                  {
+                      Secuencial_Empresa = secuencial_empresa,
+                      Secuencial_Producto = secuencial_producto,
+                      Descripcion = descripcion,
+                      Cantidad = cantidad_unidades,
+                      Costo = costo,
+                      Venta = venta,
+                      Movimiento = movimiento,
+                      Saldo = saldoNuevo,
+                      Costo_Total = Math.Round(saldoNuevo * costo, 2),
+                      Venta_Total = Math.Round(saldoNuevo * venta, 2),
+                      Fecha = DateTime.Now.ToString(), // ¡Registro de cuándo ocurrió!
+                      //Secuencial_Usuario = secuencial_usuario // Quién lo hizo
+                  };
+
+                  using var context = new Monitux_DB_Context();
+                  context.Kardex.Add(kardex);
+                  context.SaveChanges();
+              }
+
+
+      */
+
+
+
+
+
         public static void Registrar_Movimiento_Kardex(int secuencial_producto, double existencia,
     string descripcion, double cantidad_unidades, double costo, double venta,
     string movimiento, int secuencial_empresa)
         {
-            if (cantidad_unidades <= 0 || costo < 0 || venta < 0)
-                throw new ArgumentException("Valores inválidos para movimiento de inventario.");
-
-            double saldoNuevo = movimiento == "Entrada"
-                ? existencia + cantidad_unidades
-                : existencia - cantidad_unidades;
-
-            var kardex = new Kardex
+            try
             {
-                Secuencial_Empresa = secuencial_empresa,
-                Secuencial_Producto = secuencial_producto,
-                Descripcion = descripcion,
-                Cantidad = cantidad_unidades,
-                Costo = costo,
-                Venta = venta,
-                Movimiento = movimiento,
-                Saldo = saldoNuevo,
-                Costo_Total = Math.Round(saldoNuevo * costo, 2),
-                Venta_Total = Math.Round(saldoNuevo * venta, 2),
-                Fecha = DateTime.Now.ToString(), // ¡Registro de cuándo ocurrió!
-                //Secuencial_Usuario = secuencial_usuario // Quién lo hizo
-            };
+                if (cantidad_unidades < 0 || costo < 0 || venta < 0)
+                    throw new ArgumentException("Valores inválidos para movimiento de inventario.");
 
-            using var context = new Monitux_DB_Context();
-            context.Kardex.Add(kardex);
-            context.SaveChanges();
+                double saldoNuevo = movimiento == "Entrada"
+                    ? existencia + cantidad_unidades
+                    : existencia - cantidad_unidades;
+
+                var kardex = new Kardex
+                {
+                    Secuencial_Empresa = secuencial_empresa,
+                    Secuencial_Producto = secuencial_producto,
+                    Descripcion = descripcion,
+                    Cantidad = cantidad_unidades,
+                    Costo = costo,
+                    Venta = venta,
+                    Movimiento = movimiento,
+                    Saldo = saldoNuevo,
+                    Costo_Total = Math.Round(saldoNuevo * costo, 2),
+                    Venta_Total = Math.Round(saldoNuevo * venta, 2),
+                    Fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    // Secuencial_Usuario = secuencial_usuario
+                };
+
+                using var context = new Monitux_DB_Context();
+                context.Kardex.Add(kardex);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al registrar movimiento en Kardex:\n{ex.Message}", "Error crítico");
+            }
         }
+
+
 
 
         public static Image Generar_Codigo_QR(int secuencial,string codigo, int secuencial_empresa)
@@ -1051,10 +1128,15 @@ public static class AnimacionesUI
             public Usuario ValidarUsuario(string codigo, string password, int secuencial_empresa)
             {
                 using var context = new Monitux_DB_Context();
-                var usuario = context.Usuarios
-                    .FirstOrDefault(u => u.Codigo == codigo && u.Password == password && u.Secuencial_Empresa==secuencial_empresa);
 
-                return usuario; //!= null; // Retorna true si las credenciales son correctas
+                // Filtrar por empresa + código + contraseña
+                var usuario = context.Usuarios
+                    .FirstOrDefault(u =>
+                        u.Secuencial_Empresa == secuencial_empresa &&
+                        u.Codigo == codigo &&
+                        u.Password == password);
+
+                return usuario;
             }
         }
 

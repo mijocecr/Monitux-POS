@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing.Imaging;
 
 namespace Monitux_POS.Clases
@@ -32,7 +33,9 @@ namespace Monitux_POS.Clases
         }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Esto le dice a EF: la base lo genera
         public int Secuencial { get; set; }
+
         public int Secuencial_Proveedor { get; set; }
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
@@ -100,25 +103,6 @@ namespace Monitux_POS.Clases
                 Secuencial_Empresa = this.Secuencial_Empresa
             };
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

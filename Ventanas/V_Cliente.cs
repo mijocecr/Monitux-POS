@@ -667,8 +667,9 @@ namespace Monitux_POS.Ventanas
         }
 
         private void pictureBox6_Click(object sender, EventArgs e)
-        {
-            V_Captura_Imagen capturaImagen = new V_Captura_Imagen();
+        { 
+            V_Captura_Imagen capturaImagen = new V_Captura_Imagen(Secuencial);
+            capturaImagen.titulo=txt_Codigo.Text;
             capturaImagen.ShowDialog();
             Bitmap imagenCapturada = V_Captura_Imagen.Get_Imagen();
             if (imagenCapturada != null)
@@ -684,7 +685,7 @@ namespace Monitux_POS.Ventanas
             }
         }
 
-        private void archivoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void archivoToolStripMenuItem_Click(object sender, EventArgs e) 
         {
 
         }

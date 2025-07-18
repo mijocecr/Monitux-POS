@@ -33,6 +33,7 @@
             panel4 = new Panel();
             pictureBox2 = new PictureBox();
             panel3 = new Panel();
+            button4 = new Button();
             p_Reportes = new Panel();
             button8 = new Button();
             button20 = new Button();
@@ -59,7 +60,6 @@
             button6 = new Button();
             btn_cuentas = new Button();
             panel12 = new Panel();
-            button25 = new Button();
             button27 = new Button();
             button28 = new Button();
             btn_ajustes = new Button();
@@ -126,6 +126,7 @@
             panel3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panel3.AutoScroll = true;
             panel3.BackColor = Color.FromArgb(11, 8, 20);
+            panel3.Controls.Add(button4);
             panel3.Controls.Add(p_Reportes);
             panel3.Controls.Add(btn_reportes);
             panel3.Controls.Add(p_Campania);
@@ -139,10 +140,30 @@
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
             panel3.Controls.Add(btn_inicio);
-            panel3.Location = new Point(0, -73);
+            panel3.Location = new Point(0, 186);
             panel3.Name = "panel3";
-            panel3.Size = new Size(176, 1013);
+            panel3.Size = new Size(176, 1043);
             panel3.TabIndex = 3;
+            // 
+            // button4
+            // 
+            button4.BackColor = Color.FromArgb(11, 8, 20);
+            button4.Cursor = Cursors.Hand;
+            button4.Dock = DockStyle.Top;
+            button4.FlatAppearance.BorderSize = 0;
+            button4.FlatAppearance.MouseOverBackColor = Color.FromArgb(87, 87, 163);
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button4.ForeColor = Color.White;
+            button4.Location = new Point(0, 1002);
+            button4.Name = "button4";
+            button4.Padding = new Padding(10, 0, 0, 0);
+            button4.Size = new Size(176, 38);
+            button4.TabIndex = 27;
+            button4.Text = "Manual";
+            button4.TextAlign = ContentAlignment.MiddleLeft;
+            button4.UseVisualStyleBackColor = false;
+            button4.Click += button4_Click_3;
             // 
             // p_Reportes
             // 
@@ -158,9 +179,9 @@
             p_Reportes.Controls.Add(button13);
             p_Reportes.Controls.Add(button15);
             p_Reportes.Dock = DockStyle.Top;
-            p_Reportes.Location = new Point(0, 770);
+            p_Reportes.Location = new Point(0, 746);
             p_Reportes.Name = "p_Reportes";
-            p_Reportes.Size = new Size(159, 258);
+            p_Reportes.Size = new Size(176, 256);
             p_Reportes.TabIndex = 26;
             p_Reportes.Visible = false;
             // 
@@ -173,10 +194,10 @@
             button8.FlatStyle = FlatStyle.Flat;
             button8.Font = new Font("Bahnschrift", 9.75F);
             button8.ForeColor = Color.White;
-            button8.Location = new Point(-1, 229);
+            button8.Location = new Point(-1, 227);
             button8.Name = "button8";
             button8.Padding = new Padding(35, 0, 0, 0);
-            button8.Size = new Size(143, 26);
+            button8.Size = new Size(166, 26);
             button8.TabIndex = 9;
             button8.Text = "Registro";
             button8.TextAlign = ContentAlignment.MiddleLeft;
@@ -194,7 +215,7 @@
             button20.Location = new Point(-1, 197);
             button20.Name = "button20";
             button20.Padding = new Padding(35, 0, 0, 0);
-            button20.Size = new Size(143, 26);
+            button20.Size = new Size(166, 26);
             button20.TabIndex = 8;
             button20.Text = "Egresos";
             button20.TextAlign = ContentAlignment.MiddleLeft;
@@ -212,7 +233,7 @@
             button19.Location = new Point(-1, 165);
             button19.Name = "button19";
             button19.Padding = new Padding(35, 0, 0, 0);
-            button19.Size = new Size(143, 26);
+            button19.Size = new Size(166, 26);
             button19.TabIndex = 7;
             button19.Text = "Ingresos";
             button19.TextAlign = ContentAlignment.MiddleLeft;
@@ -230,7 +251,7 @@
             button18.Location = new Point(-1, 133);
             button18.Name = "button18";
             button18.Padding = new Padding(35, 0, 0, 0);
-            button18.Size = new Size(143, 26);
+            button18.Size = new Size(166, 26);
             button18.TabIndex = 6;
             button18.Text = "CTAS. a Pagar";
             button18.TextAlign = ContentAlignment.MiddleLeft;
@@ -248,7 +269,7 @@
             button17.Location = new Point(-1, 101);
             button17.Name = "button17";
             button17.Padding = new Padding(35, 0, 0, 0);
-            button17.Size = new Size(143, 26);
+            button17.Size = new Size(166, 26);
             button17.TabIndex = 5;
             button17.Text = "CTAS. a Cobrar";
             button17.TextAlign = ContentAlignment.MiddleLeft;
@@ -266,7 +287,7 @@
             button16.Location = new Point(-1, 69);
             button16.Name = "button16";
             button16.Padding = new Padding(35, 0, 0, 0);
-            button16.Size = new Size(143, 26);
+            button16.Size = new Size(166, 26);
             button16.TabIndex = 4;
             button16.Text = "Ventas";
             button16.TextAlign = ContentAlignment.MiddleLeft;
@@ -284,7 +305,7 @@
             button13.Location = new Point(-1, 37);
             button13.Name = "button13";
             button13.Padding = new Padding(35, 0, 0, 0);
-            button13.Size = new Size(143, 26);
+            button13.Size = new Size(166, 26);
             button13.TabIndex = 3;
             button13.Text = "Compras";
             button13.TextAlign = ContentAlignment.MiddleLeft;
@@ -302,7 +323,7 @@
             button15.Location = new Point(-1, 4);
             button15.Name = "button15";
             button15.Padding = new Padding(35, 0, 0, 0);
-            button15.Size = new Size(143, 27);
+            button15.Size = new Size(166, 27);
             button15.TabIndex = 1;
             button15.Text = "Inventario";
             button15.TextAlign = ContentAlignment.MiddleLeft;
@@ -318,10 +339,10 @@
             btn_reportes.FlatStyle = FlatStyle.Flat;
             btn_reportes.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_reportes.ForeColor = Color.White;
-            btn_reportes.Location = new Point(0, 732);
+            btn_reportes.Location = new Point(0, 708);
             btn_reportes.Name = "btn_reportes";
             btn_reportes.Padding = new Padding(10, 0, 0, 0);
-            btn_reportes.Size = new Size(159, 38);
+            btn_reportes.Size = new Size(176, 38);
             btn_reportes.TabIndex = 25;
             btn_reportes.Text = "Reportes";
             btn_reportes.TextAlign = ContentAlignment.MiddleLeft;
@@ -335,9 +356,9 @@
             p_Campania.Controls.Add(button29);
             p_Campania.Controls.Add(button30);
             p_Campania.Dock = DockStyle.Top;
-            p_Campania.Location = new Point(0, 625);
+            p_Campania.Location = new Point(0, 601);
             p_Campania.Name = "p_Campania";
-            p_Campania.Size = new Size(159, 107);
+            p_Campania.Size = new Size(176, 107);
             p_Campania.TabIndex = 24;
             p_Campania.Visible = false;
             // 
@@ -377,6 +398,7 @@
             button29.Text = "Egresos";
             button29.TextAlign = ContentAlignment.MiddleLeft;
             button29.UseVisualStyleBackColor = false;
+            button29.Click += button29_Click;
             // 
             // button30
             // 
@@ -407,10 +429,10 @@
             btn_movimientos.FlatStyle = FlatStyle.Flat;
             btn_movimientos.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_movimientos.ForeColor = Color.White;
-            btn_movimientos.Location = new Point(0, 587);
+            btn_movimientos.Location = new Point(0, 563);
             btn_movimientos.Name = "btn_movimientos";
             btn_movimientos.Padding = new Padding(10, 0, 0, 0);
-            btn_movimientos.Size = new Size(159, 38);
+            btn_movimientos.Size = new Size(176, 38);
             btn_movimientos.TabIndex = 23;
             btn_movimientos.Text = "Movimientos";
             btn_movimientos.TextAlign = ContentAlignment.MiddleLeft;
@@ -427,10 +449,10 @@
             btn_inventario.FlatStyle = FlatStyle.Flat;
             btn_inventario.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_inventario.ForeColor = Color.White;
-            btn_inventario.Location = new Point(0, 549);
+            btn_inventario.Location = new Point(0, 525);
             btn_inventario.Name = "btn_inventario";
             btn_inventario.Padding = new Padding(10, 0, 0, 0);
-            btn_inventario.Size = new Size(159, 38);
+            btn_inventario.Size = new Size(176, 38);
             btn_inventario.TabIndex = 20;
             btn_inventario.Text = "Inventario";
             btn_inventario.TextAlign = ContentAlignment.MiddleLeft;
@@ -444,9 +466,9 @@
             panel6.Controls.Add(button3);
             panel6.Controls.Add(button2);
             panel6.Dock = DockStyle.Top;
-            panel6.Location = new Point(0, 442);
+            panel6.Location = new Point(0, 418);
             panel6.Name = "panel6";
-            panel6.Size = new Size(159, 107);
+            panel6.Size = new Size(176, 107);
             panel6.TabIndex = 18;
             panel6.Visible = false;
             // 
@@ -517,10 +539,10 @@
             btn_facturas.FlatStyle = FlatStyle.Flat;
             btn_facturas.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_facturas.ForeColor = Color.White;
-            btn_facturas.Location = new Point(0, 404);
+            btn_facturas.Location = new Point(0, 380);
             btn_facturas.Name = "btn_facturas";
             btn_facturas.Padding = new Padding(10, 0, 0, 0);
-            btn_facturas.Size = new Size(159, 38);
+            btn_facturas.Size = new Size(176, 38);
             btn_facturas.TabIndex = 19;
             btn_facturas.Text = "Facturas";
             btn_facturas.TextAlign = ContentAlignment.MiddleLeft;
@@ -533,9 +555,9 @@
             panel2.Controls.Add(button5);
             panel2.Controls.Add(button6);
             panel2.Dock = DockStyle.Top;
-            panel2.Location = new Point(0, 335);
+            panel2.Location = new Point(0, 311);
             panel2.Name = "panel2";
-            panel2.Size = new Size(159, 69);
+            panel2.Size = new Size(176, 69);
             panel2.TabIndex = 17;
             panel2.Visible = false;
             // 
@@ -587,10 +609,10 @@
             btn_cuentas.FlatStyle = FlatStyle.Flat;
             btn_cuentas.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_cuentas.ForeColor = Color.White;
-            btn_cuentas.Location = new Point(0, 297);
+            btn_cuentas.Location = new Point(0, 273);
             btn_cuentas.Name = "btn_cuentas";
             btn_cuentas.Padding = new Padding(10, 0, 0, 0);
-            btn_cuentas.Size = new Size(159, 38);
+            btn_cuentas.Size = new Size(176, 38);
             btn_cuentas.TabIndex = 15;
             btn_cuentas.Text = "Cuentas";
             btn_cuentas.TextAlign = ContentAlignment.MiddleLeft;
@@ -600,33 +622,14 @@
             // panel12
             // 
             panel12.BackColor = Color.FromArgb(35, 32, 40);
-            panel12.Controls.Add(button25);
             panel12.Controls.Add(button27);
             panel12.Controls.Add(button28);
             panel12.Dock = DockStyle.Top;
             panel12.Location = new Point(0, 199);
             panel12.Name = "panel12";
-            panel12.Size = new Size(159, 98);
+            panel12.Size = new Size(176, 74);
             panel12.TabIndex = 14;
             panel12.Visible = false;
-            // 
-            // button25
-            // 
-            button25.BackColor = Color.FromArgb(35, 32, 40);
-            button25.Cursor = Cursors.Hand;
-            button25.FlatAppearance.BorderSize = 0;
-            button25.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
-            button25.FlatStyle = FlatStyle.Flat;
-            button25.Font = new Font("Bahnschrift", 9.75F);
-            button25.ForeColor = Color.White;
-            button25.Location = new Point(-1, 69);
-            button25.Name = "button25";
-            button25.Padding = new Padding(35, 0, 0, 0);
-            button25.Size = new Size(166, 26);
-            button25.TabIndex = 3;
-            button25.Text = "Manual de Usuario";
-            button25.TextAlign = ContentAlignment.MiddleLeft;
-            button25.UseVisualStyleBackColor = false;
             // 
             // button27
             // 
@@ -637,7 +640,7 @@
             button27.FlatStyle = FlatStyle.Flat;
             button27.Font = new Font("Bahnschrift", 9.75F);
             button27.ForeColor = Color.White;
-            button27.Location = new Point(-1, 37);
+            button27.Location = new Point(-1, 38);
             button27.Name = "button27";
             button27.Padding = new Padding(35, 0, 0, 0);
             button27.Size = new Size(166, 26);
@@ -655,7 +658,7 @@
             button28.FlatStyle = FlatStyle.Flat;
             button28.Font = new Font("Bahnschrift", 9.75F);
             button28.ForeColor = Color.White;
-            button28.Location = new Point(-1, 4);
+            button28.Location = new Point(-1, 7);
             button28.Name = "button28";
             button28.Padding = new Padding(35, 0, 0, 0);
             button28.Size = new Size(166, 27);
@@ -678,7 +681,7 @@
             btn_ajustes.Location = new Point(0, 161);
             btn_ajustes.Name = "btn_ajustes";
             btn_ajustes.Padding = new Padding(10, 0, 0, 0);
-            btn_ajustes.Size = new Size(159, 38);
+            btn_ajustes.Size = new Size(176, 38);
             btn_ajustes.TabIndex = 13;
             btn_ajustes.Text = "Configuración";
             btn_ajustes.TextAlign = ContentAlignment.MiddleLeft;
@@ -695,7 +698,7 @@
             panel11.Dock = DockStyle.Top;
             panel11.Location = new Point(0, 42);
             panel11.Name = "panel11";
-            panel11.Size = new Size(159, 119);
+            panel11.Size = new Size(176, 119);
             panel11.TabIndex = 12;
             panel11.Visible = false;
             // 
@@ -788,7 +791,7 @@
             btn_inicio.Location = new Point(0, 0);
             btn_inicio.Name = "btn_inicio";
             btn_inicio.Padding = new Padding(10, 0, 0, 0);
-            btn_inicio.Size = new Size(159, 42);
+            btn_inicio.Size = new Size(176, 42);
             btn_inicio.TabIndex = 11;
             btn_inicio.Text = "Inicio";
             btn_inicio.TextAlign = ContentAlignment.MiddleLeft;
@@ -895,7 +898,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(28, 48);
+            pictureBox1.Location = new Point(28, 31);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(98, 112);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -905,7 +908,7 @@
             // label1
             // 
             label1.ForeColor = SystemColors.ActiveCaption;
-            label1.Location = new Point(12, 165);
+            label1.Location = new Point(12, 148);
             label1.Name = "label1";
             label1.Size = new Size(130, 32);
             label1.TabIndex = 5;
@@ -915,7 +918,7 @@
             // label2
             // 
             label2.ForeColor = SystemColors.ActiveCaption;
-            label2.Location = new Point(28, 26);
+            label2.Location = new Point(28, 9);
             label2.Name = "label2";
             label2.Size = new Size(98, 18);
             label2.TabIndex = 8;
@@ -978,7 +981,6 @@
         private Panel panel11;
         private Button button26;
         private Panel panel12;
-        private Button button25;
         private Button button27;
         private Button button28;
         private Button btn_ajustes;
@@ -1013,5 +1015,6 @@
         private Button button13;
         private Button button15;
         private Button btn_reportes;
+        private Button button4;
     }
 }

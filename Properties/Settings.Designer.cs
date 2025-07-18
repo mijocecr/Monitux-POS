@@ -81,5 +81,41 @@ namespace Monitux_POS.Properties {
                 this["Codigo_Licencia"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Primer_Arranque {
+            get {
+                return ((bool)(this["Primer_Arranque"]));
+            }
+            set {
+                this["Primer_Arranque"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Empresa_Creada {
+            get {
+                return ((bool)(this["Empresa_Creada"]));
+            }
+            set {
+                this["Empresa_Creada"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Usuario_Creado {
+            get {
+                return ((bool)(this["Usuario_Creado"]));
+            }
+            set {
+                this["Usuario_Creado"] = value;
+            }
+        }
     }
 }

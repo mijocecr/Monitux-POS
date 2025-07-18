@@ -55,6 +55,35 @@ namespace Monitux_POS.Ventanas
         {
 
 
+            if (string.IsNullOrEmpty(txt_Codigo.Text))
+            {
+                V_Menu_Principal.MSG.ShowMSG("Debe ingresar un código para el usuario.", "Error");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txt_Nombre.Text))
+            {
+                V_Menu_Principal.MSG.ShowMSG("Debe ingresar un nombre para el usuario.", "Error");
+                return;
+            }
+            if (string.IsNullOrEmpty(txt_Password.Text))
+            {
+                V_Menu_Principal.MSG.ShowMSG("Debe ingresar una contraseña para el usuario.", "Error");
+                return;
+            }
+
+            if (txt_Password.Text.Length < 4)
+            {
+                V_Menu_Principal.MSG.ShowMSG("La contraseña debe tener al menos 4 caracteres.", "Error");
+                return;
+            }
+
+            if (comboBox1.SelectedItem == null)
+            {
+                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un tipo de acceso para el usuario.", "Error");
+                return;
+            }
+
 
             label11.ForeColor = Color.White;
             SQLitePCL.Batteries.Init();
@@ -68,14 +97,14 @@ namespace Monitux_POS.Ventanas
             // Preparar nuevo usuario
             var usuario = new Usuario
             {
-                
+
                 Nombre = txt_Nombre.Text.Trim(),
                 Codigo = txt_Codigo.Text.Trim(),
                 Password = Util.Encriptador.Encriptar(txt_Password.Text),
                 Acceso = "Vendedor", // Asignación por defecto
                 Activo = true,
                 Imagen = pictureBox1.Image != null ? Imagen : "Sin Imagen",
-                Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa
+                Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa
             };
 
             // Validar si se seleccionó "Administrador"
@@ -192,8 +221,8 @@ namespace Monitux_POS.Ventanas
             bool acceso;
             try
             {
-                usuario = login.ValidarUsuario(txtCodigo.Text, password_encriptado,V_Menu_Principal.Secuencial_Empresa); // Valida el usuario y obtiene sus datos
-                acceso = login.ValidarUsuario(txtCodigo.Text, password_encriptado,V_Menu_Principal.Secuencial_Empresa).Secuencial != null;
+                usuario = login.ValidarUsuario(txtCodigo.Text, password_encriptado, V_Menu_Principal.Secuencial_Empresa); // Valida el usuario y obtiene sus datos
+                acceso = login.ValidarUsuario(txtCodigo.Text, password_encriptado, V_Menu_Principal.Secuencial_Empresa).Secuencial != null;
             }
             catch (Exception ex)
             {
@@ -261,9 +290,9 @@ namespace Monitux_POS.Ventanas
 
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-            
 
-            
+
+
 
             this.Close(); // Cierra la ventana de login
         }
@@ -396,18 +425,52 @@ namespace Monitux_POS.Ventanas
 
         }
 
+
+
+
+        public void llenar_Combo_Empresa()
+        {
+
+
+            comboEmpresa.Items.Clear();
+
+            SQLitePCL.Batteries.Init();
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+            // Filtrar solo clientes activos
+            var empresaActiva = context.Empresas.Where(c => (bool)c.Activa).ToList();
+
+            foreach (var item in empresaActiva)
+            {
+                comboEmpresa.Items.Add(item.Secuencial + " - " + item.Nombre);
+            }
+
+
+
+
+
+        }
+
+
+
+
+
+
         private async void V_Login_Load(object sender, EventArgs e)
         {
 
-          
 
+            llenar_Combo_Empresa();
+            comboEmpresa.SelectedIndex = 0; // Selecciona el primer elemento por defecto
             // ======================================
             // 🔐 Validación de Licencia
             // ======================================
 
             // Si deseas reiniciar la configuración (solo para pruebas o soporte):
             // Properties.Settings.Default.Reset();
-             //Properties.Settings.Default.Save();
+            //Properties.Settings.Default.Save();
 
             if (!Properties.Settings.Default.LicenciaValida)
             {
@@ -449,6 +512,76 @@ namespace Monitux_POS.Ventanas
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
+
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void comboEmpresa_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            llenar_Combo_Empresa();
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboEmpresa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+
+
+
+            
+
+            SQLitePCL.Batteries.Init();
+
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+
+            //var proveedores = context.Proveedores.ToList();
+
+            var empresa = context.Empresas
+    .Where(p => (bool)p.Activa)
+    .ToList();
+
+
+          
+
+
+
+                foreach (var item in empresa)
+                {
+                   
+               // V_Menu_Principal.Secuencial_Empresa = item.Secuencial; // Asigna el secuencial de la empresa seleccionada
+                V_Menu_Principal.Nombre_Empresa = item.Nombre; // Asigna el nombre de la empresa seleccionada
+                V_Menu_Principal.Direccion_Empresa = item.Direccion; // Asigna la dirección de la empresa seleccionada
+                V_Menu_Principal.Telefono_Empresa = item.Telefono; // Asigna el teléfono de la empresa seleccionada
+                V_Menu_Principal.Email_Empresa = item.Email; // Asigna el email de la empresa seleccionada
+                V_Menu_Principal.RSS = item.RSS; // Asigna el RUC de la empresa seleccionada
+                V_Menu_Principal.moneda = item.Moneda; // Asigna la moneda de la empresa seleccionada
+                V_Menu_Principal.ISV = item.ISV; // Asigna el ISV de la empresa seleccionada
+                
+            }
+
+
+
+            V_Menu_Principal.Secuencial_Empresa = int.Parse(comboEmpresa.SelectedItem.ToString().Split('-')[0].Trim());
+
+           // MessageBox.Show(V_Menu_Principal.Secuencial_Empresa.ToString() + " - " + V_Menu_Principal.Nombre_Empresa, "Empresa Seleccionada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+
+
+
+
 
         }
     }// namespace Ventanas

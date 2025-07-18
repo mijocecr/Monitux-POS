@@ -766,41 +766,49 @@ namespace Monitux_POS.Ventanas
         private void button3_Click(object sender, EventArgs e)
         {
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\FAV\\" + V_Menu_Principal.Secuencial_Empresa);
 
-
-
-            string rutaPdf = $"{rutaGuardado}-{Secuencial_Venta}-{comboCliente.SelectedItem.ToString()
-    .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
-    .Trim()}.pdf";
-
-
-            // Mostrar diálogo para seleccionar impresora
-            using (PrintDialog printDialog = new PrintDialog())
+            try
             {
-                printDialog.AllowSomePages = true;
-                printDialog.AllowSelection = true;
-                printDialog.UseEXDialog = true;
+                // Construir ruta de guardado de forma segura
+                string rutaGuardado = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "FAV", V_Menu_Principal.Secuencial_Empresa.ToString());
 
-                if (printDialog.ShowDialog() == DialogResult.OK)
+                // Validar selección del cliente
+                if (comboCliente.SelectedItem == null)
                 {
-                    using (var documento = PdfDocument.Load(rutaPdf))
-                    {
-                        using (var printDoc = documento.CreatePrintDocument())
-                        {
-                            printDoc.PrinterSettings = printDialog.PrinterSettings;
-                            printDoc.PrintController = new StandardPrintController(); // Oculta ventana de impresión
-                            printDoc.Print();
-                            Console.WriteLine("✅ Impresión enviada correctamente.");
-                        }
-                    }
+                    V_Menu_Principal.MSG.ShowMSG("Por favor, selecciona un cliente antes de continuar.", "Aviso");
+                    return;
                 }
-                else
+
+                string clienteTexto = comboCliente.SelectedItem.ToString();
+                int indice = clienteTexto.IndexOf("- ");
+                if (indice == -1)
                 {
-                    Console.WriteLine("❌ Impresión cancelada por el usuario.");
+                    V_Menu_Principal.MSG.ShowMSG("El formato del cliente no es válido.", "Error");
+                    return;
                 }
+
+                string nombreCliente = clienteTexto.Substring(indice + 2).Trim();
+                string rutaPdf = $"{rutaGuardado}-{Secuencial_Venta}-{nombreCliente}.pdf";
+
+                // Comprobar si el archivo existe antes de abrirlo
+                if (!File.Exists(rutaPdf))
+                {
+                    V_Menu_Principal.MSG.ShowMSG($"El archivo no fue encontrado:\n{rutaPdf}", "Archivo no encontrado");
+                    return;
+                }
+
+                // Instanciar visor de factura
+                V_Visor_Factura v_Visor_Factura = new V_Visor_Factura
+                {
+                    rutaArchivo = rutaPdf,
+                    titulo = $"Factura de Venta No. {Secuencial_Venta}"
+                };
+                v_Visor_Factura.ShowDialog();
             }
-
+            catch (Exception ex)
+            {
+                V_Menu_Principal.MSG.ShowMSG($"Se produjo un error inesperado:\n{ex.Message}", "Error");
+            }
 
 
 
@@ -813,41 +821,48 @@ namespace Monitux_POS.Ventanas
 
 
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\FAC\\" + V_Menu_Principal.Secuencial_Empresa);
-
-
-
-            string rutaPdf = $"{rutaGuardado}-{Secuencial_Compra}-{comboProveedor.SelectedItem.ToString()
-    .Substring(comboProveedor.SelectedItem.ToString().IndexOf("- ") + 2)
-    .Trim()}.pdf";
-
-
-            // Mostrar diálogo para seleccionar impresora
-            using (PrintDialog printDialog = new PrintDialog())
+            try
             {
-                printDialog.AllowSomePages = true;
-                printDialog.AllowSelection = true;
-                printDialog.UseEXDialog = true;
+                // Asegurar ruta usando Path.Combine
+                string rutaGuardado = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "FAC", V_Menu_Principal.Secuencial_Empresa.ToString());
 
-                if (printDialog.ShowDialog() == DialogResult.OK)
+                // Validar selección del proveedor
+                if (comboProveedor.SelectedItem == null)
                 {
-                    using (var documento = PdfDocument.Load(rutaPdf))
-                    {
-                        using (var printDoc = documento.CreatePrintDocument())
-                        {
-                            printDoc.PrinterSettings = printDialog.PrinterSettings;
-                            printDoc.PrintController = new StandardPrintController(); // Oculta ventana de impresión
-                            printDoc.Print();
-                            Console.WriteLine("✅ Impresión enviada correctamente.");
-                        }
-                    }
+                    V_Menu_Principal.MSG.ShowMSG("Por favor, selecciona un proveedor antes de continuar.", "Aviso");
+                    return;
                 }
-                else
+
+                string proveedorTexto = comboProveedor.SelectedItem.ToString();
+                int indice = proveedorTexto.IndexOf("- ");
+                if (indice == -1)
                 {
-                    Console.WriteLine("❌ Impresión cancelada por el usuario.");
+                    V_Menu_Principal.MSG.ShowMSG("El formato del proveedor no es válido.", "Error");
+                    return;
                 }
+
+                string nombreProveedor = proveedorTexto.Substring(indice + 2).Trim();
+                string rutaPdf = $"{rutaGuardado}-{Secuencial_Compra}-{nombreProveedor}.pdf";
+
+                // Verificar si el archivo existe
+                if (!File.Exists(rutaPdf))
+                {
+                    V_Menu_Principal.MSG.ShowMSG($"El archivo no fue encontrado:\n{rutaPdf}", "Archivo no encontrado");
+                    return;
+                }
+
+                // Mostrar visor de factura
+                V_Visor_Factura v_Visor_Factura = new V_Visor_Factura
+                {
+                    rutaArchivo = rutaPdf,
+                    titulo = $"Factura de Compra No. {Secuencial_Compra}"
+                };
+                v_Visor_Factura.ShowDialog();
             }
-
+            catch (Exception ex)
+            {
+                V_Menu_Principal.MSG.ShowMSG($"Ha ocurrido un error inesperado:\n{ex.Message}", "Error");
+            }
 
 
 

@@ -13,7 +13,7 @@ namespace Monitux_POS.Clases
         public int Secuencial { get; set; }
         public int Secuencial_Usuario { get; set; }
 
-        public string Fecha { get; set; } = DateTime.Today.ToString("dd/MM/yyyy");
+        public string Fecha { get; set; } = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
 
         public string ? Descripcion { get;set; }
 

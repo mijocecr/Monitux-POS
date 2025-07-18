@@ -27,6 +27,7 @@
   <ItemGroup>
     <None Remove="Resources\BC\Default.PNG" />
     <None Remove="Resources\Database\monitux.db" />
+    <None Remove="Resources\EMP\Default.PNG" />
     <None Remove="Resources\Iconos\actualizar.png" />
     <None Remove="Resources\Iconos\agregar.png" />
     <None Remove="Resources\Iconos\application_view_list.png" />
@@ -123,6 +124,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\CLI\Default.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\EMP\Default.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\FAC\Default.PNG">

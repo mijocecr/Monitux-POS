@@ -36,12 +36,22 @@ namespace Monitux_POS.Ventanas
             // Configurar las columnas del DataGridView
             dataGridView1.Columns.Clear();
             dataGridView1.Columns.Add("Secuencial", "S");
+            
+
             dataGridView1.Columns.Add("Usuario", "Usuario");
+            
+
             dataGridView1.Columns.Add("Fecha", "Fecha");
+            
+
             dataGridView1.Columns.Add("Tipo_Ingreso", "Tipo");
+            
+
             dataGridView1.Columns.Add("Total", "Total");
+            
+
             dataGridView1.Columns.Add("Descripcion", "Descripción");
-            // dataGridView1.Columns["Descripcion"].Width = 250; // valor en píxeles
+            //dataGridView1.Columns["Descripcion"].Width = 250; // valor en píxeles
 
 
 
@@ -51,8 +61,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            dataGridView1.AutoSizeColumnsMode
-                = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.ReadOnly = true;
         }
@@ -96,7 +105,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            dataGridView1.Rows.Clear();
+            //dataGridView1.Rows.Clear();
 
 
 
@@ -128,7 +137,7 @@ namespace Monitux_POS.Ventanas
 
                 {
                     total_otros += (double)item.Monto;
-                    row.DefaultCellStyle.BackColor = Color.Yellow;
+                    row.DefaultCellStyle.BackColor = Color.LightYellow;
                 }
 
             }
@@ -164,7 +173,7 @@ namespace Monitux_POS.Ventanas
         private void button2_Click(object sender, EventArgs e)
         {
 
-
+            SQLitePCL.Batteries.Init();
 
             var confirmResult = V_Menu_Principal.MSG.ShowMSG(
     $"¿Está seguro de eliminar el ingreso seleccionado?",
@@ -174,7 +183,7 @@ namespace Monitux_POS.Ventanas
                 return;
 
             using var context = new Monitux_DB_Context();
-            SQLitePCL.Batteries.Init();
+          
 
             var ingreso = context.Ingresos.FirstOrDefault(i =>
                 i.Secuencial == this.Secuencial &&
@@ -339,10 +348,26 @@ namespace Monitux_POS.Ventanas
 
         private void button4_Click(object sender, EventArgs e)
         {
-          
+
 
             Util.ExportarDataGridViewAExcel(dataGridView1, "Ingresos", "Ingresos");
 
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            V_Ingresos_Egresos vIngresosEgresos = new V_Ingresos_Egresos();
+            vIngresosEgresos.IsEgreso = false; // Indica que es un ingreso
+            vIngresosEgresos.Secuencial_Empresa = this.Secuencial_Empresa;
+            vIngresosEgresos.Secuencial_Usuario = this.Secuencial_Usuario;
+            vIngresosEgresos.ShowDialog();
+            Cargar_Datos();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }

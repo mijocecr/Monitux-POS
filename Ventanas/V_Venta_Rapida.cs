@@ -29,7 +29,7 @@ namespace Monitux_POS.Ventanas
 
         double subtotal = 0.0;
         double total = 0.0;
-        double ISV = 0.0;//quitar esto
+        double ISV = V_Menu_Principal.ISV;
 
         public V_Venta_Rapida()
         {
@@ -739,41 +739,37 @@ namespace Monitux_POS.Ventanas
 
 
 
+            try { 
+          
 
-
-
-
-            // Mostrar diálogo para seleccionar impresora
-            using (PrintDialog printDialog = new PrintDialog())
+            // Comprobar si el archivo existe antes de abrirlo
+            if (!File.Exists(rutaPdf))
             {
-                printDialog.AllowSomePages = true;
-                printDialog.AllowSelection = true;
-                printDialog.UseEXDialog = true;
+                V_Menu_Principal.MSG.ShowMSG($"El archivo no fue encontrado:\n{rutaPdf}", "Archivo no encontrado");
+                return;
+            }
 
-                if (printDialog.ShowDialog() == DialogResult.OK)
-                {
-                    using (var documento = PdfDocument.Load(rutaPdf))
-                    {
-                        using (var printDoc = documento.CreatePrintDocument())
-                        {
-                            printDoc.PrinterSettings = printDialog.PrinterSettings;
-                            printDoc.PrintController = new StandardPrintController(); // Oculta ventana de impresión
-                            printDoc.Print();
-                            Console.WriteLine("✅ Impresión enviada correctamente.");
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("❌ Impresión cancelada por el usuario.");
-                }
+            // Instanciar visor de factura
+            V_Visor_Factura v_Visor_Factura = new V_Visor_Factura
+            {
+                rutaArchivo = rutaPdf,
+                titulo = $"Factura de Venta No. {venta.Secuencial}"
+            };
+            v_Visor_Factura.ShowDialog();
+        }
+            catch (Exception ex)
+            {
+                V_Menu_Principal.MSG.ShowMSG($"Se produjo un error inesperado:\n{ex.Message}", "Error");
             }
 
 
 
 
 
-            button7.PerformClick(); // Limpiar
+
+
+
+    button7.PerformClick(); // Limpiar
             RestaurarFocoEscaner(); // Enfocar escáner
 
 

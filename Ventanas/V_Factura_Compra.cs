@@ -1559,31 +1559,37 @@ namespace Monitux_POS.Ventanas
 
             string rutaPdf = $"{rutaGuardado}-{compra.Secuencial}-{factura.Proveedor}.pdf";
 
-            // Mostrar diálogo para seleccionar impresora
-            using (PrintDialog printDialog = new PrintDialog())
-            {
-                printDialog.AllowSomePages = true;
-                printDialog.AllowSelection = true;
-                printDialog.UseEXDialog = true;
 
-                if (printDialog.ShowDialog() == DialogResult.OK)
+
+
+            try
+            {
+                
+              
+
+                // Verificar si el archivo existe
+                if (!File.Exists(rutaPdf))
                 {
-                    using (var documento = PdfDocument.Load(rutaPdf))
-                    {
-                        using (var printDoc = documento.CreatePrintDocument())
-                        {
-                            printDoc.PrinterSettings = printDialog.PrinterSettings;
-                            printDoc.PrintController = new StandardPrintController(); // Oculta ventana de impresión
-                            printDoc.Print();
-                            Console.WriteLine("✅ Impresión enviada correctamente.");
-                        }
-                    }
+                    V_Menu_Principal.MSG.ShowMSG($"El archivo no fue encontrado:\n{rutaPdf}", "Archivo no encontrado");
+                    return;
                 }
-                else
+
+                // Mostrar visor de factura
+                V_Visor_Factura v_Visor_Factura = new V_Visor_Factura
                 {
-                    Console.WriteLine("❌ Impresión cancelada por el usuario.");
-                }
+                    rutaArchivo = rutaPdf,
+                    titulo = $"Factura de Compra No. {compra.Secuencial}"
+                };
+                v_Visor_Factura.ShowDialog();
             }
+            catch (Exception ex)
+            {
+                V_Menu_Principal.MSG.ShowMSG($"Ha ocurrido un error inesperado:\n{ex.Message}", "Error");
+            }
+
+
+
+
 
 
 

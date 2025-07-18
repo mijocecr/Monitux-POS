@@ -55,19 +55,20 @@ namespace Monitux_POS.Ventanas
         public static string Codigo_Usuario = string.Empty;
         public static string Imagen_Usuario = "Sin Imagen"; // Variable para almacenar la imagen del usuario
         public static string Acceso_Usuario = string.Empty; // Variable para almacenar los permisos del usuario
+        public static double ISV = 0;
 
 
-        public static int Secuencial_Empresa = 1; // Cambiar esto, es solo para probar
 
         public static string moneda;
 
-        //Estos settings hay que crearlos
-        public static string Nombre_Empresa = "One Click Solutions";
-        public static string Direccion_Empresa = "Calle Lagreo, 4, Benidorm 03502";
-        public static string Telefono_Empresa = "+34642883288";
-        public static string Email_Empresa = "miguel.cerrato.es@gmail.com";
-        public static string RSS = "http://www.bbc.co.uk/mundo/ultimas_noticias/index.xml";
-        //Estos settings hay que crearlos
+        
+        public static int Secuencial_Empresa;
+        public static string Nombre_Empresa;
+        public static string Direccion_Empresa;
+        public static string Telefono_Empresa;
+        public static string Email_Empresa;
+        public static string RSS;
+        
 
 
         //Bloque de Variables Globales
@@ -473,6 +474,27 @@ namespace Monitux_POS.Ventanas
         {
 
             Util.Limpiar_Cache(V_Menu_Principal.Secuencial_Empresa);
+
+
+            if (Properties.Settings.Default.FechaExpiracion < DateTime.Today)
+            {
+                Properties.Settings.Default.LicenciaValida = false;
+                Properties.Settings.Default.Save(); // Asegura que se registre el cambio
+                V_Menu_Principal.MSG.ShowMSG(
+                    "❌ La licencia ha expirado. Por favor contacte al administrador del sistema.",
+                    "Licencia Expirada"
+                );
+                Application.Exit(); // Cierra la aplicación
+            }
+            else
+            {
+                Properties.Settings.Default.LicenciaValida = true;
+                Properties.Settings.Default.Save();
+            }
+
+
+
+
             Application.Restart(); // Reinicia la aplicación para aplicar los cambios
 
         }
@@ -819,34 +841,34 @@ namespace Monitux_POS.Ventanas
         {
 
 
-          /*  try
-            {
-                // Configura el mensaje
-                MailMessage mail = new MailMessage();
-                mail.From = new MailAddress("miguel.cerrato.es@gmail.com");
-                mail.To.Add("cerratonix@gmail.com");
-                mail.Subject = "Envío de PDF desde C#";
-                mail.Body = "Hola, adjunto te envío el archivo PDF.";
+            /*  try
+              {
+                  // Configura el mensaje
+                  MailMessage mail = new MailMessage();
+                  mail.From = new MailAddress("miguel.cerrato.es@gmail.com");
+                  mail.To.Add("cerratonix@gmail.com");
+                  mail.Subject = "Envío de PDF desde C#";
+                  mail.Body = "Hola, adjunto te envío el archivo PDF.";
 
-                // Adjuntar el PDF
-                string rutaPdf = @"C:\Users\Miguel Cerrato\Desktop\Factura.pdf";
-                Attachment adjunto = new Attachment(rutaPdf, MediaTypeNames.Application.Pdf);
-                mail.Attachments.Add(adjunto);
+                  // Adjuntar el PDF
+                  string rutaPdf = @"C:\Users\Miguel Cerrato\Desktop\Factura.pdf";
+                  Attachment adjunto = new Attachment(rutaPdf, MediaTypeNames.Application.Pdf);
+                  mail.Attachments.Add(adjunto);
 
-                // Configura el servidor SMTP
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                  // Configura el servidor SMTP
+                  SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
 
-                smtp.Credentials = new NetworkCredential("miguel.cerrato.es@gmail.com", "pnma abut vzvp rdld");
-                smtp.EnableSsl = true;
+                  smtp.Credentials = new NetworkCredential("miguel.cerrato.es@gmail.com", "pnma abut vzvp rdld");
+                  smtp.EnableSsl = true;
 
-                // Enviar
-                smtp.Send(mail);
-                Console.WriteLine("Correo enviado correctamente.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al enviar el correo: " + ex.Message);
-            }*/
+                  // Enviar
+                  smtp.Send(mail);
+                  Console.WriteLine("Correo enviado correctamente.");
+              }
+              catch (Exception ex)
+              {
+                  MessageBox.Show("Error al enviar el correo: " + ex.Message);
+              }*/
 
 
         }
@@ -856,6 +878,20 @@ namespace Monitux_POS.Ventanas
             V_Ingresos v_Ingresos = new V_Ingresos();
             Abrir_Ventana(v_Ingresos);
             lbl_Descripcion.Text = "Consulte de forma rápida y sencilla los ingresos registrados en el sistema, tanto automáticos como manuales. Además, tiene la opción de añadir ingresos independientes al proceso de venta.";
+
+        }
+
+        private void button29_Click(object sender, EventArgs e)
+        {
+            V_Egresos v_Egresos = new V_Egresos();
+            Abrir_Ventana(v_Egresos);
+            lbl_Descripcion.Text = "Consulte de forma rápida y sencilla los egresos registrados en el sistema, tanto automáticos como manuales. Además, tiene la opción de añadir egresos independientes al proceso de compra.";
+
+
+        }
+
+        private void button4_Click_3(object sender, EventArgs e)
+        {
 
         }
     }
