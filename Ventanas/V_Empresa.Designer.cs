@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Empresa));
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             panel1 = new Panel();
             txt_RSS = new TextBox();
             label10 = new Label();
@@ -154,6 +154,7 @@
             txt_ISV.Name = "txt_ISV";
             txt_ISV.Size = new Size(52, 23);
             txt_ISV.TabIndex = 6;
+            txt_ISV.KeyPress += txt_ISV_KeyPress;
             // 
             // pictureBox6
             // 
@@ -232,8 +233,8 @@
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(224, 224, 224);
-            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
+            dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Cursor = Cursors.Hand;
@@ -340,6 +341,7 @@
             label6.TabIndex = 38;
             label6.Text = "Empresas";
             label6.TextAlign = ContentAlignment.TopCenter;
+            label6.Click += label6_Click;
             // 
             // menuStrip1
             // 
@@ -414,6 +416,7 @@
             Name = "V_Empresa";
             ShowIcon = false;
             ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "V_Empresa";
             Load += V_Empresa_Load;
             panel1.ResumeLayout(false);

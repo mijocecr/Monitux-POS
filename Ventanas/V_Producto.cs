@@ -399,6 +399,15 @@ namespace Monitux_POS.Ventanas
                         $"{producto.Secuencial_Empresa}-{producto.Secuencial}-{producto.Codigo}.PNG"
                     );
 
+
+
+                    pictureBox1.Image?.Dispose();    // Libera recurso gráfico
+                    pictureBox1.Image = null;        // Quita referencia del control
+                    GC.Collect();                    // Fuerza recolección de basura
+                    GC.WaitForPendingFinalizers();  // Espera que se liberen todos los handles
+
+
+
                     File.Move(this.Imagen, rutaFinal);
                     producto.Imagen = rutaFinal;
                 }
@@ -622,6 +631,11 @@ namespace Monitux_POS.Ventanas
 
                     pictureBox1.Image.Save(rutaTemporal);
                     this.Imagen = rutaTemporal;
+
+                   
+
+
+
                 }
             }
             catch (Exception ex)

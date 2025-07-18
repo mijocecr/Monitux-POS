@@ -36,10 +36,7 @@
             button4 = new Button();
             p_Reportes = new Panel();
             button8 = new Button();
-            button20 = new Button();
             button19 = new Button();
-            button18 = new Button();
-            button17 = new Button();
             button16 = new Button();
             button13 = new Button();
             button15 = new Button();
@@ -140,7 +137,7 @@
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
             panel3.Controls.Add(btn_inicio);
-            panel3.Location = new Point(0, 186);
+            panel3.Location = new Point(0, 194);
             panel3.Name = "panel3";
             panel3.Size = new Size(176, 1043);
             panel3.TabIndex = 3;
@@ -155,7 +152,7 @@
             button4.FlatStyle = FlatStyle.Flat;
             button4.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button4.ForeColor = Color.White;
-            button4.Location = new Point(0, 1002);
+            button4.Location = new Point(0, 762);
             button4.Name = "button4";
             button4.Padding = new Padding(10, 0, 0, 0);
             button4.Size = new Size(176, 38);
@@ -171,17 +168,14 @@
             p_Reportes.AutoSize = true;
             p_Reportes.BackColor = Color.FromArgb(35, 32, 40);
             p_Reportes.Controls.Add(button8);
-            p_Reportes.Controls.Add(button20);
             p_Reportes.Controls.Add(button19);
-            p_Reportes.Controls.Add(button18);
-            p_Reportes.Controls.Add(button17);
             p_Reportes.Controls.Add(button16);
             p_Reportes.Controls.Add(button13);
             p_Reportes.Controls.Add(button15);
             p_Reportes.Dock = DockStyle.Top;
-            p_Reportes.Location = new Point(0, 746);
+            p_Reportes.Location = new Point(0, 658);
             p_Reportes.Name = "p_Reportes";
-            p_Reportes.Size = new Size(176, 256);
+            p_Reportes.Size = new Size(176, 104);
             p_Reportes.TabIndex = 26;
             p_Reportes.Visible = false;
             // 
@@ -189,107 +183,56 @@
             // 
             button8.BackColor = Color.FromArgb(35, 32, 40);
             button8.Cursor = Cursors.Hand;
+            button8.Dock = DockStyle.Top;
             button8.FlatAppearance.BorderSize = 0;
             button8.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button8.FlatStyle = FlatStyle.Flat;
             button8.Font = new Font("Bahnschrift", 9.75F);
             button8.ForeColor = Color.White;
-            button8.Location = new Point(-1, 227);
+            button8.Location = new Point(0, 78);
             button8.Name = "button8";
             button8.Padding = new Padding(35, 0, 0, 0);
-            button8.Size = new Size(166, 26);
+            button8.Size = new Size(176, 26);
             button8.TabIndex = 9;
             button8.Text = "Registro";
             button8.TextAlign = ContentAlignment.MiddleLeft;
             button8.UseVisualStyleBackColor = false;
             // 
-            // button20
-            // 
-            button20.BackColor = Color.FromArgb(35, 32, 40);
-            button20.Cursor = Cursors.Hand;
-            button20.FlatAppearance.BorderSize = 0;
-            button20.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
-            button20.FlatStyle = FlatStyle.Flat;
-            button20.Font = new Font("Bahnschrift", 9.75F);
-            button20.ForeColor = Color.White;
-            button20.Location = new Point(-1, 197);
-            button20.Name = "button20";
-            button20.Padding = new Padding(35, 0, 0, 0);
-            button20.Size = new Size(166, 26);
-            button20.TabIndex = 8;
-            button20.Text = "Egresos";
-            button20.TextAlign = ContentAlignment.MiddleLeft;
-            button20.UseVisualStyleBackColor = false;
-            // 
             // button19
             // 
             button19.BackColor = Color.FromArgb(35, 32, 40);
             button19.Cursor = Cursors.Hand;
+            button19.Dock = DockStyle.Top;
             button19.FlatAppearance.BorderSize = 0;
             button19.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button19.FlatStyle = FlatStyle.Flat;
             button19.Font = new Font("Bahnschrift", 9.75F);
             button19.ForeColor = Color.White;
-            button19.Location = new Point(-1, 165);
+            button19.Location = new Point(0, 52);
             button19.Name = "button19";
             button19.Padding = new Padding(35, 0, 0, 0);
-            button19.Size = new Size(166, 26);
+            button19.Size = new Size(176, 26);
             button19.TabIndex = 7;
-            button19.Text = "Ingresos";
+            button19.Text = "Movimientos";
             button19.TextAlign = ContentAlignment.MiddleLeft;
             button19.UseVisualStyleBackColor = false;
-            // 
-            // button18
-            // 
-            button18.BackColor = Color.FromArgb(35, 32, 40);
-            button18.Cursor = Cursors.Hand;
-            button18.FlatAppearance.BorderSize = 0;
-            button18.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
-            button18.FlatStyle = FlatStyle.Flat;
-            button18.Font = new Font("Bahnschrift", 9.75F);
-            button18.ForeColor = Color.White;
-            button18.Location = new Point(-1, 133);
-            button18.Name = "button18";
-            button18.Padding = new Padding(35, 0, 0, 0);
-            button18.Size = new Size(166, 26);
-            button18.TabIndex = 6;
-            button18.Text = "CTAS. a Pagar";
-            button18.TextAlign = ContentAlignment.MiddleLeft;
-            button18.UseVisualStyleBackColor = false;
-            // 
-            // button17
-            // 
-            button17.BackColor = Color.FromArgb(35, 32, 40);
-            button17.Cursor = Cursors.Hand;
-            button17.FlatAppearance.BorderSize = 0;
-            button17.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
-            button17.FlatStyle = FlatStyle.Flat;
-            button17.Font = new Font("Bahnschrift", 9.75F);
-            button17.ForeColor = Color.White;
-            button17.Location = new Point(-1, 101);
-            button17.Name = "button17";
-            button17.Padding = new Padding(35, 0, 0, 0);
-            button17.Size = new Size(166, 26);
-            button17.TabIndex = 5;
-            button17.Text = "CTAS. a Cobrar";
-            button17.TextAlign = ContentAlignment.MiddleLeft;
-            button17.UseVisualStyleBackColor = false;
             // 
             // button16
             // 
             button16.BackColor = Color.FromArgb(35, 32, 40);
             button16.Cursor = Cursors.Hand;
+            button16.Dock = DockStyle.Top;
             button16.FlatAppearance.BorderSize = 0;
             button16.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button16.FlatStyle = FlatStyle.Flat;
             button16.Font = new Font("Bahnschrift", 9.75F);
             button16.ForeColor = Color.White;
-            button16.Location = new Point(-1, 69);
+            button16.Location = new Point(0, 26);
             button16.Name = "button16";
             button16.Padding = new Padding(35, 0, 0, 0);
-            button16.Size = new Size(166, 26);
+            button16.Size = new Size(176, 26);
             button16.TabIndex = 4;
-            button16.Text = "Ventas";
+            button16.Text = "Cuentas";
             button16.TextAlign = ContentAlignment.MiddleLeft;
             button16.UseVisualStyleBackColor = false;
             // 
@@ -297,17 +240,18 @@
             // 
             button13.BackColor = Color.FromArgb(35, 32, 40);
             button13.Cursor = Cursors.Hand;
+            button13.Dock = DockStyle.Top;
             button13.FlatAppearance.BorderSize = 0;
             button13.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button13.FlatStyle = FlatStyle.Flat;
             button13.Font = new Font("Bahnschrift", 9.75F);
             button13.ForeColor = Color.White;
-            button13.Location = new Point(-1, 37);
+            button13.Location = new Point(0, 0);
             button13.Name = "button13";
             button13.Padding = new Padding(35, 0, 0, 0);
-            button13.Size = new Size(166, 26);
+            button13.Size = new Size(176, 26);
             button13.TabIndex = 3;
-            button13.Text = "Compras";
+            button13.Text = "Facturas";
             button13.TextAlign = ContentAlignment.MiddleLeft;
             button13.UseVisualStyleBackColor = false;
             // 
@@ -339,7 +283,7 @@
             btn_reportes.FlatStyle = FlatStyle.Flat;
             btn_reportes.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_reportes.ForeColor = Color.White;
-            btn_reportes.Location = new Point(0, 708);
+            btn_reportes.Location = new Point(0, 620);
             btn_reportes.Name = "btn_reportes";
             btn_reportes.Padding = new Padding(10, 0, 0, 0);
             btn_reportes.Size = new Size(176, 38);
@@ -356,9 +300,9 @@
             p_Campania.Controls.Add(button29);
             p_Campania.Controls.Add(button30);
             p_Campania.Dock = DockStyle.Top;
-            p_Campania.Location = new Point(0, 601);
+            p_Campania.Location = new Point(0, 534);
             p_Campania.Name = "p_Campania";
-            p_Campania.Size = new Size(176, 107);
+            p_Campania.Size = new Size(176, 86);
             p_Campania.TabIndex = 24;
             p_Campania.Visible = false;
             // 
@@ -366,15 +310,16 @@
             // 
             button1.BackColor = Color.FromArgb(35, 32, 40);
             button1.Cursor = Cursors.Hand;
+            button1.Dock = DockStyle.Top;
             button1.FlatAppearance.BorderSize = 0;
             button1.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Bahnschrift", 9.75F);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(-1, 68);
+            button1.Location = new Point(0, 53);
             button1.Name = "button1";
             button1.Padding = new Padding(35, 0, 0, 0);
-            button1.Size = new Size(166, 26);
+            button1.Size = new Size(176, 26);
             button1.TabIndex = 3;
             button1.Text = "Bitácora";
             button1.TextAlign = ContentAlignment.MiddleLeft;
@@ -385,15 +330,16 @@
             // 
             button29.BackColor = Color.FromArgb(35, 32, 40);
             button29.Cursor = Cursors.Hand;
+            button29.Dock = DockStyle.Top;
             button29.FlatAppearance.BorderSize = 0;
             button29.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button29.FlatStyle = FlatStyle.Flat;
             button29.Font = new Font("Bahnschrift", 9.75F);
             button29.ForeColor = Color.White;
-            button29.Location = new Point(-1, 37);
+            button29.Location = new Point(0, 27);
             button29.Name = "button29";
             button29.Padding = new Padding(35, 0, 0, 0);
-            button29.Size = new Size(166, 26);
+            button29.Size = new Size(176, 26);
             button29.TabIndex = 2;
             button29.Text = "Egresos";
             button29.TextAlign = ContentAlignment.MiddleLeft;
@@ -404,15 +350,16 @@
             // 
             button30.BackColor = Color.FromArgb(35, 32, 40);
             button30.Cursor = Cursors.Hand;
+            button30.Dock = DockStyle.Top;
             button30.FlatAppearance.BorderSize = 0;
             button30.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button30.FlatStyle = FlatStyle.Flat;
             button30.Font = new Font("Bahnschrift", 9.75F);
             button30.ForeColor = Color.White;
-            button30.Location = new Point(-1, 4);
+            button30.Location = new Point(0, 0);
             button30.Name = "button30";
             button30.Padding = new Padding(35, 0, 0, 0);
-            button30.Size = new Size(166, 27);
+            button30.Size = new Size(176, 27);
             button30.TabIndex = 1;
             button30.Text = "Ingresos";
             button30.TextAlign = ContentAlignment.MiddleLeft;
@@ -429,7 +376,7 @@
             btn_movimientos.FlatStyle = FlatStyle.Flat;
             btn_movimientos.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_movimientos.ForeColor = Color.White;
-            btn_movimientos.Location = new Point(0, 563);
+            btn_movimientos.Location = new Point(0, 496);
             btn_movimientos.Name = "btn_movimientos";
             btn_movimientos.Padding = new Padding(10, 0, 0, 0);
             btn_movimientos.Size = new Size(176, 38);
@@ -449,7 +396,7 @@
             btn_inventario.FlatStyle = FlatStyle.Flat;
             btn_inventario.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_inventario.ForeColor = Color.White;
-            btn_inventario.Location = new Point(0, 525);
+            btn_inventario.Location = new Point(0, 458);
             btn_inventario.Name = "btn_inventario";
             btn_inventario.Padding = new Padding(10, 0, 0, 0);
             btn_inventario.Size = new Size(176, 38);
@@ -466,9 +413,9 @@
             panel6.Controls.Add(button3);
             panel6.Controls.Add(button2);
             panel6.Dock = DockStyle.Top;
-            panel6.Location = new Point(0, 418);
+            panel6.Location = new Point(0, 375);
             panel6.Name = "panel6";
-            panel6.Size = new Size(176, 107);
+            panel6.Size = new Size(176, 83);
             panel6.TabIndex = 18;
             panel6.Visible = false;
             // 
@@ -476,15 +423,16 @@
             // 
             button10.BackColor = Color.FromArgb(35, 32, 40);
             button10.Cursor = Cursors.Hand;
+            button10.Dock = DockStyle.Top;
             button10.FlatAppearance.BorderSize = 0;
             button10.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button10.FlatStyle = FlatStyle.Flat;
             button10.Font = new Font("Bahnschrift", 9.75F);
             button10.ForeColor = Color.White;
-            button10.Location = new Point(-3, 69);
+            button10.Location = new Point(0, 53);
             button10.Name = "button10";
             button10.Padding = new Padding(35, 0, 0, 0);
-            button10.Size = new Size(166, 26);
+            button10.Size = new Size(176, 26);
             button10.TabIndex = 3;
             button10.Text = "Gestiónar Facturas";
             button10.TextAlign = ContentAlignment.MiddleLeft;
@@ -495,15 +443,16 @@
             // 
             button3.BackColor = Color.FromArgb(35, 32, 40);
             button3.Cursor = Cursors.Hand;
+            button3.Dock = DockStyle.Top;
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Bahnschrift", 9.75F);
             button3.ForeColor = Color.White;
-            button3.Location = new Point(-1, 37);
+            button3.Location = new Point(0, 27);
             button3.Name = "button3";
             button3.Padding = new Padding(35, 0, 0, 0);
-            button3.Size = new Size(166, 26);
+            button3.Size = new Size(176, 26);
             button3.TabIndex = 2;
             button3.Text = "Ventas";
             button3.TextAlign = ContentAlignment.MiddleLeft;
@@ -514,15 +463,16 @@
             // 
             button2.BackColor = Color.FromArgb(35, 32, 40);
             button2.Cursor = Cursors.Hand;
+            button2.Dock = DockStyle.Top;
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Bahnschrift", 9.75F);
             button2.ForeColor = Color.White;
-            button2.Location = new Point(-1, 4);
+            button2.Location = new Point(0, 0);
             button2.Name = "button2";
             button2.Padding = new Padding(35, 0, 0, 0);
-            button2.Size = new Size(166, 27);
+            button2.Size = new Size(176, 27);
             button2.TabIndex = 1;
             button2.Text = "Compras";
             button2.TextAlign = ContentAlignment.MiddleLeft;
@@ -539,7 +489,7 @@
             btn_facturas.FlatStyle = FlatStyle.Flat;
             btn_facturas.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_facturas.ForeColor = Color.White;
-            btn_facturas.Location = new Point(0, 380);
+            btn_facturas.Location = new Point(0, 337);
             btn_facturas.Name = "btn_facturas";
             btn_facturas.Padding = new Padding(10, 0, 0, 0);
             btn_facturas.Size = new Size(176, 38);
@@ -555,9 +505,9 @@
             panel2.Controls.Add(button5);
             panel2.Controls.Add(button6);
             panel2.Dock = DockStyle.Top;
-            panel2.Location = new Point(0, 311);
+            panel2.Location = new Point(0, 280);
             panel2.Name = "panel2";
-            panel2.Size = new Size(176, 69);
+            panel2.Size = new Size(176, 57);
             panel2.TabIndex = 17;
             panel2.Visible = false;
             // 
@@ -565,15 +515,16 @@
             // 
             button5.BackColor = Color.FromArgb(35, 32, 40);
             button5.Cursor = Cursors.Hand;
+            button5.Dock = DockStyle.Top;
             button5.FlatAppearance.BorderSize = 0;
             button5.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button5.FlatStyle = FlatStyle.Flat;
             button5.Font = new Font("Bahnschrift", 9.75F);
             button5.ForeColor = Color.White;
-            button5.Location = new Point(-1, 37);
+            button5.Location = new Point(0, 27);
             button5.Name = "button5";
             button5.Padding = new Padding(35, 0, 0, 0);
-            button5.Size = new Size(166, 26);
+            button5.Size = new Size(176, 26);
             button5.TabIndex = 2;
             button5.Text = "CTAS. a Pagar";
             button5.TextAlign = ContentAlignment.MiddleLeft;
@@ -584,15 +535,16 @@
             // 
             button6.BackColor = Color.FromArgb(35, 32, 40);
             button6.Cursor = Cursors.Hand;
+            button6.Dock = DockStyle.Top;
             button6.FlatAppearance.BorderSize = 0;
             button6.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button6.FlatStyle = FlatStyle.Flat;
             button6.Font = new Font("Bahnschrift", 9.75F);
             button6.ForeColor = Color.White;
-            button6.Location = new Point(-1, 4);
+            button6.Location = new Point(0, 0);
             button6.Name = "button6";
             button6.Padding = new Padding(35, 0, 0, 0);
-            button6.Size = new Size(166, 27);
+            button6.Size = new Size(176, 27);
             button6.TabIndex = 1;
             button6.Text = "CTAS. a Cobrar";
             button6.TextAlign = ContentAlignment.MiddleLeft;
@@ -609,7 +561,7 @@
             btn_cuentas.FlatStyle = FlatStyle.Flat;
             btn_cuentas.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_cuentas.ForeColor = Color.White;
-            btn_cuentas.Location = new Point(0, 273);
+            btn_cuentas.Location = new Point(0, 242);
             btn_cuentas.Name = "btn_cuentas";
             btn_cuentas.Padding = new Padding(10, 0, 0, 0);
             btn_cuentas.Size = new Size(176, 38);
@@ -625,9 +577,9 @@
             panel12.Controls.Add(button27);
             panel12.Controls.Add(button28);
             panel12.Dock = DockStyle.Top;
-            panel12.Location = new Point(0, 199);
+            panel12.Location = new Point(0, 186);
             panel12.Name = "panel12";
-            panel12.Size = new Size(176, 74);
+            panel12.Size = new Size(176, 56);
             panel12.TabIndex = 14;
             panel12.Visible = false;
             // 
@@ -635,33 +587,36 @@
             // 
             button27.BackColor = Color.FromArgb(35, 32, 40);
             button27.Cursor = Cursors.Hand;
+            button27.Dock = DockStyle.Top;
             button27.FlatAppearance.BorderSize = 0;
             button27.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button27.FlatStyle = FlatStyle.Flat;
             button27.Font = new Font("Bahnschrift", 9.75F);
             button27.ForeColor = Color.White;
-            button27.Location = new Point(-1, 38);
+            button27.Location = new Point(0, 27);
             button27.Name = "button27";
             button27.Padding = new Padding(35, 0, 0, 0);
-            button27.Size = new Size(166, 26);
+            button27.Size = new Size(176, 26);
             button27.TabIndex = 2;
-            button27.Text = "Generales";
+            button27.Text = "Empresas";
             button27.TextAlign = ContentAlignment.MiddleLeft;
             button27.UseVisualStyleBackColor = false;
+            button27.Click += button27_Click;
             // 
             // button28
             // 
             button28.BackColor = Color.FromArgb(35, 32, 40);
             button28.Cursor = Cursors.Hand;
+            button28.Dock = DockStyle.Top;
             button28.FlatAppearance.BorderSize = 0;
             button28.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button28.FlatStyle = FlatStyle.Flat;
             button28.Font = new Font("Bahnschrift", 9.75F);
             button28.ForeColor = Color.White;
-            button28.Location = new Point(-1, 7);
+            button28.Location = new Point(0, 0);
             button28.Name = "button28";
             button28.Padding = new Padding(35, 0, 0, 0);
-            button28.Size = new Size(166, 27);
+            button28.Size = new Size(176, 27);
             button28.TabIndex = 1;
             button28.Text = "Usuarios";
             button28.TextAlign = ContentAlignment.MiddleLeft;
@@ -678,7 +633,7 @@
             btn_ajustes.FlatStyle = FlatStyle.Flat;
             btn_ajustes.Font = new Font("Bahnschrift SemiBold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_ajustes.ForeColor = Color.White;
-            btn_ajustes.Location = new Point(0, 161);
+            btn_ajustes.Location = new Point(0, 148);
             btn_ajustes.Name = "btn_ajustes";
             btn_ajustes.Padding = new Padding(10, 0, 0, 0);
             btn_ajustes.Size = new Size(176, 38);
@@ -698,7 +653,7 @@
             panel11.Dock = DockStyle.Top;
             panel11.Location = new Point(0, 42);
             panel11.Name = "panel11";
-            panel11.Size = new Size(176, 119);
+            panel11.Size = new Size(176, 106);
             panel11.TabIndex = 12;
             panel11.Visible = false;
             // 
@@ -706,15 +661,16 @@
             // 
             button23.BackColor = Color.FromArgb(35, 32, 40);
             button23.Cursor = Cursors.Hand;
+            button23.Dock = DockStyle.Top;
             button23.FlatAppearance.BorderSize = 0;
             button23.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button23.FlatStyle = FlatStyle.Flat;
             button23.Font = new Font("Bahnschrift", 9.75F);
             button23.ForeColor = Color.White;
-            button23.Location = new Point(-2, 90);
+            button23.Location = new Point(0, 75);
             button23.Name = "button23";
             button23.Padding = new Padding(35, 0, 0, 0);
-            button23.Size = new Size(166, 25);
+            button23.Size = new Size(176, 25);
             button23.TabIndex = 4;
             button23.Text = "Proveedores";
             button23.TextAlign = ContentAlignment.MiddleLeft;
@@ -725,15 +681,16 @@
             // 
             button22.BackColor = Color.FromArgb(35, 32, 40);
             button22.Cursor = Cursors.Hand;
+            button22.Dock = DockStyle.Top;
             button22.FlatAppearance.BorderSize = 0;
             button22.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button22.FlatStyle = FlatStyle.Flat;
             button22.Font = new Font("Bahnschrift", 9.75F);
             button22.ForeColor = Color.White;
-            button22.Location = new Point(-2, 60);
+            button22.Location = new Point(0, 50);
             button22.Name = "button22";
             button22.Padding = new Padding(35, 0, 0, 0);
-            button22.Size = new Size(166, 25);
+            button22.Size = new Size(176, 25);
             button22.TabIndex = 3;
             button22.Text = "Clientes";
             button22.TextAlign = ContentAlignment.MiddleLeft;
@@ -744,15 +701,16 @@
             // 
             button21.BackColor = Color.FromArgb(35, 32, 40);
             button21.Cursor = Cursors.Hand;
+            button21.Dock = DockStyle.Top;
             button21.FlatAppearance.BorderSize = 0;
             button21.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button21.FlatStyle = FlatStyle.Flat;
             button21.Font = new Font("Bahnschrift", 9.75F);
             button21.ForeColor = Color.White;
-            button21.Location = new Point(-2, 32);
+            button21.Location = new Point(0, 25);
             button21.Name = "button21";
             button21.Padding = new Padding(35, 0, 0, 0);
-            button21.Size = new Size(166, 25);
+            button21.Size = new Size(176, 25);
             button21.TabIndex = 2;
             button21.Text = "Venta Rapida";
             button21.TextAlign = ContentAlignment.MiddleLeft;
@@ -763,15 +721,16 @@
             // 
             button26.BackColor = Color.FromArgb(35, 32, 40);
             button26.Cursor = Cursors.Hand;
+            button26.Dock = DockStyle.Top;
             button26.FlatAppearance.BorderSize = 0;
             button26.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
             button26.FlatStyle = FlatStyle.Flat;
             button26.Font = new Font("Bahnschrift", 9.75F);
             button26.ForeColor = Color.White;
-            button26.Location = new Point(-1, 4);
+            button26.Location = new Point(0, 0);
             button26.Name = "button26";
             button26.Padding = new Padding(35, 0, 0, 0);
-            button26.Size = new Size(166, 25);
+            button26.Size = new Size(176, 25);
             button26.TabIndex = 1;
             button26.Text = "Dashboard";
             button26.TextAlign = ContentAlignment.MiddleLeft;
@@ -1006,15 +965,12 @@
         private Label label2;
         private Button button1;
         private Panel p_Reportes;
-        private Button button8;
-        private Button button20;
         private Button button19;
-        private Button button18;
-        private Button button17;
         private Button button16;
         private Button button13;
         private Button button15;
         private Button btn_reportes;
         private Button button4;
+        private Button button8;
     }
 }

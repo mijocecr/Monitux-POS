@@ -61,14 +61,14 @@ namespace Monitux_POS.Ventanas
 
         public static string moneda;
 
-        
+
         public static int Secuencial_Empresa;
         public static string Nombre_Empresa;
         public static string Direccion_Empresa;
         public static string Telefono_Empresa;
         public static string Email_Empresa;
         public static string RSS;
-        
+
 
 
         //Bloque de Variables Globales
@@ -892,6 +892,15 @@ namespace Monitux_POS.Ventanas
 
         private void button4_Click_3(object sender, EventArgs e)
         {
+
+        }
+
+        private void button27_Click(object sender, EventArgs e)
+        {
+
+            V_Empresa v_Empresa = new V_Empresa();
+            v_Empresa.ShowDialog();
+
 
         }
     }

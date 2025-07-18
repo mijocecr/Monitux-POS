@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,6 +21,8 @@ namespace Monitux_POS.Ventanas
         public int Secuencial { get; set; }
         public string Imagen { get; set; } = string.Empty;
         public int Secuencial_Usuario { get; set; } = V_Menu_Principal.Secuencial_Usuario;
+        public int suma = 0; // Variable para la suma de números aleatorios
+        public string Pin { get; set; } = ""; // Variable para el PIN
         public V_Empresa()
         {
             InitializeComponent();
@@ -606,6 +610,8 @@ namespace Monitux_POS.Ventanas
             //MessageBox.Show($"Secuencial actual: {Secuencial}");
 
 
+            string texto = txt_ISV.Text.Replace(",", "."); // Normaliza el separador
+
 
 
             // Validar campos obligatorios
@@ -634,7 +640,7 @@ namespace Monitux_POS.Ventanas
                     empresa.Telefono = txt_Telefono.Text;
                     empresa.Direccion = txt_Direccion.Text;
                     empresa.Email = txt_Email.Text;
-                    empresa.ISV = Convert.ToDouble(txt_ISV.Text);
+                    empresa.ISV = double.Parse(texto, CultureInfo.InvariantCulture);
                     empresa.RSS = txt_RSS.Text;
                     empresa.Moneda = combo_Moneda.SelectedItem.ToString().Split('-')[0].Trim();
                     empresa.Activa = checkBox1.Checked;
@@ -694,45 +700,69 @@ namespace Monitux_POS.Ventanas
 
         private void archivoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            label6.ForeColor = Color.White;
+            label6.Text="Empresas";
         }
 
         private void Menu_Eliminar_Click(object sender, EventArgs e)
         {
 
-
-
-
-            var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar esta empresa?", "Confirmación");
-
-            if (res == DialogResult.Yes)
+            if (V_Menu_Principal.IPB.Show("Ingrese el Pin", "Usuario Administrador", out string respuesta) == DialogResult.OK)
             {
-                // **DELETE**
-                try
+                if (Pin == "")
                 {
-                    if (pictureBox1.Image != null)
-                        pictureBox1.Image.Dispose(); // Libera la imagen del PictureBox antes de eliminarla
+                    V_Menu_Principal.MSG.ShowMSG("Debe generar un PIN para eliminar la empresa.", "Error");
+                    return;
                 }
-                catch { }
 
-                SQLitePCL.Batteries.Init();
-
-                using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-                var empresa = context.Empresas.FirstOrDefault(p => p.Secuencial == this.Secuencial);
-                if (empresa != null)
+                if (respuesta == Pin && Pin != "")
                 {
-                    context.Empresas.Remove(empresa);
-                    context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado la empresa: " + empresa.Nombre, Secuencial);
-                    V_Menu_Principal.MSG.ShowMSG("Empresa eliminada correctamente.", "Éxito");
-                    Cargar_Datos(); // Recargar los datos después de eliminar el cliente
+                    /////////////////////////
+
+
+
+                    var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar esta empresa?", "Confirmación");
+
+                    if (res == DialogResult.Yes)
+                    {
+                        // **DELETE**
+                        try
+                        {
+                            if (pictureBox1.Image != null)
+                                pictureBox1.Image.Dispose(); // Libera la imagen del PictureBox antes de eliminarla
+                        }
+                        catch { }
+
+                        SQLitePCL.Batteries.Init();
+
+                        using var context = new Monitux_DB_Context();
+                        context.Database.EnsureCreated(); // Crea la base de datos si no existe
+
+                        var empresa = context.Empresas.FirstOrDefault(p => p.Secuencial == this.Secuencial);
+                        if (empresa != null)
+                        {
+                            context.Empresas.Remove(empresa);
+                            context.SaveChanges();
+                            Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado la empresa: " + empresa.Nombre, Secuencial);
+                            V_Menu_Principal.MSG.ShowMSG("Empresa eliminada correctamente.", "Éxito");
+                            Cargar_Datos(); // Recargar los datos después de eliminar el cliente
+                        }
+                    }
+
+
+
+
+                    ///////////////////////
+                }
+                else
+                {
+                    V_Menu_Principal.MSG.ShowMSG("Pin incorrecto. La empresa no se elimino.", "Información");
+                    return;
                 }
             }
 
 
-
+            Pin= ""; // Reinicia el PIN después de la eliminación
 
 
         }
@@ -745,6 +775,40 @@ namespace Monitux_POS.Ventanas
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Dispose(); // Cierra el formulario actual
+        }
+
+        private void txt_ISV_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            // Permitir solo dígitos, retroceso y punto
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+
+            // Solo un punto decimal permitido
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            suma = suma + 1; // Incrementa la suma de números aleatorios
+            if (suma >= 10)
+            {
+
+
+                Random random = new Random();
+                this.Pin = random.Next(1000, 10000).ToString() + "*"; // Genera un número entre 1000 y 9999
+                label6.ForeColor = Color.Green; // Cambia el color del texto a rojo
+                label6.Text = "PIN: " + this.Pin; // Muestra el PIN generado en la etiqueta
+                suma = 0; // Reinicia la suma a 0 después de generar el PIN
+
+
+            }
         }
     }
 }

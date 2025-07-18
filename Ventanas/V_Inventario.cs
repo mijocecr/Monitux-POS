@@ -266,7 +266,7 @@ namespace Monitux_POS.Ventanas
         {
             groupBox2.Visible = true;
             groupBox1.Visible = false;
-            comboBox3.Items.Clear();
+            //comboBox3.Items.Clear();
             /* comboBox3.Items.Add("Codigo");
              comboBox3.Items.Add("Codigo_Barra");
              comboBox3.Items.Add("Codigo_Fabricante");
