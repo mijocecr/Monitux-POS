@@ -117,11 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label5.Text" xml:space="preserve">
-    <value>En esta version del programa los parametros de conexión no son configurables, no estan implementados
-esto es asi porque es la rama principal de desarrollo. Las versiones posteriores seran derivados de esta rama
-principal, lo que implica que aunque el programa esta preparado para funcionar con diferentes motores de datos
-en esta version puntual no se implementa esa funcionalidad.
-</value>
-  </data>
 </root>

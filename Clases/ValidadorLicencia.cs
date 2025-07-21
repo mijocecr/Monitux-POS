@@ -1,8 +1,5 @@
-﻿namespace Monitux_POS.Ventanas
+﻿namespace Monitux_POS.Clases
 {
-
-
-
     using System;
     using System.IO;
     using System.Net.Http;

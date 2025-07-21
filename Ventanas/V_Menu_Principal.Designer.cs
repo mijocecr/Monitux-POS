@@ -840,7 +840,7 @@
             lbl_Cinta.AutoSize = true;
             lbl_Cinta.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl_Cinta.ForeColor = Color.FromArgb(128, 255, 255);
-            lbl_Cinta.Location = new Point(776, 5);
+            lbl_Cinta.Location = new Point(776, 4);
             lbl_Cinta.Name = "lbl_Cinta";
             lbl_Cinta.Size = new Size(524, 32);
             lbl_Cinta.TabIndex = 0;
