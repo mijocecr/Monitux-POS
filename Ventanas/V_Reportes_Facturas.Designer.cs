@@ -246,6 +246,7 @@
             vmax.Name = "vmax";
             vmax.Size = new Size(85, 23);
             vmax.TabIndex = 7;
+            vmax.KeyPress += vmax_KeyPress;
             // 
             // label9
             // 
@@ -263,6 +264,7 @@
             vmin.Name = "vmin";
             vmin.Size = new Size(85, 23);
             vmin.TabIndex = 5;
+            vmin.KeyPress += vmin_KeyPress;
             // 
             // button3
             // 
@@ -578,6 +580,7 @@
             cmax.Name = "cmax";
             cmax.Size = new Size(85, 23);
             cmax.TabIndex = 7;
+            cmax.KeyPress += cmax_KeyPress;
             // 
             // label22
             // 
@@ -595,6 +598,7 @@
             cmin.Name = "cmin";
             cmin.Size = new Size(85, 23);
             cmin.TabIndex = 5;
+            cmin.KeyPress += cmin_KeyPress;
             // 
             // button10
             // 

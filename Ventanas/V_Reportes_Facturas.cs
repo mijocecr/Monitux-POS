@@ -177,7 +177,7 @@ namespace Monitux_POS.Ventanas
                 container.PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
 
 
-            
+
 
 
         }
@@ -350,7 +350,7 @@ namespace Monitux_POS.Ventanas
                          .BorderColor(Colors.Grey.Lighten2);
 
 
-            
+
 
 
 
@@ -499,7 +499,7 @@ namespace Monitux_POS.Ventanas
                 container.PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
 
 
-            
+
 
 
         }
@@ -679,7 +679,7 @@ namespace Monitux_POS.Ventanas
                          .BorderColor(Colors.Grey.Lighten2);
 
 
-            
+
 
             //  
 
@@ -916,7 +916,7 @@ namespace Monitux_POS.Ventanas
                          .BorderColor(Colors.Grey.Lighten2);
 
 
-            
+
 
 
 
@@ -1068,7 +1068,7 @@ namespace Monitux_POS.Ventanas
                          .BorderBottom(1)
                          .BorderColor(Colors.Grey.Lighten2);
 
-            
+
 
 
         }
@@ -1076,7 +1076,7 @@ namespace Monitux_POS.Ventanas
         private void button1_Click(object sender, EventArgs e)
         {
 
-            
+
 
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
@@ -1193,7 +1193,7 @@ namespace Monitux_POS.Ventanas
                 });
             })
 
-              
+
 .GeneratePdf($"{ruta}Reporte_Ventas_Tipo_{tipoSeleccionado.ToUpperInvariant()}.pdf");
 
             V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
@@ -1204,7 +1204,7 @@ namespace Monitux_POS.Ventanas
                 container.PaddingVertical(5)
                          .BorderBottom(1)
                          .BorderColor(Colors.Grey.Lighten2);
-            
+
 
 
         }
@@ -1338,7 +1338,7 @@ namespace Monitux_POS.Ventanas
                          .BorderBottom(1)
                          .BorderColor(Colors.Grey.Lighten2);
 
-            
+
 
 
         }
@@ -1474,7 +1474,7 @@ namespace Monitux_POS.Ventanas
                          .BorderBottom(1)
                          .BorderColor(Colors.Grey.Lighten2);
 
-            
+
 
 
         }
@@ -1613,8 +1613,72 @@ namespace Monitux_POS.Ventanas
                          .BorderBottom(1)
                          .BorderColor(Colors.Grey.Lighten2);
 
-            
 
+
+        }
+
+        private void vmin_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            // Permitir solo dígitos, retroceso y punto
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+
+            // Solo un punto decimal permitido
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void vmax_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            // Permitir solo dígitos, retroceso y punto
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+
+            // Solo un punto decimal permitido
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void cmin_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            // Permitir solo dígitos, retroceso y punto
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+
+            // Solo un punto decimal permitido
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void cmax_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            // Permitir solo dígitos, retroceso y punto
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+
+            // Solo un punto decimal permitido
+            if (e.KeyChar == '.' && (sender as System.Windows.Forms.TextBox).Text.Contains("."))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

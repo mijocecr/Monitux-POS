@@ -53,7 +53,7 @@ namespace Monitux_POS.Ventanas
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            
 
             if (string.IsNullOrEmpty(txt_Codigo.Text))
             {
@@ -108,24 +108,77 @@ namespace Monitux_POS.Ventanas
             };
 
             // Validar si se seleccionó "Administrador"
+
+            /* 
+             if (comboBox1.SelectedItem?.ToString() == "Administrador")
+             {
+                 if (V_Menu_Principal.IPB.Show("Ingrese el Pin", "Usuario Administrador", out string respuesta) == DialogResult.OK)
+                 {
+                     if (respuesta == "****" && Pin == "*****")
+                     {
+                         V_Menu_Principal.MSG.ShowMSG("Debe generar un PIN para el usuario administrador.", "Error");
+                         return;
+                     }
+
+                     if (respuesta == Pin && Pin != "****")
+                     {
+                         usuario.Acceso = "Administrador";
+                     }
+                     else
+                     {
+                         V_Menu_Principal.MSG.ShowMSG("Pin incorrecto. El usuario no se ha creado.", "Información");
+                         return;
+                     }
+                 }
+             }
+
+             // Guardar usuario
+             try
+             {
+                 context.Usuarios.Add(usuario);
+                 context.SaveChanges();
+             }
+             catch (Exception)
+             {
+                 V_Menu_Principal.MSG.ShowMSG("Error al crear el usuario: Ya existe o los datos proporcionados no son válidos.", "Error");
+                 return;
+             }
+
+             // Confirmación y limpieza
+             V_Menu_Principal.MSG.ShowMSG($"Usuario creado correctamente.\nAcceso: {usuario.Acceso}", "Éxito");
+             Pin = "****";
+             Util.Registrar_Actividad(0, $"Ha creado al usuario: {usuario.Nombre}", V_Menu_Principal.Secuencial_Empresa);*/
+
+
+            // Validar si se seleccionó "Administrador"
             if (comboBox1.SelectedItem?.ToString() == "Administrador")
             {
-                if (V_Menu_Principal.IPB.Show("Ingrese el Pin", "Usuario Administrador", out string respuesta) == DialogResult.OK)
+                // Verifica si es el primer arranque del sistema
+                if (Properties.Settings.Default.Primer_Arranque)
                 {
-                    if (respuesta == "****" && Pin == "*****")
+                    // Se omite el PIN en primer arranque
+                    usuario.Acceso = "Administrador";
+                }
+                else
+                {
+                    // Solicita PIN normalmente
+                    if (V_Menu_Principal.IPB.Show("Ingrese el Pin", "Usuario Administrador", out string respuesta) == DialogResult.OK)
                     {
-                        V_Menu_Principal.MSG.ShowMSG("Debe generar un PIN para el usuario administrador.", "Error");
-                        return;
-                    }
+                        if (respuesta == "****" && Pin == "*****")
+                        {
+                            V_Menu_Principal.MSG.ShowMSG("Debe generar un PIN para el usuario administrador.", "Error");
+                            return;
+                        }
 
-                    if (respuesta == Pin && Pin != "****")
-                    {
-                        usuario.Acceso = "Administrador";
-                    }
-                    else
-                    {
-                        V_Menu_Principal.MSG.ShowMSG("Pin incorrecto. El usuario no se ha creado.", "Información");
-                        return;
+                        if (respuesta == Pin && Pin != "****")
+                        {
+                            usuario.Acceso = "Administrador";
+                        }
+                        else
+                        {
+                            V_Menu_Principal.MSG.ShowMSG("Pin incorrecto. El usuario no se ha creado.", "Información");
+                            return;
+                        }
                     }
                 }
             }
@@ -146,6 +199,9 @@ namespace Monitux_POS.Ventanas
             V_Menu_Principal.MSG.ShowMSG($"Usuario creado correctamente.\nAcceso: {usuario.Acceso}", "Éxito");
             Pin = "****";
             Util.Registrar_Actividad(0, $"Ha creado al usuario: {usuario.Nombre}", V_Menu_Principal.Secuencial_Empresa);
+
+
+
 
             txt_Codigo.Clear();
             txt_Nombre.Clear();

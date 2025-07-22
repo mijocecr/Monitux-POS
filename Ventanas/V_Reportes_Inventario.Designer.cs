@@ -226,6 +226,7 @@
             comboProveedor.Name = "comboProveedor";
             comboProveedor.Size = new Size(131, 23);
             comboProveedor.TabIndex = 60;
+            comboProveedor.SelectedIndexChanged += comboProveedor_SelectedIndexChanged;
             // 
             // comboCategoria
             // 

@@ -2121,5 +2121,10 @@ namespace Monitux_POS.Ventanas
 
             /////////////////////
         }
+
+        private void comboProveedor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
