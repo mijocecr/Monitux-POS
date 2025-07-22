@@ -14,7 +14,7 @@ namespace Monitux_POS.Clases
         public int Secuencial_CTAP { get; set; }
         public int Secuencial_Usuario { get; set; }
         public int Secuencial_Proveedor { get; set; }
-        public string Fecha { get; set; } = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+        public string Fecha { get; set; } = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
         public double Monto { get; set; } = 0;
 
         public int Secuencial_Empresa { get; set; }

@@ -166,7 +166,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.ForeColor = Color.White;
+            label2.ForeColor = Color.Yellow;
             label2.Location = new Point(191, 18);
             label2.Name = "label2";
             label2.Size = new Size(42, 15);
@@ -176,7 +176,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.ForeColor = Color.White;
+            label3.ForeColor = Color.Yellow;
             label3.Location = new Point(368, 18);
             label3.Name = "label3";
             label3.Size = new Size(40, 15);
@@ -196,7 +196,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(245, 37);
+            button2.Location = new Point(245, 39);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 5;
@@ -362,7 +362,7 @@
             panel6.Controls.Add(panel2);
             panel6.Controls.Add(panel4);
             panel6.Controls.Add(panel3);
-            panel6.Location = new Point(19, 48);
+            panel6.Location = new Point(25, 48);
             panel6.Name = "panel6";
             panel6.Size = new Size(359, 511);
             panel6.TabIndex = 7;
@@ -388,7 +388,7 @@
             panel7.Controls.Add(panel10);
             panel7.Controls.Add(panel11);
             panel7.Controls.Add(panel12);
-            panel7.Location = new Point(391, 48);
+            panel7.Location = new Point(398, 48);
             panel7.Name = "panel7";
             panel7.Size = new Size(361, 511);
             panel7.TabIndex = 8;
@@ -640,7 +640,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(761, 584);
+            ClientSize = new Size(772, 584);
             Controls.Add(label5);
             Controls.Add(panel7);
             Controls.Add(panel6);

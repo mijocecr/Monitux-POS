@@ -14,7 +14,7 @@ namespace Monitux_POS.Clases
         public int Secuencial { get; set; }
         public int? Secuencial_Factura { get; set; } = 0;
         public int Secuencial_Usuario { get; set; } = 0;
-        public string Fecha { get; set; } = DateTime.Now.ToString("dd-MM-yyyy");
+        public string Fecha { get; set; } = DateTime.Now.ToString("dd/MM/yyyy");
         public string Tipo_Ingreso { get; set; } = "";
         public string Descripcion { get; set; } = "";
         public double Total { get; set; } = 0.0;

@@ -20,6 +20,8 @@ namespace Monitux_POS.Ventanas
 
         public int secuencialCliente = 0; // Para filtrar por cliente si es necesario
         public int secuencial_Proveedor = 0; // Para filtrar por proveedor si es necesario
+
+        public string ruta = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Reportes\\");
         public V_Reportes_Facturas()
         {
             InitializeComponent();
@@ -165,14 +167,17 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-.GeneratePdf("Reporte_Productos_Por_Usuario.pdf");
-
+.GeneratePdf($"{ruta}Reporte_Productos_Por_Usuario.pdf");
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Productos_Por_Usuario.pdf");
+            _Visor_Factura.ShowDialog();
             // 🧱 Estilo de celda compartido
             static QuestPDF.Infrastructure.IContainer CellStyle(QuestPDF.Infrastructure.IContainer container) =>
                 container.PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
 
 
-
+            
 
 
         }
@@ -329,7 +334,15 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-.GeneratePdf($"Reporte_Compras_Proveedor_{secuencialProveedor}.pdf");
+.GeneratePdf($"{ruta}Reporte_Compras_Proveedor_{secuencialProveedor}.pdf");
+
+
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Compras_Proveedor_{secuencialProveedor}.pdf");
+            _Visor_Factura.ShowDialog();
+
 
             static QuestPDF.Infrastructure.IContainer CellStyle(QuestPDF.Infrastructure.IContainer container) =>
                 container.PaddingVertical(5)
@@ -337,7 +350,7 @@ namespace Monitux_POS.Ventanas
                          .BorderColor(Colors.Grey.Lighten2);
 
 
-
+            
 
 
 
@@ -472,13 +485,21 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-.GeneratePdf("Reporte_Compras_Por_Usuario.pdf");
+.GeneratePdf($"{ruta}Reporte_Compras_Por_Usuario.pdf");
+
+
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Compras_Por_Usuario.pdf");
+            _Visor_Factura.ShowDialog();
+
 
             static QuestPDF.Infrastructure.IContainer CellStyle(QuestPDF.Infrastructure.IContainer container) =>
                 container.PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
 
 
-
+            
 
 
         }
@@ -646,8 +667,11 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-            .GeneratePdf($"Reporte_Ventas_Cliente_{secuencialCliente}.pdf");
-
+            .GeneratePdf($"{ruta}Reporte_Ventas_Cliente_{secuencialCliente}.pdf");
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Ventas_Cliente_{secuencialCliente}.pdf");
+            _Visor_Factura.ShowDialog();
             // Estilo de celdas
             static QuestPDF.Infrastructure.IContainer CellStyle(QuestPDF.Infrastructure.IContainer container) =>
                 container.PaddingVertical(5)
@@ -655,7 +679,7 @@ namespace Monitux_POS.Ventanas
                          .BorderColor(Colors.Grey.Lighten2);
 
 
-
+            
 
             //  
 
@@ -880,8 +904,11 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-.GeneratePdf("Reporte_Ventas_General.pdf");
-
+.GeneratePdf($"{ruta}Reporte_Ventas_General.pdf");
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Ventas_General.pdf");
+            _Visor_Factura.ShowDialog();
             // Estilo de celdas
             static QuestPDF.Infrastructure.IContainer CellStyle(QuestPDF.Infrastructure.IContainer container) =>
                 container.PaddingVertical(5)
@@ -889,7 +916,7 @@ namespace Monitux_POS.Ventanas
                          .BorderColor(Colors.Grey.Lighten2);
 
 
-
+            
 
 
 
@@ -1027,7 +1054,13 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-            .GeneratePdf("Reporte_Compras_General.pdf");
+            .GeneratePdf($"{ruta}Reporte_Compras_General.pdf");
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Compras_General.pdf");
+            _Visor_Factura.ShowDialog();
+
 
             // 🎨 Estilo de celda compartido
             static QuestPDF.Infrastructure.IContainer CellStyle(QuestPDF.Infrastructure.IContainer container) =>
@@ -1035,13 +1068,16 @@ namespace Monitux_POS.Ventanas
                          .BorderBottom(1)
                          .BorderColor(Colors.Grey.Lighten2);
 
-
+            
 
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+
+            
+
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
@@ -1156,13 +1192,19 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-.GeneratePdf($"Reporte_Ventas_Tipo_{tipoSeleccionado.ToUpperInvariant()}.pdf");
 
+              
+.GeneratePdf($"{ruta}Reporte_Ventas_Tipo_{tipoSeleccionado.ToUpperInvariant()}.pdf");
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Ventas_Tipo_{tipoSeleccionado.ToUpperInvariant()}.pdf");
+            _Visor_Factura.ShowDialog();
             static QuestPDF.Infrastructure.IContainer CellStyle(QuestPDF.Infrastructure.IContainer container) =>
                 container.PaddingVertical(5)
                          .BorderBottom(1)
                          .BorderColor(Colors.Grey.Lighten2);
-
+            
 
 
         }
@@ -1282,14 +1324,21 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-.GeneratePdf($"Reporte_Compras_Tipo_{tipoSeleccionado.ToUpperInvariant()}.pdf");
+.GeneratePdf($"{ruta}Reporte_Compras_Tipo_{tipoSeleccionado.ToUpperInvariant()}.pdf");
+
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Compras_Tipo_{tipoSeleccionado.ToUpperInvariant()}.pdf");
+            _Visor_Factura.ShowDialog();
+
 
             static QuestPDF.Infrastructure.IContainer CellStyle(QuestPDF.Infrastructure.IContainer container) =>
                 container.PaddingVertical(5)
                          .BorderBottom(1)
                          .BorderColor(Colors.Grey.Lighten2);
 
-
+            
 
 
         }
@@ -1414,14 +1463,18 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-.GeneratePdf("Reporte_Ventas_RangoTotales.pdf");
+.GeneratePdf($"{ruta}Reporte_Ventas_RangoTotales.pdf");
 
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Ventas_RangoTotales.pdf");
+            _Visor_Factura.ShowDialog();
             static QuestPDF.Infrastructure.IContainer CellStyle(QuestPDF.Infrastructure.IContainer container) =>
                 container.PaddingVertical(5)
                          .BorderBottom(1)
                          .BorderColor(Colors.Grey.Lighten2);
 
-
+            
 
 
         }
@@ -1546,14 +1599,21 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-.GeneratePdf("Reporte_Compras_RangoTotales.pdf");
+.GeneratePdf($"{ruta}Reporte_Compras_RangoTotales.pdf");
+
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Compras_RangoTotales.pdf");
+            _Visor_Factura.ShowDialog();
+
 
             static QuestPDF.Infrastructure.IContainer CellStyle(QuestPDF.Infrastructure.IContainer container) =>
                 container.PaddingVertical(5)
                          .BorderBottom(1)
                          .BorderColor(Colors.Grey.Lighten2);
 
-
+            
 
         }
     }

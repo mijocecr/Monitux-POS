@@ -187,6 +187,7 @@
             button5.TabIndex = 65;
             button5.Text = "Generar";
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // button4
             // 

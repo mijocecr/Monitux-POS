@@ -378,6 +378,9 @@
     <Content Include="Resources\QR\Default.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Reportes\Default.PNG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\USR\Default.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -483,7 +486,6 @@
 
   <ItemGroup>
     <Folder Include="Properties\DataSources\" />
-    <Folder Include="Reportes\" />
   </ItemGroup>
 
 </Project>

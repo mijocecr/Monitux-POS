@@ -15,7 +15,7 @@ namespace Monitux_POS.Clases
         public int Secuencial_Proveedor { get; set; } = 0;
         public int Secuencial_Producto { get; set; } = 0;
         public int Secuencial_Usuario { get; set; } = 0;
-        public string? Fecha { get; set; } = DateTime.Now.ToString("dd-MM-yyyy");
+        public string? Fecha { get; set; } = DateTime.Now.ToString("dd/MM/yyyy");
         public string? Codigo { get; set; } = ""; //Código del producto
         public string? Descripcion { get; set; } = "";
         public double? Cantidad { get; set; } = 0;

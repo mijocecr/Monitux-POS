@@ -650,6 +650,7 @@ namespace Monitux_POS.Clases
             Limpiar_Cache_Proveedor(secuencial_empresa);//Ya
             Limpiar_Cache_Cliente(secuencial_empresa);//Ya
             Limpiar_Cache_Usuario(secuencial_empresa);//ya
+            
 
         }
 
@@ -848,6 +849,40 @@ public static class AnimacionesUI
             }
 
         }
+
+
+
+
+
+        public static void Limpiar_Cache_Reportes()
+        {
+
+
+
+          
+
+            // Definir la ruta de la carpeta de imágenes
+            string folderPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Reportes"));
+
+            // Verificar si la carpeta existe antes de proceder
+            if (Directory.Exists(folderPath))
+            {
+                var filesInDirectory = Directory.GetFiles(folderPath);
+
+                foreach (var file in filesInDirectory)
+                {
+                    string fileName = Path.GetFileName(file);
+
+                  
+                        File.Delete(file);
+                       
+                    
+                }
+            }
+           
+
+        }
+
 
 
 

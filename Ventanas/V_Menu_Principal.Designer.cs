@@ -137,7 +137,7 @@
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
             panel3.Controls.Add(btn_inicio);
-            panel3.Location = new Point(0, 194);
+            panel3.Location = new Point(0, -137);
             panel3.Name = "panel3";
             panel3.Size = new Size(176, 1043);
             panel3.TabIndex = 3;
@@ -194,7 +194,7 @@
             button8.Padding = new Padding(35, 0, 0, 0);
             button8.Size = new Size(176, 26);
             button8.TabIndex = 9;
-            button8.Text = "Registro";
+            button8.Text = "Movimientos";
             button8.TextAlign = ContentAlignment.MiddleLeft;
             button8.UseVisualStyleBackColor = false;
             // 
@@ -213,9 +213,10 @@
             button19.Padding = new Padding(35, 0, 0, 0);
             button19.Size = new Size(176, 26);
             button19.TabIndex = 7;
-            button19.Text = "Movimientos";
+            button19.Text = "Inventario";
             button19.TextAlign = ContentAlignment.MiddleLeft;
             button19.UseVisualStyleBackColor = false;
+            button19.Click += button19_Click;
             // 
             // button16
             // 
@@ -254,6 +255,7 @@
             button13.Text = "Facturas";
             button13.TextAlign = ContentAlignment.MiddleLeft;
             button13.UseVisualStyleBackColor = false;
+            button13.Click += button13_Click_1;
             // 
             // button15
             // 

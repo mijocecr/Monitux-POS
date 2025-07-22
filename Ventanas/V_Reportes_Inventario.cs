@@ -16,6 +16,7 @@ namespace Monitux_POS.Ventanas
 {
     public partial class V_Reportes_Inventario : Form
     {
+        public string ruta = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Reportes\\");
         public V_Reportes_Inventario()
         {
             InitializeComponent();
@@ -128,10 +129,14 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-            .GeneratePdf("Reporte_ProductosRegistrados.pdf");
+            .GeneratePdf($"{ruta}Reporte_ProductosRegistrados.pdf");
 
-            MessageBox.Show("🖨️ Reporte generado correctamente", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
 
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_ProductosRegistrados.pdf");
+            _Visor_Factura.ShowDialog();
 
             //System.Diagnostics.Process.Start("Reporte_ProductosRegistrados.pdf");
 
@@ -250,9 +255,16 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-            .GeneratePdf("Reporte_ProductosPorMarca.pdf");
+            .GeneratePdf($"{ruta}Reporte_ProductosPorMarca.pdf");
 
-            MessageBox.Show("🖨️ Reporte agrupado por marca generado correctamente", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_ProductosPorMarca.pdf");
+            _Visor_Factura.ShowDialog();
+
+
 
 
 
@@ -379,9 +391,18 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-            .GeneratePdf($"Reporte_ProductosProveedor_{comboProveedor.SelectedItem}.pdf");
+            .GeneratePdf($"{ruta}Reporte_ProductosProveedor_{comboProveedor.SelectedItem}.pdf");
 
-            MessageBox.Show("🖨️ Reporte por proveedor generado correctamente", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_ProductosProveedor_{comboProveedor.SelectedItem}.pdf");
+            _Visor_Factura.ShowDialog();
+
+
+
+
+            
 
 
 
@@ -471,7 +492,7 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated();
 
             // 🔐 Empresa activa
-            int secuencialEmpresaActiva = 123; // ← remplaza con tu valor dinámico actual
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa; // ← remplaza con tu valor dinámico actual
 
             // 📂 Categoría seleccionada desde combo
             var categoriaSeleccionada = comboCategoria.SelectedItem.ToString().Split('-')[0].Trim();
@@ -579,9 +600,18 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-            .GeneratePdf($"Reporte_ProductosCategoria_{categoriaSeleccionada}.pdf");
+            .GeneratePdf($"{ruta}Reporte_ProductosCategoria_{categoriaSeleccionada}.pdf");
 
-            MessageBox.Show("🖨️ Reporte por categoría generado correctamente", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_ProductosCategoria_{categoriaSeleccionada}.pdf");
+            _Visor_Factura.ShowDialog();
+
+
+
+            
 
 
 
@@ -711,9 +741,17 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-            .GeneratePdf("Reporte_Productos_Caducan.pdf");
+            .GeneratePdf($"{ruta}Reporte_Productos_Caducan.pdf");
 
-            MessageBox.Show("🖨️ Reporte agrupado por proveedor generado correctamente", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Productos_Caducan.pdf");
+            _Visor_Factura.ShowDialog();
+
+
+
+            
 
 
 
@@ -772,7 +810,7 @@ namespace Monitux_POS.Ventanas
                     // Encabezado
                     page.Header().Column(header =>
                     {
-                        header.Item().Text("💸 Listado de Precios por Proveedor").FontSize(20).Bold();
+                        header.Item().Text("💸 Listado de Precios de Venta").FontSize(20).Bold();
                         header.Item().Text($"Empresa: {secuencialEmpresaActiva}");
                         header.Item().Text($"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}");
                     });
@@ -820,9 +858,17 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-.GeneratePdf("Listado_PreciosPorProveedor.pdf");
+.GeneratePdf($"{ruta}Listado_PreciosPorProveedor.pdf");
 
-            MessageBox.Show("🖨️ Listado de precios generado correctamente", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Listado_PreciosPorProveedor.pdf");
+            _Visor_Factura.ShowDialog();
+
+
 
 
 
@@ -928,9 +974,19 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-.GeneratePdf("Listado_CostosPorProveedor.pdf");
+.GeneratePdf($"{ruta}Listado_CostosPorProveedor.pdf");
 
-            MessageBox.Show("🖨️ Listado de precios de costo generado correctamente", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Listado_CostosPorProveedor.pdf");
+            _Visor_Factura.ShowDialog();
+
+
+
 
 
 
@@ -1018,9 +1074,114 @@ namespace Monitux_POS.Ventanas
                         .FontSize(10).Italic();
                 });
             })
-            .GeneratePdf("Reporte_ServiciosRegistrados.pdf");
+            .GeneratePdf($"{ruta}Reporte_ServiciosRegistrados.pdf");
 
-            MessageBox.Show("🖨️ Reporte de servicios generado correctamente", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_ServiciosRegistrados.pdf");
+            _Visor_Factura.ShowDialog();
+
+
+
+
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+
+
+            ////////////////////////
+
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            // Rango de fechas en string (deberías obtenerlas desde inputs de usuario o variables globales)
+            string fechaInicioStr = dateTimePicker1.Value.ToString("dd/MM/yyyy");
+            string fechaFinStr = dateTimePicker2.Value.ToString("dd/MM/yyyy");
+
+            // Productos vendidos en el rango
+            var productosVendidos = context.Ventas_Detalles
+                .Where(vd => vd.Secuencial_Empresa == secuencialEmpresaActiva
+                    && string.Compare(vd.Fecha, fechaInicioStr) >= 0
+                    && string.Compare(vd.Fecha, fechaFinStr) <= 0)
+                .GroupBy(vd => new { vd.Codigo, vd.Descripcion })
+                .Select(g => new
+                {
+                    Codigo = g.Key.Codigo,
+                    Descripcion = g.Key.Descripcion,
+                    CantidadVendida = g.Sum(x => x.Cantidad),
+                    TotalVentas = g.Sum(x => x.Total)
+                })
+                .OrderByDescending(x => x.CantidadVendida)
+                .ToList();
+
+            // 🖨️ Crear PDF
+            Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(9));
+
+                    page.Header().Column(header =>
+                    {
+                        header.Item().Text("📊 Reporte de Productos Mas Vendidos").FontSize(20).Bold();
+                        header.Item().Text($"Rango: {fechaInicioStr} a {fechaFinStr}");
+                        header.Item().Text($"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}");
+                    });
+
+                    page.Content().Table(tabla =>
+                    {
+                        tabla.ColumnsDefinition(cols =>
+                        {
+                            cols.RelativeColumn(1); // Codigo
+                            cols.RelativeColumn(3); // Descripcion
+                            cols.RelativeColumn(1); // Cantidad Vendida
+                            cols.RelativeColumn(1); // Total Ventas
+                        });
+
+                        tabla.Header(header =>
+                        {
+                            header.Cell().Element(c => c.Background(Colors.Grey.Lighten3).PaddingVertical(4).PaddingHorizontal(2).ShowOnce()).Text("Codigo").Bold();
+                            header.Cell().Element(c => c.Background(Colors.Grey.Lighten3).PaddingVertical(4).PaddingHorizontal(2).ShowOnce()).Text("Descripcion").Bold();
+                            header.Cell().Element(c => c.Background(Colors.Grey.Lighten3).PaddingVertical(4).PaddingHorizontal(2).ShowOnce()).Text("Cantidad").Bold();
+                            header.Cell().Element(c => c.Background(Colors.Grey.Lighten3).PaddingVertical(4).PaddingHorizontal(2).ShowOnce()).Text($"Total ({V_Menu_Principal.moneda})").Bold();
+                        });
+
+                        foreach (var p in productosVendidos)
+                        {
+                            tabla.Cell().Element(c => c.BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten2).PaddingVertical(2).PaddingHorizontal(2)).Text(p.Codigo);
+                            tabla.Cell().Element(c => c.BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten2).PaddingVertical(2).PaddingHorizontal(2)).Text(p.Descripcion);
+                            tabla.Cell().Element(c => c.BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten2).PaddingVertical(2).PaddingHorizontal(2)).Text($"{p.CantidadVendida:N0}");
+                            tabla.Cell().Element(c => c.BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten2).PaddingVertical(2).PaddingHorizontal(2)).Text($"{p.TotalVentas:N2}");
+                        }
+                    });
+
+                    page.Footer().AlignCenter()
+                        .Text("Sistema Monitux-POS · Reporte generado automaticamente")
+                        .FontSize(10).Italic();
+                });
+            })
+            .GeneratePdf($"{ruta}Reporte_Productos_Mas_Vendidos.pdf");
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
+            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Productos_Mas_Vendidos.pdf");
+            _Visor_Factura.ShowDialog();
+
+
+
+            ///////////////////////
 
 
 

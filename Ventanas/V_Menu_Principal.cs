@@ -186,6 +186,8 @@ namespace Monitux_POS.Ventanas
         private void V_Menu_Principal_Load(object sender, EventArgs e)
         {
 
+            Util.Limpiar_Cache_Reportes();
+
             string cultura = Properties.Settings.Default.CulturaMoneda;
             CultureInfo info = new CultureInfo(cultura);
             moneda = info.NumberFormat.CurrencySymbol;
@@ -803,9 +805,6 @@ namespace Monitux_POS.Ventanas
 
         private void pictureBox2_ClickAsync(object sender, EventArgs e)
         {
-            V_Reportes_Inventario v_Reportes_Inventario = new V_Reportes_Inventario();
-            Abrir_Ventana(v_Reportes_Inventario);
-
 
 
             /*
@@ -901,6 +900,20 @@ namespace Monitux_POS.Ventanas
 
             V_Empresa v_Empresa = new V_Empresa();
             v_Empresa.ShowDialog();
+
+
+        }
+
+        private void button13_Click_1(object sender, EventArgs e)
+        {
+            V_Reportes_Facturas v_Reportes_Facturas = new V_Reportes_Facturas();
+            Abrir_Ventana(v_Reportes_Facturas);
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            V_Reportes_Inventario v_Reportes_Inventario = new V_Reportes_Inventario();
+            Abrir_Ventana(v_Reportes_Inventario);
 
 
         }
