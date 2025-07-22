@@ -803,8 +803,8 @@ namespace Monitux_POS.Ventanas
 
         private void pictureBox2_ClickAsync(object sender, EventArgs e)
         {
-            V_Reportes_Facturas v_Reportes_Facturas = new V_Reportes_Facturas();
-            Abrir_Ventana(v_Reportes_Facturas);
+            V_Reportes_Inventario v_Reportes_Inventario = new V_Reportes_Inventario();
+            Abrir_Ventana(v_Reportes_Inventario);
 
 
 

@@ -453,9 +453,9 @@
             label16.ForeColor = Color.White;
             label16.Location = new Point(37, 10);
             label16.Name = "label16";
-            label16.Size = new Size(163, 15);
+            label16.Size = new Size(103, 15);
             label16.TabIndex = 1;
-            label16.Text = "Reporte de Compras por Tipo";
+            label16.Text = "Compras por Tipo";
             // 
             // panel9
             // 
@@ -523,9 +523,9 @@
             label19.ForeColor = Color.White;
             label19.Location = new Point(37, 10);
             label19.Name = "label19";
-            label19.Size = new Size(177, 15);
+            label19.Size = new Size(133, 15);
             label19.TabIndex = 1;
-            label19.Text = "Reporte Compras por Proveedor";
+            label19.Text = "Compras por Proveedor";
             // 
             // panel11
             // 
@@ -628,7 +628,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.ForeColor = Color.White;
+            label5.ForeColor = Color.Yellow;
             label5.Location = new Point(159, 569);
             label5.Name = "label5";
             label5.Size = new Size(407, 15);

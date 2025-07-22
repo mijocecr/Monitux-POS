@@ -429,7 +429,7 @@ namespace Monitux_POS.Ventanas
                     );
                 }
 
-                MessageBox.Show("Secuencial: " + producto.Secuencial.ToString(), "Información");
+                
 
                 V_Menu_Principal.MSG.ShowMSG(esNuevo ? "Producto creado correctamente." : "Producto actualizado correctamente.", "Éxito");
                 Util.Registrar_Actividad(Secuencial_Usuario, $"Ha {(esNuevo ? "creado" : "modificado")} el producto: {producto.Codigo}", producto.Secuencial_Empresa);

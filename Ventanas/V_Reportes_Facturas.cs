@@ -27,19 +27,20 @@ namespace Monitux_POS.Ventanas
 
         private void button4_Click(object sender, EventArgs e)
         {
-
-
             SQLitePCL.Batteries.Init();
-
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
+            // ⏳ Fechas seleccionadas
             var fechaInicio = dateTimePicker1.Value.Date;
-            var fechaFin = dateTimePicker2.Value.Date.AddDays(1).AddTicks(-1); // incluye todo el segundo día
+            var fechaFin = dateTimePicker2.Value.Date.AddDays(1).AddTicks(-1);
 
-            // 🔧 Procesar los registros con conversión segura
+            // 🔐 Empresa activa
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            // 🔍 Filtrar desde Ventas con Secuencial_Empresa
             var registrosFiltrados = context.Ventas_Detalles
-                .Join(context.Ventas,
+                .Join(context.Ventas.Where(v => v.Secuencial_Empresa == secuencialEmpresaActiva), // ✅ filtro aplicado aquí
                     detalles => detalles.Secuencial_Factura,
                     venta => venta.Secuencial,
                     (detalles, venta) => new { Detalles = detalles, Venta = venta })
@@ -54,13 +55,12 @@ namespace Monitux_POS.Ventanas
                         FechaTexto = combinado.Venta.Fecha,
                         Usuario = usuario.Nombre
                     })
-                .ToList() // rompe el árbol para trabajar en memoria
+                .ToList() // rompemos el árbol LINQ para trabajar en memoria
                 .Select(r =>
                 {
-                    // Intenta convertir la fecha de texto a DateTime usando formato conocido
                     var fechaOk = DateTime.TryParseExact(
                         r.FechaTexto?.Trim(),
-                        "dd/MM/yyyy HH:mm:ss", // ajusta según formato real de tu campo
+                        "dd/MM/yyyy HH:mm:ss",
                         CultureInfo.InvariantCulture,
                         DateTimeStyles.None,
                         out var fechaConvertida
@@ -75,7 +75,9 @@ namespace Monitux_POS.Ventanas
                         Fecha = fechaOk ? fechaConvertida : (DateTime?)null
                     };
                 })
-                .Where(r => r.Fecha.HasValue && r.Fecha.Value >= fechaInicio && r.Fecha.Value <= fechaFin)
+                .Where(r => r.Fecha.HasValue &&
+                            r.Fecha.Value >= fechaInicio &&
+                            r.Fecha.Value <= fechaFin)
                 .ToList();
 
             // 📊 Agrupar y sumar cantidades
@@ -177,9 +179,8 @@ namespace Monitux_POS.Ventanas
 
         private void button8_Click(object sender, EventArgs e)
         {
-
-
             int secuencialProveedor = int.Parse(combo_Proveedor.SelectedItem.ToString().Split('-')[0].Trim());
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
 
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
@@ -188,9 +189,10 @@ namespace Monitux_POS.Ventanas
             var fechaInicio = dateTimePicker1.Value.Date;
             var fechaFin = dateTimePicker2.Value.Date.AddDays(1).AddTicks(-1);
 
-            // 🔍 Obtener facturas de compras del proveedor
+            // 🔍 Obtener compras del proveedor, filtradas por empresa
             var registrosCompras = context.Compras
-                .Where(c => c.Secuencial_Proveedor == secuencialProveedor)
+                .Where(c => c.Secuencial_Proveedor == secuencialProveedor &&
+                            c.Secuencial_Empresa == secuencialEmpresaActiva) // ✅ filtro por empresa
                 .Join(context.Proveedores,
                     compra => compra.Secuencial_Proveedor,
                     proveedor => proveedor.Secuencial,
@@ -222,8 +224,11 @@ namespace Monitux_POS.Ventanas
                         Fecha = ok ? fechaConvertida : (DateTime?)null
                     };
                 })
-                .Where(r => r.Fecha.HasValue && r.Fecha.Value >= fechaInicio && r.Fecha.Value <= fechaFin)
+                .Where(r => r.Fecha.HasValue &&
+                            r.Fecha.Value >= fechaInicio &&
+                            r.Fecha.Value <= fechaFin)
                 .ToList();
+
 
             // 📊 Agrupación por proveedor
             var datosAgrupados = registrosCompras
@@ -346,18 +351,17 @@ namespace Monitux_POS.Ventanas
         {
 
 
-
-
             SQLitePCL.Batteries.Init();
-
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
             var fechaInicio = dateTimePicker1.Value.Date;
             var fechaFin = dateTimePicker2.Value.Date.AddDays(1).AddTicks(-1); // incluye todo el segundo día
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
 
+            // 🔍 Filtrar compras por empresa
             var registrosFiltrados = context.Compras_Detalles
-                .Join(context.Compras,
+                .Join(context.Compras.Where(c => c.Secuencial_Empresa == secuencialEmpresaActiva), // ✅ filtro aquí
                     detalles => detalles.Secuencial_Factura,
                     compra => compra.Secuencial,
                     (detalles, compra) => new { Detalles = detalles, Compra = compra })
@@ -377,7 +381,7 @@ namespace Monitux_POS.Ventanas
                 {
                     var ok = DateTime.TryParseExact(
                         r.FechaTexto?.Trim(),
-                        "dd/MM/yyyy HH:mm:ss", // ajusta según tu formato real
+                        "dd/MM/yyyy HH:mm:ss",
                         CultureInfo.InvariantCulture,
                         DateTimeStyles.None,
                         out var fechaConvertida
@@ -392,9 +396,12 @@ namespace Monitux_POS.Ventanas
                         Fecha = ok ? fechaConvertida : (DateTime?)null
                     };
                 })
-                .Where(r => r.Fecha.HasValue && r.Fecha.Value >= fechaInicio && r.Fecha.Value <= fechaFin)
+                .Where(r => r.Fecha.HasValue &&
+                            r.Fecha.Value >= fechaInicio &&
+                            r.Fecha.Value <= fechaFin)
                 .ToList();
 
+            // 📊 Agrupar y sumar cantidades compradas
             var datosAgrupados = registrosFiltrados
                 .GroupBy(r => new { r.Usuario, r.Codigo, r.Descripcion })
                 .Select(g => new
@@ -406,6 +413,7 @@ namespace Monitux_POS.Ventanas
                 })
                 .OrderByDescending(r => r.CantidadComprada)
                 .ToList();
+
 
 
 
@@ -487,10 +495,8 @@ namespace Monitux_POS.Ventanas
             ///////////////////////////
 
 
-
-
-
-            secuencialCliente = int.Parse(combo_Cliente.SelectedItem.ToString().Split('-')[0].Trim()); ;
+            int secuencialCliente = int.Parse(combo_Cliente.SelectedItem.ToString().Split('-')[0].Trim());
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
 
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
@@ -499,42 +505,45 @@ namespace Monitux_POS.Ventanas
             var fechaInicio = dateTimePicker1.Value.Date;
             var fechaFin = dateTimePicker2.Value.Date.AddDays(1).AddTicks(-1);
 
+            // 🔍 Consulta de ventas filtrada por cliente y empresa
             var registrosFacturas = context.Ventas
-       .Where(v => v.Secuencial_Cliente == secuencialCliente)
-       .Join(context.Clientes,
-           venta => venta.Secuencial_Cliente,
-           cliente => cliente.Secuencial,
-           (venta, cliente) => new
-           {
-               SecuencialFactura = venta.Secuencial,            // 👈 número de factura
-               FechaTexto = venta.Fecha,
-               Cliente = cliente.Nombre,
-               TipoVenta = venta.Tipo,
-               TotalFactura = venta.Gran_Total
-           })
-       .ToList()
-       .Select(r =>
-       {
-           var ok = DateTime.TryParseExact(
-               r.FechaTexto?.Trim(),
-               "dd/MM/yyyy HH:mm:ss",
-               CultureInfo.InvariantCulture,
-               DateTimeStyles.None,
-               out var fechaConvertida
-           );
+                .Where(v => v.Secuencial_Cliente == secuencialCliente &&
+                            v.Secuencial_Empresa == secuencialEmpresaActiva) // ✅ empresa activa
+                .Join(context.Clientes,
+                    venta => venta.Secuencial_Cliente,
+                    cliente => cliente.Secuencial,
+                    (venta, cliente) => new
+                    {
+                        SecuencialFactura = venta.Secuencial,
+                        FechaTexto = venta.Fecha,
+                        Cliente = cliente.Nombre,
+                        TipoVenta = venta.Tipo,
+                        TotalFactura = venta.Gran_Total
+                    })
+                .ToList()
+                .Select(r =>
+                {
+                    var ok = DateTime.TryParseExact(
+                        r.FechaTexto?.Trim(),
+                        "dd/MM/yyyy HH:mm:ss",
+                        CultureInfo.InvariantCulture,
+                        DateTimeStyles.None,
+                        out var fechaConvertida
+                    );
 
-           return new
-           {
-               r.Cliente,
-               r.TipoVenta,
-               r.TotalFactura,
-               r.SecuencialFactura,                             // 👈 incluido en el modelo
-               Fecha = ok ? fechaConvertida : (DateTime?)null
-           };
-       })
-       .Where(r => r.Fecha.HasValue && r.Fecha.Value >= fechaInicio && r.Fecha.Value <= fechaFin)
-       .ToList();
-
+                    return new
+                    {
+                        r.Cliente,
+                        r.TipoVenta,
+                        r.TotalFactura,
+                        r.SecuencialFactura,
+                        Fecha = ok ? fechaConvertida : (DateTime?)null
+                    };
+                })
+                .Where(r => r.Fecha.HasValue &&
+                            r.Fecha.Value >= fechaInicio &&
+                            r.Fecha.Value <= fechaFin)
+                .ToList();
 
             // 📊 Agrupación por cliente (puede haber solo uno)
             var datosAgrupados = registrosFacturas
@@ -546,6 +555,7 @@ namespace Monitux_POS.Ventanas
                     TotalCliente = g.Sum(r => r.TotalFactura)
                 })
                 .ToList();
+
 
             // 📋 Totales por tipo de venta
             var totalContado = registrosFacturas
@@ -741,17 +751,20 @@ namespace Monitux_POS.Ventanas
         private void button5_Click(object sender, EventArgs e)
         {
 
-
-
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
+            // ⏳ Fechas
             var fechaInicio = dateTimePicker1.Value.Date;
             var fechaFin = dateTimePicker2.Value.Date.AddDays(1).AddTicks(-1);
 
-            // 🔍 Todas las ventas en el periodo
+            // 🔐 Empresa activa
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            // 🔍 Filtrar ventas por empresa y fechas
             var registrosVentas = context.Ventas
+                .Where(v => v.Secuencial_Empresa == secuencialEmpresaActiva) // ✅ filtro aplicado aquí
                 .Join(context.Clientes,
                     venta => venta.Secuencial_Cliente,
                     cliente => cliente.Secuencial,
@@ -783,9 +796,13 @@ namespace Monitux_POS.Ventanas
                         Fecha = ok ? fechaConvertida : (DateTime?)null
                     };
                 })
-                .Where(r => r.Fecha.HasValue && r.Fecha.Value >= fechaInicio && r.Fecha.Value <= fechaFin)
+                .Where(r => r.Fecha.HasValue &&
+                            r.Fecha.Value >= fechaInicio &&
+                            r.Fecha.Value <= fechaFin)
                 .OrderBy(r => r.Fecha)
                 .ToList();
+
+
 
             // 📊 Totales por tipo de venta
             var totalContado = registrosVentas
@@ -882,8 +899,6 @@ namespace Monitux_POS.Ventanas
         private void button7_Click(object sender, EventArgs e)
         {
 
-
-
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
@@ -891,8 +906,12 @@ namespace Monitux_POS.Ventanas
             var fechaInicio = dateTimePicker1.Value.Date;
             var fechaFin = dateTimePicker2.Value.Date.AddDays(1).AddTicks(-1);
 
-            // 🔍 Obtener compras en el rango de fechas
+            // 🔐 Empresa activa
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            // 🔍 Filtrar compras por empresa y rango de fechas
             var registrosCompras = context.Compras
+                .Where(c => c.Secuencial_Empresa == secuencialEmpresaActiva) // ✅ filtro añadido
                 .Join(context.Proveedores,
                     compra => compra.Secuencial_Proveedor,
                     proveedor => proveedor.Secuencial,
@@ -924,9 +943,12 @@ namespace Monitux_POS.Ventanas
                         Fecha = ok ? fechaConvertida : (DateTime?)null
                     };
                 })
-                .Where(r => r.Fecha.HasValue && r.Fecha.Value >= fechaInicio && r.Fecha.Value <= fechaFin)
+                .Where(r => r.Fecha.HasValue &&
+                            r.Fecha.Value >= fechaInicio &&
+                            r.Fecha.Value <= fechaFin)
                 .OrderBy(r => r.Fecha)
                 .ToList();
+
 
             // 📊 Totales por tipo
             var totalContado = registrosCompras
@@ -1024,12 +1046,18 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
+            // 📅 Rango de fechas
             var fechaInicio = dateTimePicker1.Value.Date;
             var fechaFin = dateTimePicker2.Value.Date.AddDays(1).AddTicks(-1);
-            var tipoSeleccionado = combo_TipoVenta.SelectedItem.ToString().Trim();
 
+            // 📋 Tipo de venta y empresa activa
+            var tipoSeleccionado = combo_TipoVenta.SelectedItem.ToString().Trim();
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa; // ← valor dinámico
+
+            // 🔍 Filtrar por tipo de venta y empresa
             var registrosVentas = context.Ventas
-                .Where(v => v.Tipo == tipoSeleccionado)
+                .Where(v => v.Tipo == tipoSeleccionado &&
+                            v.Secuencial_Empresa == secuencialEmpresaActiva) // ✅ filtro añadido
                 .Join(context.Clientes,
                     venta => venta.Secuencial_Cliente,
                     cliente => cliente.Secuencial,
@@ -1046,7 +1074,7 @@ namespace Monitux_POS.Ventanas
                 {
                     var ok = DateTime.TryParseExact(
                         r.FechaTexto?.Trim(),
-                         "dd/MM/yyyy HH:mm:ss",
+                        "dd/MM/yyyy HH:mm:ss",
                         CultureInfo.InvariantCulture,
                         DateTimeStyles.None,
                         out var fechaConvertida
@@ -1061,9 +1089,12 @@ namespace Monitux_POS.Ventanas
                         Fecha = ok ? fechaConvertida : (DateTime?)null
                     };
                 })
-                .Where(r => r.Fecha.HasValue && r.Fecha.Value >= fechaInicio && r.Fecha.Value <= fechaFin)
+                .Where(r => r.Fecha.HasValue &&
+                            r.Fecha.Value >= fechaInicio &&
+                            r.Fecha.Value <= fechaFin)
                 .OrderBy(r => r.Fecha)
                 .ToList();
+
 
             var totalFiltrado = registrosVentas.Sum(r => r.TotalFactura);
 
@@ -1139,19 +1170,22 @@ namespace Monitux_POS.Ventanas
         private void button6_Click(object sender, EventArgs e)
         {
 
-
-
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
+            // ⏳ Fechas seleccionadas
             var fechaInicio = dateTimePicker1.Value.Date;
             var fechaFin = dateTimePicker2.Value.Date.AddDays(1).AddTicks(-1);
-            var tipoSeleccionado = combo_TipoCompra.SelectedItem.ToString().Trim();
 
-            // 🔍 Filtrar compras por tipo
+            // 📋 Tipo seleccionado y empresa activa
+            var tipoSeleccionado = combo_TipoCompra.SelectedItem.ToString().Trim();
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            // 🔍 Filtrar compras por tipo y empresa
             var registrosFiltrados = context.Compras
-                .Where(c => c.Tipo == tipoSeleccionado)
+                .Where(c => c.Tipo == tipoSeleccionado &&
+                            c.Secuencial_Empresa == secuencialEmpresaActiva) // ✅ filtro por empresa
                 .Join(context.Proveedores,
                     compra => compra.Secuencial_Proveedor,
                     proveedor => proveedor.Secuencial,
@@ -1183,7 +1217,9 @@ namespace Monitux_POS.Ventanas
                         Fecha = ok ? fechaConvertida : (DateTime?)null
                     };
                 })
-                .Where(r => r.Fecha.HasValue && r.Fecha.Value >= fechaInicio && r.Fecha.Value <= fechaFin)
+                .Where(r => r.Fecha.HasValue &&
+                            r.Fecha.Value >= fechaInicio &&
+                            r.Fecha.Value <= fechaFin)
                 .OrderBy(r => r.Fecha)
                 .ToList();
 
@@ -1266,49 +1302,55 @@ namespace Monitux_POS.Ventanas
             var fechaInicio = dateTimePicker1.Value.Date;
             var fechaFin = dateTimePicker2.Value.Date.AddDays(1).AddTicks(-1);
 
+            // 🔐 Empresa activa
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
+            // 🔍 Filtrar ventas por empresa antes del JOIN
             var registrosFiltrados = context.Ventas
-    .Join(context.Clientes,
-        venta => venta.Secuencial_Cliente,
-        cliente => cliente.Secuencial,
-        (venta, cliente) => new
-        {
-            SecuencialFactura = venta.Secuencial,
-            FechaTexto = venta.Fecha,
-            Cliente = cliente.Nombre,
-            TipoVenta = venta.Tipo,
-            TotalFactura = venta.Gran_Total
-        })
-    .ToList()
-    .Select(r =>
-    {
-        var ok = DateTime.TryParseExact(
-            r.FechaTexto?.Trim(),
-            "dd/MM/yyyy HH:mm:ss",
-            CultureInfo.InvariantCulture,
-            DateTimeStyles.None,
-            out var fechaConvertida
-        );
+                .Where(v => v.Secuencial_Empresa == secuencialEmpresaActiva) // ✅ filtro por empresa
+                .Join(context.Clientes,
+                    venta => venta.Secuencial_Cliente,
+                    cliente => cliente.Secuencial,
+                    (venta, cliente) => new
+                    {
+                        SecuencialFactura = venta.Secuencial,
+                        FechaTexto = venta.Fecha,
+                        Cliente = cliente.Nombre,
+                        TipoVenta = venta.Tipo,
+                        TotalFactura = venta.Gran_Total
+                    })
+                .ToList()
+                .Select(r =>
+                {
+                    var ok = DateTime.TryParseExact(
+                        r.FechaTexto?.Trim(),
+                        "dd/MM/yyyy HH:mm:ss",
+                        CultureInfo.InvariantCulture,
+                        DateTimeStyles.None,
+                        out var fechaConvertida
+                    );
 
-        return new
-        {
-            r.SecuencialFactura,
-            r.Cliente,
-            r.TipoVenta,
-            r.TotalFactura,
-            Fecha = ok ? fechaConvertida : (DateTime?)null
-        };
-    })
-    .Where(r => r.Fecha.HasValue
-             && r.Fecha.Value >= fechaInicio
-             && r.Fecha.Value <= fechaFin
-             && r.TotalFactura >= montoMinimo
-             && r.TotalFactura <= montoMaximo)
-    .OrderBy(r => r.Fecha)
-    .ToList();
+                    return new
+                    {
+                        r.SecuencialFactura,
+                        r.Cliente,
+                        r.TipoVenta,
+                        r.TotalFactura,
+                        Fecha = ok ? fechaConvertida : (DateTime?)null
+                    };
+                })
+                .Where(r => r.Fecha.HasValue
+                         && r.Fecha.Value >= fechaInicio
+                         && r.Fecha.Value <= fechaFin
+                         && r.TotalFactura >= montoMinimo
+                         && r.TotalFactura <= montoMaximo)
+                .OrderBy(r => r.Fecha)
+                .ToList();
+
 
             var totalFiltrado = registrosFiltrados.Sum(r => r.TotalFactura);
 
@@ -1390,8 +1432,6 @@ namespace Monitux_POS.Ventanas
 
 
 
-         
-
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
@@ -1400,9 +1440,11 @@ namespace Monitux_POS.Ventanas
             var fechaFin = dateTimePicker2.Value.Date.AddDays(1).AddTicks(-1);
             double montoMinimo = (double)Convert.ToDecimal(cmin.Text);
             double montoMaximo = (double)Convert.ToDecimal(cmax.Text);
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
 
-            // 🔍 Filtrar compras dentro del rango de totales
+            // 🔍 Filtrar compras por empresa y rango de montos
             var registrosFiltrados = context.Compras
+                .Where(c => c.Secuencial_Empresa == secuencialEmpresaActiva) // ✅ filtro aplicado aquí
                 .Join(context.Proveedores,
                     compra => compra.Secuencial_Proveedor,
                     proveedor => proveedor.Secuencial,
@@ -1441,6 +1483,7 @@ namespace Monitux_POS.Ventanas
                          && r.TotalFactura <= montoMaximo)
                 .OrderBy(r => r.Fecha)
                 .ToList();
+
 
             var totalFiltrado = registrosFiltrados.Sum(r => r.TotalFactura);
 
