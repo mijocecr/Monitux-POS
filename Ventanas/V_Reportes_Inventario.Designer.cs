@@ -352,6 +352,7 @@
             button18.TabIndex = 87;
             button18.Text = "Generar";
             button18.UseVisualStyleBackColor = true;
+            button18.Click += button18_Click;
             // 
             // label20
             // 
@@ -371,6 +372,7 @@
             button17.TabIndex = 85;
             button17.Text = "Generar";
             button17.UseVisualStyleBackColor = true;
+            button17.Click += button17_Click;
             // 
             // label19
             // 
@@ -390,6 +392,7 @@
             button16.TabIndex = 83;
             button16.Text = "Generar";
             button16.UseVisualStyleBackColor = true;
+            button16.Click += button16_Click;
             // 
             // label18
             // 
@@ -409,6 +412,7 @@
             button15.TabIndex = 81;
             button15.Text = "Generar";
             button15.UseVisualStyleBackColor = true;
+            button15.Click += button15_Click;
             // 
             // label17
             // 
@@ -428,6 +432,7 @@
             button14.TabIndex = 79;
             button14.Text = "Generar";
             button14.UseVisualStyleBackColor = true;
+            button14.Click += button14_Click;
             // 
             // label16
             // 
@@ -447,6 +452,7 @@
             button13.TabIndex = 77;
             button13.Text = "Generar";
             button13.UseVisualStyleBackColor = true;
+            button13.Click += button13_Click;
             // 
             // textBox3
             // 
@@ -459,7 +465,7 @@
             // label15
             // 
             label15.AutoSize = true;
-            label15.ForeColor = Color.Yellow;
+            label15.ForeColor = Color.White;
             label15.Location = new Point(16, 152);
             label15.Name = "label15";
             label15.Size = new Size(116, 15);
@@ -474,6 +480,7 @@
             button12.TabIndex = 74;
             button12.Text = "Generar";
             button12.UseVisualStyleBackColor = true;
+            button12.Click += button12_Click;
             // 
             // textBox2
             // 
@@ -486,7 +493,7 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.ForeColor = Color.Yellow;
+            label14.ForeColor = Color.White;
             label14.Location = new Point(7, 111);
             label14.Name = "label14";
             label14.Size = new Size(125, 15);
@@ -501,6 +508,7 @@
             button11.TabIndex = 71;
             button11.Text = "Generar";
             button11.UseVisualStyleBackColor = true;
+            button11.Click += button11_Click;
             // 
             // label13
             // 

@@ -461,6 +461,7 @@ namespace Monitux_POS.Ventanas
         private async void V_Login_Load(object sender, EventArgs e)
         {
 
+            this.Text = "Monitux-POS ver." + V_Menu_Principal.VER;
 
             llenar_Combo_Empresa();
             comboEmpresa.SelectedIndex = 0; // Selecciona el primer elemento por defecto

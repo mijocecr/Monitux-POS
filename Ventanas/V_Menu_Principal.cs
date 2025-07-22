@@ -801,6 +801,7 @@ namespace Monitux_POS.Ventanas
         private void btn_reportes_Click(object sender, EventArgs e)
         {
             Mostrar_SubMenu(p_Reportes);
+            lbl_Descripcion.Text = "Genere reportes completos y dinámicos de todos los movimientos y registros de la empresa con tan solo un par de clics. Visualice entradas, salidas, existencias mínimas, productos vencidos y mucho más en segundos, todo centralizado en un entorno ágil y profesional.";
         }
 
         private void pictureBox2_ClickAsync(object sender, EventArgs e)

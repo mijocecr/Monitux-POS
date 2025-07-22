@@ -15,7 +15,7 @@ namespace Monitux_POS.Clases
         public int Secuencial_Usuario { get; set; } = 0;
       
        
-        public string? Fecha { get; set; } = DateTime.Now.ToString("dd-MM-yyyy");
+        public string? Fecha { get; set; } = DateTime.Now.ToString("dd/MM/yyyy");
         public string? Fecha_Vencimiento { get; set; }
         public double? Total { get; set; } = 0.0;
         public double? Saldo { get; set; } = 0.0;

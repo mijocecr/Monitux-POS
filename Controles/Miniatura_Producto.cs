@@ -28,7 +28,7 @@ namespace Monitux_POS
         public int Secuencial_Categoria { get; set; }
         public double Existencia_Minima { get; set; } = 0;
         public string Tipo { get; set; } = "Producto"; // Tipo de producto, por defecto es "Producto"
-        public string? Fecha_Caducidad { get; set; } = "No Expira";
+        public string? Fecha_Caducidad { get; set; } = null;
         public int Secuencial_Empresa { get; set; } 
 
         //Variables del Control

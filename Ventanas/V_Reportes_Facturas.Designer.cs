@@ -81,6 +81,7 @@
             label23 = new Label();
             label24 = new Label();
             label5 = new Label();
+            label10 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -102,7 +103,7 @@
             panel1.Controls.Add(label4);
             panel1.Controls.Add(combo_TipoVenta);
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(12, 52);
+            panel1.Location = new Point(12, 39);
             panel1.Name = "panel1";
             panel1.Size = new Size(335, 74);
             panel1.TabIndex = 0;
@@ -150,7 +151,7 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(240, 12);
+            dateTimePicker1.Location = new Point(248, 42);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(109, 23);
             dateTimePicker1.TabIndex = 1;
@@ -158,7 +159,7 @@
             // dateTimePicker2
             // 
             dateTimePicker2.Format = DateTimePickerFormat.Short;
-            dateTimePicker2.Location = new Point(414, 12);
+            dateTimePicker2.Location = new Point(422, 42);
             dateTimePicker2.Name = "dateTimePicker2";
             dateTimePicker2.Size = new Size(109, 23);
             dateTimePicker2.TabIndex = 2;
@@ -167,7 +168,7 @@
             // 
             label2.AutoSize = true;
             label2.ForeColor = Color.Yellow;
-            label2.Location = new Point(191, 18);
+            label2.Location = new Point(199, 48);
             label2.Name = "label2";
             label2.Size = new Size(42, 15);
             label2.TabIndex = 1;
@@ -177,7 +178,7 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = Color.Yellow;
-            label3.Location = new Point(368, 18);
+            label3.Location = new Point(376, 48);
             label3.Name = "label3";
             label3.Size = new Size(40, 15);
             label3.TabIndex = 3;
@@ -189,7 +190,7 @@
             panel2.Controls.Add(button2);
             panel2.Controls.Add(combo_Cliente);
             panel2.Controls.Add(label8);
-            panel2.Location = new Point(12, 145);
+            panel2.Location = new Point(12, 122);
             panel2.Name = "panel2";
             panel2.Size = new Size(335, 74);
             panel2.TabIndex = 1;
@@ -234,7 +235,7 @@
             panel3.Controls.Add(button3);
             panel3.Controls.Add(label6);
             panel3.Controls.Add(label7);
-            panel3.Location = new Point(12, 238);
+            panel3.Location = new Point(12, 206);
             panel3.Name = "panel3";
             panel3.Size = new Size(335, 74);
             panel3.TabIndex = 4;
@@ -298,7 +299,7 @@
             panel4.BackColor = Color.FromArgb(35, 32, 45);
             panel4.Controls.Add(button4);
             panel4.Controls.Add(label11);
-            panel4.Location = new Point(12, 331);
+            panel4.Location = new Point(12, 290);
             panel4.Name = "panel4";
             panel4.Size = new Size(335, 74);
             panel4.TabIndex = 5;
@@ -328,7 +329,7 @@
             panel5.BackColor = Color.FromArgb(35, 32, 45);
             panel5.Controls.Add(button5);
             panel5.Controls.Add(label13);
-            panel5.Location = new Point(12, 424);
+            panel5.Location = new Point(12, 375);
             panel5.Name = "panel5";
             panel5.Size = new Size(335, 64);
             panel5.TabIndex = 6;
@@ -362,9 +363,9 @@
             panel6.Controls.Add(panel2);
             panel6.Controls.Add(panel4);
             panel6.Controls.Add(panel3);
-            panel6.Location = new Point(25, 48);
+            panel6.Location = new Point(25, 78);
             panel6.Name = "panel6";
-            panel6.Size = new Size(359, 511);
+            panel6.Size = new Size(359, 479);
             panel6.TabIndex = 7;
             // 
             // label12
@@ -388,9 +389,9 @@
             panel7.Controls.Add(panel10);
             panel7.Controls.Add(panel11);
             panel7.Controls.Add(panel12);
-            panel7.Location = new Point(398, 48);
+            panel7.Location = new Point(398, 78);
             panel7.Name = "panel7";
-            panel7.Size = new Size(361, 511);
+            panel7.Size = new Size(361, 479);
             panel7.TabIndex = 8;
             // 
             // label14
@@ -412,7 +413,7 @@
             panel8.Controls.Add(label15);
             panel8.Controls.Add(combo_TipoCompra);
             panel8.Controls.Add(label16);
-            panel8.Location = new Point(12, 52);
+            panel8.Location = new Point(12, 39);
             panel8.Name = "panel8";
             panel8.Size = new Size(337, 74);
             panel8.TabIndex = 0;
@@ -462,7 +463,7 @@
             panel9.BackColor = Color.FromArgb(35, 32, 45);
             panel9.Controls.Add(button7);
             panel9.Controls.Add(label17);
-            panel9.Location = new Point(12, 424);
+            panel9.Location = new Point(12, 375);
             panel9.Name = "panel9";
             panel9.Size = new Size(337, 64);
             panel9.TabIndex = 6;
@@ -493,7 +494,7 @@
             panel10.Controls.Add(button8);
             panel10.Controls.Add(combo_Proveedor);
             panel10.Controls.Add(label19);
-            panel10.Location = new Point(12, 145);
+            panel10.Location = new Point(12, 122);
             panel10.Name = "panel10";
             panel10.Size = new Size(337, 74);
             panel10.TabIndex = 1;
@@ -532,7 +533,7 @@
             panel11.BackColor = Color.FromArgb(35, 32, 45);
             panel11.Controls.Add(button9);
             panel11.Controls.Add(label21);
-            panel11.Location = new Point(12, 331);
+            panel11.Location = new Point(12, 290);
             panel11.Name = "panel11";
             panel11.Size = new Size(337, 74);
             panel11.TabIndex = 5;
@@ -566,7 +567,7 @@
             panel12.Controls.Add(button10);
             panel12.Controls.Add(label23);
             panel12.Controls.Add(label24);
-            panel12.Location = new Point(12, 238);
+            panel12.Location = new Point(12, 206);
             panel12.Name = "panel12";
             panel12.Size = new Size(337, 74);
             panel12.TabIndex = 4;
@@ -629,18 +630,32 @@
             // 
             label5.AutoSize = true;
             label5.ForeColor = Color.Yellow;
-            label5.Location = new Point(159, 569);
+            label5.Location = new Point(164, 574);
             label5.Name = "label5";
             label5.Size = new Size(407, 15);
             label5.TabIndex = 9;
             label5.Text = "Para generar cualquier reporte, debe seleccionar primero el rango de fechas.";
+            // 
+            // label10
+            // 
+            label10.BackColor = Color.FromArgb(11, 8, 20);
+            label10.Dock = DockStyle.Top;
+            label10.Font = new Font("Segoe UI Semibold", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label10.ForeColor = Color.White;
+            label10.Location = new Point(0, 0);
+            label10.Name = "label10";
+            label10.Size = new Size(772, 37);
+            label10.TabIndex = 54;
+            label10.Text = "Reportes de Facturas";
+            label10.TextAlign = ContentAlignment.TopCenter;
             // 
             // V_Reportes_Facturas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(772, 584);
+            ClientSize = new Size(772, 602);
+            Controls.Add(label10);
             Controls.Add(label5);
             Controls.Add(panel7);
             Controls.Add(panel6);
@@ -733,5 +748,6 @@
         private Label label23;
         private Label label24;
         private Label label5;
+        private Label label10;
     }
 }

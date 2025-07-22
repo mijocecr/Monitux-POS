@@ -131,7 +131,7 @@ namespace Monitux_POS.Ventanas
             })
             .GeneratePdf($"{ruta}Reporte_ProductosRegistrados.pdf");
 
-            
+
 
             V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
             V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
@@ -402,7 +402,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            
+
 
 
 
@@ -611,7 +611,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            
+
 
 
 
@@ -751,7 +751,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            
+
 
 
 
@@ -1103,7 +1103,7 @@ namespace Monitux_POS.Ventanas
 
             int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
 
-            // Rango de fechas en string (deberías obtenerlas desde inputs de usuario o variables globales)
+            // Rango de fechas en string (deberías obtenerlos desde inputs del usuario)
             string fechaInicioStr = dateTimePicker1.Value.ToString("dd/MM/yyyy");
             string fechaFinStr = dateTimePicker2.Value.ToString("dd/MM/yyyy");
 
@@ -1135,7 +1135,7 @@ namespace Monitux_POS.Ventanas
 
                     page.Header().Column(header =>
                     {
-                        header.Item().Text("📊 Reporte de Productos Mas Vendidos").FontSize(20).Bold();
+                        header.Item().Text("📊 Reporte de productos más vendidos").FontSize(20).Bold();
                         header.Item().Text($"Rango: {fechaInicioStr} a {fechaFinStr}");
                         header.Item().Text($"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}");
                     });
@@ -1144,48 +1144,982 @@ namespace Monitux_POS.Ventanas
                     {
                         tabla.ColumnsDefinition(cols =>
                         {
-                            cols.RelativeColumn(1); // Codigo
-                            cols.RelativeColumn(3); // Descripcion
-                            cols.RelativeColumn(1); // Cantidad Vendida
-                            cols.RelativeColumn(1); // Total Ventas
+                            cols.RelativeColumn(1); // Código
+                            cols.RelativeColumn(3); // Descripción
+                            cols.RelativeColumn(1); // Cantidad vendida
+                            cols.RelativeColumn(1); // Total ventas
                         });
 
                         tabla.Header(header =>
                         {
-                            header.Cell().Element(c => c.Background(Colors.Grey.Lighten3).PaddingVertical(4).PaddingHorizontal(2).ShowOnce()).Text("Codigo").Bold();
-                            header.Cell().Element(c => c.Background(Colors.Grey.Lighten3).PaddingVertical(4).PaddingHorizontal(2).ShowOnce()).Text("Descripcion").Bold();
-                            header.Cell().Element(c => c.Background(Colors.Grey.Lighten3).PaddingVertical(4).PaddingHorizontal(2).ShowOnce()).Text("Cantidad").Bold();
-                            header.Cell().Element(c => c.Background(Colors.Grey.Lighten3).PaddingVertical(4).PaddingHorizontal(2).ShowOnce()).Text($"Total ({V_Menu_Principal.moneda})").Bold();
+                            header.Cell().Element(c =>
+                                c.Background(Colors.Grey.Lighten3)
+                                 .PaddingVertical(4)
+                                 .PaddingHorizontal(2)
+                                 .ShowOnce()).Text("Código").Bold();
+
+                            header.Cell().Element(c =>
+                                c.Background(Colors.Grey.Lighten3)
+                                 .PaddingVertical(4)
+                                 .PaddingHorizontal(2)
+                                 .ShowOnce()).Text("Descripción").Bold();
+
+                            header.Cell().Element(c =>
+                                c.Background(Colors.Grey.Lighten3)
+                                 .PaddingVertical(4)
+                                 .PaddingHorizontal(2)
+                                 .ShowOnce()).Text("Cantidad").Bold();
+
+                            header.Cell().Element(c =>
+                                c.Background(Colors.Grey.Lighten3)
+                                 .PaddingVertical(4)
+                                 .PaddingHorizontal(2)
+                                 .ShowOnce()).Text($"Total ({V_Menu_Principal.moneda})").Bold();
                         });
 
                         foreach (var p in productosVendidos)
                         {
-                            tabla.Cell().Element(c => c.BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten2).PaddingVertical(2).PaddingHorizontal(2)).Text(p.Codigo);
-                            tabla.Cell().Element(c => c.BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten2).PaddingVertical(2).PaddingHorizontal(2)).Text(p.Descripcion);
-                            tabla.Cell().Element(c => c.BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten2).PaddingVertical(2).PaddingHorizontal(2)).Text($"{p.CantidadVendida:N0}");
-                            tabla.Cell().Element(c => c.BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten2).PaddingVertical(2).PaddingHorizontal(2)).Text($"{p.TotalVentas:N2}");
+                            tabla.Cell().Element(c =>
+                                c.BorderBottom(0.5f)
+                                 .BorderColor(Colors.Grey.Lighten2)
+                                 .PaddingVertical(2)
+                                 .PaddingHorizontal(2)).Text(p.Codigo);
+
+                            tabla.Cell().Element(c =>
+                                c.BorderBottom(0.5f)
+                                 .BorderColor(Colors.Grey.Lighten2)
+                                 .PaddingVertical(2)
+                                 .PaddingHorizontal(2)).Text(p.Descripcion);
+
+                            tabla.Cell().Element(c =>
+                                c.BorderBottom(0.5f)
+                                 .BorderColor(Colors.Grey.Lighten2)
+                                 .PaddingVertical(2)
+                                 .PaddingHorizontal(2)).Text($"{p.CantidadVendida:N0}");
+
+                            tabla.Cell().Element(c =>
+                                c.BorderBottom(0.5f)
+                                 .BorderColor(Colors.Grey.Lighten2)
+                                 .PaddingVertical(2)
+                                 .PaddingHorizontal(2)).Text($"{p.TotalVentas:N2}");
                         }
                     });
 
                     page.Footer().AlignCenter()
-                        .Text("Sistema Monitux-POS · Reporte generado automaticamente")
-                        .FontSize(10).Italic();
+                        .Text("Sistema Monitux-POS · Reporte generado automáticamente")
+                        .FontSize(10)
+                        .Italic();
                 });
             })
             .GeneratePdf($"{ruta}Reporte_Productos_Mas_Vendidos.pdf");
 
             V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
-            V_Visor_Factura _Visor_Factura = new V_Visor_Factura();
-            _Visor_Factura.rutaArchivo = ($"{ruta}Reporte_Productos_Mas_Vendidos.pdf");
-            _Visor_Factura.ShowDialog();
 
+            var visor = new V_Visor_Factura
+            {
+                rutaArchivo = $"{ruta}Reporte_Productos_Mas_Vendidos.pdf"
+            };
 
+            visor.ShowDialog();
 
             ///////////////////////
 
 
 
 
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+
+            /////////////////////////////////
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            string fechaInicioStr = dateTimePicker1.Value.ToString("dd/MM/yyyy");
+            string fechaFinStr = dateTimePicker2.Value.ToString("dd/MM/yyyy");
+
+            DateTime fechaInicio = DateTime.ParseExact(fechaInicioStr, "dd/MM/yyyy", null);
+            DateTime fechaFin = DateTime.ParseExact(fechaFinStr, "dd/MM/yyyy", null);
+
+            var movimientosAgrupados = context.Kardex
+                .Where(k => k.Secuencial_Empresa == secuencialEmpresaActiva)
+                .ToList()
+                .Where(k =>
+                    DateTime.ParseExact(k.Fecha, "dd/MM/yyyy", null) >= fechaInicio &&
+                    DateTime.ParseExact(k.Fecha, "dd/MM/yyyy", null) <= fechaFin)
+                .GroupBy(k => new { k.Secuencial_Producto, k.Descripcion })
+                .OrderBy(g => g.Key.Secuencial_Producto)
+                .Select(g => new
+                {
+                    Producto = g.Key,
+                    Movimientos = g.OrderBy(k => DateTime.ParseExact(k.Fecha, "dd/MM/yyyy", null)).ToList()
+                })
+                .ToList();
+
+            string nombreReporte = "Reporte_Kardex_Agrupado.pdf";
+            string rutaCompleta = $"{ruta}{nombreReporte}";
+
+            Document.Create(doc =>
+            {
+                doc.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(9));
+
+                    page.Header().Column(header =>
+                    {
+                        header.Item().Text("📦 Reporte Kardex agrupado por producto").FontSize(20).Bold();
+                        header.Item().Text($"Rango: {fechaInicioStr} a {fechaFinStr}");
+                        header.Item().Text($"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}");
+                    });
+
+                    page.Content().Table(tabla =>
+                    {
+                        tabla.ColumnsDefinition(columns =>
+                        {
+                            for (int i = 0; i < 8; i++)
+                                columns.RelativeColumn(1);
+                        });
+
+                        tabla.Header(header =>
+                        {
+                            string[] titulos = {
+                    "Fecha", "Código", "Movimiento", "Cantidad",
+                    $"Costo ({V_Menu_Principal.moneda})",
+                    $"Costo total ({V_Menu_Principal.moneda})",
+                    $"Venta total ({V_Menu_Principal.moneda})",
+                    "Saldo"
+                };
+
+                            foreach (var titulo in titulos)
+                            {
+                                header.Cell().Element(c =>
+                                    c.Background(Colors.Grey.Lighten3)
+                                     .PaddingVertical(4)
+                                     .PaddingHorizontal(2)
+                                     .ShowOnce())
+                                    .Text(titulo).Bold();
+                            }
+                        });
+
+                        foreach (var grupo in movimientosAgrupados)
+                        {
+                            tabla.Cell().ColumnSpan(8).Element(c => c.Background(Colors.Grey.Lighten2)
+                                .PaddingVertical(6).PaddingHorizontal(4))
+                                .Text($"Producto: {grupo.Producto.Descripcion} (Código: {grupo.Producto.Secuencial_Producto})").Bold();
+
+                            foreach (var m in grupo.Movimientos)
+                            {
+                                tabla.Cell().Element(c => c.BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten2).Padding(2)).Text(m.Fecha);
+                                tabla.Cell().Text($"{m.Secuencial_Producto}");
+                                tabla.Cell().Text(m.Movimiento);
+                                tabla.Cell().Text($"{m.Cantidad:N0}");
+                                tabla.Cell().Text($"{m.Costo:N2}");
+                                tabla.Cell().Text($"{m.Costo_Total:N2}");
+                                tabla.Cell().Text($"{m.Venta_Total:N2}");
+                                tabla.Cell().Text($"{m.Saldo:N0}");
+                            }
+                        }
+                    });
+
+                    page.Footer().AlignCenter()
+                        .Text("Sistema Monitux-POS · Reporte generado automáticamente")
+                        .FontSize(10).Italic();
+                });
+            })
+            .GeneratePdf(rutaCompleta);
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+
+            var visor = new V_Visor_Factura
+            {
+                rutaArchivo = rutaCompleta
+            };
+
+            visor.ShowDialog();
+
+
+            /////////////////////////////////
+
+
+
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+
+
+            ///////////////////////////
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            // 👇 Código de producto a filtrar
+            int codigoProductoFiltrado = Convert.ToInt32(textBox2.Text); // o desde ComboBox
+
+            var entradasFiltradas = context.Kardex
+                .Where(k => k.Secuencial_Empresa == secuencialEmpresaActiva
+                    && k.Secuencial_Producto == codigoProductoFiltrado
+                    && k.Movimiento == "Entrada")
+                .ToList()
+                .OrderBy(k => DateTime.ParseExact(k.Fecha, "dd/MM/yyyy", null))
+                .ToList();
+
+            string nombreReporte = $"Entradas_Producto_{codigoProductoFiltrado}.pdf";
+            string rutaCompleta = $"{ruta}{nombreReporte}";
+
+            Document.Create(doc =>
+            {
+                doc.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(9));
+
+                    page.Header().Column(header =>
+                    {
+                        header.Item().Text("📦 Reporte de entradas por producto").FontSize(20).Bold();
+                        header.Item().Text($"Código: {codigoProductoFiltrado}");
+                        header.Item().Text($"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}");
+                    });
+
+                    page.Content().Table(tabla =>
+                    {
+                        tabla.ColumnsDefinition(cols =>
+                        {
+                            cols.RelativeColumn(1); // Fecha
+                            cols.RelativeColumn(3); // Descripción
+                            cols.RelativeColumn(1); // Cantidad
+                            cols.RelativeColumn(1); // Costo unitario
+                            cols.RelativeColumn(1); // Costo total
+                            cols.RelativeColumn(1); // Saldo
+                        });
+
+                        string[] titulos = {
+                "Fecha", "Descripción", "Cantidad",
+                $"Costo ({V_Menu_Principal.moneda})",
+                $"Costo total ({V_Menu_Principal.moneda})",
+                "Saldo"
+            };
+
+                        tabla.Header(header =>
+                        {
+                            foreach (var titulo in titulos)
+                            {
+                                header.Cell().Element(c =>
+                                    c.Background(Colors.Grey.Lighten3)
+                                     .PaddingVertical(4)
+                                     .PaddingHorizontal(2)
+                                     .ShowOnce())
+                                    .Text(titulo).Bold();
+                            }
+                        });
+
+                        foreach (var entrada in entradasFiltradas)
+                        {
+                            tabla.Cell().Element(c => c.BorderBottom(0.5f)
+                                .BorderColor(Colors.Grey.Lighten2)
+                                .Padding(2)).Text(entrada.Fecha);
+
+                            tabla.Cell().Text(entrada.Descripcion);
+                            tabla.Cell().Text($"{entrada.Cantidad:N0}");
+                            tabla.Cell().Text($"{entrada.Costo:N2}");
+                            tabla.Cell().Text($"{entrada.Costo_Total:N2}");
+                            tabla.Cell().Text($"{entrada.Saldo:N0}");
+                        }
+                    });
+
+                    page.Footer().AlignCenter()
+                        .Text("Sistema Monitux-POS · Reporte generado automáticamente")
+                        .FontSize(10).Italic();
+                });
+            })
+            .GeneratePdf(rutaCompleta);
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+
+            var visor = new V_Visor_Factura
+            {
+                rutaArchivo = rutaCompleta
+            };
+
+            visor.ShowDialog();
+
+
+
+
+            ///////////////////////////
+
+
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            // 👇 Código del producto a filtrar
+            int codigoProductoFiltrado = Convert.ToInt32(textBox3.Text); // puede venir de un ComboBox
+
+            var salidasFiltradas = context.Kardex
+                .Where(k => k.Secuencial_Empresa == secuencialEmpresaActiva
+                    && k.Secuencial_Producto == codigoProductoFiltrado
+                    && k.Movimiento == "Salida")
+                .ToList()
+                .OrderBy(k => DateTime.ParseExact(k.Fecha, "dd/MM/yyyy", null))
+                .ToList();
+
+            string nombreReporte = $"Salidas_Producto_{codigoProductoFiltrado}.pdf";
+            string rutaCompleta = $"{ruta}{nombreReporte}";
+
+            Document.Create(doc =>
+            {
+                doc.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(9));
+
+                    page.Header().Column(header =>
+                    {
+                        header.Item().Text("📦 Reporte de salidas por producto").FontSize(20).Bold();
+                        header.Item().Text($"Código: {codigoProductoFiltrado}");
+                        header.Item().Text($"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}");
+                    });
+
+                    page.Content().Table(tabla =>
+                    {
+                        tabla.ColumnsDefinition(cols =>
+                        {
+                            cols.RelativeColumn(1); // Fecha
+                            cols.RelativeColumn(3); // Descripción
+                            cols.RelativeColumn(1); // Cantidad
+                            cols.RelativeColumn(1); // Venta unitaria
+                            cols.RelativeColumn(1); // Venta total
+                            cols.RelativeColumn(1); // Saldo
+                        });
+
+                        string[] titulos = {
+                "Fecha", "Descripción", "Cantidad",
+                $"Venta ({V_Menu_Principal.moneda})",
+                $"Venta total ({V_Menu_Principal.moneda})",
+                "Saldo"
+            };
+
+                        tabla.Header(header =>
+                        {
+                            foreach (var titulo in titulos)
+                            {
+                                header.Cell().Element(c =>
+                                    c.Background(Colors.Grey.Lighten3)
+                                     .PaddingVertical(4)
+                                     .PaddingHorizontal(2)
+                                     .ShowOnce())
+                                    .Text(titulo).Bold();
+                            }
+                        });
+
+                        foreach (var salida in salidasFiltradas)
+                        {
+                            tabla.Cell().Element(c => c.BorderBottom(0.5f)
+                                .BorderColor(Colors.Grey.Lighten2)
+                                .Padding(2)).Text(salida.Fecha);
+
+                            tabla.Cell().Text(salida.Descripcion);
+                            tabla.Cell().Text($"{salida.Cantidad:N0}");
+                            tabla.Cell().Text($"{salida.Venta:N2}");
+                            tabla.Cell().Text($"{salida.Venta_Total:N2}");
+                            tabla.Cell().Text($"{salida.Saldo:N0}");
+                        }
+                    });
+
+                    page.Footer().AlignCenter()
+                        .Text("Sistema Monitux-POS · Reporte generado automáticamente")
+                        .FontSize(10)
+                        .Italic();
+                });
+            })
+            .GeneratePdf(rutaCompleta);
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+
+            var visor = new V_Visor_Factura
+            {
+                rutaArchivo = rutaCompleta
+            };
+
+            visor.ShowDialog();
+
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+
+
+
+            /////////////////////////////////////
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            // Fechas seleccionadas por el usuario
+            string fechaInicioStr = dateTimePicker1.Value.ToString("dd/MM/yyyy");
+            string fechaFinStr = dateTimePicker2.Value.ToString("dd/MM/yyyy");
+
+            DateTime fechaInicio = DateTime.ParseExact(fechaInicioStr, "dd/MM/yyyy", null);
+            DateTime fechaFin = DateTime.ParseExact(fechaFinStr, "dd/MM/yyyy", null);
+
+            // Entradas filtradas por rango
+            var entradas = context.Kardex
+                .Where(k => k.Secuencial_Empresa == secuencialEmpresaActiva
+                    && k.Movimiento == "Entrada")
+                .ToList()
+                .Where(k =>
+                    DateTime.ParseExact(k.Fecha, "dd/MM/yyyy", null) >= fechaInicio &&
+                    DateTime.ParseExact(k.Fecha, "dd/MM/yyyy", null) <= fechaFin)
+                .OrderBy(k => DateTime.ParseExact(k.Fecha, "dd/MM/yyyy", null))
+                .ToList();
+
+            string nombreReporte = $"Entradas_Rango_{fechaInicioStr.Replace("/", "-")}_a_{fechaFinStr.Replace("/", "-")}.pdf";
+            string rutaCompleta = $"{ruta}{nombreReporte}";
+
+            Document.Create(doc =>
+            {
+                doc.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(9));
+
+                    page.Header().Column(header =>
+                    {
+                        header.Item().Text("📦 Reporte de todas las entradas").FontSize(20).Bold();
+                        header.Item().Text($"Rango: {fechaInicioStr} a {fechaFinStr}");
+                        header.Item().Text($"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}");
+                    });
+
+                    page.Content().Table(tabla =>
+                    {
+                        tabla.ColumnsDefinition(cols =>
+                        {
+                            cols.RelativeColumn(1); // Fecha
+                            cols.RelativeColumn(1); // Código
+                            cols.RelativeColumn(3); // Descripción
+                            cols.RelativeColumn(1); // Cantidad
+                            cols.RelativeColumn(1); // Costo
+                            cols.RelativeColumn(1); // Costo total
+                            cols.RelativeColumn(1); // Saldo
+                        });
+
+                        string[] titulos = {
+                "Fecha", "Código", "Descripción", "Cantidad",
+                $"Costo ({V_Menu_Principal.moneda})",
+                $"Costo total ({V_Menu_Principal.moneda})",
+                "Saldo"
+            };
+
+                        tabla.Header(header =>
+                        {
+                            foreach (var titulo in titulos)
+                            {
+                                header.Cell().Element(c =>
+                                    c.Background(Colors.Grey.Lighten3)
+                                     .PaddingVertical(4)
+                                     .PaddingHorizontal(2)
+                                     .ShowOnce())
+                                    .Text(titulo).Bold();
+                            }
+                        });
+
+                        foreach (var entrada in entradas)
+                        {
+                            tabla.Cell().Element(c => c.BorderBottom(0.5f)
+                                .BorderColor(Colors.Grey.Lighten2)
+                                .Padding(2)).Text(entrada.Fecha);
+
+                            tabla.Cell().Text($"{entrada.Secuencial_Producto}");
+                            tabla.Cell().Text(entrada.Descripcion);
+                            tabla.Cell().Text($"{entrada.Cantidad:N0}");
+                            tabla.Cell().Text($"{entrada.Costo:N2}");
+                            tabla.Cell().Text($"{entrada.Costo_Total:N2}");
+                            tabla.Cell().Text($"{entrada.Saldo:N0}");
+                        }
+                    });
+
+                    page.Footer().AlignCenter()
+                        .Text("Sistema Monitux-POS · Reporte generado automáticamente")
+                        .FontSize(10)
+                        .Italic();
+                });
+            })
+            .GeneratePdf(rutaCompleta);
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+
+            var visor = new V_Visor_Factura
+            {
+                rutaArchivo = rutaCompleta
+            };
+
+            visor.ShowDialog();
+
+
+
+
+            ////////////////////////////////////
+
+
+
+
+
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            /////////////////
+
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            // Fechas seleccionadas por el usuario
+            string fechaInicioStr = dateTimePicker1.Value.ToString("dd/MM/yyyy");
+            string fechaFinStr = dateTimePicker2.Value.ToString("dd/MM/yyyy");
+
+            DateTime fechaInicio = DateTime.ParseExact(fechaInicioStr, "dd/MM/yyyy", null);
+            DateTime fechaFin = DateTime.ParseExact(fechaFinStr, "dd/MM/yyyy", null);
+
+            // Salidas filtradas por rango
+            var salidas = context.Kardex
+                .Where(k => k.Secuencial_Empresa == secuencialEmpresaActiva
+                    && k.Movimiento == "Salida")
+                .ToList()
+                .Where(k =>
+                    DateTime.ParseExact(k.Fecha, "dd/MM/yyyy", null) >= fechaInicio &&
+                    DateTime.ParseExact(k.Fecha, "dd/MM/yyyy", null) <= fechaFin)
+                .OrderBy(k => DateTime.ParseExact(k.Fecha, "dd/MM/yyyy", null))
+                .ToList();
+
+            string nombreReporte = $"Salidas_Rango_{fechaInicioStr.Replace("/", "-")}_a_{fechaFinStr.Replace("/", "-")}.pdf";
+            string rutaCompleta = $"{ruta}{nombreReporte}";
+
+            Document.Create(doc =>
+            {
+                doc.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(9));
+
+                    page.Header().Column(header =>
+                    {
+                        header.Item().Text("📦 Reporte de todas las salidas").FontSize(20).Bold();
+                        header.Item().Text($"Rango: {fechaInicioStr} a {fechaFinStr}");
+                        header.Item().Text($"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}");
+                    });
+
+                    page.Content().Table(tabla =>
+                    {
+                        tabla.ColumnsDefinition(cols =>
+                        {
+                            cols.RelativeColumn(1); // Fecha
+                            cols.RelativeColumn(1); // Código
+                            cols.RelativeColumn(3); // Descripción
+                            cols.RelativeColumn(1); // Cantidad
+                            cols.RelativeColumn(1); // Venta
+                            cols.RelativeColumn(1); // Venta total
+                            cols.RelativeColumn(1); // Saldo
+                        });
+
+                        string[] titulos = {
+                "Fecha", "Código", "Descripción", "Cantidad",
+                $"Venta ({V_Menu_Principal.moneda})",
+                $"Venta total ({V_Menu_Principal.moneda})",
+                "Saldo"
+            };
+
+                        tabla.Header(header =>
+                        {
+                            foreach (var titulo in titulos)
+                            {
+                                header.Cell().Element(c =>
+                                    c.Background(Colors.Grey.Lighten3)
+                                     .PaddingVertical(4)
+                                     .PaddingHorizontal(2)
+                                     .ShowOnce())
+                                    .Text(titulo).Bold();
+                            }
+                        });
+
+                        foreach (var salida in salidas)
+                        {
+                            tabla.Cell().Element(c => c.BorderBottom(0.5f)
+                                .BorderColor(Colors.Grey.Lighten2)
+                                .Padding(2)).Text(salida.Fecha);
+
+                            tabla.Cell().Text($"{salida.Secuencial_Producto}");
+                            tabla.Cell().Text(salida.Descripcion);
+                            tabla.Cell().Text($"{salida.Cantidad:N0}");
+                            tabla.Cell().Text($"{salida.Venta:N2}");
+                            tabla.Cell().Text($"{salida.Venta_Total:N2}");
+                            tabla.Cell().Text($"{salida.Saldo:N0}");
+                        }
+                    });
+
+                    page.Footer().AlignCenter()
+                        .Text("Sistema Monitux-POS · Reporte generado automáticamente")
+                        .FontSize(10)
+                        .Italic();
+                });
+            })
+            .GeneratePdf(rutaCompleta);
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+
+            var visor = new V_Visor_Factura
+            {
+                rutaArchivo = rutaCompleta
+            };
+
+            visor.ShowDialog();
+
+
+
+            ////////////////
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            ///////////////////////////
+
+
+
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            // Filtra productos cuyo stock actual está por debajo del mínimo
+            var productosBajos = context.Productos
+                .Where(p => p.Secuencial_Empresa == secuencialEmpresaActiva
+                    && p.Cantidad == p.Existencia_Minima && p.Tipo == "Producto")
+                .OrderBy(p => p.Cantidad)
+                .Select(p => new
+                {
+                    Codigo = p.Codigo,
+                    Descripcion = p.Descripcion,
+                    Cantidad = p.Cantidad,
+                    Minimo = p.Existencia_Minima
+                })
+                .ToList();
+
+            string nombreReporte = "Productos_Con_Existencia_Minima.pdf";
+            string rutaCompleta = $"{ruta}{nombreReporte}";
+
+            Document.Create(doc =>
+            {
+                doc.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(9));
+
+                    page.Header().Column(header =>
+                    {
+                        header.Item().Text("📉 Reporte de productos con existencia mínima").FontSize(20).Bold();
+                        header.Item().Text($"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}");
+                    });
+
+                    page.Content().Table(tabla =>
+                    {
+                        tabla.ColumnsDefinition(cols =>
+                        {
+                            cols.RelativeColumn(1); // Código
+                            cols.RelativeColumn(3); // Descripción
+                            cols.RelativeColumn(1); // Cantidad actual
+                            cols.RelativeColumn(1); // Mínimo definido
+                        });
+
+                        string[] titulos = { "Código", "Descripción", "Cantidad", "Mínimo" };
+
+                        tabla.Header(header =>
+                        {
+                            foreach (var titulo in titulos)
+                            {
+                                header.Cell().Element(c =>
+                                    c.Background(Colors.Grey.Lighten3)
+                                     .PaddingVertical(4)
+                                     .PaddingHorizontal(2)
+                                     .ShowOnce())
+                                    .Text(titulo).Bold();
+                            }
+                        });
+
+                        foreach (var producto in productosBajos)
+                        {
+                            tabla.Cell().Element(c => c.BorderBottom(0.5f)
+                                .BorderColor(Colors.Grey.Lighten2)
+                                .Padding(2)).Text($"{producto.Codigo}");
+                            tabla.Cell().Text(producto.Descripcion);
+                            tabla.Cell().Text($"{producto.Cantidad:N0}");
+                            tabla.Cell().Text($"{producto.Minimo:N0}");
+                        }
+                    });
+
+                    page.Footer().AlignCenter()
+                        .Text("Sistema Monitux-POS · Reporte generado automáticamente")
+                        .FontSize(10)
+                        .Italic();
+                });
+            })
+            .GeneratePdf(rutaCompleta);
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+
+            var visor = new V_Visor_Factura
+            {
+                rutaArchivo = rutaCompleta
+            };
+
+            visor.ShowDialog();
+
+
+
+            ///////////////////////////
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+
+
+            //////////////////////////
+
+
+
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+
+            // Filtra productos agotados (cantidad == 0) del tipo "Producto"
+            var productosAgotados = context.Productos
+                .Where(p => p.Secuencial_Empresa == secuencialEmpresaActiva
+                    && p.Cantidad <= 0
+                    && p.Tipo == "Producto")
+                .OrderBy(p => p.Descripcion)
+                .Select(p => new
+                {
+                    Codigo = p.Codigo,
+                    Descripcion = p.Descripcion,
+                    Minimo = p.Existencia_Minima
+                })
+                .ToList();
+
+            string nombreReporte = "Productos_Agotados.pdf";
+            string rutaCompleta = $"{ruta}{nombreReporte}";
+
+            Document.Create(doc =>
+            {
+                doc.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(9));
+
+                    page.Header().Column(header =>
+                    {
+                        header.Item().Text("🚫 Reporte de productos agotados").FontSize(20).Bold();
+                        header.Item().Text($"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}");
+                    });
+
+                    page.Content().Table(tabla =>
+                    {
+                        tabla.ColumnsDefinition(cols =>
+                        {
+                            cols.RelativeColumn(1); // Código
+                            cols.RelativeColumn(3); // Descripción
+                            cols.RelativeColumn(1); // Mínimo definido
+                        });
+
+                        string[] titulos = { "Código", "Descripción", "Mínimo" };
+
+                        tabla.Header(header =>
+                        {
+                            foreach (var titulo in titulos)
+                            {
+                                header.Cell().Element(c =>
+                                    c.Background(Colors.Grey.Lighten3)
+                                     .PaddingVertical(4)
+                                     .PaddingHorizontal(2)
+                                     .ShowOnce())
+                                    .Text(titulo).Bold();
+                            }
+                        });
+
+                        foreach (var producto in productosAgotados)
+                        {
+                            tabla.Cell().Element(c => c.BorderBottom(0.5f)
+                                .BorderColor(Colors.Grey.Lighten2)
+                                .Padding(2)).Text(producto.Codigo);
+                            tabla.Cell().Text(producto.Descripcion);
+                            tabla.Cell().Text($"{producto.Minimo:N0}");
+                        }
+                    });
+
+                    page.Footer().AlignCenter()
+                        .Text("Sistema Monitux-POS · Reporte generado automáticamente")
+                        .FontSize(10)
+                        .Italic();
+                });
+            })
+            .GeneratePdf(rutaCompleta);
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+
+            var visor = new V_Visor_Factura
+            {
+                rutaArchivo = rutaCompleta
+            };
+
+            visor.ShowDialog();
+
+
+
+            //////////////////////////
+
+
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            //////////////////////
+
+
+
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
+            DateTime fechaHoy = DateTime.Today;
+
+            // Filtra productos vencidos cuyo tipo sea "Producto" y tengan fecha de vencimiento anterior a hoy
+
+
+            var productosVencidos = context.Productos
+    .Where(p => p.Secuencial_Empresa == secuencialEmpresaActiva
+        && p.Tipo == "Producto")
+    .ToList() // 👈 Se trae a memoria antes de aplicar ParseExact
+    .Where(p => DateTime.ParseExact(p.Fecha_Caducidad, "dd/MM/yyyy", null) < DateTime.Today)
+    .OrderBy(p => DateTime.ParseExact(p.Fecha_Caducidad, "dd/MM/yyyy", null))
+    .Select(p => new
+    {
+        Codigo = p.Codigo,
+        Descripcion = p.Descripcion,
+        FechaVencimiento = p.Fecha_Caducidad,
+        Cantidad = p.Cantidad
+    })
+    .ToList();
+
+
+            string nombreReporte = "Productos_Vencidos.pdf";
+            string rutaCompleta = $"{ruta}{nombreReporte}";
+
+            Document.Create(doc =>
+            {
+                doc.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(30);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(9));
+
+                    page.Header().Column(header =>
+                    {
+                        header.Item().Text("⏳ Reporte de productos vencidos").FontSize(20).Bold();
+                        header.Item().Text($"Generado el: {DateTime.Now:dd/MM/yyyy HH:mm}");
+                    });
+
+                    page.Content().Table(tabla =>
+                    {
+                        tabla.ColumnsDefinition(cols =>
+                        {
+                            cols.RelativeColumn(1); // Código
+                            cols.RelativeColumn(3); // Descripción
+                            cols.RelativeColumn(1); // Fecha de vencimiento
+                            cols.RelativeColumn(1); // Cantidad actual
+                        });
+
+                        string[] titulos = { "Código", "Descripción", "Vencimiento", "Cantidad" };
+
+                        tabla.Header(header =>
+                        {
+                            foreach (var titulo in titulos)
+                            {
+                                header.Cell().Element(c =>
+                                    c.Background(Colors.Red.Lighten3)
+                                     .PaddingVertical(4)
+                                     .PaddingHorizontal(2)
+                                     .ShowOnce())
+                                    .Text(titulo).Bold();
+                            }
+                        });
+
+                        foreach (var producto in productosVencidos)
+                        {
+                            tabla.Cell().Element(c => c.BorderBottom(0.5f)
+                                .BorderColor(Colors.Grey.Lighten2)
+                                .Padding(2)).Text(producto.Codigo);
+                            tabla.Cell().Text(producto.Descripcion);
+                            tabla.Cell().Text(producto.FechaVencimiento);
+                            tabla.Cell().Text($"{producto.Cantidad:N0}");
+                        }
+                    });
+
+                    page.Footer().AlignCenter()
+                        .Text("Sistema Monitux-POS · Reporte generado automáticamente")
+                        .FontSize(10)
+                        .Italic();
+                });
+            })
+            .GeneratePdf(rutaCompleta);
+
+            V_Menu_Principal.MSG.ShowMSG("🖨️ Reporte generado correctamente", "Monitux-POS");
+
+            var visor = new V_Visor_Factura
+            {
+                rutaArchivo = rutaCompleta
+            };
+
+            visor.ShowDialog();
+
+
+
+
+            /////////////////////
         }
     }
 }

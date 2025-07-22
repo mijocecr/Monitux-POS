@@ -73,7 +73,7 @@ namespace Monitux_POS.Ventanas
                 comboBox1.SelectedItem = Vista_producto.Tipo; // Asignar el tipo de producto al ComboBox
                 // Marcar el checkbox según el estado de expiración del producto
                 comboBox1.Enabled = false;
-                if (Vista_producto.Expira != false && Vista_producto.Fecha_Caducidad != "No Expira")
+                if (Vista_producto.Expira != false && Vista_producto.Fecha_Caducidad != null)
                 {
                     checkBox1.Checked = true; // Marcar el checkbox si el producto tiene fecha de caducidad
                     dateTimePicker1.Value = DateTime.ParseExact(Vista_producto.Fecha_Caducidad, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
@@ -349,7 +349,7 @@ namespace Monitux_POS.Ventanas
             producto.Codigo_Fabricante = txtCodigoFabricante.Text;
             producto.Tipo = comboBox1.SelectedItem?.ToString();
             producto.Expira = checkBox1.Checked;
-            producto.Fecha_Caducidad = checkBox1.Checked ? dateTimePicker1.Value.ToString("dd/MM/yyyy") : "No Expira";
+            producto.Fecha_Caducidad = checkBox1.Checked ? dateTimePicker1.Value.ToString("dd/MM/yyyy") : null;
 
             double.TryParse(txtPrecioVenta.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double precioVenta);
             double.TryParse(txtPrecioCosto.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double precioCosto);

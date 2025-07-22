@@ -42,6 +42,7 @@
             ShowIcon = false;
             ShowInTaskbar = false;
             Text = "V_Visor_Factura";
+            FormClosed += V_Visor_Factura_FormClosed;
             Load += V_Visor_Factura_Load;
             ResumeLayout(false);
         }

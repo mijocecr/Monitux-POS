@@ -590,7 +590,7 @@ namespace Monitux_POS.Clases
                     Saldo = saldoNuevo,
                     Costo_Total = Math.Round(saldoNuevo * costo, 2),
                     Venta_Total = Math.Round(saldoNuevo * venta, 2),
-                    Fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    Fecha = DateTime.Now.ToString("dd/MM/yyyy")
                     // Secuencial_Usuario = secuencial_usuario
                 };
 

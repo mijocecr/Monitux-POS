@@ -48,7 +48,7 @@ namespace Monitux_POS.Clases
         public string? Codigo_QR { get; set; }
         public string? Imagen { get; set; }
 
-        public string? Fecha_Caducidad { get; set; } = "No Expira";
+        public string? Fecha_Caducidad { get; set; } = null;
         public string? Tipo { get; set; } = "Producto"; // Puede ser Producto o Servicio
         public int Secuencial_Categoria { get; set; }
 
