@@ -34,7 +34,7 @@ namespace Monitux_POS.Ventanas
                 button1.ForeColor = Color.Lime;
             }
             this.Text = "Monitux-POS v." + V_Menu_Principal.VER;
-            comboBox1.SelectedIndex = 0; // Selecciona el primer elemento por defecto
+           
         }
 
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
@@ -80,7 +80,7 @@ namespace Monitux_POS.Ventanas
                 var ingresoManual = new Ingreso
                 {
                     Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"),
-                    Tipo_Ingreso = comboBox1.SelectedItem.ToString(), // o lo que seleccione el usuario
+                    Tipo_Ingreso = "Ingreso Manual",
                     Total = (double)total,
                     Descripcion = txtDescripcion.Text.Trim(),
                     Secuencial_Usuario = this.Secuencial_Usuario,
@@ -102,7 +102,7 @@ namespace Monitux_POS.Ventanas
                 var egresoManual = new Egreso
                 {
                     Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"),
-                    Tipo_Egreso = comboBox1.SelectedItem.ToString(), // o lo que seleccione el usuario
+                    Tipo_Egreso = "Egreso Manual",
                     Total = (double)total,
                     Descripcion = txtDescripcion.Text.Trim(),
                     Secuencial_Usuario = this.Secuencial_Usuario,

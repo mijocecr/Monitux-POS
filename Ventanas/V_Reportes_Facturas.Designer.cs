@@ -151,7 +151,7 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(248, 42);
+            dateTimePicker1.Location = new Point(289, 42);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(109, 23);
             dateTimePicker1.TabIndex = 1;
@@ -159,7 +159,7 @@
             // dateTimePicker2
             // 
             dateTimePicker2.Format = DateTimePickerFormat.Short;
-            dateTimePicker2.Location = new Point(422, 42);
+            dateTimePicker2.Location = new Point(463, 42);
             dateTimePicker2.Name = "dateTimePicker2";
             dateTimePicker2.Size = new Size(109, 23);
             dateTimePicker2.TabIndex = 2;
@@ -167,8 +167,8 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.ForeColor = Color.Yellow;
-            label2.Location = new Point(199, 48);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(240, 48);
             label2.Name = "label2";
             label2.Size = new Size(42, 15);
             label2.TabIndex = 1;
@@ -177,8 +177,8 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.ForeColor = Color.Yellow;
-            label3.Location = new Point(376, 48);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(417, 48);
             label3.Name = "label3";
             label3.Size = new Size(40, 15);
             label3.TabIndex = 3;
@@ -365,7 +365,7 @@
             panel6.Controls.Add(panel2);
             panel6.Controls.Add(panel4);
             panel6.Controls.Add(panel3);
-            panel6.Location = new Point(25, 78);
+            panel6.Location = new Point(39, 78);
             panel6.Name = "panel6";
             panel6.Size = new Size(359, 479);
             panel6.TabIndex = 7;
@@ -391,7 +391,7 @@
             panel7.Controls.Add(panel10);
             panel7.Controls.Add(panel11);
             panel7.Controls.Add(panel12);
-            panel7.Location = new Point(398, 78);
+            panel7.Location = new Point(420, 78);
             panel7.Name = "panel7";
             panel7.Size = new Size(361, 479);
             panel7.TabIndex = 8;
@@ -633,12 +633,12 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.ForeColor = Color.Yellow;
-            label5.Location = new Point(164, 574);
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(274, 578);
             label5.Name = "label5";
-            label5.Size = new Size(407, 15);
+            label5.Size = new Size(263, 15);
             label5.TabIndex = 9;
-            label5.Text = "Para generar cualquier reporte, debe seleccionar primero el rango de fechas.";
+            label5.Text = "Todos los reportes requieren un rango de fechas.";
             // 
             // label10
             // 
@@ -648,7 +648,7 @@
             label10.ForeColor = Color.White;
             label10.Location = new Point(0, 0);
             label10.Name = "label10";
-            label10.Size = new Size(772, 37);
+            label10.Size = new Size(855, 37);
             label10.TabIndex = 54;
             label10.Text = "Reportes de Facturas";
             label10.TextAlign = ContentAlignment.TopCenter;
@@ -658,7 +658,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(772, 602);
+            ClientSize = new Size(855, 602);
             Controls.Add(label10);
             Controls.Add(label5);
             Controls.Add(panel7);

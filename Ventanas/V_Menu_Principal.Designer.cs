@@ -110,7 +110,7 @@
             // 
             pictureBox2.Anchor = AnchorStyles.None;
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(216, 122);
+            pictureBox2.Location = new Point(218, 122);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(341, 333);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -137,7 +137,7 @@
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
             panel3.Controls.Add(btn_inicio);
-            panel3.Location = new Point(0, -110);
+            panel3.Location = new Point(0, 195);
             panel3.Name = "panel3";
             panel3.Size = new Size(176, 1043);
             panel3.TabIndex = 3;
@@ -197,6 +197,7 @@
             button8.Text = "Movimientos";
             button8.TextAlign = ContentAlignment.MiddleLeft;
             button8.UseVisualStyleBackColor = false;
+            button8.Click += button8_Click_1;
             // 
             // button19
             // 

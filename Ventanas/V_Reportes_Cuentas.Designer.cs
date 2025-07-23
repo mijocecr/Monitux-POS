@@ -87,8 +87,8 @@
             // label21
             // 
             label21.AutoSize = true;
-            label21.ForeColor = Color.Yellow;
-            label21.Location = new Point(394, 62);
+            label21.ForeColor = Color.White;
+            label21.Location = new Point(401, 62);
             label21.Name = "label21";
             label21.Size = new Size(40, 15);
             label21.TabIndex = 97;
@@ -97,18 +97,18 @@
             // label24
             // 
             label24.AutoSize = true;
-            label24.ForeColor = Color.Yellow;
-            label24.Location = new Point(224, 572);
+            label24.ForeColor = Color.White;
+            label24.Location = new Point(224, 564);
             label24.Name = "label24";
-            label24.Size = new Size(308, 15);
+            label24.Size = new Size(353, 15);
             label24.TabIndex = 93;
-            label24.Text = "Los campos con distinción requieren un rango de fechas.";
+            label24.Text = "Los campos con distinción amarilla requieren un rango de fechas.";
             // 
             // label22
             // 
             label22.AutoSize = true;
-            label22.ForeColor = Color.Yellow;
-            label22.Location = new Point(217, 62);
+            label22.ForeColor = Color.White;
+            label22.Location = new Point(224, 62);
             label22.Name = "label22";
             label22.Size = new Size(42, 15);
             label22.TabIndex = 94;
@@ -122,7 +122,7 @@
             label23.ForeColor = Color.White;
             label23.Location = new Point(0, 0);
             label23.Name = "label23";
-            label23.Size = new Size(791, 37);
+            label23.Size = new Size(881, 37);
             label23.TabIndex = 92;
             label23.Text = "Reportes de Cuentas";
             label23.TextAlign = ContentAlignment.TopCenter;
@@ -130,7 +130,7 @@
             // dateTimePicker2
             // 
             dateTimePicker2.Format = DateTimePickerFormat.Short;
-            dateTimePicker2.Location = new Point(440, 56);
+            dateTimePicker2.Location = new Point(447, 56);
             dateTimePicker2.Name = "dateTimePicker2";
             dateTimePicker2.Size = new Size(109, 23);
             dateTimePicker2.TabIndex = 96;
@@ -138,7 +138,7 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(266, 56);
+            dateTimePicker1.Location = new Point(273, 56);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(109, 23);
             dateTimePicker1.TabIndex = 95;
@@ -534,7 +534,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(791, 592);
+            ClientSize = new Size(881, 592);
             Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(label21);

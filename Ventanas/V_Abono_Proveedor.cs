@@ -175,9 +175,9 @@ namespace Monitux_POS.Ventanas
                         Secuencial_Empresa = this.Secuencial_Empresa,
                         Secuencial_Factura = this.Secuencial_CTAP,
                         Secuencial_Usuario = this.Secuencial_Usuario,
-                        Fecha = DateTime.Now.ToString("dd/MM/yyyy"),
+                        Fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"),
                         Total = abono,
-                        Tipo_Egreso = "Efectivo / Tarjeta ",
+                        Tipo_Egreso = "Pago Realizado",
                         Descripcion = $"Abono a CTA: {Secuencial_CTAP} de la Factura: {label11.Text}"
                     };
 
@@ -193,7 +193,7 @@ namespace Monitux_POS.Ventanas
                         Secuencial_Proveedor = this.Secuencial_Proveedor,
                         Secuencial_Usuario = this.Secuencial_Usuario,
                         Secuencial_CTAP = this.Secuencial_CTAP,
-                        Fecha = DateTime.Now.ToString("dd/MM/yyyy"),
+                        Fecha = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"),
                         Monto = abono
                     };
 

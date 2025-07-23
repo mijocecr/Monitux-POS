@@ -28,26 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            comboBox1 = new ComboBox();
             panel1 = new Panel();
             txtTotal = new TextBox();
             label3 = new Label();
             label2 = new Label();
             txtDescripcion = new TextBox();
-            label1 = new Label();
             button1 = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // comboBox1
-            // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Efectivo", "Tarjeta", "Deposito a CTA", "Transferencia", "Otro" });
-            comboBox1.Location = new Point(59, 11);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(141, 23);
-            comboBox1.TabIndex = 0;
             // 
             // panel1
             // 
@@ -56,16 +44,14 @@
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(txtDescripcion);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(comboBox1);
             panel1.Location = new Point(12, 17);
             panel1.Name = "panel1";
-            panel1.Size = new Size(212, 187);
+            panel1.Size = new Size(212, 172);
             panel1.TabIndex = 1;
             // 
             // txtTotal
             // 
-            txtTotal.Location = new Point(59, 141);
+            txtTotal.Location = new Point(59, 126);
             txtTotal.Name = "txtTotal";
             txtTotal.Size = new Size(141, 23);
             txtTotal.TabIndex = 5;
@@ -76,7 +62,7 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = Color.White;
-            label3.Location = new Point(7, 144);
+            label3.Location = new Point(7, 129);
             label3.Name = "label3";
             label3.Size = new Size(46, 15);
             label3.TabIndex = 4;
@@ -86,7 +72,7 @@
             // 
             label2.AutoSize = true;
             label2.ForeColor = Color.White;
-            label2.Location = new Point(73, 49);
+            label2.Location = new Point(73, 20);
             label2.Name = "label2";
             label2.Size = new Size(69, 15);
             label2.TabIndex = 3;
@@ -94,7 +80,7 @@
             // 
             // txtDescripcion
             // 
-            txtDescripcion.Location = new Point(19, 72);
+            txtDescripcion.Location = new Point(19, 48);
             txtDescripcion.MaxLength = 120;
             txtDescripcion.Multiline = true;
             txtDescripcion.Name = "txtDescripcion";
@@ -102,21 +88,11 @@
             txtDescripcion.Size = new Size(181, 54);
             txtDescripcion.TabIndex = 2;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(19, 14);
-            label1.Name = "label1";
-            label1.Size = new Size(34, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Tipo:";
-            // 
             // button1
             // 
             button1.FlatStyle = FlatStyle.Flat;
             button1.ForeColor = Color.Yellow;
-            button1.Location = new Point(47, 217);
+            button1.Location = new Point(47, 204);
             button1.Name = "button1";
             button1.Size = new Size(134, 38);
             button1.TabIndex = 2;
@@ -129,7 +105,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(241, 263);
+            ClientSize = new Size(241, 256);
             Controls.Add(button1);
             Controls.Add(panel1);
             MaximizeBox = false;
@@ -146,13 +122,10 @@
         }
 
         #endregion
-
-        private ComboBox comboBox1;
         private Panel panel1;
         private Label label3;
         private Label label2;
         private TextBox txtDescripcion;
-        private Label label1;
         private TextBox txtTotal;
         private Button button1;
     }

@@ -536,8 +536,8 @@
             // label21
             // 
             label21.AutoSize = true;
-            label21.ForeColor = Color.Yellow;
-            label21.Location = new Point(394, 56);
+            label21.ForeColor = Color.White;
+            label21.Location = new Point(404, 56);
             label21.Name = "label21";
             label21.Size = new Size(40, 15);
             label21.TabIndex = 91;
@@ -546,8 +546,8 @@
             // label22
             // 
             label22.AutoSize = true;
-            label22.ForeColor = Color.Yellow;
-            label22.Location = new Point(217, 56);
+            label22.ForeColor = Color.White;
+            label22.Location = new Point(227, 56);
             label22.Name = "label22";
             label22.Size = new Size(42, 15);
             label22.TabIndex = 88;
@@ -556,7 +556,7 @@
             // dateTimePicker2
             // 
             dateTimePicker2.Format = DateTimePickerFormat.Short;
-            dateTimePicker2.Location = new Point(440, 50);
+            dateTimePicker2.Location = new Point(450, 50);
             dateTimePicker2.Name = "dateTimePicker2";
             dateTimePicker2.Size = new Size(109, 23);
             dateTimePicker2.TabIndex = 90;
@@ -564,7 +564,7 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(266, 50);
+            dateTimePicker1.Location = new Point(276, 50);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(109, 23);
             dateTimePicker1.TabIndex = 89;
@@ -577,7 +577,7 @@
             label23.ForeColor = Color.White;
             label23.Location = new Point(0, 0);
             label23.Name = "label23";
-            label23.Size = new Size(780, 37);
+            label23.Size = new Size(869, 37);
             label23.TabIndex = 53;
             label23.Text = "Reportes de Almacen";
             label23.TextAlign = ContentAlignment.TopCenter;
@@ -585,19 +585,19 @@
             // label24
             // 
             label24.AutoSize = true;
-            label24.ForeColor = Color.Yellow;
-            label24.Location = new Point(224, 566);
+            label24.ForeColor = Color.White;
+            label24.Location = new Point(263, 571);
             label24.Name = "label24";
-            label24.Size = new Size(308, 15);
+            label24.Size = new Size(353, 15);
             label24.TabIndex = 79;
-            label24.Text = "Los campos con distinción requieren un rango de fechas.";
+            label24.Text = "Los campos con distinción amarilla requieren un rango de fechas.";
             // 
             // V_Reportes_Inventario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(780, 597);
+            BackColor = Color.FromArgb(44, 117, 255);
+            ClientSize = new Size(869, 597);
             Controls.Add(label21);
             Controls.Add(label24);
             Controls.Add(label22);

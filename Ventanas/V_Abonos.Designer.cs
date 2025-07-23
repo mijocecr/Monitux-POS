@@ -119,6 +119,8 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "V_Abonos";
+            ShowIcon = false;
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "V_Abonos";
             Load += V_Abonos_Load;

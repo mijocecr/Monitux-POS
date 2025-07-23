@@ -924,5 +924,11 @@ namespace Monitux_POS.Ventanas
             V_Reportes_Cuentas v_Reportes_Cuentas = new V_Reportes_Cuentas();
             Abrir_Ventana(v_Reportes_Cuentas);
         }
+
+        private void button8_Click_1(object sender, EventArgs e)
+        {
+            V_Reportes_Movimientos v_Reportes_Movimientos = new V_Reportes_Movimientos();
+            Abrir_Ventana(v_Reportes_Movimientos);
+        }
     }
 }
