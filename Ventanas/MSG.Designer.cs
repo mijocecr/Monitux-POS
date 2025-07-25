@@ -38,19 +38,20 @@
             // panel1
             // 
             panel1.AutoScroll = true;
+            panel1.AutoSize = true;
             panel1.BackColor = Color.FromArgb(35, 32, 45);
             panel1.Controls.Add(lbl_Mensaje);
             panel1.Location = new Point(6, 10);
             panel1.Name = "panel1";
-            panel1.Size = new Size(270, 106);
+            panel1.Size = new Size(273, 106);
             panel1.TabIndex = 0;
             // 
             // lbl_Mensaje
             // 
             lbl_Mensaje.ForeColor = Color.White;
-            lbl_Mensaje.Location = new Point(6, 5);
+            lbl_Mensaje.Location = new Point(3, 0);
             lbl_Mensaje.Name = "lbl_Mensaje";
-            lbl_Mensaje.Size = new Size(261, 97);
+            lbl_Mensaje.Size = new Size(267, 96);
             lbl_Mensaje.TabIndex = 0;
             lbl_Mensaje.Text = "Mensaje";
             lbl_Mensaje.TextAlign = ContentAlignment.MiddleCenter;
@@ -105,6 +106,7 @@
             Load += MSG_Load;
             panel1.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

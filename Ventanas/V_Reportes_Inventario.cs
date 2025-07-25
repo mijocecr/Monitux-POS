@@ -1916,24 +1916,24 @@ namespace Monitux_POS.Ventanas
             //////////////////////////
 
 
-
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
             int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
 
-            // Filtra productos agotados (cantidad == 0) del tipo "Producto"
+            // Filtra productos agotados (cantidad == 0) o bajo mínimo, del tipo "Producto"
             var productosAgotados = context.Productos
                 .Where(p => p.Secuencial_Empresa == secuencialEmpresaActiva
-                    && p.Cantidad <= 0
+                    && (p.Cantidad <= 0 || p.Cantidad < p.Existencia_Minima)
                     && p.Tipo == "Producto")
                 .OrderBy(p => p.Descripcion)
                 .Select(p => new
                 {
                     Codigo = p.Codigo,
                     Descripcion = p.Descripcion,
-                    Minimo = p.Existencia_Minima
+                    Minimo = p.Existencia_Minima,
+                    Cantidad = p.Cantidad // 👈 Incluido en el reporte
                 })
                 .ToList();
 
@@ -1962,9 +1962,10 @@ namespace Monitux_POS.Ventanas
                             cols.RelativeColumn(1); // Código
                             cols.RelativeColumn(3); // Descripción
                             cols.RelativeColumn(1); // Mínimo definido
+                            cols.RelativeColumn(1); // Cantidad actual 👈
                         });
 
-                        string[] titulos = { "Código", "Descripción", "Mínimo" };
+                        string[] titulos = { "Código", "Descripción", "Mínimo", "Cantidad" };
 
                         tabla.Header(header =>
                         {
@@ -1984,8 +1985,11 @@ namespace Monitux_POS.Ventanas
                             tabla.Cell().Element(c => c.BorderBottom(0.5f)
                                 .BorderColor(Colors.Grey.Lighten2)
                                 .Padding(2)).Text(producto.Codigo);
+
                             tabla.Cell().Text(producto.Descripcion);
                             tabla.Cell().Text($"{producto.Minimo:N0}");
+
+                            tabla.Cell().Text($"{producto.Cantidad:N0}"); // 👈 Mostrar cantidad actual
                         }
                     });
 
@@ -2007,7 +2011,6 @@ namespace Monitux_POS.Ventanas
             visor.ShowDialog();
 
 
-
             //////////////////////////
 
 
@@ -2017,8 +2020,6 @@ namespace Monitux_POS.Ventanas
         {
             //////////////////////
 
-
-
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
@@ -2026,23 +2027,28 @@ namespace Monitux_POS.Ventanas
             int secuencialEmpresaActiva = V_Menu_Principal.Secuencial_Empresa;
             DateTime fechaHoy = DateTime.Today;
 
-            // Filtra productos vencidos cuyo tipo sea "Producto" y tengan fecha de vencimiento anterior a hoy
-
-
+            // Filtra productos vencidos cuyo tipo sea "Producto" y con fecha de vencimiento válida y anterior a hoy
             var productosVencidos = context.Productos
-    .Where(p => p.Secuencial_Empresa == secuencialEmpresaActiva
-        && p.Tipo == "Producto")
-    .ToList() // 👈 Se trae a memoria antes de aplicar ParseExact
-    .Where(p => DateTime.ParseExact(p.Fecha_Caducidad, "dd/MM/yyyy", null) < DateTime.Today)
-    .OrderBy(p => DateTime.ParseExact(p.Fecha_Caducidad, "dd/MM/yyyy", null))
-    .Select(p => new
-    {
-        Codigo = p.Codigo,
-        Descripcion = p.Descripcion,
-        FechaVencimiento = p.Fecha_Caducidad,
-        Cantidad = p.Cantidad
-    })
-    .ToList();
+                .Where(p => p.Secuencial_Empresa == secuencialEmpresaActiva
+                    && p.Tipo == "Producto"
+                    && !string.IsNullOrWhiteSpace(p.Fecha_Caducidad)) // ✅ Validamos que no sea nulo o vacío
+                .ToList()
+                .Where(p => DateTime.TryParseExact(p.Fecha_Caducidad, "dd/MM/yyyy", null,
+                                                    System.Globalization.DateTimeStyles.None,
+                                                    out DateTime fechaCaducidad)
+                            && fechaCaducidad < fechaHoy) // ✅ Filtramos vencidos
+                .OrderBy(p => DateTime.ParseExact(p.Fecha_Caducidad, "dd/MM/yyyy", null)) // 👉 Aquí puedes usar TryParse también si quieres máxima robustez
+                .Select(p => new
+                {
+                    Codigo = p.Codigo,
+                    Descripcion = p.Descripcion,
+                    FechaVencimiento = p.Fecha_Caducidad,
+                    Cantidad = p.Cantidad
+                })
+                .ToList();
+
+
+
 
 
             string nombreReporte = "Productos_Vencidos.pdf";

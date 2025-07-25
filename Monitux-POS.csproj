@@ -1,5 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup Label="Globals">
+    <WebView2UseWinRT>False</WebView2UseWinRT>
+    <WebView2EnableCsWinRTProjection>False</WebView2EnableCsWinRTProjection>
+  </PropertyGroup>
+
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
@@ -49,6 +54,7 @@
     <None Remove="Resources\Iconos\calendario.png" />
     <None Remove="Resources\Iconos\camera.png" />
     <None Remove="Resources\Iconos\cargardb.png" />
+    <None Remove="Resources\Iconos\cart.png" />
     <None Remove="Resources\Iconos\comment.png" />
     <None Remove="Resources\Iconos\comment_edit.png" />
     <None Remove="Resources\Iconos\database_refresh.png" />
@@ -444,6 +450,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Iconos\door_out.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Iconos\cart.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

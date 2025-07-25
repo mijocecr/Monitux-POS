@@ -1,5 +1,5 @@
-﻿using Microsoft.Web.WebView2.WinForms;
-using Microsoft.Web.WebView2.Wpf;
+﻿
+
 using Monitux_POS.Clases;
 using NAudio.Wave;
 using System;
@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using ZXing;
-using WebView2 = Microsoft.Web.WebView2.WinForms.WebView2;
+
 
 namespace Monitux_POS.Ventanas
 {
@@ -679,7 +679,8 @@ namespace Monitux_POS.Ventanas
 
         private void button26_Click(object sender, EventArgs e)
         {
-
+            V_Dashboard v_Dashboard = new V_Dashboard();
+            Abrir_Ventana(v_Dashboard);
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
