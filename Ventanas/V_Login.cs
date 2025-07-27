@@ -53,7 +53,13 @@ namespace Monitux_POS.Ventanas
 
         private void button3_Click(object sender, EventArgs e)
         {
-            
+
+        
+            if (comboEmpresa.SelectedItem == null)
+            {
+                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar una empresa para crear el usuario.", "Error");
+                return;
+            }
 
             if (string.IsNullOrEmpty(txt_Codigo.Text))
             {
@@ -200,7 +206,8 @@ namespace Monitux_POS.Ventanas
             Pin = "****";
             Util.Registrar_Actividad(0, $"Ha creado al usuario: {usuario.Nombre}", V_Menu_Principal.Secuencial_Empresa);
 
-
+            Properties.Settings.Default.Primer_Arranque = false; // Cambia el valor a false para indicar que ya no es el primer arranque
+            Properties.Settings.Default.Save(); // Guarda los cambios en la configuración
 
 
             txt_Codigo.Clear();
@@ -517,10 +524,7 @@ namespace Monitux_POS.Ventanas
         private async void V_Login_Load(object sender, EventArgs e)
         {
 
-            this.Text = "Monitux-POS ver." + V_Menu_Principal.VER;
 
-            llenar_Combo_Empresa();
-            comboEmpresa.SelectedIndex = 0; // Selecciona el primer elemento por defecto
             // ======================================
             // 🔐 Validación de Licencia
             // ======================================
@@ -554,6 +558,49 @@ namespace Monitux_POS.Ventanas
 
 
             /////////////////////////////////////////////////////////////////////////////////
+
+
+            this.Text = "Monitux-POS ver." + V_Menu_Principal.VER;
+
+            if (Properties.Settings.Default.Primer_Arranque)
+            {
+
+                V_Menu_Principal.MSG.ShowMSG(
+                    "¡Bienvenido al primer arranque de Monitux-POS!\nPor favor, cree una empresa y a continuación un usuario administrador para continuar.",
+                    "Primer Arranque"
+
+                );
+
+                V_Empresa ventanaEmpresa = new V_Empresa();
+                ventanaEmpresa.ShowDialog();
+                // Verifica si se creó la empresa correctamente
+                if (ventanaEmpresa.DialogResult != DialogResult.OK)
+                {
+                    V_Menu_Principal.MSG.ShowMSG("Debe crear una empresa para continuar.", "Error");
+                    System.Windows.Forms.Application.Exit(); // Cierra la app si no se crea la empresa
+                    return;
+                }
+
+                // Si es el primer arranque, muestra el panel de creación de usuario
+                panel3.Visible = false;
+                panel4.Visible = true;
+                label11.ForeColor = Color.White; // Resetea el color del texto
+            }
+            else
+            {
+                // Si no es el primer arranque, muestra el panel de login
+                panel3.Visible = true;
+                panel4.Visible = false;
+            }
+
+
+
+            llenar_Combo_Empresa();
+
+
+           
+            
+
 
 
             SQLitePCL.Batteries.Init();
@@ -595,7 +642,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-            
+
 
             SQLitePCL.Batteries.Init();
 
@@ -610,14 +657,14 @@ namespace Monitux_POS.Ventanas
     .ToList();
 
 
-          
 
 
 
-                foreach (var item in empresa)
-                {
-                   
-               // V_Menu_Principal.Secuencial_Empresa = item.Secuencial; // Asigna el secuencial de la empresa seleccionada
+
+            foreach (var item in empresa)
+            {
+
+                // V_Menu_Principal.Secuencial_Empresa = item.Secuencial; // Asigna el secuencial de la empresa seleccionada
                 V_Menu_Principal.Nombre_Empresa = item.Nombre; // Asigna el nombre de la empresa seleccionada
                 V_Menu_Principal.Direccion_Empresa = item.Direccion; // Asigna la dirección de la empresa seleccionada
                 V_Menu_Principal.Telefono_Empresa = item.Telefono; // Asigna el teléfono de la empresa seleccionada
@@ -625,14 +672,14 @@ namespace Monitux_POS.Ventanas
                 V_Menu_Principal.RSS = item.RSS; // Asigna el RUC de la empresa seleccionada
                 V_Menu_Principal.moneda = item.Moneda; // Asigna la moneda de la empresa seleccionada
                 V_Menu_Principal.ISV = item.ISV; // Asigna el ISV de la empresa seleccionada
-                
+
             }
 
 
 
             V_Menu_Principal.Secuencial_Empresa = int.Parse(comboEmpresa.SelectedItem.ToString().Split('-')[0].Trim());
 
-           // MessageBox.Show(V_Menu_Principal.Secuencial_Empresa.ToString() + " - " + V_Menu_Principal.Nombre_Empresa, "Empresa Seleccionada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // MessageBox.Show(V_Menu_Principal.Secuencial_Empresa.ToString() + " - " + V_Menu_Principal.Nombre_Empresa, "Empresa Seleccionada", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
 
@@ -640,6 +687,14 @@ namespace Monitux_POS.Ventanas
 
 
 
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+            //Properties.Settings.Default.Reset(); // Reinicia la configuración de la aplicación
+            //Properties.Settings.Default.Primer_Arranque=true;
+           // Properties.Settings.Default.Save(); 
+            // Reinicia la configuración de la aplicación
         }
     }// namespace Ventanas
 }// namespace Monitux_POS.Ventanas

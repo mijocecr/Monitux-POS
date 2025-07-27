@@ -444,8 +444,8 @@ namespace Monitux_POS.Ventanas
             llenar_Combo_Proveedor();
             llenar_Combo_Categoria();
 
-            comboCategoria.SelectedIndex = 0;
-            comboProveedor.SelectedIndex = 0;
+           // comboCategoria.SelectedIndex = 0;
+           // comboProveedor.SelectedIndex = 0;
 
         }
 

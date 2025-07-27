@@ -32,16 +32,9 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            label7 = new Label();
-            groupBox1 = new GroupBox();
-            label8 = new Label();
-            label9 = new Label();
-            label10 = new Label();
-            label11 = new Label();
-            label12 = new Label();
-            label13 = new Label();
-            label14 = new Label();
-            groupBox1.SuspendLayout();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
             SuspendLayout();
             // 
             // label6
@@ -52,7 +45,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(0, 0);
             label6.Name = "label6";
-            label6.Size = new Size(800, 37);
+            label6.Size = new Size(602, 37);
             label6.TabIndex = 80;
             label6.Text = "Primeros ajustes del sistema";
             label6.TextAlign = ContentAlignment.TopCenter;
@@ -60,9 +53,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(364, 264);
+            label1.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            label1.Location = new Point(146, 112);
             label1.Name = "label1";
-            label1.Size = new Size(239, 15);
+            label1.Size = new Size(283, 19);
             label1.TabIndex = 81;
             label1.Text = "Es necesario crear un usuario administrador.";
             label1.TextAlign = ContentAlignment.TopCenter;
@@ -70,9 +64,10 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(364, 230);
+            label2.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            label2.Location = new Point(146, 70);
             label2.Name = "label2";
-            label2.Size = new Size(174, 15);
+            label2.Size = new Size(206, 19);
             label2.TabIndex = 82;
             label2.Text = "Es necesario crear una empresa.";
             label2.TextAlign = ContentAlignment.TopCenter;
@@ -80,118 +75,61 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(28, 364);
+            label3.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            label3.Location = new Point(146, 160);
             label3.Name = "label3";
-            label3.Size = new Size(441, 15);
+            label3.Size = new Size(349, 19);
             label3.TabIndex = 83;
-            label3.Text = "Es opcional importar una base de datos de una instalación de Monitux-POS previa.";
+            label3.Text = "Opcional importar base de datos de instalación previa.";
             label3.TextAlign = ContentAlignment.TopCenter;
             // 
-            // label7
+            // button1
             // 
-            label7.AutoSize = true;
-            label7.Location = new Point(28, 398);
-            label7.Name = "label7";
-            label7.Size = new Size(257, 15);
-            label7.TabIndex = 86;
-            label7.Text = "Es opcional establecer la fuente RSS de noticias.";
-            label7.TextAlign = ContentAlignment.TopCenter;
+            button1.Location = new Point(43, 70);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 84;
+            button1.Text = "Crear";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
-            // groupBox1
+            // button2
             // 
-            groupBox1.Controls.Add(label14);
-            groupBox1.Controls.Add(label13);
-            groupBox1.Controls.Add(label12);
-            groupBox1.Controls.Add(label11);
-            groupBox1.Controls.Add(label10);
-            groupBox1.Controls.Add(label9);
-            groupBox1.Controls.Add(label8);
-            groupBox1.Location = new Point(12, 62);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(333, 250);
-            groupBox1.TabIndex = 87;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Nueva Empresa";
+            button2.Location = new Point(43, 115);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 85;
+            button2.Text = "Crear";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
-            // label8
+            // button3
             // 
-            label8.AutoSize = true;
-            label8.Location = new Point(16, 32);
-            label8.Name = "label8";
-            label8.Size = new Size(54, 15);
-            label8.TabIndex = 0;
-            label8.Text = "Nombre:";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(16, 63);
-            label9.Name = "label9";
-            label9.Size = new Size(60, 15);
-            label9.TabIndex = 1;
-            label9.Text = "Dirección:";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(16, 95);
-            label10.Name = "label10";
-            label10.Size = new Size(56, 15);
-            label10.TabIndex = 2;
-            label10.Text = "Telefono:";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(16, 128);
-            label11.Name = "label11";
-            label11.Size = new Size(39, 15);
-            label11.TabIndex = 3;
-            label11.Text = "Email:";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Location = new Point(16, 156);
-            label12.Name = "label12";
-            label12.Size = new Size(96, 15);
-            label12.TabIndex = 4;
-            label12.Text = "Mensaje Factura:";
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Location = new Point(16, 184);
-            label13.Name = "label13";
-            label13.Size = new Size(54, 15);
-            label13.TabIndex = 5;
-            label13.Text = "Moneda:";
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Location = new Point(16, 215);
-            label14.Name = "label14";
-            label14.Size = new Size(32, 15);
-            label14.TabIndex = 6;
-            label14.Text = "I.S.V:";
+            button3.Location = new Point(43, 160);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 86;
+            button3.Text = "Abrir";
+            button3.UseVisualStyleBackColor = true;
             // 
             // V_Configuracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(800, 450);
-            Controls.Add(groupBox1);
-            Controls.Add(label7);
+            ClientSize = new Size(602, 235);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(button1);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(label6);
             Name = "V_Configuracion";
+            ShowIcon = false;
+            ShowInTaskbar = false;
             Text = "V_Configuracion";
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
+            Load += V_Configuracion_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -202,14 +140,8 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private Label label7;
-        private GroupBox groupBox1;
-        private Label label8;
-        private Label label10;
-        private Label label9;
-        private Label label11;
-        private Label label14;
-        private Label label13;
-        private Label label12;
+        private Button button1;
+        private Button button2;
+        private Button button3;
     }
 }

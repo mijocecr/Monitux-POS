@@ -120,7 +120,7 @@ namespace Monitux_POS.Ventanas
                 }
             }
 
-            Cargar_Destacados();
+            Cargar_Destacados(V_Menu_Principal.Secuencial_Empresa);
 
 
 
@@ -128,19 +128,19 @@ namespace Monitux_POS.Ventanas
 
         }
 
-        private void Cargar_Destacados()
+        private void Cargar_Destacados(int secuencial_Empresa)
         {
 
 
             using (var db = new Monitux_DB_Context())
             {
                 var destacados = db.Clientes
-                    .AsEnumerable() // fuerza evaluación en memoria para poder usar DateTime.Parse
+                    .AsEnumerable()
                     .Select(c =>
                     {
                         var ventasCliente = db.Ventas
                             .AsEnumerable()
-                            .Where(v => v.Secuencial_Cliente == c.Secuencial);
+                            .Where(v => v.Secuencial_Cliente == c.Secuencial && v.Secuencial_Empresa == secuencial_Empresa);
 
                         var ventasUltimos30Dias = ventasCliente
                             .Where(v =>
@@ -176,178 +176,7 @@ namespace Monitux_POS.Ventanas
                     .ToList();
 
                 dataGridViewClientesDestacados.DataSource = destacados;
-                /*
-                                // 🥇 Datos del cliente top (Kelian Daniela F. por ejemplo)
-                                var clienteTop = destacados.FirstOrDefault();
 
-
-                                // 🥇 Cliente destacado
-                                string titulo = $"🥇 Cliente #1 del Mes: \n{clienteTop.Nombre}";
-                                string valorPrincipal = $"{V_Menu_Principal.moneda}{clienteTop.ComprasTotales:N2}";
-                                string variacion = $"Compras: {clienteTop.NumeroTransacciones} | Última: {clienteTop.UltimaCompra?.ToString("dd/MM/yyyy") ?? "N/D"}";
-
-                                Image icono = Properties.Resources.coins_add; // Opcional, reemplaza por algo más icónico
-                                Color fondo = Color.FromArgb(26, 32, 44); // Fondo más neutral y elegante
-                                Point ubicacion = new Point(15, 15);
-
-                                var tarjeta = new TarjetaDashboard(titulo, valorPrincipal, variacion, icono, fondo, ubicacion);
-
-                                // 🌈 Fuentes y colores mejorados
-                                tarjeta.LabelTitulo.Font = new Font("Segoe UI", 14, FontStyle.Bold);
-                                tarjeta.LabelTitulo.ForeColor = Color.White;
-
-                                tarjeta.LabelValor.Font = new Font("Segoe UI", 18, FontStyle.Bold);
-                                tarjeta.LabelValor.ForeColor = Color.Gold;
-
-                                tarjeta.LabelVariacion.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-                                tarjeta.LabelVariacion.ForeColor = Color.Silver;
-
-                                // 🔲 Tamaño y espacio interior
-                                tarjeta.Panel.Size = new Size(380, 130);
-                                tarjeta.Panel.Padding = new Padding(15); // Espacio interior
-                                tarjeta.Panel.BorderStyle = BorderStyle.FixedSingle; // Opcional: resalta los bordes
-
-                                // 🎯 Acción interactiva
-                                tarjeta.AsignarClickComun((s, e) =>
-                                {
-                                    // AbrirHistorialCliente(clienteTop.Secuencial);
-                                });
-
-                                // 📌 Agregar al panel
-                                panelClientes.Controls.Add(tarjeta.Panel);
-
-
-
-                                // 🥈 Datos del cliente #2
-                                var clienteSegundo = destacados.Skip(1).FirstOrDefault();
-                                if (clienteSegundo != null)
-                                {
-                                    string titulo2 = $"🥈 Cliente #2 del Mes: \n{clienteSegundo.Nombre}";
-                                    string valorPrincipal2 = $"{V_Menu_Principal.moneda}{clienteSegundo.ComprasTotales:N2}";
-                                    string variacion2 = $"Compras: {clienteSegundo.NumeroTransacciones} | Última: {clienteSegundo.UltimaCompra?.ToString("dd/MM/yyyy") ?? "N/D"}";
-
-                                    Image icono2 = Properties.Resources.coins_add; // Cambia por otro ícono simbólico
-                                    Color fondo2 = Color.FromArgb(36, 42, 60); // Fondo similar pero diferente tono
-                                    Point ubicacion2 = new Point(15, 155); // Posición más abajo
-
-                                    var tarjeta2 = new TarjetaDashboard(titulo2, valorPrincipal2, variacion2, icono2, fondo2, ubicacion2);
-
-                                    // Estilo visual para cliente #2
-                                    tarjeta2.LabelTitulo.Font = new Font("Segoe UI", 13, FontStyle.Bold);
-                                    tarjeta2.LabelTitulo.ForeColor = Color.WhiteSmoke;
-
-                                    tarjeta2.LabelValor.Font = new Font("Segoe UI", 17, FontStyle.Bold);
-                                    tarjeta2.LabelValor.ForeColor = Color.Silver;
-
-                                    tarjeta2.LabelVariacion.Font = new Font("Segoe UI", 10, FontStyle.Regular);
-                                    tarjeta2.LabelVariacion.ForeColor = Color.LightGray;
-
-                                    tarjeta2.Panel.Size = new Size(380, 130);
-                                    tarjeta2.Panel.Padding = new Padding(15);
-                                    tarjeta2.Panel.BorderStyle = BorderStyle.FixedSingle;
-
-                                    tarjeta2.AsignarClickComun((s, e) =>
-                                    {
-                                        //AbrirHistorialCliente(clienteSegundo.Secuencial);
-                                    });
-
-                                    panelClientes.Controls.Add(tarjeta2.Panel);
-                                }
-
-
-
-
-                                // 🥉 Obtener el cliente en tercera posición
-                                var clienteTercero = destacados.Skip(2).FirstOrDefault();
-                                if (clienteTercero != null)
-                                {
-                                    string titulo3 = $"🥉 Cliente #3 del Mes: \n{clienteTercero.Nombre}";
-                                    string valorPrincipal3 = $"{V_Menu_Principal.moneda}{clienteTercero.ComprasTotales:N2}";
-                                    string variacion3 = $"Compras: {clienteTercero.NumeroTransacciones} | Última: {clienteTercero.UltimaCompra?.ToString("dd/MM/yyyy") ?? "N/D"}";
-
-                                    Image icono3 = Properties.Resources.box_down; // Ícono alternativo tipo gráfico 📊
-                                    Color fondo3 = Color.FromArgb(46, 50, 66); // Otro tono para distinguir
-                                    Point ubicacion3 = new Point(15, 295); // Espaciado más abajo
-
-                                    var tarjeta3 = new TarjetaDashboard(titulo3, valorPrincipal3, variacion3, icono3, fondo3, ubicacion3);
-
-                                    // ✨ Estilo personalizado
-                                    tarjeta3.LabelTitulo.Font = new Font("Segoe UI", 13, FontStyle.Bold);
-                                    tarjeta3.LabelTitulo.ForeColor = Color.WhiteSmoke;
-
-                                    tarjeta3.LabelValor.Font = new Font("Segoe UI", 17, FontStyle.Bold);
-                                    tarjeta3.LabelValor.ForeColor = Color.DarkOrange;
-
-                                    tarjeta3.LabelVariacion.Font = new Font("Segoe UI", 10, FontStyle.Regular);
-                                    tarjeta3.LabelVariacion.ForeColor = Color.LightGray;
-
-                                    tarjeta3.Panel.Size = new Size(380, 130);
-                                    tarjeta3.Panel.Padding = new Padding(15);
-                                    tarjeta3.Panel.BorderStyle = BorderStyle.FixedSingle;
-
-                                    tarjeta3.AsignarClickComun((s, e) =>
-                                    {
-                                       // AbrirHistorialCliente(clienteTercero.Secuencial);
-                                    });
-
-                                    panelClientes.Controls.Add(tarjeta3.Panel);
-                                }
-
-
-
-
-                                */
-
-                /*
-
-                string[] titulos = { "🥇 Cliente #1", "🥈 Cliente #2", "🥉 Cliente #3" };
-                Color[] fondos = {
-    Color.FromArgb(26, 32, 44), // Azul oscuro para el #1
-    Color.FromArgb(36, 42, 60), // Tono plata para el #2
-    Color.FromArgb(46, 50, 66)  // Tono bronce para el #3
-};
-                Color[] coloresValor = { Color.Gold, Color.Silver, Color.DarkOrange };
-                Image[] iconos = {
-    Properties.Resources.coins_add,
-    Properties.Resources.coins_delete,
-    Properties.Resources.bin
-};
-
-                int alturaBase = 15;
-                int separacionVertical = 140;
-
-                for (int i = 0; i < Math.Min(3, destacados.Count); i++)
-                {
-                    var cliente = destacados[i];
-
-                    string titulo = $"{titulos[i]} del Mes: {cliente.Nombre}";
-                    string valorPrincipal = $"{V_Menu_Principal.moneda}{cliente.ComprasTotales:N2}";
-                    string variacion = $"Compras: {cliente.NumeroTransacciones} | Última: {cliente.UltimaCompra?.ToString("dd/MM/yyyy") ?? "N/D"}";
-                    Point ubicacion = new Point(15, alturaBase + i * separacionVertical);
-
-                    var tarjeta = new TarjetaDashboard(titulo, valorPrincipal, variacion, iconos[i], fondos[i], ubicacion);
-
-                    tarjeta.LabelTitulo.Font = new Font("Segoe UI", 13, FontStyle.Bold);
-                    tarjeta.LabelTitulo.ForeColor = Color.White;
-
-                    tarjeta.LabelValor.Font = new Font("Segoe UI", 17, FontStyle.Bold);
-                    tarjeta.LabelValor.ForeColor = coloresValor[i];
-
-                    tarjeta.LabelVariacion.Font = new Font("Segoe UI", 10, FontStyle.Regular);
-                    tarjeta.LabelVariacion.ForeColor = Color.LightGray;
-
-                    tarjeta.Panel.Size = new Size(380, 130);
-                    tarjeta.Panel.Padding = new Padding(15);
-                    tarjeta.Panel.BorderStyle = BorderStyle.FixedSingle;
-
-                    tarjeta.AsignarClickComun((s, e) =>
-                    {
-                       //AbrirHistorialCliente(cliente.Secuencial);
-                    });
-
-                    panelClientes.Controls.Add(tarjeta.Panel);
-                }
-                */
 
 
 
@@ -724,7 +553,7 @@ namespace Monitux_POS.Ventanas
                 }
             }
 
-            Cargar_Destacados();
+            Cargar_Destacados(V_Menu_Principal.Secuencial_Empresa);
         }
 
 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Validador_Licencia));
             lblTitulo = new Label();
             txtLicencia = new TextBox();
             btnValidar = new Button();
@@ -169,6 +170,7 @@
             ClientSize = new Size(279, 238);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "V_Validador_Licencia";

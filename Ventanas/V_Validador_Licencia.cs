@@ -38,7 +38,7 @@ namespace Monitux_POS.Ventanas
                 lblExpira.Text = Properties.Settings.Default.FechaExpiracion.ToString("dd/MM/yyyy");
                 Properties.Settings.Default.Codigo_Licencia = txtLicencia.Text; 
                 Properties.Settings.Default.Save();
-                this.Dispose();
+                //this.Dispose();
                 // Continuar con la app
             }
             else

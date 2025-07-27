@@ -29,7 +29,7 @@ namespace Monitux_POS
         public double Existencia_Minima { get; set; } = 0;
         public string Tipo { get; set; } = "Producto"; // Tipo de producto, por defecto es "Producto"
         public string? Fecha_Caducidad { get; set; } = null;
-        public int Secuencial_Empresa { get; set; } 
+        public int Secuencial_Empresa { get; set; }
 
         //Variables del Control
 
@@ -183,11 +183,11 @@ namespace Monitux_POS
 
 
         #endregion
-      
 
 
 
-        
+
+
         public Producto getProducto(Miniatura_Producto producto)
         {
             return new Producto(
@@ -210,7 +210,7 @@ namespace Monitux_POS
                 producto.Secuencial_Empresa
             );
         }
-        
+
 
 
 
@@ -227,7 +227,7 @@ namespace Monitux_POS
 
 
             var comentarioFiltrado = context.Comentarios
-                                          .FirstOrDefault(c => c.Secuencial_Producto == Secuencial&&Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa);
+                                          .FirstOrDefault(c => c.Secuencial_Producto == Secuencial && Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
             string comentario = "";
 
             if (comentarioFiltrado != null)
@@ -430,7 +430,7 @@ namespace Monitux_POS
 
 
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\"+V_Menu_Principal.Secuencial_Empresa +"-"+ Secuencial + "-" + Codigo + ".PNG");
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + V_Menu_Principal.Secuencial_Empresa + "-" + Secuencial + "-" + Codigo + ".PNG");
             try
             {
 
@@ -507,7 +507,7 @@ namespace Monitux_POS
             var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
             if (producto != null && Item_Imagen.Image != null)
             {
-                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\"+V_Menu_Principal.Secuencial_Empresa+"-" + producto.Secuencial + "-" + producto.Codigo + ".PNG");
+                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + V_Menu_Principal.Secuencial_Empresa + "-" + producto.Secuencial + "-" + producto.Codigo + ".PNG");
 
 
 
@@ -543,7 +543,7 @@ namespace Monitux_POS
 
 
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\WEB-"+V_Menu_Principal.Secuencial_Empresa+"-" + Secuencial + "-" + Codigo + ".PNG");
+            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\WEB-" + V_Menu_Principal.Secuencial_Empresa + "-" + Secuencial + "-" + Codigo + ".PNG");
 
 
 
@@ -677,7 +677,7 @@ namespace Monitux_POS
 
 
             var comentarioFiltrado = context.Comentarios
-                                             .FirstOrDefault(p => p.Secuencial_Producto == Secuencial&&p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa);
+                                             .FirstOrDefault(p => p.Secuencial_Producto == Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
 
             if (comentarioFiltrado != null)
             {
@@ -694,7 +694,7 @@ namespace Monitux_POS
 
 
                 // **CREATE**
-                var nuevoComentario = new Comentario { Secuencial_Producto = Secuencial, Contenido = comentario,Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa };
+                var nuevoComentario = new Comentario { Secuencial_Producto = Secuencial, Contenido = comentario, Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa };
                 context.Comentarios.Add(nuevoComentario);
 
                 Console.WriteLine("Comentario agregado.");
@@ -826,10 +826,10 @@ namespace Monitux_POS
 
             // **UPDATE**
 
-            var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial&&p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa);
+            var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
             if (producto != null)
             {
-                Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, getUnidadesAgregar(), producto.Precio_Costo, producto.Precio_Venta, "Entrada",V_Menu_Principal.Secuencial_Empresa);
+                Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, getUnidadesAgregar(), producto.Precio_Costo, producto.Precio_Venta, "Entrada", V_Menu_Principal.Secuencial_Empresa);
 
                 producto.Cantidad = Cantidad + unidadesAgregar;
                 context.SaveChanges();
@@ -1028,6 +1028,24 @@ namespace Monitux_POS
 
 
 
+            else if (origen == "Editar_Factura_Compra")
+            {
+
+                V_Producto form = new V_Producto(false, this.getProducto());
+                V_Editar_Factura_Compra principal = this.FindForm() as V_Editar_Factura_Compra;
+
+                if (principal != null)
+                {
+                    form.OnProductoEditado += () => principal.Cargar_Items(); // pasa el objeto que usas normalmente }
+
+                }
+
+                form.ShowDialog();
+
+            }
+
+
+
 
 
             else
@@ -1052,7 +1070,7 @@ namespace Monitux_POS
             }
             catch
             {
-                   V_Menu_Principal.MSG.ShowMSG("Error al cargar la vista ampliada.", "Error");
+                V_Menu_Principal.MSG.ShowMSG("Error al cargar la vista ampliada.", "Error");
                 return;
             }
 
@@ -1115,6 +1133,11 @@ namespace Monitux_POS
                 V_Menu_Principal.MSG.ShowMSG("Error al cargar la vista ampliada: " + ex.Message, "Error");
                 return;
             }
-            }
+        }
+
+        private void Menu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
     }//Fin de Clase
 }

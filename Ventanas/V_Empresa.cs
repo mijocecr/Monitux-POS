@@ -690,9 +690,10 @@ namespace Monitux_POS.Ventanas
 
             if (Properties.Settings.Default.Primer_Arranque)
             {
-                Properties.Settings.Default.Primer_Arranque = false; // Cambia el valor a false para indicar que ya no es el primer arranque
-                Properties.Settings.Default.Save(); // Guarda los cambios en la configuración
+                
+                this.DialogResult = DialogResult.OK; // Establece el resultado del diálogo como OK
                 this.Dispose();
+
             }
 
 
