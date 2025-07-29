@@ -23,3 +23,5 @@
 - Cuentas por cobrar y pagar (solo administradores)
 - Creación de productos y servicios con imágenes asociadas
 - Administración de roles y permisos por tipo de usuario
+
+Descargar: https://drive.google.com/file/d/1ddrx65-LAKsb_JSXvUYHsnvlISMvgtlx/view?usp=sharing
