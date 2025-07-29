@@ -693,7 +693,7 @@ namespace Monitux_POS.Ventanas
         {
             //Properties.Settings.Default.Reset(); // Reinicia la configuración de la aplicación
             //Properties.Settings.Default.Primer_Arranque=true;
-           // Properties.Settings.Default.Save(); 
+            //Properties.Settings.Default.Save(); 
             // Reinicia la configuración de la aplicación
         }
     }// namespace Ventanas

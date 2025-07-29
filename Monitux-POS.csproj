@@ -14,7 +14,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>False</UseWPF>
     <NeutralLanguage>es-HN</NeutralLanguage>
-    <SignAssembly>False</SignAssembly>
+    <SignAssembly>True</SignAssembly>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -118,11 +119,13 @@
     <None Remove="Resources\Iconos\user_icon.png" />
     <None Remove="Resources\Iconos\ver.png" />
     <None Remove="Resources\Iconos\verpedidos.png" />
+    <None Remove="Resources\Manual.pdf" />
     <None Remove="Resources\monitux.db" />
     <None Remove="Resources\QR\Default.PNG" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="icon.ico" />
     <Content Include="Resources\BC\Default.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -376,6 +379,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Iconos\verpedidos.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Manual.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PRO\Default.PNG">

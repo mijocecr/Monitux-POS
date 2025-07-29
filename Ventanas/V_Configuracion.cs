@@ -24,25 +24,55 @@ namespace Monitux_POS.Ventanas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            V_Empresa ventanaEmpresa = new V_Empresa();
-            ventanaEmpresa.ShowDialog();
+            openFileDialog1.ShowDialog();
+            if (openFileDialog1.FileName != "")
+            {
+                textBox1.Text = openFileDialog1.FileName;
+            }
 
 
-            V_Menu_Principal.MSG.ShowMSG("Configuración de la empresa guardada correctamente.", "Monitux-POS");
-
-            button1.Enabled = false;
 
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            V_Usuario ventanaUsuario = new V_Usuario();
-            ventanaUsuario.ShowDialog();
+            folderBrowserDialog1.ShowDialog();
+            if (folderBrowserDialog1.SelectedPath != "")
+            {
+                textBox2.Text = folderBrowserDialog1.SelectedPath;
+            }
+        }
 
-          
-            V_Menu_Principal.MSG.ShowMSG("Configuración de usuario guardada correctamente.", "Monitux-POS");
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //string dbPath = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Database\\monitux.db");
 
-            button2.Enabled = false;
+            string sourceDatabase = Path.Combine(Application.StartupPath, "Resources", "Database", "monitux.db");
+
+            string backupDatabase = Path.Combine(textBox2.Text, $"{DateTime.Today.Date.ToString("dd-MM-yyyy")}-Respaldo-Monitux.db");
+
+
+            // Copiar el archivo de la base de datos a la ubicación de respaldo
+            File.Copy(sourceDatabase, backupDatabase, true);
+            V_Menu_Principal.MSG.ShowMSG("Respaldo realizado correctamente.", "Éxito");
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+
+            string sourceDatabase = textBox1.Text;
+            string targetDatabase = Path.Combine(Application.StartupPath, "Resources", "Database", "monitux.db");
+
+            // Copiar el archivo de respaldo a la ubicación de la base de datos original
+            File.Copy(sourceDatabase, targetDatabase, true);
+
+            V_Menu_Principal.MSG.ShowMSG("Respaldo importado correctamente.", "Éxito");
+
+            Application.Restart();
+
+
         }
     }
 }

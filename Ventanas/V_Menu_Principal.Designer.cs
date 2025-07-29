@@ -57,6 +57,7 @@
             button6 = new Button();
             btn_cuentas = new Button();
             panel12 = new Panel();
+            button7 = new Button();
             button27 = new Button();
             button28 = new Button();
             btn_ajustes = new Button();
@@ -77,7 +78,6 @@
             pictureBox1 = new PictureBox();
             label1 = new Label();
             label2 = new Label();
-            button7 = new Button();
             panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panel3.SuspendLayout();
@@ -138,7 +138,7 @@
             panel3.Controls.Add(btn_ajustes);
             panel3.Controls.Add(panel11);
             panel3.Controls.Add(btn_inicio);
-            panel3.Location = new Point(0, 195);
+            panel3.Location = new Point(0, 194);
             panel3.Name = "panel3";
             panel3.Size = new Size(176, 1043);
             panel3.TabIndex = 3;
@@ -589,6 +589,26 @@
             panel12.TabIndex = 14;
             panel12.Visible = false;
             // 
+            // button7
+            // 
+            button7.BackColor = Color.FromArgb(35, 32, 40);
+            button7.Cursor = Cursors.Hand;
+            button7.Dock = DockStyle.Top;
+            button7.FlatAppearance.BorderSize = 0;
+            button7.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
+            button7.FlatStyle = FlatStyle.Flat;
+            button7.Font = new Font("Bahnschrift", 9.75F);
+            button7.ForeColor = Color.White;
+            button7.Location = new Point(0, 53);
+            button7.Name = "button7";
+            button7.Padding = new Padding(35, 0, 0, 0);
+            button7.Size = new Size(176, 26);
+            button7.TabIndex = 3;
+            button7.Text = "Base de Datos";
+            button7.TextAlign = ContentAlignment.MiddleLeft;
+            button7.UseVisualStyleBackColor = false;
+            button7.Click += button7_Click_2;
+            // 
             // button27
             // 
             button27.BackColor = Color.FromArgb(35, 32, 40);
@@ -889,25 +909,6 @@
             label2.TabIndex = 8;
             label2.Text = "Acceso";
             label2.TextAlign = ContentAlignment.BottomCenter;
-            // 
-            // button7
-            // 
-            button7.BackColor = Color.FromArgb(35, 32, 40);
-            button7.Cursor = Cursors.Hand;
-            button7.Dock = DockStyle.Top;
-            button7.FlatAppearance.BorderSize = 0;
-            button7.FlatAppearance.MouseOverBackColor = Color.FromArgb(197, 89, 100);
-            button7.FlatStyle = FlatStyle.Flat;
-            button7.Font = new Font("Bahnschrift", 9.75F);
-            button7.ForeColor = Color.White;
-            button7.Location = new Point(0, 53);
-            button7.Name = "button7";
-            button7.Padding = new Padding(35, 0, 0, 0);
-            button7.Size = new Size(176, 26);
-            button7.TabIndex = 3;
-            button7.Text = "Base de Datos";
-            button7.TextAlign = ContentAlignment.MiddleLeft;
-            button7.UseVisualStyleBackColor = false;
             // 
             // V_Menu_Principal
             // 

@@ -894,7 +894,9 @@ namespace Monitux_POS.Ventanas
 
         private void button4_Click_3(object sender, EventArgs e)
         {
-
+            V_Visor_Factura v_Visor_Factura = new V_Visor_Factura();
+            v_Visor_Factura.rutaArchivo= Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Manual.pdf");
+            Abrir_Ventana(v_Visor_Factura);
         }
 
         private void button27_Click(object sender, EventArgs e)
@@ -930,6 +932,12 @@ namespace Monitux_POS.Ventanas
         {
             V_Reportes_Movimientos v_Reportes_Movimientos = new V_Reportes_Movimientos();
             Abrir_Ventana(v_Reportes_Movimientos);
+        }
+
+        private void button7_Click_2(object sender, EventArgs e)
+        {
+            V_Configuracion v_Configuracion = new V_Configuracion();
+            Abrir_Ventana(v_Configuracion);
         }
     }
 }
