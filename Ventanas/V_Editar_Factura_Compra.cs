@@ -1186,199 +1186,197 @@ namespace Monitux_POS.Ventanas
         private void button1_Click(object sender, EventArgs e)
         {
 
+            Actualizar_Numeros();
 
+            SQLitePCL.Batteries.Init();
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
 
+            var compra = context.Compras.FirstOrDefault(c =>
+                c.Secuencial == this.Secuencial_Compra &&
+                c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
 
-
+            if (compra == null)
             {
-                Actualizar_Numeros();
+                V_Menu_Principal.MSG.ShowMSG("No se encontró la compra para actualizar.", "Error");
+                return;
+            }
 
-                SQLitePCL.Batteries.Init();
-                using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated();
+            // ✅ Actualizar datos principales
+            compra.Secuencial_Proveedor = Secuencial_Proveedor;
+            compra.Secuencial_Usuario = Secuencial_Usuario;
+            compra.Tipo = comboBox3.SelectedItem?.ToString();
+            compra.Forma_Pago = comboBox1.SelectedItem?.ToString();
+            compra.Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
+            compra.Total = Math.Round(subTotal, 2);
+            compra.Gran_Total = Math.Round(total, 2);
+            compra.Impuesto = impuesto;
+            compra.Otros_Cargos = otrosCargos;
+            compra.Descuento = descuento;
 
-                var compra = context.Compras.FirstOrDefault(c => c.Secuencial == this.Secuencial_Compra &&
-                                                                 c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
+            using var context1 = new Monitux_DB_Context();
+            context1.Database.EnsureCreated();
 
-                // ✅ Actualizar compra existente
-                compra.Secuencial_Proveedor = Secuencial_Proveedor;
-
-
-                compra.Secuencial_Usuario = Secuencial_Usuario;
-                compra.Tipo = comboBox3.SelectedItem?.ToString();
-                compra.Forma_Pago = comboBox1.SelectedItem?.ToString();
-                compra.Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
-                compra.Total = Math.Round(subTotal, 2);
-                compra.Gran_Total = Math.Round(total, 2);
-                compra.Impuesto = impuesto;
-                compra.Otros_Cargos = otrosCargos;
-                compra.Descuento = descuento;
-
-                using var context1 = new Monitux_DB_Context();
-                context1.Database.EnsureCreated();
-
-                foreach (var pro in Lista_de_Items.Values)
+            // ✅ Actualizar productos
+            foreach (var pro in Lista_de_Items.Values)
+            {
+                var productoBD = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
+                if (productoBD != null)
                 {
-                    var productoBD = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
-                    if (productoBD != null)
-                    {
-                        pro.Precio_Costo = productoBD.Precio_Costo;
-                        pro.Precio_Venta = productoBD.Precio_Venta;
-                        pro.Cantidad = productoBD.Cantidad;
-                    }
+                    pro.Precio_Costo = productoBD.Precio_Costo;
+                    pro.Precio_Venta = productoBD.Precio_Venta;
+                    pro.Cantidad = productoBD.Cantidad;
                 }
+            }
 
-                foreach (var pro in Lista_de_Items.Values)
+            // ✅ Actualizar detalles
+            foreach (var pro in Lista_de_Items.Values)
+            {
+                var detalleExistente = context.Compras_Detalles.FirstOrDefault(d =>
+                    d.Secuencial_Factura == compra.Secuencial &&
+                    d.Secuencial_Producto == pro.Secuencial &&
+                    d.Secuencial_Empresa == compra.Secuencial_Empresa);
+
+                int nuevaCantidad = (int)pro.cantidadSelecccionItem;
+
+                if (detalleExistente != null)
                 {
-                    var detalleExistente = context.Compras_Detalles.FirstOrDefault(d =>
-                        d.Secuencial_Factura == compra.Secuencial &&
-                        d.Secuencial_Producto == pro.Secuencial &&
-                        d.Secuencial_Empresa == compra.Secuencial_Empresa);
-
-                    int nuevaCantidad = (int)pro.cantidadSelecccionItem;
-
-                    if (detalleExistente != null)
+                    if (pro.Tipo != "Servicio")
                     {
-                        if (pro.Tipo != "Servicio")
+                        int cantidadAnterior = (int)detalleExistente.Cantidad;
+                        int diferencia = nuevaCantidad - cantidadAnterior;
+
+                        if (diferencia != 0)
                         {
-                            int cantidadAnterior = (int)detalleExistente.Cantidad;
-                            int diferencia = nuevaCantidad - cantidadAnterior;
+                            string tipoMovimiento = diferencia > 0 ? "Entrada" : "Salida";
+                            int cantidadMovimiento = Math.Abs(diferencia);
 
-                            if (diferencia != 0)
-                            {
-                                string tipoMovimiento = diferencia > 0 ? "Entrada" : "Salida";
-                                int cantidadMovimiento = Math.Abs(diferencia);
+                            Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion,
+                                cantidadMovimiento, pro.Precio_Costo, pro.Precio_Venta, tipoMovimiento, Secuencial_Empresa);
 
-                                Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion,
-                                    cantidadMovimiento, pro.Precio_Costo, pro.Precio_Venta, tipoMovimiento, Secuencial_Empresa);
-
-                                string accion = diferencia > 0 ? "Agregó" : "Quitó";
-                                Util.Registrar_Actividad(Secuencial_Usuario,
-                                    $"{accion} {cantidadMovimiento} unidades de {pro.Codigo} en modificación de factura No: {compra.Secuencial}",
-                                    Secuencial_Empresa);
-
-                                var producto = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
-                                if (producto != null)
-                                    producto.Cantidad += diferencia;
-                            }
-                        }
-
-                        // 🛠️ Actualizar detalle existente
-                        detalleExistente.Cantidad = nuevaCantidad;
-                        detalleExistente.Precio = Math.Round(pro.Precio_Costo, 2);
-                        detalleExistente.Total = Math.Round(nuevaCantidad * pro.Precio_Costo, 2);
-                        detalleExistente.Descripcion = pro.Descripcion;
-                        detalleExistente.Tipo = pro.Tipo;
-                        detalleExistente.Fecha = compra.Fecha;
-                        detalleExistente.Secuencial_Usuario = compra.Secuencial_Usuario;
-                        detalleExistente.Secuencial_Proveedor = compra.Secuencial_Proveedor;
-                    }
-                    else
-                    {
-                        var detalleNuevo = new Compra_Detalle
-                        {
-                            Secuencial_Empresa = compra.Secuencial_Empresa,
-                            Secuencial_Factura = compra.Secuencial,
-                            Secuencial_Proveedor = compra.Secuencial_Proveedor,
-                            Secuencial_Usuario = compra.Secuencial_Usuario,
-                            Fecha = compra.Fecha,
-                            Secuencial_Producto = pro.Secuencial,
-                            Codigo = pro.Codigo,
-                            Descripcion = pro.Descripcion,
-                            Cantidad = nuevaCantidad,
-                            Precio = Math.Round(pro.Precio_Costo, 2),
-                            Total = Math.Round(nuevaCantidad * pro.Precio_Costo, 2),
-                            Tipo = pro.Tipo
-                        };
-
-                        context.Compras_Detalles.Add(detalleNuevo);
-
-                        Util.Registrar_Actividad(Secuencial_Usuario,
-                            $"Agregó la cantidad de: {nuevaCantidad} de: {pro.Codigo} a Factura No: {compra.Secuencial}",
-                            Secuencial_Empresa);
-
-                        if (pro.Tipo != "Servicio")
-                        {
-                            Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion, nuevaCantidad, pro.Precio_Costo, 0, "Entrada", Secuencial_Empresa);
+                            string accion = diferencia > 0 ? "Agregó" : "Quitó";
+                            Util.Registrar_Actividad(Secuencial_Usuario,
+                                $"{accion} {cantidadMovimiento} unidades de {pro.Codigo} en modificación de factura No: {compra.Secuencial}",
+                                Secuencial_Empresa);
 
                             var producto = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
                             if (producto != null)
-                                producto.Cantidad += nuevaCantidad;
+                                producto.Cantidad += diferencia;
                         }
                     }
 
-                    var resultado1 = context1.Cuentas_Pagar.FirstOrDefault(c =>
-                        c.Secuencial_Factura == compra.Secuencial &&
-                        c.Secuencial_Proveedor == compra.Secuencial_Proveedor &&
-                        c.Secuencial_Empresa == compra.Secuencial_Empresa);
-
-                    if (resultado1 != null)
+                    detalleExistente.Cantidad = nuevaCantidad;
+                    detalleExistente.Precio = Math.Round(pro.Precio_Costo, 2);
+                    detalleExistente.Total = Math.Round(nuevaCantidad * pro.Precio_Costo, 2);
+                    detalleExistente.Descripcion = pro.Descripcion;
+                    detalleExistente.Tipo = pro.Tipo;
+                    detalleExistente.Fecha = compra.Fecha;
+                    detalleExistente.Secuencial_Usuario = compra.Secuencial_Usuario;
+                    detalleExistente.Secuencial_Proveedor = compra.Secuencial_Proveedor;
+                }
+                else
+                {
+                    var detalleNuevo = new Compra_Detalle
                     {
-                        resultado1.Gran_Total = Math.Round((double)compra.Gran_Total, 2);
-                        resultado1.Total = Math.Round((double)compra.Total, 2);
-                        resultado1.Saldo = Math.Round((double)(resultado1.Gran_Total - resultado1.Pagado), 2);
+                        Secuencial_Empresa = compra.Secuencial_Empresa,
+                        Secuencial_Factura = compra.Secuencial,
+                        Secuencial_Proveedor = compra.Secuencial_Proveedor,
+                        Secuencial_Usuario = compra.Secuencial_Usuario,
+                        Fecha = compra.Fecha,
+                        Secuencial_Producto = pro.Secuencial,
+                        Codigo = pro.Codigo,
+                        Descripcion = pro.Descripcion,
+                        Cantidad = nuevaCantidad,
+                        Precio = Math.Round(pro.Precio_Costo, 2),
+                        Total = Math.Round(nuevaCantidad * pro.Precio_Costo, 2),
+                        Tipo = pro.Tipo
+                    };
+
+                    context.Compras_Detalles.Add(detalleNuevo);
+
+                    Util.Registrar_Actividad(Secuencial_Usuario,
+                        $"Agregó la cantidad de: {nuevaCantidad} de: {pro.Codigo} a Factura No: {compra.Secuencial}",
+                        Secuencial_Empresa);
+
+                    if (pro.Tipo != "Servicio")
+                    {
+                        Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion,
+                            nuevaCantidad, pro.Precio_Costo, 0, "Entrada", Secuencial_Empresa);
+
+                        var producto = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
+                        if (producto != null)
+                            producto.Cantidad += nuevaCantidad;
                     }
                 }
 
+                var resultado1 = context1.Cuentas_Pagar.FirstOrDefault(c =>
+                    c.Secuencial_Factura == compra.Secuencial &&
+                    c.Secuencial_Proveedor == compra.Secuencial_Proveedor &&
+                    c.Secuencial_Empresa == compra.Secuencial_Empresa);
 
-                /////////
-
-                // ... actualizaciones de productos, kardex y detalles de compra ...
-
-                // ✅ Actualizar el ingreso vinculado con esta compra
-                var egresoExistente = context.Egresos.FirstOrDefault(i =>
-                    i.Secuencial_Factura == compra.Secuencial &&
-                    i.Secuencial_Empresa == compra.Secuencial_Empresa);
-
-                if (egresoExistente != null)
+                if (resultado1 != null)
                 {
-                    egresoExistente.Total = (double)compra.Gran_Total;
-                    egresoExistente.Descripcion = $"Actualización de egreso por compra No. {compra.Secuencial}";
-                    egresoExistente.Fecha = DateTime.Now.ToString();
-                    egresoExistente.Tipo_Egreso = compra.Tipo;
-                    egresoExistente.Secuencial_Usuario = compra.Secuencial_Usuario;
+                    resultado1.Gran_Total = Math.Round((double)compra.Gran_Total, 2);
+                    resultado1.Total = Math.Round((double)compra.Total, 2);
+                    resultado1.Saldo = Math.Round((double)(resultado1.Gran_Total - resultado1.Pagado), 2);
                 }
-
-                // ✅ Guardar todos los cambios, incluyendo el ingreso
-                context.SaveChanges();
-                context1.SaveChanges();
-
-
-
-                /////////
-
-
-
-                var factura = new FacturaCompletaPDF_Compra
-                {
-                    Secuencial = compra.Secuencial,
-                    Proveedor = comboProveedor.SelectedItem.ToString()
-                        .Substring(comboProveedor.SelectedItem.ToString().IndexOf("- ") + 2)
-                        .Trim(),
-                    TipoCompra = compra.Tipo,
-                    MetodoPago = compra.Forma_Pago,
-                    Fecha = compra.Fecha,
-                    Items = ObtenerItemsDesdeGrid(dataGridView1),
-                    ISV = (double)compra.Impuesto,
-                    OtrosCargos = (double)compra.Otros_Cargos,
-                    Descuento = (double)compra.Descuento
-                };
-
-                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\FAC\\" + V_Menu_Principal.Secuencial_Empresa);
-                factura.GeneratePdf($"{rutaGuardado}-{compra.Secuencial}-{factura.Proveedor}.pdf");
-
-                Lista_de_Items.Clear();
-                Lista_de_Items_Eliminar.Clear();
-
-                V_Menu_Principal.MSG.ShowMSG($"Factura No. {compra.Secuencial} actualizada correctamente.", "Compras");
-                this.Dispose();
-
-
-
-
-
-
             }
+
+            // ✅ Actualizar egreso vinculado
+            var egresoExistente = context.Egresos.FirstOrDefault(i =>
+                i.Secuencial_Factura == compra.Secuencial &&
+                i.Secuencial_Empresa == compra.Secuencial_Empresa);
+
+            if (egresoExistente != null)
+            {
+                egresoExistente.Total = (double)compra.Gran_Total;
+                egresoExistente.Descripcion = $"Actualización de egreso por compra No. {compra.Secuencial}";
+                egresoExistente.Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
+                egresoExistente.Tipo_Egreso = compra.Tipo;
+                egresoExistente.Secuencial_Usuario = compra.Secuencial_Usuario;
+            }
+
+            context.SaveChanges();
+            context1.SaveChanges();
+
+            // 🧾 Generar nuevo PDF en memoria
+            var factura = new FacturaCompletaPDF_Compra
+            {
+                Secuencial = compra.Secuencial,
+                Proveedor = comboProveedor.SelectedItem.ToString()
+                    .Substring(comboProveedor.SelectedItem.ToString().IndexOf("- ") + 2)
+                    .Trim(),
+                TipoCompra = compra.Tipo,
+                MetodoPago = compra.Forma_Pago,
+                Fecha = compra.Fecha,
+                Items = ObtenerItemsDesdeGrid(dataGridView1),
+                ISV = (double)compra.Impuesto,
+                OtrosCargos = (double)compra.Otros_Cargos,
+                Descuento = (double)compra.Descuento
+            };
+
+            byte[] pdfBytes = factura.GeneratePdfToBytes();
+            compra.Documento = pdfBytes;
+            context.SaveChanges();
+
+            // 👁️ Mostrar visor de factura
+            var visor = new V_Visor_Factura
+            {
+                DocumentoEnBytes = pdfBytes,
+                titulo = $"Factura de Compra No. {compra.Secuencial}"
+            };
+            visor.ShowDialog();
+
+            // 🧹 Limpiar listas
+            Lista_de_Items.Clear();
+            Lista_de_Items_Eliminar.Clear();
+
+            // ✅ Confirmación
+            V_Menu_Principal.MSG.ShowMSG($"Factura No. {compra.Secuencial} actualizada correctamente.", "Compras");
+            this.Dispose();
+
+
+
         }
 
         private void V_Editar_Factura_Compra_FormClosing(object sender, FormClosingEventArgs e)

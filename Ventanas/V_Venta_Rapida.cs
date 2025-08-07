@@ -592,34 +592,30 @@ namespace Monitux_POS.Ventanas
 
         private void button6_Click(object sender, EventArgs e)
         {
+
+
             if (comboCliente.SelectedIndex == -1)
             {
                 V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un cliente para registrar la venta.", "Error");
-                return; // Si no se ha seleccionado un cliente, no se puede registrar la venta
+                return;
             }
 
             if (dataGridView1.Rows.Count == 0)
             {
                 V_Menu_Principal.MSG.ShowMSG("No hay productos en la venta.", "Error");
-                return; // Si no hay productos, no se puede registrar la venta
+                return;
             }
-
-
-
 
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
-            // Generar secuencial
             int secuencial = context.Ventas.Any() ? context.Ventas.Max(p => p.Secuencial) + 1 : 1;
 
-            // Crear venta
             var venta = new Venta
             {
                 Secuencial = secuencial,
-                Secuencial_Cliente = comboCliente.SelectedIndex != -1
-                    ? int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()) : 0,
+                Secuencial_Cliente = int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()),
                 Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario,
                 Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"),
                 Tipo = "Contado",
@@ -629,17 +625,16 @@ namespace Monitux_POS.Ventanas
                 Impuesto = ISV,
                 Otros_Cargos = 0,
                 Descuento = 0,
-                Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa
+                Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa
             };
             context.Ventas.Add(venta);
             context.SaveChanges();
 
-            // Agregar detalles de venta y actualizar inventario si aplica
             foreach (var pro in Lista_de_Items.Values)
             {
                 var detalle = new Venta_Detalle
                 {
-                    Secuencial_Empresa=venta.Secuencial_Empresa,
+                    Secuencial_Empresa = venta.Secuencial_Empresa,
                     Secuencial_Factura = venta.Secuencial,
                     Secuencial_Cliente = venta.Secuencial_Cliente,
                     Secuencial_Usuario = venta.Secuencial_Usuario,
@@ -654,25 +649,18 @@ namespace Monitux_POS.Ventanas
                 };
                 context.Ventas_Detalles.Add(detalle);
 
-                // Si no es servicio, restar stock y registrar en Kardex
                 if (pro.Tipo != "Servicio")
                 {
                     Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion,
-                        pro.cantidadSelecccionItem, pro.Precio_Costo, pro.Precio_Venta, "Salida", V_Menu_Principal.Secuencial_Empresa);
+                        pro.cantidadSelecccionItem, pro.Precio_Costo, pro.Precio_Venta, "Salida", venta.Secuencial_Empresa);
 
                     var producto = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
                     if (producto != null)
                         producto.Cantidad = pro.Cantidad - pro.cantidadSelecccionItem;
                 }
-
-
-
-
-
             }
             context.SaveChanges();
 
-            // Registrar ingreso de efectivo
             var ingreso = new Ingreso
             {
                 Secuencial_Factura = venta.Secuencial,
@@ -681,251 +669,68 @@ namespace Monitux_POS.Ventanas
                 Total = Math.Round(total, 2),
                 Tipo_Ingreso = "Efectivo",
                 Descripcion = $"Venta según Factura: {venta.Secuencial}",
-                Secuencial_Empresa=venta.Secuencial_Empresa
+                Secuencial_Empresa = venta.Secuencial_Empresa
             };
             context.Ingresos.Add(ingreso);
             context.SaveChanges();
 
-            // Confirmar y limpiar
-            V_Menu_Principal.MSG.ShowMSG("Venta registrada correctamente.", "Éxito");
-            Util.Registrar_Actividad(venta.Secuencial_Usuario, $"Ha registrado una venta según factura: {venta.Secuencial}, por un valor de: {Math.Round(total, 2):C}", V_Menu_Principal.Secuencial_Empresa);
-
-
-
-
-
+            // 🧾 Generar PDF en memoria
             var factura = new FacturaCompletaPDF_Venta
             {
                 Secuencial = venta.Secuencial,
                 Cliente = comboCliente.SelectedItem.ToString()
-  .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
-  .Trim(),
-
+                    .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
+                    .Trim(),
                 TipoVenta = venta.Tipo,
                 MetodoPago = venta.Forma_Pago,
                 Fecha = venta.Fecha,
                 Items = ObtenerItemsDesdeGrid(dataGridView1),
                 ISV = (double)venta.Impuesto,
                 OtrosCargos = (double)venta.Otros_Cargos,
-                Descuento = (double)venta.Otros_Cargos
+                Descuento = (double)venta.Descuento
             };
 
+            byte[] pdfBytes = factura.GeneratePdfToBytes();
+            venta.Documento = pdfBytes;
+            context.SaveChanges();
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\FAV\\" + V_Menu_Principal.Secuencial_Empresa);
-
-            factura.GeneratePdf($"{rutaGuardado}-{venta.Secuencial}-{factura.Cliente}.pdf");
-
-
-
-            string rutaPdf = $"{rutaGuardado}-{venta.Secuencial}-{factura.Cliente}.pdf";
-
-
-
+            // 📧 Enviar correo si el cliente tiene email
             var destinatariocliente = context.Clientes.FirstOrDefault(c => c.Secuencial == venta.Secuencial_Cliente);
-            string? destinatario = "";
-            if (destinatariocliente != null)
+            string? destinatario = destinatariocliente?.Email;
+
+            if (!string.IsNullOrWhiteSpace(destinatario))
             {
-                destinatario = destinatariocliente.Email;
+                Util.EnviarCorreoConPdfBytes("monitux.pos@gmail.com",
+                    destinatario,
+                    $"{V_Menu_Principal.Nombre_Empresa} - Comprobante",
+                    "Gracias por su compra. Adjunto tiene su comprobante.",
+                    pdfBytes,
+                    "smtp.gmail.com",
+                    587,
+                    "monitux.pos", "ffeg qqnx zaij otmb");
             }
 
-            Util.EnviarCorreoConPdf("monitux.pos@gmail.com",
-                destinatario,
-                V_Menu_Principal.Nombre_Empresa + " - " + "Comprobante",
-                "Gracias por su compra. Adjunto tiene su comprobante.",
-                rutaPdf,
-                "smtp.gmail.com",
-                587,
-                "monitux.pos", "ffeg qqnx zaij otmb");
-
-
-
-            try { 
-          
-
-            // Comprobar si el archivo existe antes de abrirlo
-            if (!File.Exists(rutaPdf))
+            // 👁️ Mostrar visor
+            var visor = new V_Visor_Factura
             {
-                V_Menu_Principal.MSG.ShowMSG($"El archivo no fue encontrado:\n{rutaPdf}", "Archivo no encontrado");
-                return;
-            }
-
-            // Instanciar visor de factura
-            V_Visor_Factura v_Visor_Factura = new V_Visor_Factura
-            {
-                rutaArchivo = rutaPdf,
+                DocumentoEnBytes = pdfBytes,
                 titulo = $"Factura de Venta No. {venta.Secuencial}"
             };
-            v_Visor_Factura.ShowDialog();
-        }
-            catch (Exception ex)
-            {
-                V_Menu_Principal.MSG.ShowMSG($"Se produjo un error inesperado:\n{ex.Message}", "Error");
-            }
+            visor.ShowDialog();
 
-
-
-
-
-
-
-
-    button7.PerformClick(); // Limpiar
-            RestaurarFocoEscaner(); // Enfocar escáner
-
-
-
-
-
-
-
-            ////////////////////////////
-
-            /*
-            Venta venta = new Venta();
-
-            V_Kardex kardex = new V_Kardex(); // Crear una instancia de Kardex para registrar el movimiento de inventario
-            Ingreso ingreso = new Ingreso(); // Crear una instancia de Ingreso para registrar el ingreso de productos
-
-
-            SQLitePCL.Batteries.Init();
-
-            using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-
-
-            int secuencial = context.Ventas.Any() ? context.Ventas.Max(p => p.Secuencial) + 1 : 1;
-
-            venta.Secuencial = secuencial;
-            venta.Secuencial_Cliente = comboCliente.SelectedIndex != -1 ? int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()) : 0; // Obtener el secuencial del cliente seleccionado
-
-            venta.Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario; // Asignar el secuencial del usuario que está realizando la venta
-            venta.Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"); // Asignar la fecha y hora actual de la venta
-            venta.Tipo = "Contado"; // Obtener el tipo de venta seleccionado
-            venta.Total = Math.Round(subtotal, 2); // Asignar el total de la venta
-            venta.Forma_Pago = "Efectivo"; // Obtener la forma de pago seleccionada
-            venta.Gran_Total = Math.Round(total, 2); // Asignar el gran total de la venta
-
-            venta.Impuesto = ISV; // Asignar el impuesto de la venta
-            venta.Otros_Cargos = 0; // Asignar los otros cargos de la venta
-            venta.Descuento = 0; // Asignar el descuento de la venta    
-            context.Add(venta);
-            context.SaveChanges(); // Guardar los cambios en la base de datos
-
-
-
-            /////////////////////////////
-
-
-
-            foreach (var pro in Lista_de_Items.Values)
-            {
-
-                SQLitePCL.Batteries.Init();
-
-                using var context1 = new Monitux_DB_Context();
-                context1.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-                Venta_Detalle venta_detalle = new Venta_Detalle(); // Crear una nueva instancia de Ventas_Detalles para cada producto en la venta
-
-
-                venta_detalle.Secuencial_Factura = venta.Secuencial; // Asignar el secuencial de la venta al detalle de la venta
-                venta_detalle.Secuencial_Cliente = venta.Secuencial_Cliente; // Asignar el secuencial del cliente al detalle de la venta
-                venta_detalle.Secuencial_Usuario = venta.Secuencial_Usuario; // Asignar el secuencial del usuario al detalle de la venta
-
-                venta_detalle.Fecha = venta.Fecha; // Asignar la fecha de la venta al detalle de la venta
-
-                venta_detalle.Secuencial_Producto = pro.Secuencial; // Asignar el secuencial del producto al detalle de la venta
-                venta_detalle.Codigo = pro.Codigo; // Asignar el código del producto al detalle de la venta
-                venta_detalle.Descripcion = pro.Descripcion; // Asignar la descripción del producto al detalle de la venta
-                venta_detalle.Cantidad = pro.cantidadSelecccionItem; // Asignar la cantidad del producto al detalle de la venta
-                venta_detalle.Precio = Math.Round(pro.Precio_Venta, 2); // Asignar el precio de venta del producto al detalle de la venta
-                venta_detalle.Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Venta, 2); // Calcular el total del detalle de la venta
-                venta_detalle.Tipo = pro.Tipo; // Asignar el tipo de producto al detalle de la venta
-                context1.Add(venta_detalle); // Agregar el detalle de la venta al contexto
-                context1.SaveChanges(); // Guardar los cambios en la base de datos
-
-                if (venta_detalle.Tipo != "Servicio")
-                {
-                    Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion, pro.cantidadSelecccionItem, pro.Precio_Costo, pro.Precio_Venta, "Salida");
-
-
-
-
-
-                    SQLitePCL.Batteries.Init();
-
-                    using var context2 = new Monitux_DB_Context();
-                    context2.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-
-                    var producto = context2.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
-                    if (producto != null)
-                    {
-
-
-
-                        producto.Cantidad = pro.Cantidad - pro.cantidadSelecccionItem;
-                        context2.SaveChanges();
-
-                    }
-
-
-                }
-
-
-
-            }
-
-
-
-
-           
-                ingreso.Secuencial_Factura = secuencial; // Asignar el secuencial de la factura al ingreso
-                ingreso.Secuencial_Usuario = venta.Secuencial_Usuario; // Asignar el secuencial del usuario al ingreso
-                ingreso.Fecha = venta.Fecha; // Asignar la fecha de la venta al ingreso 
-                ingreso.Total = Math.Round(total, 2); // Asignar el total de la venta al ingreso
-                ingreso.Tipo_Ingreso = "Efectivo"; // Asignar la forma de pago al ingreso
-                ingreso.Descripcion = "Venta segun Factura: " + secuencial; // Asignar el tipo de venta al ingreso
-
-                SQLitePCL.Batteries.Init();
-
-                using var context4 = new Monitux_DB_Context();
-                context4.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-                context4.Add(ingreso); // Agregar el ingreso al contexto
-                context4.SaveChanges(); // Guardar los cambios en la base de datos
-
-            
-
-
-
-            ///////////////////////////
-
-
-
+            // ✅ Confirmación
             V_Menu_Principal.MSG.ShowMSG("Venta registrada correctamente.", "Éxito");
-            // Limpiar los campos y controles después de registrar la venta
-            Util.Registrar_Actividad(V_Menu_Principal.Secuencial_Usuario, "Ha registrado una venta segun factura: " + secuencial + "\nPor valor de: " + Math.Round(total, 2));
+            Util.Registrar_Actividad(venta.Secuencial_Usuario,
+                $"Ha registrado una venta según factura: {venta.Secuencial}, por un valor de: {Math.Round(total, 2)} {V_Menu_Principal.moneda}",
+                V_Menu_Principal.Secuencial_Empresa);
 
-
-            //Imprimir_Comprobante();
-
-
-            button7.PerformClick(); // Limpiar la venta rápida
-
-
+            // 🧹 Limpiar
+            button7.PerformClick();
+            RestaurarFocoEscaner();
 
 
 
-
-
-
-            RestaurarFocoEscaner();*/
         }
-
-
-
 
 
 

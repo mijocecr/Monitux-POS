@@ -320,6 +320,55 @@ namespace Monitux_POS.Clases
 
 
         #endregion
+
+
+
+        #region Enviar Correo desde Flujo de Bytes
+
+
+        public static void EnviarCorreoConPdfBytes(string remitente,
+                                           string destinatario,
+                                           string asunto,
+                                           string cuerpo,
+                                           byte[] pdfBytes,
+                                           string smtpHost,
+                                           int smtpPort,
+                                           string usuario,
+                                           string contraseña)
+        {
+            try
+            {
+                using var mensaje = new MailMessage(remitente, destinatario)
+                {
+                    Subject = asunto,
+                    Body = cuerpo,
+                    IsBodyHtml = false
+                };
+
+                using var adjunto = new MemoryStream(pdfBytes);
+                var archivoAdjunto = new Attachment(adjunto, "Factura.pdf", MediaTypeNames.Application.Pdf);
+                mensaje.Attachments.Add(archivoAdjunto);
+
+                using var clienteSmtp = new SmtpClient(smtpHost, smtpPort)
+                {
+                    Credentials = new NetworkCredential(usuario, contraseña),
+                    EnableSsl = true
+                };
+
+                clienteSmtp.Send(mensaje);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al enviar el correo: {ex.Message}", "Correo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+
+        #endregion
+
+
+
         public static Image Generar_Codigo_Barra(int secuencial,string codigo,int secuencial_empresa) {
 
 

@@ -710,55 +710,58 @@ namespace Monitux_POS.Ventanas
         private void button4_Click(object sender, EventArgs e)
         {
 
-
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
-
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\FAV\\" + V_Menu_Principal.Secuencial_Empresa);
-
-            /* factura.GeneratePdf($"{rutaGuardado}-{Secuencial_Venta}-{comboCliente.SelectedItem.ToString()
-     .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
-     .Trim()}.pdf");*/
-
-
-            /////////////
-
-
-            string rutaPdf = $"{rutaGuardado}-{Secuencial_Venta}-{comboCliente.SelectedItem.ToString()
-    .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
-    .Trim()}.pdf";
-
-            //monitux.pos@gmail.com
-            //ffeg qqnx zaij otmb
-
-
-
-
-            var destinatariocliente = context.Clientes.FirstOrDefault(c => c.Secuencial == Secuencial_Cliente);
-            string? destinatario = "";
-            if (destinatariocliente != null)
+            // Validar cliente
+            var clienteTexto = comboCliente.SelectedItem?.ToString();
+            if (string.IsNullOrWhiteSpace(clienteTexto) || !clienteTexto.Contains("- "))
             {
-                destinatario = destinatariocliente.Email;
+                V_Menu_Principal.MSG.ShowMSG("Por favor, selecciona un cliente válido antes de continuar.", "Aviso");
+                return;
             }
 
+            string nombreCliente = clienteTexto.Substring(clienteTexto.IndexOf("- ") + 2).Trim();
 
+            // Buscar venta
+            var venta = context.Ventas.FirstOrDefault(v =>
+                v.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa &&
+                v.Secuencial == Secuencial_Venta);
 
+            if (venta == null)
+            {
+                V_Menu_Principal.MSG.ShowMSG("No se encontró la factura en la base de datos.", "Error");
+                return;
+            }
 
-            Util.EnviarCorreoConPdf("monitux.pos@gmail.com",
+            if (venta.Documento == null || venta.Documento.Length == 0)
+            {
+                V_Menu_Principal.MSG.ShowMSG("La factura no tiene documento PDF asociado.", "Error");
+                return;
+            }
+
+            // Buscar cliente
+            var destinatariocliente = context.Clientes.FirstOrDefault(c => c.Secuencial == Secuencial_Cliente);
+            string? destinatario = destinatariocliente?.Email;
+
+            if (string.IsNullOrWhiteSpace(destinatario))
+            {
+                V_Menu_Principal.MSG.ShowMSG("El cliente no tiene un correo electrónico registrado.", "Aviso");
+                return;
+            }
+
+            // Enviar correo con PDF en memoria
+            Util.EnviarCorreoConPdfBytes("monitux.pos@gmail.com",
                 destinatario,
-                V_Menu_Principal.Nombre_Empresa + " - " + "Comprobante",
+                $"{V_Menu_Principal.Nombre_Empresa} - Comprobante",
                 "Gracias por su compra. Adjunto tiene su comprobante.",
-                rutaPdf,
+                venta.Documento,
                 "smtp.gmail.com",
                 587,
                 "monitux.pos", "ffeg qqnx zaij otmb");
-
-
-
-
+            V_Menu_Principal.MSG.ShowMSG("Se envio la factura correctamente.", "Exito");
 
 
         }
@@ -769,9 +772,6 @@ namespace Monitux_POS.Ventanas
 
             try
             {
-                // Construir ruta de guardado de forma segura
-                string rutaGuardado = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "FAV", V_Menu_Principal.Secuencial_Empresa.ToString());
-
                 // Validar selección del cliente
                 if (comboCliente.SelectedItem == null)
                 {
@@ -788,22 +788,30 @@ namespace Monitux_POS.Ventanas
                 }
 
                 string nombreCliente = clienteTexto.Substring(indice + 2).Trim();
-                string rutaPdf = $"{rutaGuardado}-{Secuencial_Venta}-{nombreCliente}.pdf";
 
-                // Comprobar si el archivo existe antes de abrirlo
-                if (!File.Exists(rutaPdf))
+                using var context = new Monitux_DB_Context();
+                var venta = context.Ventas.FirstOrDefault(v =>
+                    v.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa &&
+                    v.Secuencial == Secuencial_Venta);
+
+                if (venta == null)
                 {
-                    V_Menu_Principal.MSG.ShowMSG($"El archivo no fue encontrado:\n{rutaPdf}", "Archivo no encontrado");
+                    V_Menu_Principal.MSG.ShowMSG("No se encontró la factura en la base de datos.", "Error");
                     return;
                 }
 
-                // Instanciar visor de factura
-                V_Visor_Factura v_Visor_Factura = new V_Visor_Factura
+                if (venta.Documento == null || venta.Documento.Length == 0)
                 {
-                    rutaArchivo = rutaPdf,
-                    titulo = $"Factura de Venta No. {Secuencial_Venta}"
+                    V_Menu_Principal.MSG.ShowMSG("La factura no tiene documento PDF asociado.", "Error");
+                    return;
+                }
+
+                var visor = new V_Visor_Factura
+                {
+                    DocumentoEnBytes = venta.Documento,
+                    titulo = $"Factura de Venta No. {venta.Secuencial}"
                 };
-                v_Visor_Factura.ShowDialog();
+                visor.ShowDialog();
             }
             catch (Exception ex)
             {
@@ -813,20 +821,17 @@ namespace Monitux_POS.Ventanas
 
 
 
-
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
 
-
-
             try
             {
-                // Asegurar ruta usando Path.Combine
-                string rutaGuardado = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "FAC", V_Menu_Principal.Secuencial_Empresa.ToString());
+                using var context = new Monitux_DB_Context();
+                context.Database.EnsureCreated();
 
-                // Validar selección del proveedor
+                // Validar proveedor seleccionado
                 if (comboProveedor.SelectedItem == null)
                 {
                     V_Menu_Principal.MSG.ShowMSG("Por favor, selecciona un proveedor antes de continuar.", "Aviso");
@@ -842,30 +847,30 @@ namespace Monitux_POS.Ventanas
                 }
 
                 string nombreProveedor = proveedorTexto.Substring(indice + 2).Trim();
-                string rutaPdf = $"{rutaGuardado}-{Secuencial_Compra}-{nombreProveedor}.pdf";
 
-                // Verificar si el archivo existe
-                if (!File.Exists(rutaPdf))
+                // Buscar la compra en la base de datos
+                var compra = context.Compras.FirstOrDefault(c =>
+                    c.Secuencial == Secuencial_Compra &&
+                    c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
+
+                if (compra?.Documento == null || compra.Documento.Length == 0)
                 {
-                    V_Menu_Principal.MSG.ShowMSG($"El archivo no fue encontrado:\n{rutaPdf}", "Archivo no encontrado");
+                    V_Menu_Principal.MSG.ShowMSG("No se encontró el documento PDF para esta compra.", "Archivo no encontrado");
                     return;
                 }
 
-                // Mostrar visor de factura
-                V_Visor_Factura v_Visor_Factura = new V_Visor_Factura
+                // Mostrar visor de factura desde memoria
+                var visor = new V_Visor_Factura
                 {
-                    rutaArchivo = rutaPdf,
-                    titulo = $"Factura de Compra No. {Secuencial_Compra}"
+                    DocumentoEnBytes = compra.Documento,
+                    titulo = $"Factura de Compra No. {compra.Secuencial}"
                 };
-                v_Visor_Factura.ShowDialog();
+                visor.ShowDialog();
             }
             catch (Exception ex)
             {
                 V_Menu_Principal.MSG.ShowMSG($"Ha ocurrido un error inesperado:\n{ex.Message}", "Error");
             }
-
-
-
 
 
 

@@ -123,12 +123,6 @@
 
   <ItemGroup>
     <Content Include="icon.ico" />
-    <Content Include="Resources\FAC\Default.PNG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\FAV\Default.PNG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Iconos\actualizar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

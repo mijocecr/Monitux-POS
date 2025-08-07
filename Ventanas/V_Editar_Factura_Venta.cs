@@ -1388,21 +1388,25 @@ namespace Monitux_POS.Ventanas
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             Actualizar_Numeros();
-
-            //////////////////////////////////////
-
-
 
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
-            var venta = context.Ventas.FirstOrDefault(v => v.Secuencial == this.Secuencial_Venta &&
-                                                           v.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
+            // Buscar la venta existente
+            var venta = context.Ventas.FirstOrDefault(v =>
+                v.Secuencial == this.Secuencial_Venta &&
+                v.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
 
+            if (venta == null)
+            {
+                V_Menu_Principal.MSG.ShowMSG("No se encontró la factura para actualizar.", "Error");
+                return;
+            }
 
-            // Actualizar venta existente
+            // Actualizar datos principales
             venta.Secuencial_Cliente = Secuencial_Cliente;
             venta.Secuencial_Usuario = Secuencial_Usuario;
             venta.Tipo = comboBox3.SelectedItem?.ToString();
@@ -1414,15 +1418,7 @@ namespace Monitux_POS.Ventanas
             venta.Otros_Cargos = otrosCargos;
             venta.Descuento = descuento;
 
-
-
-
-
-            using var context1 = new Monitux_DB_Context();
-            context1.Database.EnsureCreated();
-
-
-
+            // Actualizar productos y detalles
             foreach (var pro in Lista_de_Items.Values)
             {
                 var productoBD = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
@@ -1431,15 +1427,11 @@ namespace Monitux_POS.Ventanas
                     pro.Precio_Costo = productoBD.Precio_Costo;
                     pro.Precio_Venta = productoBD.Precio_Venta;
                     pro.Cantidad = productoBD.Cantidad;
-
                 }
-
-                // Continúa con el código como lo tienes...
             }
 
-
-
-
+            using var context1 = new Monitux_DB_Context();
+            context1.Database.EnsureCreated();
 
             foreach (var pro in Lista_de_Items.Values)
             {
@@ -1448,17 +1440,12 @@ namespace Monitux_POS.Ventanas
                     d.Secuencial_Producto == pro.Secuencial &&
                     d.Secuencial_Empresa == venta.Secuencial_Empresa);
 
-
                 int nuevaCantidad = (int)pro.cantidadSelecccionItem;
 
                 if (detalleExistente != null)
                 {
                     if (pro.Tipo != "Servicio")
                     {
-
-
-
-
                         int cantidadAnterior = (int)detalleExistente.Cantidad;
                         int diferencia = nuevaCantidad - cantidadAnterior;
 
@@ -1467,20 +1454,20 @@ namespace Monitux_POS.Ventanas
                             string tipoMovimiento = diferencia > 0 ? "Salida" : "Entrada";
                             int cantidadMovimiento = Math.Abs(diferencia);
 
-                            Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion, cantidadMovimiento, pro.Precio_Costo, pro.Precio_Venta, tipoMovimiento, Secuencial_Empresa);
-
-
+                            Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion,
+                                cantidadMovimiento, pro.Precio_Costo, pro.Precio_Venta, tipoMovimiento, Secuencial_Empresa);
 
                             string accion = diferencia > 0 ? "Agregó" : "Quitó";
-                            Util.Registrar_Actividad(Secuencial_Usuario, $"{accion} {cantidadMovimiento} unidades de {pro.Codigo} en modificación de factura No: {venta.Secuencial}", Secuencial_Empresa);
+                            Util.Registrar_Actividad(Secuencial_Usuario,
+                                $"{accion} {cantidadMovimiento} unidades de {pro.Codigo} en modificación de factura No: {venta.Secuencial}",
+                                Secuencial_Empresa);
 
                             var producto = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
                             if (producto != null)
-                                producto.Cantidad -= diferencia; // ¡Aplica directamente la diferencia!
+                                producto.Cantidad -= diferencia;
                         }
                     }
 
-                    // Actualiza el detalle
                     detalleExistente.Cantidad = nuevaCantidad;
                     detalleExistente.Precio = Math.Round(pro.Precio_Venta, 2);
                     detalleExistente.Total = Math.Round(nuevaCantidad * pro.Precio_Venta, 2);
@@ -1510,11 +1497,14 @@ namespace Monitux_POS.Ventanas
 
                     context.Ventas_Detalles.Add(detalleNuevo);
 
-                    Util.Registrar_Actividad(Secuencial_Usuario, $"Agregó la cantidad de: {nuevaCantidad} de: {pro.Codigo} a Factura No: {venta.Secuencial}", Secuencial_Empresa);
+                    Util.Registrar_Actividad(Secuencial_Usuario,
+                        $"Agregó la cantidad de: {nuevaCantidad} de: {pro.Codigo} a Factura No: {venta.Secuencial}",
+                        Secuencial_Empresa);
 
                     if (pro.Tipo != "Servicio")
                     {
-                        Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion, nuevaCantidad, pro.Precio_Costo, pro.Precio_Venta, "Salida", Secuencial_Empresa);
+                        Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion,
+                            nuevaCantidad, pro.Precio_Costo, pro.Precio_Venta, "Salida", Secuencial_Empresa);
 
                         var producto = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
                         if (producto != null)
@@ -1522,7 +1512,6 @@ namespace Monitux_POS.Ventanas
                     }
                 }
 
-                // ✅ Actualiza Cuentas_Cobrar
                 var resultado1 = context1.Cuentas_Cobrar.FirstOrDefault(v =>
                     v.Secuencial_Factura == venta.Secuencial &&
                     v.Secuencial_Cliente == venta.Secuencial_Cliente &&
@@ -1536,75 +1525,51 @@ namespace Monitux_POS.Ventanas
                 }
             }
 
-
-
-
             var ingresoExistente = context.Ingresos.FirstOrDefault(i =>
-                   i.Secuencial_Factura == venta.Secuencial &&
-                   i.Secuencial_Empresa == venta.Secuencial_Empresa);
+                i.Secuencial_Factura == venta.Secuencial &&
+                i.Secuencial_Empresa == venta.Secuencial_Empresa);
 
             if (ingresoExistente != null)
             {
                 ingresoExistente.Total = (double)venta.Gran_Total;
                 ingresoExistente.Descripcion = $"Actualización de ingreso por compra No. {venta.Secuencial}";
-                ingresoExistente.Fecha = DateTime.Now.ToString();
+                ingresoExistente.Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
                 ingresoExistente.Tipo_Ingreso = venta.Tipo;
                 ingresoExistente.Secuencial_Usuario = venta.Secuencial_Usuario;
             }
 
-            // ✅ Guardar todos los cambios, incluyendo el ingreso
             context.SaveChanges();
             context1.SaveChanges();
 
-
-
-
-
-
-
-
-            /////Ojo Aqui
-
-            // context.SaveChanges();
-
-
-
-
-
+            // 🧾 Generar nuevo PDF en memoria
             var factura = new FacturaCompletaPDF_Venta
             {
                 Secuencial = venta.Secuencial,
                 Cliente = comboCliente.SelectedItem.ToString()
- .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
- .Trim(),
-
+                    .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
+                    .Trim(),
                 TipoVenta = venta.Tipo,
                 MetodoPago = venta.Forma_Pago,
                 Fecha = venta.Fecha,
                 Items = ObtenerItemsDesdeGrid(dataGridView1),
                 ISV = (double)venta.Impuesto,
                 OtrosCargos = (double)venta.Otros_Cargos,
-                Descuento = (double)venta.Otros_Cargos
+                Descuento = (double)venta.Descuento
             };
 
+            byte[] pdfBytes = factura.GeneratePdfToBytes();
+            venta.Documento = pdfBytes;
+            context.SaveChanges();
 
-
-
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\FAV\\" + V_Menu_Principal.Secuencial_Empresa);
-
-            factura.GeneratePdf($"{rutaGuardado}-{venta.Secuencial}-{factura.Cliente}.pdf");
-
-
-            /////////////
-
-
-            string rutaPdf = $"{rutaGuardado}-{venta.Secuencial}-{factura.Cliente}.pdf";
-
+            // 🧹 Limpiar listas
             Lista_de_Items.Clear();
             Lista_de_Items_Eliminar.Clear();
 
+            // ✅ Confirmación
             V_Menu_Principal.MSG.ShowMSG($"Factura No. {venta.Secuencial} actualizada correctamente.", "Ventas");
             this.Dispose();
+
+
         }
 
         private void label17_Click(object sender, EventArgs e)

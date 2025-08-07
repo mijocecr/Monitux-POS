@@ -1216,66 +1216,49 @@ namespace Monitux_POS.Ventanas
         private void button6_Click(object sender, EventArgs e)
         {
 
-            Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
+            Actualizar_Numeros();
 
-
-            if (comboBox3.SelectedItem == "Credito")
+            if (comboBox3.SelectedItem?.ToString() == "Credito")
             {
                 comboBox1.SelectedItem = "Ninguno";
                 if (dateTimePicker1.Value <= DateTime.Now)
                 {
-                    V_Menu_Principal.MSG.ShowMSG("La fecha de vencimiento no es valida.", "Error");
-                    return; // Si la fecha de vencimiento es anterior a la fecha actual, no se puede registrar la venta
+                    V_Menu_Principal.MSG.ShowMSG("La fecha de vencimiento no es válida.", "Error");
+                    return;
                 }
             }
-
 
             if (Lista_de_Items.Count == 0)
             {
                 V_Menu_Principal.MSG.ShowMSG("No hay items seleccionados para registrar la venta.", "Error");
-                return; // Si no hay items seleccionados, no se puede registrar la venta
+                return;
             }
 
-            if (comboCliente.SelectedIndex == -1)
+            if (comboCliente.SelectedIndex == -1 ||
+                comboBox3.SelectedIndex == -1 ||
+                comboBox1.SelectedIndex == -1)
             {
-                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un cliente para registrar la venta.", "Error");
-                return; // Si no se ha seleccionado un cliente, no se puede registrar la venta
+                V_Menu_Principal.MSG.ShowMSG("Debe completar todos los campos obligatorios.", "Error");
+                return;
             }
 
-            if (comboBox3.SelectedIndex == -1)
-            {
-                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un tipo de venta.", "Error");
-                return; // Si no se ha seleccionado un tipo de venta, no se puede registrar la venta
-            }
-
-            if (comboBox1.SelectedIndex == -1)
-            {
-                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar una forma de pago.", "Error");
-                return; // Si no se ha seleccionado una forma de pago, no se puede registrar la venta
-            }
             if (total <= 0)
             {
                 V_Menu_Principal.MSG.ShowMSG("El total de la venta debe ser mayor a cero.", "Error");
-                return; // Si el total es menor o igual a cero, no se puede registrar la venta
+                return;
             }
 
-
-
             SQLitePCL.Batteries.Init();
-
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
             int secuencial = context.Ventas.Any() ? context.Ventas.Max(p => p.Secuencial) + 1 : 1;
 
-            // Crear y guardar la venta
             var venta = new Venta
             {
-               Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa,
+                Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa,
                 Secuencial = secuencial,
-                Secuencial_Cliente = comboCliente.SelectedIndex != -1
-                    ? int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim())
-                    : 0,
+                Secuencial_Cliente = int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()),
                 Secuencial_Usuario = Secuencial_Usuario,
                 Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"),
                 Tipo = comboBox3.SelectedItem.ToString(),
@@ -1286,15 +1269,15 @@ namespace Monitux_POS.Ventanas
                 Otros_Cargos = otrosCargos,
                 Descuento = descuento
             };
+
             context.Ventas.Add(venta);
             context.SaveChanges();
 
-            // Agregar detalles de venta y actualizar stock
             foreach (var pro in Lista_de_Items.Values)
             {
                 var detalle = new Venta_Detalle
                 {
-                    Secuencial_Empresa= venta.Secuencial_Empresa,
+                    Secuencial_Empresa = venta.Secuencial_Empresa,
                     Secuencial_Factura = venta.Secuencial,
                     Secuencial_Cliente = venta.Secuencial_Cliente,
                     Secuencial_Usuario = venta.Secuencial_Usuario,
@@ -1322,12 +1305,11 @@ namespace Monitux_POS.Ventanas
             }
             context.SaveChanges();
 
-            // Registrar cuentas por cobrar si aplica
             if (venta.Tipo == "Credito")
             {
                 var cuenta = new Cuentas_Cobrar
                 {
-                    Secuencial_Empresa=venta.Secuencial_Empresa,
+                    Secuencial_Empresa = venta.Secuencial_Empresa,
                     Secuencial_Factura = venta.Secuencial,
                     Secuencial_Cliente = venta.Secuencial_Cliente,
                     Secuencial_Usuario = venta.Secuencial_Usuario,
@@ -1341,15 +1323,13 @@ namespace Monitux_POS.Ventanas
                     Impuesto = venta.Impuesto,
                     Gran_Total = venta.Gran_Total
                 };
-
                 context.Cuentas_Cobrar.Add(cuenta);
-              
             }
             else
             {
                 var ingreso = new Ingreso
                 {
-                    Secuencial_Empresa=venta.Secuencial_Empresa,
+                    Secuencial_Empresa = venta.Secuencial_Empresa,
                     Secuencial_Factura = venta.Secuencial,
                     Secuencial_Usuario = venta.Secuencial_Usuario,
                     Fecha = venta.Fecha,
@@ -1357,12 +1337,10 @@ namespace Monitux_POS.Ventanas
                     Tipo_Ingreso = venta.Forma_Pago,
                     Descripcion = $"Venta según Factura: {venta.Secuencial}"
                 };
-
                 context.Ingresos.Add(ingreso);
             }
             context.SaveChanges();
 
-            // Si se solicita calcular cambio
             if (checkBox1.Checked)
             {
                 if (V_Menu_Principal.IPB.Show("Escriba la cantidad en números del dinero recibido por esta venta.",
@@ -1384,281 +1362,60 @@ namespace Monitux_POS.Ventanas
                 }
             }
 
-            // Confirmar venta
-            
-           
-
             var factura = new FacturaCompletaPDF_Venta
             {
-                Secuencial=venta.Secuencial,
+                Secuencial = venta.Secuencial,
                 Cliente = comboCliente.SelectedItem.ToString()
-    .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
-    .Trim(),
-
+                    .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
+                    .Trim(),
                 TipoVenta = venta.Tipo,
                 MetodoPago = venta.Forma_Pago,
                 Fecha = venta.Fecha,
                 Items = ObtenerItemsDesdeGrid(dataGridView1),
                 ISV = (double)venta.Impuesto,
                 OtrosCargos = (double)venta.Otros_Cargos,
-                Descuento = (double)venta.Otros_Cargos
+                Descuento = (double)venta.Descuento
             };
 
-
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\FAV\\" + V_Menu_Principal.Secuencial_Empresa);
-
-            factura.GeneratePdf($"{rutaGuardado}-{venta.Secuencial}-{factura.Cliente}.pdf");
-
-
-            /////////////
-
-
-            string rutaPdf = $"{rutaGuardado}-{venta.Secuencial}-{factura.Cliente}.pdf";
-            //monitux.pos@gmail.com
-            //ffeg qqnx zaij otmb
+            byte[] pdfBytes = factura.GeneratePdfToBytes();
+            venta.Documento = pdfBytes;
+            context.SaveChanges();
 
             var destinatariocliente = context.Clientes.FirstOrDefault(c => c.Secuencial == venta.Secuencial_Cliente);
-            string ?destinatario="";
-            if (destinatariocliente != null)
+            string? destinatario = destinatariocliente?.Email;
+
+            if (!string.IsNullOrWhiteSpace(destinatario))
             {
-               destinatario= destinatariocliente.Email;
+                Util.EnviarCorreoConPdfBytes("monitux.pos@gmail.com",
+                    destinatario,
+                    $"{V_Menu_Principal.Nombre_Empresa} - Comprobante",
+                    "Gracias por su compra. Adjunto tiene su comprobante.",
+                    pdfBytes,
+                    "smtp.gmail.com",
+                    587,
+                    "monitux.pos", "ffeg qqnx zaij otmb");
             }
-
-            Util.EnviarCorreoConPdf("monitux.pos@gmail.com",
-                destinatario,
-                V_Menu_Principal.Nombre_Empresa + " - " + "Comprobante",
-                "Gracias por su compra. Adjunto tiene su comprobante.", 
-                rutaPdf,
-                "smtp.gmail.com", 
-                587, 
-                "monitux.pos", "ffeg qqnx zaij otmb");
-
-
-
-          
-            try { 
-
-            // Comprobar si el archivo existe antes de abrirlo
-            if (!File.Exists(rutaPdf))
+            var visor = new V_Visor_Factura
             {
-                V_Menu_Principal.MSG.ShowMSG($"El archivo no fue encontrado:\n{rutaPdf}", "Archivo no encontrado");
-                return;
-            }
-
-            // Instanciar visor de factura
-            V_Visor_Factura v_Visor_Factura = new V_Visor_Factura
-            {
-                rutaArchivo = rutaPdf,
+                DocumentoEnBytes = pdfBytes,
                 titulo = $"Factura de Venta No. {venta.Secuencial}"
             };
-            v_Visor_Factura.ShowDialog();
-        }
-            catch (Exception ex)
-            {
-                V_Menu_Principal.MSG.ShowMSG($"Se produjo un error inesperado:\n{ex.Message}", "Error");
-            }
+            visor.ShowDialog();
 
 
+            V_Menu_Principal.MSG.ShowMSG(
+                venta.Tipo == "Credito"
+                    ? "Venta al crédito registrada correctamente.\n\nRecuerde que debe cobrar la cuenta pendiente antes de la fecha de vencimiento."
+                    : "Venta registrada correctamente.",
+                "Éxito");
 
-        
-
-
-            /////////////
-
-            if (venta.Tipo == "Credito")
-            {
-                V_Menu_Principal.MSG.ShowMSG("Venta al crédito registrada correctamente.\n\nRecuerde que debe cobrar la cuenta pendiente antes de la fecha de vencimiento.", "Éxito");
-                Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una venta al crédito, factura: {venta.Secuencial}, por un valor de: {venta.Total} {V_Menu_Principal.moneda}", V_Menu_Principal.Secuencial_Empresa);
-            }
-            else
-            {
-                V_Menu_Principal.MSG.ShowMSG("Venta registrada correctamente.", "Éxito");
-                Util.Registrar_Actividad(Secuencial_Usuario, $"Ha registrado una venta, factura: {venta.Secuencial}, por un valor de:  {Math.Round(total, 2)}   {V_Menu_Principal.moneda}", V_Menu_Principal.Secuencial_Empresa);
-            }
+            Util.Registrar_Actividad(Secuencial_Usuario,
+                $"Ha registrado una venta{(venta.Tipo == "Credito" ? " al crédito" : "")}, factura: {venta.Secuencial}, por un valor de: {venta.Total} {V_Menu_Principal.moneda}",
+                V_Menu_Principal.Secuencial_Empresa);
 
             Limpiar_Factura();
 
 
-
-            /*
-
-            Venta venta = new Venta();
-           
-
-            V_Kardex kardex = new V_Kardex(); // Crear una instancia de Kardex para registrar el movimiento de inventario
-            Ingreso ingreso = new Ingreso(); // Crear una instancia de Ingreso para registrar el ingreso de productos
-
-
-            SQLitePCL.Batteries.Init();
-
-            using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-            int secuencial = context.Ventas.Any() ? context.Ventas.Max(p => p.Secuencial) + 1 : 1;
-
-            venta.Secuencial = secuencial;
-            venta.Secuencial_Cliente = comboCliente.SelectedIndex != -1 ? int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()) : 0; // Obtener el secuencial del cliente seleccionado
-
-            venta.Secuencial_Usuario = Secuencial_Usuario; // Asignar el secuencial del usuario que está realizando la venta
-            venta.Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"); // Asignar la fecha y hora actual de la venta
-            venta.Tipo = comboBox3.SelectedItem.ToString(); // Obtener el tipo de venta seleccionado
-            venta.Total = Math.Round(subTotal, 2); // Asignar el total de la venta
-            venta.Forma_Pago = comboBox1.SelectedItem.ToString(); // Obtener la forma de pago seleccionada
-            venta.Gran_Total = Math.Round(total, 2); // Asignar el gran total de la venta
-
-            venta.Impuesto = impuesto; // Asignar el impuesto de la venta
-            venta.Otros_Cargos = otrosCargos; // Asignar los otros cargos de la venta
-            venta.Descuento = descuento; // Asignar el descuento de la venta    
-            context.Add(venta);
-            context.SaveChanges(); // Guardar los cambios en la base de datos
-
-
-            foreach (var pro in Lista_de_Items.Values)
-            {
-
-                SQLitePCL.Batteries.Init();
-
-                using var context1 = new Monitux_DB_Context();
-                context1.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-                Venta_Detalle venta_detalle = new Venta_Detalle(); // Crear una nueva instancia de Ventas_Detalles para cada producto en la venta
-
-
-                venta_detalle.Secuencial_Factura = venta.Secuencial; // Asignar el secuencial de la venta al detalle de la venta
-                venta_detalle.Secuencial_Cliente = venta.Secuencial_Cliente; // Asignar el secuencial del cliente al detalle de la venta
-                venta_detalle.Secuencial_Usuario = venta.Secuencial_Usuario; // Asignar el secuencial del usuario al detalle de la venta
-
-                venta_detalle.Fecha = venta.Fecha; // Asignar la fecha de la venta al detalle de la venta
-
-                venta_detalle.Secuencial_Producto = pro.Secuencial; // Asignar el secuencial del producto al detalle de la venta
-                venta_detalle.Codigo = pro.Codigo; // Asignar el código del producto al detalle de la venta
-                venta_detalle.Descripcion = pro.Descripcion; // Asignar la descripción del producto al detalle de la venta
-                venta_detalle.Cantidad = pro.cantidadSelecccionItem; // Asignar la cantidad del producto al detalle de la venta
-                venta_detalle.Precio = Math.Round(pro.Precio_Venta, 2); // Asignar el precio de venta del producto al detalle de la venta
-                venta_detalle.Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Venta, 2); // Calcular el total del detalle de la venta
-                venta_detalle.Tipo = pro.Tipo; // Asignar el tipo de producto al detalle de la venta
-                context1.Add(venta_detalle); // Agregar el detalle de la venta al contexto
-                context1.SaveChanges(); // Guardar los cambios en la base de datos
-
-                if (venta_detalle.Tipo != "Servicio")
-                {
-                    Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion, pro.cantidadSelecccionItem, pro.Precio_Costo, pro.Precio_Venta, "Salida");
-
-                    SQLitePCL.Batteries.Init();
-
-                    using var context2 = new Monitux_DB_Context();
-                    context2.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-
-                    var producto = context2.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
-                    if (producto != null)
-                    {
-
-
-
-                        producto.Cantidad = pro.Cantidad - pro.cantidadSelecccionItem;
-                        context2.SaveChanges();
-
-                    }
-
-
-                }
-
-            }
-
-
-            if (comboBox3.SelectedItem == "Credito")
-            {
-
-
-                SQLitePCL.Batteries.Init();
-
-                using var context3 = new Monitux_DB_Context();
-                context3.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-
-                Cuentas_Cobrar cta_cobrar = new Cuentas_Cobrar();
-
-                cta_cobrar.Secuencial_Factura = secuencial;
-                cta_cobrar.Secuencial_Cliente = venta.Secuencial_Cliente; // Asignar el secuencial del cliente al detalle de la venta
-                cta_cobrar.Secuencial_Usuario = venta.Secuencial_Usuario; // Asignar el secuencial del usuario al detalle de la venta
-                cta_cobrar.Fecha = venta.Fecha; // Asignar la fecha de la venta al detalle de la venta
-                cta_cobrar.Total = Math.Round(total, 2); // Asignar el total de la venta
-                cta_cobrar.Saldo = Math.Round(total, 2); // Asignar el saldo de la cuenta por cobrar
-                cta_cobrar.Fecha_Vencimiento = dateTimePicker1.Value.ToString("dd/MM/yyyy"); // Asignar la fecha de vencimiento de la cuenta por cobrar
-                cta_cobrar.Pagado = 0.00; // Asignar el pagado de la cuenta por cobrar
-                cta_cobrar.Otros_Cargos = venta.Otros_Cargos;
-                cta_cobrar.Descuento = venta.Descuento;
-                cta_cobrar.Impuesto = venta.Impuesto;
-                cta_cobrar.Gran_Total = venta.Gran_Total;
-                context3.Add(cta_cobrar);
-                context3.SaveChanges();
-
-
-                Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una venta al credito segun factura: " + secuencial + "\nPor valor de: " + Math.Round(total, 2));
-
-
-            }
-
-
-            if (comboBox3.SelectedItem != "Credito")
-            {
-                ingreso.Secuencial_Factura = secuencial; // Asignar el secuencial de la factura al ingreso
-                ingreso.Secuencial_Usuario = venta.Secuencial_Usuario; // Asignar el secuencial del usuario al ingreso
-                ingreso.Fecha = venta.Fecha; // Asignar la fecha de la venta al ingreso 
-                ingreso.Total = Math.Round(total, 2); // Asignar el total de la venta al ingreso
-                ingreso.Tipo_Ingreso = comboBox1.SelectedItem.ToString(); // Asignar la forma de pago al ingreso
-                ingreso.Descripcion = "Venta segun Factura: "+secuencial; // Asignar el tipo de venta al ingreso
-
-                SQLitePCL.Batteries.Init();
-
-                using var context4 = new Monitux_DB_Context();
-                context4.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-                context4.Add(ingreso); // Agregar el ingreso al contexto
-                context4.SaveChanges(); // Guardar los cambios en la base de datos
-
-            }
-
-
-            if (checkBox1.Checked == true)
-            {
-
-                string dinero_recibido = null;
-                double cambio = 0.00; // Inicializar el cambio a 0.00
-
-                //Codigo Prueba
-
-
-                if (V_Menu_Principal.IPB.Show("Escriba la cantidad en números del dinero recibido por esta venta.", "Cálculo del Cambio", out dinero_recibido) == DialogResult.OK)
-                {
-                    dinero_recibido = dinero_recibido?.Trim();
-
-                    if (Double.TryParse(dinero_recibido, NumberStyles.Any, CultureInfo.InvariantCulture, out double numero))
-                    {
-                        cambio = numero - total;
-
-                        string mensaje = cambio >= 0
-                            ? $"El Cambio a favor del Cliente es: {cambio}\n\n{Util.Convertir_Numeros_Palabras(cambio.ToString())} {V_Menu_Principal.moneda}"
-                            : $"Falta Dinero: {Math.Abs(cambio)}\n\n{Util.Convertir_Numeros_Palabras(Math.Abs(cambio).ToString())} {V_Menu_Principal.moneda}";
-
-                        V_Menu_Principal.MSG.ShowMSG(mensaje, "Ventas");
-                    }
-                    else
-                    {
-                        V_Menu_Principal.MSG.ShowMSG("Error: Solo se permiten números.", "Ventas");
-                    }
-                }
-
-
-            }
-
-
-            V_Menu_Principal.MSG.ShowMSG("Venta registrada correctamente.", "Éxito");
-            // Limpiar los campos y controles después de registrar la venta
-            Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una venta segun factura: " + secuencial + "\nPor valor de: " + Math.Round(total, 2));
-            Limpiar_Factura(); // Llama al método para limpiar la factura después de registrar la venta
-            */
         }
 
         private void button1_Click_1(object sender, EventArgs e)

@@ -28,6 +28,8 @@ namespace Monitux_POS.Clases
 
         public int Secuencial_Empresa { get; set; }
 
+        public byte[]? Documento { get; set; }
+
 
 
     }

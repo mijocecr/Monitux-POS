@@ -26,6 +26,16 @@ namespace Monitux_POS.Clases
         public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
 
 
+        public byte[] GeneratePdfToBytes()
+        {
+            using var stream = new MemoryStream();
+            Document.Create(container => Compose(container))
+                    .GeneratePdf(stream);
+            return stream.ToArray();
+        }
+
+
+
         public void Compose(IDocumentContainer container)
         {
             container.Page(page =>
