@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\BC\Default.PNG" />
     <None Remove="Resources\Database\monitux.db" />
     <None Remove="Resources\Iconos\actualizar.png" />
     <None Remove="Resources\Iconos\agregar.png" />
@@ -120,14 +119,10 @@
     <None Remove="Resources\Iconos\verpedidos.png" />
     <None Remove="Resources\Manual.pdf" />
     <None Remove="Resources\monitux.db" />
-    <None Remove="Resources\QR\Default.PNG" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="icon.ico" />
-    <Content Include="Resources\BC\Default.PNG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\FAC\Default.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -374,9 +369,6 @@
     <Content Include="Resources\Manual.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\QR\Default.PNG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Reportes\Default.PNG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -429,9 +421,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Iconos\picture_edit.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Imagenes\Miniatura.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

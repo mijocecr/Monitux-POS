@@ -41,7 +41,7 @@ namespace Monitux_POS.Ventanas
 
         bool esNuevo = true;
 
-        public string Imagen { get; set; } = string.Empty; // Ruta de la imagen del producto
+        public byte[]? Imagen { get; set; }
 
         public V_Producto()
         {
@@ -52,10 +52,10 @@ namespace Monitux_POS.Ventanas
         {
             this.esNuevo = esNuevo;
             InitializeComponent();
-            if (esNuevo == false)
-            {
 
-                txtCantidad.Enabled = false; // Deshabilitar el campo Cantidad para edición
+            if (!esNuevo)
+            {
+                txtCantidad.Enabled = false;
                 txtCodigo.Text = Vista_producto.Codigo;
                 txtDescripcion.Text = Vista_producto.Descripcion;
                 txtCantidad.Text = Vista_producto.Cantidad.ToString();
@@ -69,66 +69,48 @@ namespace Monitux_POS.Ventanas
                 Secuencial_Proveedor = Vista_producto.Secuencial_Proveedor;
                 Secuencial_Categoria = Vista_producto.Secuencial_Categoria;
                 txtExistenciaMinima.Text = Vista_producto.Existencia_Minima.ToString();
-                checkBox1.Checked = Vista_producto.Expira; // Marcar el checkbox según el estado de expiración del producto
-                comboBox1.SelectedItem = Vista_producto.Tipo; // Asignar el tipo de producto al ComboBox
-                // Marcar el checkbox según el estado de expiración del producto
+                checkBox1.Checked = Vista_producto.Expira;
+                comboBox1.SelectedItem = Vista_producto.Tipo;
                 comboBox1.Enabled = false;
-                if (Vista_producto.Expira != false && Vista_producto.Fecha_Caducidad != null)
+
+                if (Vista_producto.Expira && Vista_producto.Fecha_Caducidad != null)
                 {
-                    checkBox1.Checked = true; // Marcar el checkbox si el producto tiene fecha de caducidad
+                    checkBox1.Checked = true;
                     dateTimePicker1.Value = DateTime.ParseExact(Vista_producto.Fecha_Caducidad, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
-
                 }
-
-
-
-
 
                 llenar_Combo_Proveedor();
                 llenar_Combo_Categoria();
 
-
-
-
-
-
-                // Menu_Agregar.Visible = esNuevo;
-                // Menu_Eliminar.Visible = esNuevo;
                 try
                 {
-                    pictureBox2.Image = Vista_producto.Codigo_QR != null ? Image.FromFile(Vista_producto.Codigo_QR) : null; // Asignar la imagen del código QR si existe
+                    pictureBox2.Image = Vista_producto.Codigo_QR != null ? Image.FromFile(Vista_producto.Codigo_QR) : null;
                 }
                 catch { }
-                Imagen = Vista_producto.Imagen ?? string.Empty; // Asignar la ruta de la imagen del producto
+
+                Imagen = Vista_producto.Imagen; // byte[]
 
                 if (Vista_producto.Imagen != null)
                 {
                     try
                     {
-                        pictureBox1.Image = Image.FromFile(Vista_producto.Imagen);
+                        using var ms = new MemoryStream(Vista_producto.Imagen);
+                        Image imagenCargada = Image.FromStream(ms);
+                        pictureBox1.Image = new Bitmap(imagenCargada);
                     }
-                    catch (Exception ex)
-                    {
-
-                    }
+                    catch { }
                 }
                 else
                 {
                     pictureBox1.Image = null;
                 }
-
-
-
             }
             else
             {
                 Secuencial = -1;
             }
-
-
-
-
         }
+
 
 
         public void llenar_Combo_Proveedor()
@@ -377,44 +359,23 @@ namespace Monitux_POS.Ventanas
 
             try
             {
-                // Si es nuevo, agregar
                 if (esNuevo)
                     context.Productos.Add(producto);
 
                 context.SaveChanges();
-
-                // Recargar el objeto para tener el Secuencial asignado
                 context.Entry(producto).Reload();
 
-                // Asignar ruta QR
                 producto.Codigo_QR = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "QR", $"{producto.Secuencial_Empresa}-QR-{producto.Secuencial}.PNG");
 
-                // Guardar imagen renombrada si existe una temporal
-                if (!string.IsNullOrWhiteSpace(this.Imagen) && File.Exists(this.Imagen))
+                // Guardar imagen comprimida si existe en el PictureBox
+                if (pictureBox1.Image != null)
                 {
-                    string rutaFinal = Path.Combine(
-                        Directory.GetCurrentDirectory(),
-                        "Resources",
-                        "Imagenes",
-                        $"{producto.Secuencial_Empresa}-{producto.Secuencial}-{producto.Codigo}.PNG"
-                    );
-
-
-
-                    pictureBox1.Image?.Dispose();    // Libera recurso gráfico
-                    pictureBox1.Image = null;        // Quita referencia del control
-                    GC.Collect();                    // Fuerza recolección de basura
-                    GC.WaitForPendingFinalizers();  // Espera que se liberen todos los handles
-
-
-
-                    File.Move(this.Imagen, rutaFinal);
-                    producto.Imagen = rutaFinal;
+                    byte[] imagenComprimida = Util.ComprimirImagen(pictureBox1.Image, 50L);
+                    producto.Imagen = imagenComprimida;
                 }
 
-                context.SaveChanges(); // Guarda QR e imagen
+                context.SaveChanges();
 
-                // Registrar movimiento si es nuevo y no es servicio
                 if (esNuevo && !esServicio)
                 {
                     Util.Registrar_Movimiento_Kardex(
@@ -429,8 +390,6 @@ namespace Monitux_POS.Ventanas
                     );
                 }
 
-                
-
                 V_Menu_Principal.MSG.ShowMSG(esNuevo ? "Producto creado correctamente." : "Producto actualizado correctamente.", "Éxito");
                 Util.Registrar_Actividad(Secuencial_Usuario, $"Ha {(esNuevo ? "creado" : "modificado")} el producto: {producto.Codigo}", producto.Secuencial_Empresa);
 
@@ -441,132 +400,6 @@ namespace Monitux_POS.Ventanas
             {
                 V_Menu_Principal.MSG.ShowMSG($"Error al guardar el producto:\n{ex.Message}", "Error");
             }
-
-
-
-            /*
-
-            SQLitePCL.Batteries.Init();
-            using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated();
-
-            // Validaciones iniciales
-            bool esServicio = comboBox1.SelectedItem?.ToString() == "Servicio";
-            bool tipoSeleccionado = comboBox1.SelectedIndex != -1;
-            bool proveedorValido = comboProveedor.SelectedItem != null;
-            bool categoriaValida = comboCategoria.SelectedItem != null;
-
-            if (!tipoSeleccionado)
-            {
-                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un tipo de producto válido.", "Error");
-                return;
-            }
-
-            if (!esServicio && (!proveedorValido || !categoriaValida))
-            {
-                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un proveedor y una categoría válidos.", "Error");
-                return;
-            }
-
-            // Inicializar producto
-            bool esNuevo = this.esNuevo;
-            int secuencial = esNuevo
-                ? context.Productos.Any() ? context.Productos.Max(p => p.Secuencial) + 1 : 1
-                : this.Secuencial;
-
-            Producto producto = esNuevo
-                ? new Producto()
-                : context.Productos.FirstOrDefault(p => p.Secuencial == secuencial);
-
-            if (producto == null)
-            {
-                V_Menu_Principal.MSG.ShowMSG("Producto no encontrado.", "Error");
-                return;
-            }
-
-            // Asignación común
-            producto.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
-
-            MessageBox.Show("Secuencial: " + secuencial.ToString());    
-            producto.Secuencial = secuencial;
-            producto.Codigo = txtCodigo.Text;
-            producto.Descripcion = txtDescripcion.Text;
-            producto.Marca = txtMarca.Text;
-            producto.Codigo_Barra = txtCodigoBarra.Text;
-            producto.Codigo_Fabricante = txtCodigoFabricante.Text;
-            producto.Imagen = this.Imagen;
-            producto.Tipo = comboBox1.SelectedItem?.ToString();
-            producto.Expira = checkBox1.Checked;
-            producto.Fecha_Caducidad = producto.Expira
-                ? dateTimePicker1.Value.ToString("dd/MM/yyyy")
-                : "No Expira";
-            producto.Codigo_QR = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "QR", $"{V_Menu_Principal.Secuencial_Empresa}-QR-{producto.Secuencial}.PNG");
-
-            // Conversión segura de precios
-            double.TryParse(txtPrecioVenta.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double precioVenta);
-            double.TryParse(txtPrecioCosto.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double precioCosto);
-            producto.Precio_Venta = precioVenta;
-            producto.Precio_Costo = precioCosto;
-
-            // Si no es servicio, asignar inventario
-            if (!esServicio)
-            {
-                double.TryParse(txtCantidad.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double cantidad);
-                producto.Cantidad = cantidad;
-
-                double.TryParse(txtExistenciaMinima.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double existenciaMinima);
-                producto.Existencia_Minima = existenciaMinima;
-
-                producto.Secuencial_Categoria = int.Parse(comboCategoria.SelectedItem.ToString().Split('-')[0].Trim());
-                producto.Secuencial_Proveedor = int.Parse(comboProveedor.SelectedItem.ToString().Split('-')[0].Trim());
-
-                if (esNuevo)
-                {
-                    Util.Registrar_Movimiento_Kardex(
-                        producto.Secuencial,
-                        producto.Cantidad,
-                        producto.Descripcion,
-                        0,
-                        producto.Precio_Costo,
-                        producto.Precio_Venta,
-                        "Entrada",
-                        V_Menu_Principal.Secuencial_Empresa
-                    );
-                }
-            }
-            else
-            {
-                producto.Cantidad = 0;
-                producto.Existencia_Minima = 0;
-                producto.Secuencial_Categoria = 0;
-                producto.Secuencial_Proveedor = 0;
-            }
-
-            // Guardado final
-            try
-            {
-                if (esNuevo)
-                    context.Productos.Add(producto);
-
-                context.SaveChanges();
-
-                string accion = esNuevo ? "creado" : "modificado";
-                string mensaje = $"Producto {accion} correctamente.";
-                string log = $"Ha {accion} el producto: {producto.Codigo}";
-
-                V_Menu_Principal.MSG.ShowMSG(mensaje, "Éxito");
-                Util.Registrar_Actividad(Secuencial_Usuario, log, V_Menu_Principal.Secuencial_Empresa);
-
-                this.Dispose();
-                OnProductoEditado?.Invoke();
-            }
-            catch
-            {
-                V_Menu_Principal.MSG.ShowMSG("Error al guardar el producto: Ya existe o los datos no son válidos.", "Error");
-            }
-
-            */
-
 
 
         }
@@ -585,18 +418,19 @@ namespace Monitux_POS.Ventanas
         {
             if (txtCodigoBarra.Text != string.Empty)
             {
-                pictureBox3.Image?.Dispose(); // Liberar la imagen anterior si existe
+                string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
+
+                pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
+
+
+                // pictureBox3.Image?.Dispose(); // Liberar la imagen anterior si existe
                 pictureBox3.Image = Util.Generar_Codigo_Barra(Secuencial, txtCodigoBarra.Text, V_Menu_Principal.Secuencial_Empresa);
-                pictureBox3.Image.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\" + V_Menu_Principal.Secuencial_Empresa + "-BC-" + Secuencial + ".PNG"));
+                // pictureBox3.Image.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\" + V_Menu_Principal.Secuencial_Empresa + "-BC-" + Secuencial + ".PNG"));
             }
         }
 
         private void archivoToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
-            pictureBox2.Image?.Dispose();
-            pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
-            pictureBox2.Image.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\QR\\" + V_Menu_Principal.Secuencial_Empresa + "-QR-" + Secuencial + ".PNG"));
 
         }
 
@@ -607,69 +441,31 @@ namespace Monitux_POS.Ventanas
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-
-
-          
             try
             {
                 // Seleccionar imagen
                 string imagenSeleccionada = Util.Abrir_Dialogo_Seleccion_URL();
                 if (!string.IsNullOrWhiteSpace(imagenSeleccionada))
                 {
-                    this.Imagen = imagenSeleccionada;
+                    Image imagenOriginal = Image.FromFile(imagenSeleccionada);
 
-                    // Cargar imagen en el PictureBox
-                    pictureBox1.Image = Util.Cargar_Imagen_Local(imagenSeleccionada);
+                    // Clonar para evitar bloqueo del archivo
+                    Image clon = new Bitmap(imagenOriginal);
+                    imagenOriginal.Dispose();
 
-                    // Guardar con nombre temporal para renombrar después del SaveChanges
-                    string rutaTemporal = Path.Combine(
-                        Directory.GetCurrentDirectory(),
-                        "Resources",
-                        "Imagenes",
-                        "imagen-temporal.png"
-                    );
+                    // Mostrar en PictureBox
+                    pictureBox1.Image = new Bitmap(clon);
 
-                    pictureBox1.Image.Save(rutaTemporal);
-                    this.Imagen = rutaTemporal;
-
-                   
-
-
-
+                    // Comprimir y guardar en variable
+                    this.Imagen = Util.ComprimirImagen(clon, 50L); // Ajusta la calidad si lo deseas
                 }
             }
             catch (Exception ex)
             {
                 V_Menu_Principal.MSG.ShowMSG($"Error al seleccionar/guardar la imagen:\n{ex.Message}", "Error");
             }
-        
-
-
-
-
-            /*
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + Secuencial + "-" + txtCodigo.Text + ".PNG");
-
-
-            try
-            {
-                string Imagen_Seleccionada = Util.Abrir_Dialogo_Seleccion_URL();
-                if (Imagen_Seleccionada != "")
-                {
-                    this.Imagen = Imagen_Seleccionada;
-                    pictureBox1.Image = Util.Cargar_Imagen_Local(Imagen);
-
-                    pictureBox1.Image.Save(rutaGuardado);
-                    this.Imagen = rutaGuardado;
-                }
-
-
-
-            }
-            catch { }
-
-            */
         }
+
 
         private void comboProveedor_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -696,6 +492,9 @@ namespace Monitux_POS.Ventanas
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
+
+            pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
 
         }
 
@@ -723,8 +522,6 @@ namespace Monitux_POS.Ventanas
         {
 
 
-
-
             var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar este producto?", "Confirmación");
 
             if (res == DialogResult.Yes)
@@ -734,39 +531,41 @@ namespace Monitux_POS.Ventanas
                     SQLitePCL.Batteries.Init();
 
                     using var context = new Monitux_DB_Context();
-                    context.Database.EnsureCreated(); // Crea la base de datos si no existe
+                    context.Database.EnsureCreated();
 
                     pictureBox1.Image?.Dispose();
                     pictureBox2.Image?.Dispose();
                     pictureBox3.Image?.Dispose();
 
-
                     var producto = context.Productos.FirstOrDefault(p => p.Secuencial == this.Secuencial);
 
                     if (producto != null)
                     {
-                        string rutaArchivo = producto.Imagen;
-                        string rutaArchivo1 = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\BC-" + producto.Secuencial + "-" + producto.Codigo_Barra + ".PNG");
+                        string rutaArchivo1 = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "BC", $"BC-{producto.Secuencial}-{producto.Codigo_Barra}.PNG");
                         string rutaArchivo2 = producto.Codigo_QR;
 
-                        Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado el producto: " + producto.Codigo, V_Menu_Principal.Secuencial_Empresa);
+                        Util.Registrar_Actividad(Secuencial_Usuario, $"Ha eliminado el producto: {producto.Codigo}", V_Menu_Principal.Secuencial_Empresa);
 
                         if (producto.Tipo != "Servicio")
                         {
-
-                            Util.Registrar_Movimiento_Kardex(producto.Secuencial, producto.Cantidad, producto.Descripcion, producto.Cantidad,
-                                producto.Precio_Costo, producto.Precio_Venta, "Salida", V_Menu_Principal.Secuencial_Empresa);
-
+                            Util.Registrar_Movimiento_Kardex(
+                                producto.Secuencial,
+                                producto.Cantidad,
+                                producto.Descripcion,
+                                producto.Cantidad,
+                                producto.Precio_Costo,
+                                producto.Precio_Venta,
+                                "Salida",
+                                V_Menu_Principal.Secuencial_Empresa
+                            );
                         }
+
                         context.Productos.Remove(producto);
                         context.SaveChanges();
-
-
 
                         V_Menu_Principal.MSG.ShowMSG("Producto eliminado correctamente.", "Éxito");
 
                         OnProductoEditado?.Invoke();
-
                         this.Dispose();
                     }
                     else
@@ -776,14 +575,9 @@ namespace Monitux_POS.Ventanas
                 }
                 catch
                 {
-
-
+                    // Manejo silencioso del error
                 }
             }
-
-
-
-
 
 
         }
@@ -891,23 +685,28 @@ namespace Monitux_POS.Ventanas
         {
             V_Captura_Imagen v_Captura_Imagen = new V_Captura_Imagen();
             v_Captura_Imagen.ShowDialog();
+
             Image imagenCapturada = V_Captura_Imagen.Get_Imagen();
             if (imagenCapturada != null)
             {
                 pictureBox1.Image?.Dispose(); // Liberar la imagen anterior si existe
-                pictureBox1.Image = imagenCapturada; // Asignar la imagen capturada al PictureBox
-                Imagen = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + Secuencial + "-" + txtCodigo.Text + ".PNG");
-                pictureBox1.Image.Save(Imagen); // Guardar la imagen en la ruta especificada
+                pictureBox1.Image = new Bitmap(imagenCapturada); // Asignar la imagen capturada al PictureBox
+
+                // Comprimir y guardar en variable
+                Imagen = Util.ComprimirImagen(imagenCapturada, 50L); // Ajusta la calidad si lo deseas
             }
             else
             {
                 V_Menu_Principal.MSG.ShowMSG("No se pudo capturar la imagen.", "Error");
             }
-
         }
+
 
         private void txtCantidad_TextChanged(object sender, EventArgs e)
         {
+            string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
+
+            pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
 
         }
 
@@ -976,11 +775,50 @@ namespace Monitux_POS.Ventanas
 
         private void txtPrecioCosto_TextChanged(object sender, EventArgs e)
         {
+            string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
+
+            pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
 
         }
 
         private void txtExistenciaMinima_TextChanged(object sender, EventArgs e)
         {
+            string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
+
+            pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
+
+        }
+
+        private void txtDescripcion_TextChanged(object sender, EventArgs e)
+        {
+            string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
+
+            pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
+
+
+        }
+
+        private void txtCodigo_TextChanged(object sender, EventArgs e)
+        {
+            string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
+
+            pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
+
+        }
+
+        private void txtMarca_TextChanged(object sender, EventArgs e)
+        {
+            string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
+
+            pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
+
+        }
+
+        private void txtPrecioVenta_TextChanged(object sender, EventArgs e)
+        {
+            string mensaje_QR = "Codigo: " + txtCodigo.Text + "\nDescripcion: " + txtDescripcion.Text + "\nPrecio Venta: " + txtPrecioVenta.Text + "\nMarca: " + txtMarca.Text + "\nCodigo Barra: " + txtCodigoBarra.Text + "\nCodigo Fabricante: " + txtCodigoFabricante.Text + "\nStock Minimo: " + txtExistenciaMinima.Text;
+
+            pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
 
         }
     }

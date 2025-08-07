@@ -340,7 +340,7 @@ namespace Monitux_POS.Clases
             Bitmap bitmap = writer.Write(codigo);
           //  picture.Image?.Dispose();
             // Guardar la imagen
-            bitmap.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\"+secuencial_empresa+"-BC-" + secuencial +".PNG"));
+           // bitmap.Save(Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\BC\\"+secuencial_empresa+"-BC-" + secuencial +".PNG"));
 
             // Mostrar el código QR en el PictureBox
             return bitmap;
@@ -643,7 +643,7 @@ namespace Monitux_POS.Clases
 
         public static void Limpiar_Cache(int secuencial_empresa) {
 
-            Limpiar_Cache_Imagenes(secuencial_empresa);//Ya
+           // Limpiar_Cache_Imagenes(secuencial_empresa);//Ya
             Limpiar_Cache_Codigo_QR(secuencial_empresa);//Ya
             Limpiar_Cache_Codigo_Barra(secuencial_empresa);
            // Limpiar_Cache_Categoria(secuencial_empresa);//Ya
@@ -655,7 +655,7 @@ namespace Monitux_POS.Clases
         }
 
 
-
+        /*
         public static void Limpiar_Cache_Imagenes(int secuencial_empresa)
         {
 
@@ -702,7 +702,7 @@ namespace Monitux_POS.Clases
 
         }
 
-
+        */
 
         public static Image Cargar_Imagen_Local(string ruta)
         {

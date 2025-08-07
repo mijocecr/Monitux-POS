@@ -24,7 +24,7 @@ namespace Monitux_POS
         public string? Codigo_Barra { get; set; }
         public string? Codigo_Fabricante { get; set; }
         public string? Codigo_QR { get; set; }
-        public string? Imagen { get; set; }
+        public byte[]? Imagen { get; set; }
         public int Secuencial_Categoria { get; set; }
         public double Existencia_Minima { get; set; } = 0;
         public string Tipo { get; set; } = "Producto"; // Tipo de producto, por defecto es "Producto"
@@ -82,29 +82,17 @@ namespace Monitux_POS
 
         public void Set_Item()
         {
-
-
-
-
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-
-
-
-
-            //Filtrar
-
-
+            context.Database.EnsureCreated();
 
             int secuencialItem = Secuencial;
-
 
             var productosFiltrados = context.Productos
                                             .Where(p => p.Secuencial.Equals(secuencialItem))
                                             .ToList();
+
             foreach (var item in productosFiltrados)
             {
                 Descripcion = item.Descripcion;
@@ -115,7 +103,7 @@ namespace Monitux_POS
                 Codigo_Barra = item.Codigo_Barra;
                 Codigo_Fabricante = item.Codigo_Fabricante;
                 Codigo_QR = item.Codigo_QR;
-                Imagen = item.Imagen;
+                Imagen = item.Imagen; // byte[]
                 Secuencial_Categoria = item.Secuencial_Categoria;
                 Item_Codigo.Text = item.Codigo;
                 Item_Precio.Text = item.Precio_Venta.ToString();
@@ -123,61 +111,34 @@ namespace Monitux_POS
                 Codigo = item.Codigo;
                 Existencia_Minima = item.Existencia_Minima;
                 Fecha_Caducidad = item.Fecha_Caducidad;
-                Expira = item.Expira; // Asignar el valor de Expira desde el producto
-                Item_Moneda.Text = moneda ?? "$"; // Asignar la moneda por defecto si no se ha establecido
-                Tipo = item.Tipo; // Asignar el tipo de producto (Producto o Servicio)
+                Expira = item.Expira;
+                Item_Moneda.Text = moneda ?? "$";
+                Tipo = item.Tipo;
+
                 var comentarioFiltrado = context.Comentarios
-                                              .FirstOrDefault(c => c.Secuencial_Producto == item.Secuencial);
+                                                .FirstOrDefault(c => c.Secuencial_Producto == item.Secuencial);
 
-                if (comentarioFiltrado != null)
-                {
-                    Comentario = comentarioFiltrado.Contenido;
-
-                }
-
-                else
-                {
-                    Comentario = "";
-                }
-
+                Comentario = comentarioFiltrado?.Contenido ?? "";
 
                 this.Producto = item.getProducto();
 
                 try
                 {
-
-                    Image original = Image.FromFile(Imagen);
-                    Image clon = new Bitmap(original);
-                    original.Dispose(); // Libera el bloqueo del archivo
-
-
-                    Item_Imagen.Image = clon; // Asigna la imagen clonada al PictureBox
-
-
+                    if (Imagen != null)
+                    {
+                        using var ms = new MemoryStream(Imagen);
+                        Image imagenCargada = Image.FromStream(ms);
+                        Item_Imagen.Image = new Bitmap(imagenCargada);
+                    }
                 }
                 catch
                 {
-
-
-
-
+                    // Manejo silencioso del error de imagen
                 }
 
-
                 actualizarItem = false;
-
-
-
             }
-
-
-
-
-
-
-
         }
-
 
 
 
@@ -397,44 +358,34 @@ namespace Monitux_POS
 
         private void Miniatura_Producto_Paint(object sender, PaintEventArgs e)
         {
-
-
-
-
             Item_Seleccionado.Checked = Seleccionado;
             Item_Imagen.ContextMenuStrip = Menu;
             Item_Precio.Text = Precio_Venta.ToString();
+
             try
             {
-
-
-                Image original = Image.FromFile(Imagen);
-                Image clon = new Bitmap(original);
-                original.Dispose(); // Libera el bloqueo del archivo
-
-
-
-                Item_Imagen.Image = clon; // Asigna la imagen clonada al PictureBox
-
+                if (Imagen != null)
+                {
+                    using var ms = new MemoryStream(Imagen);
+                    Image imagenCargada = Image.FromStream(ms);
+                    Item_Imagen.Image = new Bitmap(imagenCargada);
+                }
             }
-
-            catch { }
+            catch
+            {
+                // Manejo silencioso del error de imagen
+            }
 
             Item_Codigo.Text = Codigo;
         }
 
 
 
+
         private void actualizar_Imagen_Local()
         {
-
-
-
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + V_Menu_Principal.Secuencial_Empresa + "-" + Secuencial + "-" + Codigo + ".PNG");
             try
             {
-
-
                 string rutaSeleccionada = Util.Abrir_Dialogo_Seleccion_URL();
                 Image original = Image.FromFile(rutaSeleccionada);
 
@@ -442,176 +393,97 @@ namespace Monitux_POS
                 Image clon = new Bitmap(original);
                 original.Dispose(); // Libera el archivo original
 
-                // Guardamos imagen clonada
-                clon.Save(rutaGuardado, ImageFormat.Png);
-
-                // Mostramos en PictureBox y actualizamos variable global
+                // Mostramos en PictureBox
                 Item_Imagen.Image = new Bitmap(clon);
-                Imagen = rutaGuardado;
 
-                V_Menu_Principal.MSG.ShowMSG("Imagen actualizada con exito", "Listo");
+                // Comprimimos la imagen
+                byte[] imagenComprimida = Util.ComprimirImagen(clon, 50L); // Usa tu método de compresión
 
+                V_Menu_Principal.MSG.ShowMSG("Imagen actualizada con éxito", "Listo");
 
+                SQLitePCL.Batteries.Init();
 
+                using var context = new Monitux_DB_Context();
+                context.Database.EnsureCreated();
 
-
-
+                var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
+                if (producto != null)
+                {
+                    actualizarItem = true;
+                    producto.Imagen = imagenComprimida;
+                    context.SaveChanges();
+                }
             }
             catch (Exception ex)
             {
-
+                // Puedes loguear el error si lo deseas
                 return;
             }
-            SQLitePCL.Batteries.Init();
-
-            using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-            // **UPDATE**
-
-            var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
-            if (producto != null)
-            {
-
-
-                actualizarItem = true;
-
-                Item_Imagen.Image.Save(rutaGuardado, ImageFormat.Png);
-                producto.Imagen = rutaGuardado;
-                context.SaveChanges();
-            }
-
-
         }
 
 
 
         public void Actualizar_Imagen_Camara()
         {
-
             actualizarItem = true;
             Item_Imagen.Image = null; // Limpiar la imagen actual antes de capturar una nueva
-
 
             V_Captura_Imagen ventanaCamara = new V_Captura_Imagen(Secuencial, Codigo);
             ventanaCamara.ShowDialog();
             Item_Imagen.Image = V_Captura_Imagen.Get_Imagen();
 
-
             using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-
-            // **UPDATE**
+            context.Database.EnsureCreated();
 
             var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
             if (producto != null && Item_Imagen.Image != null)
             {
-                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\" + V_Menu_Principal.Secuencial_Empresa + "-" + producto.Secuencial + "-" + producto.Codigo + ".PNG");
+                // Comprimir la imagen capturada
+                byte[] imagenComprimida = Util.ComprimirImagen(Item_Imagen.Image, 50L); // Ajusta la calidad si lo deseas
 
-
-
-
-
-                Item_Imagen.Image.Save(rutaGuardado, ImageFormat.Png);
-
-                producto.Imagen = rutaGuardado;
+                producto.Imagen = imagenComprimida;
                 context.SaveChanges();
 
-                V_Menu_Principal.MSG.ShowMSG("Imagen actualizada con exito", "Listo");
-
-
+                V_Menu_Principal.MSG.ShowMSG("Imagen actualizada con éxito", "Listo");
             }
-
-
-
-
-
-
-
-
         }
 
 
         private void actualizar_Imagen_Web()
         {
-
-
-
-
-
-
-
-
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Imagenes\\WEB-" + V_Menu_Principal.Secuencial_Empresa + "-" + Secuencial + "-" + Codigo + ".PNG");
-
-
-
-
-
-
             string url = Interaction.InputBox("Pega la URL de la imagen:", "Imagen desde la web");
 
             Image imagenWeb = Util.CargarImagenDesdeUrl(url);
 
             if (imagenWeb != null)
             {
-                // Item_Imagen.Image = imagenWeb;
-
-
-
-                ////////
-
-
-                Image original = imagenWeb;
-
                 // Clonamos para evitar bloqueo del archivo
-                Image clon = new Bitmap(original);
-                original.Dispose(); // Libera el archivo original
+                Image clon = new Bitmap(imagenWeb);
+                imagenWeb.Dispose();
 
-                // Guardamos imagen clonada
-                clon.Save(rutaGuardado, ImageFormat.Png);
-
-                // Mostramos en PictureBox y actualizamos variable global
+                // Mostramos en PictureBox
                 Item_Imagen.Image = new Bitmap(clon);
-                Imagen = rutaGuardado;
 
-
-
-
-
+                // Comprimir imagen
+                byte[] imagenComprimida = Util.ComprimirImagen(clon, 50L); // Ajusta la calidad si lo deseas
 
                 SQLitePCL.Batteries.Init();
 
                 using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
-                // **UPDATE**
+                context.Database.EnsureCreated();
 
                 var producto = context.Productos.FirstOrDefault(p => p.Secuencial == Secuencial);
                 if (producto != null)
                 {
-
-
                     actualizarItem = true;
-
-                    Item_Imagen.Image.Save(rutaGuardado, ImageFormat.Png);
-                    producto.Imagen = rutaGuardado;
+                    producto.Imagen = imagenComprimida;
                     context.SaveChanges();
                 }
 
-
-
-                V_Menu_Principal.MSG.ShowMSG("Imagen actualizada con exito", "Listo");
-
-
-
+                V_Menu_Principal.MSG.ShowMSG("Imagen actualizada con éxito", "Listo");
             }
-
-
-
-
         }
+
 
 
 

@@ -1,17 +1,14 @@
 ﻿using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing.Imaging;
 
 namespace Monitux_POS.Clases
 {
     public class Producto
     {
-        public Producto()
-        {
-        }
+        public Producto() { }
 
-        public Producto(int secuencial, int secuencial_Proveedor, string codigo, string descripcion, double cantidad, double precio_Costo, double precio_Venta, string? marca, string? codigo_Barra, string? codigo_Fabricante, string? codigo_QR, string? imagen, int secuencial_Categoria, string? fecha_Caducidad, bool expira, string tipo, int secuencial_Empresa)
+        public Producto(int secuencial, int secuencial_Proveedor, string codigo, string descripcion, double cantidad, double precio_Costo, double precio_Venta, string? marca, string? codigo_Barra, string? codigo_Fabricante, string? codigo_QR, byte[]? imagen, int secuencial_Categoria, string? fecha_Caducidad, bool expira, string tipo, int secuencial_Empresa)
         {
             Secuencial = secuencial;
             Secuencial_Proveedor = secuencial_Proveedor;
@@ -33,7 +30,7 @@ namespace Monitux_POS.Clases
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Esto le dice a EF: la base lo genera
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Secuencial { get; set; }
 
         public int Secuencial_Proveedor { get; set; }
@@ -46,18 +43,16 @@ namespace Monitux_POS.Clases
         public string? Codigo_Barra { get; set; }
         public string? Codigo_Fabricante { get; set; }
         public string? Codigo_QR { get; set; }
-        public string? Imagen { get; set; }
+        public byte[]? Imagen { get; set; }
 
         public string? Fecha_Caducidad { get; set; } = null;
-        public string? Tipo { get; set; } = "Producto"; // Puede ser Producto o Servicio
+        public string? Tipo { get; set; } = "Producto";
         public int Secuencial_Categoria { get; set; }
 
-        public bool Expira { get; set; } = false; // Indica si el producto tiene fecha de caducidad
+        public bool Expira { get; set; } = false;
         public double Existencia_Minima { get; set; }
 
         public int Secuencial_Empresa { get; set; }
-
-       
 
         public void setProducto(Producto producto)
         {
@@ -75,11 +70,13 @@ namespace Monitux_POS.Clases
             Imagen = producto.Imagen;
             Secuencial_Categoria = producto.Secuencial_Categoria;
             Fecha_Caducidad = producto.Fecha_Caducidad;
+            Expira = producto.Expira;
+            Tipo = producto.Tipo;
+            Existencia_Minima = producto.Existencia_Minima;
             Secuencial_Empresa = producto.Secuencial_Empresa;
         }
 
-
-      public Producto getProducto()
+        public Producto getProducto()
         {
             return new Producto
             {
@@ -103,10 +100,5 @@ namespace Monitux_POS.Clases
                 Secuencial_Empresa = this.Secuencial_Empresa
             };
         }
-
-
-
-        //Final de la clase
-
     }
 }
