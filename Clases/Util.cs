@@ -646,10 +646,10 @@ namespace Monitux_POS.Clases
             Limpiar_Cache_Imagenes(secuencial_empresa);//Ya
             Limpiar_Cache_Codigo_QR(secuencial_empresa);//Ya
             Limpiar_Cache_Codigo_Barra(secuencial_empresa);
-            Limpiar_Cache_Categoria(secuencial_empresa);//Ya
-            Limpiar_Cache_Proveedor(secuencial_empresa);//Ya
-            Limpiar_Cache_Cliente(secuencial_empresa);//Ya
-            Limpiar_Cache_Usuario(secuencial_empresa);//ya
+           // Limpiar_Cache_Categoria(secuencial_empresa);//Ya
+            //Limpiar_Cache_Proveedor(secuencial_empresa);//Ya
+          //  Limpiar_Cache_Cliente(secuencial_empresa);//Ya
+          //  Limpiar_Cache_Usuario(secuencial_empresa);//ya
             
 
         }
@@ -757,9 +757,49 @@ namespace Monitux_POS.Clases
 
 
 
+        public static byte[] ComprimirImagen(Image imagenOriginal, long calidad = 50L)
+        {
+            if (imagenOriginal == null)
+                return null;
+
+            using var ms = new MemoryStream();
+
+            // Detectar el formato original
+            ImageFormat formato = imagenOriginal.RawFormat;
+
+            // Buscar el codec adecuado
+            var codec = ImageCodecInfo.GetImageEncoders()
+                .FirstOrDefault(c => c.FormatID == formato.Guid);
+
+            if (codec == null)
+            {
+                // Si no se encuentra el codec, usar JPEG por defecto
+                codec = ImageCodecInfo.GetImageEncoders()
+                    .FirstOrDefault(c => c.FormatID == ImageFormat.Jpeg.Guid);
+                formato = ImageFormat.Jpeg;
+            }
+
+            // Si el formato admite compresión (como JPEG), aplicar calidad
+            if (formato.Equals(ImageFormat.Jpeg))
+            {
+                var encoderParams = new EncoderParameters(1);
+                encoderParams.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, calidad);
+                imagenOriginal.Save(ms, codec, encoderParams);
+            }
+            else
+            {
+                // Para formatos como PNG, BMP, etc., guardar sin compresión
+                imagenOriginal.Save(ms, formato);
+            }
+
+            return ms.ToArray();
+        }
 
 
-public static class AnimacionesUI
+
+
+
+        public static class AnimacionesUI
     {
         public static void AnimarCrecimiento(Control control, Size tamañoFinal, int pasos = 10, int velocidadMs = 5)
         {
@@ -803,7 +843,7 @@ public static class AnimacionesUI
 
 
 
-
+/*
         public static void Limpiar_Cache_Categoria(int secuencial_empresa)
         {
 
@@ -850,7 +890,7 @@ public static class AnimacionesUI
 
         }
 
-
+        */
 
 
 
@@ -885,7 +925,7 @@ public static class AnimacionesUI
 
 
 
-
+/*
         public static void Limpiar_Cache_Proveedor(int secuencial_empresa)
         {
 
@@ -932,12 +972,12 @@ public static class AnimacionesUI
 
         }
 
+*/
 
 
 
 
-
-
+/*
         public static void Limpiar_Cache_Cliente(int secuencial_empresa)
         {
 
@@ -983,10 +1023,11 @@ public static class AnimacionesUI
             }
 
         }
+*/
 
 
 
-
+        /*
         public static void Limpiar_Cache_Usuario(int secuencial_empresa)
         {
 
@@ -1033,7 +1074,7 @@ public static class AnimacionesUI
 
         }
 
-
+        */
 
 
 

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Monitux_POS.Clases
 {
@@ -18,10 +15,9 @@ namespace Monitux_POS.Clases
         public string? Contacto { get; set; }
         public string? Tipo { get; set; }
 
-        public string? Imagen { get; set; }
+        public byte[]? Imagen { get; set; } // ← Cambio aquí
+
         public bool? Activo { get; set; } = true;
-
         public int Secuencial_Empresa { get; set; }
-
     }
 }

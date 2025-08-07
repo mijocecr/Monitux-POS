@@ -54,7 +54,7 @@ namespace Monitux_POS.Ventanas
         private void button3_Click(object sender, EventArgs e)
         {
 
-        
+
             if (comboEmpresa.SelectedItem == null)
             {
                 V_Menu_Principal.MSG.ShowMSG("Debe seleccionar una empresa para crear el usuario.", "Error");
@@ -72,6 +72,7 @@ namespace Monitux_POS.Ventanas
                 V_Menu_Principal.MSG.ShowMSG("Debe ingresar un nombre para el usuario.", "Error");
                 return;
             }
+
             if (string.IsNullOrEmpty(txt_Password.Text))
             {
                 V_Menu_Principal.MSG.ShowMSG("Debe ingresar una contraseña para el usuario.", "Error");
@@ -90,7 +91,6 @@ namespace Monitux_POS.Ventanas
                 return;
             }
 
-
             label11.ForeColor = Color.White;
             SQLitePCL.Batteries.Init();
 
@@ -98,76 +98,34 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated();
             Secuencial = context.Usuarios.Any() ? context.Usuarios.Max(p => p.Secuencial) + 1 : 1;
 
-
+            // Comprimir imagen del PictureBox a byte[]
+            byte[] imagenBytes = null;
+            if (pictureBox3.Image != null)
+            {
+                imagenBytes = ComprimirImagen(pictureBox3.Image, 50L); // compresión al 50%
+            }
 
             // Preparar nuevo usuario
             var usuario = new Usuario
             {
-
                 Nombre = txt_Nombre.Text.Trim(),
                 Codigo = txt_Codigo.Text.Trim(),
                 Password = Util.Encriptador.Encriptar(txt_Password.Text),
-                Acceso = "Vendedor", // Asignación por defecto
+                Acceso = "Vendedor",
                 Activo = true,
-                Imagen = pictureBox1.Image != null ? Imagen : "Sin Imagen",
+                Imagen = imagenBytes,
                 Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa
             };
 
             // Validar si se seleccionó "Administrador"
-
-            /* 
-             if (comboBox1.SelectedItem?.ToString() == "Administrador")
-             {
-                 if (V_Menu_Principal.IPB.Show("Ingrese el Pin", "Usuario Administrador", out string respuesta) == DialogResult.OK)
-                 {
-                     if (respuesta == "****" && Pin == "*****")
-                     {
-                         V_Menu_Principal.MSG.ShowMSG("Debe generar un PIN para el usuario administrador.", "Error");
-                         return;
-                     }
-
-                     if (respuesta == Pin && Pin != "****")
-                     {
-                         usuario.Acceso = "Administrador";
-                     }
-                     else
-                     {
-                         V_Menu_Principal.MSG.ShowMSG("Pin incorrecto. El usuario no se ha creado.", "Información");
-                         return;
-                     }
-                 }
-             }
-
-             // Guardar usuario
-             try
-             {
-                 context.Usuarios.Add(usuario);
-                 context.SaveChanges();
-             }
-             catch (Exception)
-             {
-                 V_Menu_Principal.MSG.ShowMSG("Error al crear el usuario: Ya existe o los datos proporcionados no son válidos.", "Error");
-                 return;
-             }
-
-             // Confirmación y limpieza
-             V_Menu_Principal.MSG.ShowMSG($"Usuario creado correctamente.\nAcceso: {usuario.Acceso}", "Éxito");
-             Pin = "****";
-             Util.Registrar_Actividad(0, $"Ha creado al usuario: {usuario.Nombre}", V_Menu_Principal.Secuencial_Empresa);*/
-
-
-            // Validar si se seleccionó "Administrador"
             if (comboBox1.SelectedItem?.ToString() == "Administrador")
             {
-                // Verifica si es el primer arranque del sistema
                 if (Properties.Settings.Default.Primer_Arranque)
                 {
-                    // Se omite el PIN en primer arranque
                     usuario.Acceso = "Administrador";
                 }
                 else
                 {
-                    // Solicita PIN normalmente
                     if (V_Menu_Principal.IPB.Show("Ingrese el Pin", "Usuario Administrador", out string respuesta) == DialogResult.OK)
                     {
                         if (respuesta == "****" && Pin == "*****")
@@ -206,9 +164,8 @@ namespace Monitux_POS.Ventanas
             Pin = "****";
             Util.Registrar_Actividad(0, $"Ha creado al usuario: {usuario.Nombre}", V_Menu_Principal.Secuencial_Empresa);
 
-            Properties.Settings.Default.Primer_Arranque = false; // Cambia el valor a false para indicar que ya no es el primer arranque
-            Properties.Settings.Default.Save(); // Guarda los cambios en la configuración
-
+            Properties.Settings.Default.Primer_Arranque = false;
+            Properties.Settings.Default.Save();
 
             txt_Codigo.Clear();
             txt_Nombre.Clear();
@@ -300,24 +257,24 @@ namespace Monitux_POS.Ventanas
 
 
 
-
             if (acceso == true)
             {
-                V_Menu_Principal.Secuencial_Usuario = usuario.Secuencial; // Almacena el secuencial del usuario en la clase V_Menu_Principal
-                V_Menu_Principal.Acceso_Usuario = usuario.Acceso; // Almacena el acceso del usuario en la clase V_Menu_Principal
-                V_Menu_Principal.Imagen_Usuario = usuario.Imagen; // Almacena la imagen del usuario en la clase V_Menu_Principal
-                V_Menu_Principal.Nombre_Usuario = usuario.Nombre; // Almacena el nombre del usuario en la clase V_Menu_Principal
-                V_Menu_Principal.Codigo_Usuario = usuario.Codigo; // Almacena el código del usuario en la clase V_Menu_Principal                            
+                V_Menu_Principal.Secuencial_Usuario = usuario.Secuencial;
+                V_Menu_Principal.Acceso_Usuario = usuario.Acceso;
+                V_Menu_Principal.Imagen_Usuario = usuario.Imagen; // byte[] directamente
+                V_Menu_Principal.Nombre_Usuario = usuario.Nombre;
+                V_Menu_Principal.Codigo_Usuario = usuario.Codigo;
 
-                this.DialogResult = DialogResult.OK; // Establece el resultado del diálogo como OK
-                this.Hide(); // Oculta la ventana de login
+                this.DialogResult = DialogResult.OK;
+                this.Hide();
             }
             else
             {
-                txtPassword.Clear(); // Limpia el campo de contraseña si el acceso es incorrecto
+                txtPassword.Clear();
                 txtCodigo.Focus();
-                DialogResult = DialogResult.None; // Establece el resultado del diálogo como None para evitar que se cierre
+                this.DialogResult = DialogResult.None;
             }
+
         }
 
         private void txtCodigo_KeyDown(object sender, KeyEventArgs e)
@@ -692,8 +649,8 @@ namespace Monitux_POS.Ventanas
         private void pictureBox5_Click(object sender, EventArgs e)
         {
             //Properties.Settings.Default.Reset(); // Reinicia la configuración de la aplicación
-            //Properties.Settings.Default.Primer_Arranque=true;
-            //Properties.Settings.Default.Save(); 
+            Properties.Settings.Default.Primer_Arranque=true;
+            Properties.Settings.Default.Save(); 
             // Reinicia la configuración de la aplicación
         }
     }// namespace Ventanas

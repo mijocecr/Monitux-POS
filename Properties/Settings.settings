@@ -26,5 +26,11 @@
     <Setting Name="Usuario_Creado" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="DB_PROVIDER" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mysql</Value>
+    </Setting>
+    <Setting Name="DB_CONNECTION" Type="System.String" Scope="User">
+      <Value Profile="(Default)">server=localhost;user=root;password=00511;database=monitux;</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

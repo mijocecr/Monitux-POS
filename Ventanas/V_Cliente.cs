@@ -17,7 +17,7 @@ namespace Monitux_POS.Ventanas
     {
 
         int Secuencial = 0;
-        string Imagen = "";
+        byte[]? Imagen;
         public int Secuencial_Usuario { get; set; } = V_Menu_Principal.Secuencial_Usuario;
         public string Nombre { get; set; }
         public V_Cliente()
@@ -31,7 +31,6 @@ namespace Monitux_POS.Ventanas
 
         private void Cargar_Datos()
         {
-
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
 
@@ -40,36 +39,32 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
-
             var cliente = context.Clientes
-    .Where(c => c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
-    .ToList();
+                .Where(c => c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                .ToList();
 
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
             dataGridView1.Columns.Add("Secuencial", "S");
-            dataGridView1.Columns["Secuencial"].Width = 20; // Ajusta el ancho de la columna Secuencial
-
+            dataGridView1.Columns["Secuencial"].Width = 20;
 
             dataGridView1.Columns.Add("Codigo", "Codigo");
-            dataGridView1.Columns["Codigo"].Width = 80; // Ajusta el ancho de la columna Nombre
+            dataGridView1.Columns["Codigo"].Width = 80;
 
             dataGridView1.Columns.Add("Nombre", "Nombre");
-            dataGridView1.Columns["Nombre"].Width = 80; // Ajusta el ancho de la columna Nombre
+            dataGridView1.Columns["Nombre"].Width = 80;
 
             dataGridView1.Columns.Add("Telefono", "Telefono");
-            dataGridView1.Columns["Telefono"].Width = 60; // Ajusta el ancho de la columna Nombre
+            dataGridView1.Columns["Telefono"].Width = 60;
 
             dataGridView1.Columns.Add("Direccion", "Direccion");
-            dataGridView1.Columns["Direccion"].Width = 150; // Ajusta el ancho de la columna Descripcion
+            dataGridView1.Columns["Direccion"].Width = 150;
 
             dataGridView1.Columns.Add("Email", "Email");
-            dataGridView1.Columns["Email"].Width = 100; // Ajusta el ancho de la columna Email
-
+            dataGridView1.Columns["Email"].Width = 100;
 
             dataGridView1.Columns.Add("Activo", "Activo");
             dataGridView1.Columns.Add("Imagen", "Imagen");
-
 
             foreach (var item in cliente)
             {
@@ -80,19 +75,10 @@ namespace Monitux_POS.Ventanas
                     item.Telefono,
                     item.Direccion,
                     item.Email,
-
-
-                    (bool)item.Activo ? "Si" : "No",
-
-
-                    item.Imagen ?? "No Imagen" // Maneja el caso donde Imagen sea null
-
+                    item.Activo == true ? "Sí" : "No",
+                    item.Imagen != null && item.Imagen.Length > 0 ? "Imagen cargada" : "Sin imagen"
                 );
-
-
             }
-
-
         }
 
 
@@ -128,92 +114,46 @@ namespace Monitux_POS.Ventanas
         private void dataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
 
-
-
             try
             {
+                if (e.RowIndex < 0 || e.RowIndex >= dataGridView1.Rows.Count)
+                    return;
 
+                if (dataGridView1.Rows[e.RowIndex].IsNewRow)
+                    return;
 
+                var row = dataGridView1.Rows[e.RowIndex];
 
+                this.Secuencial = Convert.ToInt32(row.Cells["Secuencial"].Value);
+                txt_Codigo.Text = row.Cells["Codigo"].Value?.ToString();
+                txt_Nombre.Text = row.Cells["Nombre"].Value?.ToString();
+                txt_Telefono.Text = row.Cells["Telefono"].Value?.ToString();
+                txt_Direccion.Text = row.Cells["Direccion"].Value?.ToString();
+                txt_Email.Text = row.Cells["Email"].Value?.ToString();
+                //checkBox1.Checked = row.Cells["Activo"].Value?.ToString() == "Si";
 
+                // Cargar imagen desde la base de datos
+                using var context = new Monitux_DB_Context();
+                var cliente = context.Clientes.FirstOrDefault(c => c.Secuencial == this.Secuencial && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
 
-                if (dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value != null)
+                checkBox1.Checked = cliente?.Activo ?? true; // Asegura que el checkbox esté marcado si el cliente está activo
+                if (cliente?.Imagen != null && cliente.Imagen.Length > 0)
                 {
-                    this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
-
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Codigo"].Value != null)
-                {
-                    txt_Codigo.Text = dataGridView1.Rows[e.RowIndex].Cells["Codigo"].Value.ToString();
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value != null)
-                {
-                    txt_Nombre.Text = dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Telefono"].Value != null)
-                {
-                    txt_Telefono.Text = dataGridView1.Rows[e.RowIndex].Cells["Telefono"].Value.ToString();
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Direccion"].Value != null)
-                {
-                    txt_Direccion.Text = dataGridView1.Rows[e.RowIndex].Cells["Direccion"].Value.ToString();
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Email"].Value != null)
-                {
-                    txt_Email.Text = dataGridView1.Rows[e.RowIndex].Cells["Email"].Value.ToString();
-                }
-
-
-
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Activo"].Value != null)
-                {
-                    if (dataGridView1.Rows[e.RowIndex].Cells["Activo"].Value.ToString() == "Si")
-                    {
-                        checkBox1.Checked = true;
-                    }
-                    else
-                    {
-                        checkBox1.Checked = false;
-                    }
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value != null &&
-                    !string.IsNullOrEmpty(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString()))
-                {
-                    try
-                    {
-                        pictureBox1.Image = Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
-                        Imagen = dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString(); // Guarda la ruta de la imagen
-                    }
-                    catch
-                    {
-
-                        pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
-                    }
-
+                    using var ms = new MemoryStream(cliente.Imagen);
+                    pictureBox1.Image = System.Drawing.Image.FromStream(ms);
+                    Imagen = cliente.Imagen;
                 }
                 else
                 {
-
-                    pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
-                                              // txtNombre.Text = "";
-                                              //txtDescripcion.Text = "";
-
+                    pictureBox1.Image = null;
+                    Imagen = null;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
                 pictureBox1.Image = null;
+                Imagen = null;
             }
-
-
 
 
         }
@@ -222,32 +162,26 @@ namespace Monitux_POS.Ventanas
         {
 
 
-
-
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CLI\\" + V_Menu_Principal.Secuencial_Empresa + "-Cli - " + Secuencial + ".PNG");
-
-
             try
             {
-                string Imagen_Seleccionada = Util.Abrir_Dialogo_Seleccion_URL();
-                if (Imagen_Seleccionada != "")
+                string imagenSeleccionada = Util.Abrir_Dialogo_Seleccion_URL();
+
+                if (!string.IsNullOrEmpty(imagenSeleccionada))
                 {
-                    Imagen = Imagen_Seleccionada;
-                    pictureBox1.Image = Util.Cargar_Imagen_Local(Imagen);
+                    System.Drawing.Image imagenCargada = System.Drawing.Image.FromFile(imagenSeleccionada);
+                    pictureBox1.Image = imagenCargada;
 
-                    pictureBox1.Image.Save(rutaGuardado);
-                    this.Imagen = rutaGuardado;
+                    using var ms = new MemoryStream();
+                    imagenCargada.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    Imagen = ms.ToArray(); // Guarda la imagen como byte[]
                 }
-
-
-
             }
             catch
             {
-
-                Imagen = "Sin Imagen";
-
+                pictureBox1.Image = null;
+                Imagen = null;
             }
+
 
 
 
@@ -257,38 +191,36 @@ namespace Monitux_POS.Ventanas
         {
 
 
-
-
-
-
+            // Comprimir imagen si existe
+            byte[] imagenBytes = null;
+            if (pictureBox1.Image != null)
+            {
+                imagenBytes = Util.ComprimirImagen(pictureBox1.Image, 40L); // Calidad ajustable
+            }
 
             if (Secuencial != 0)
             {
-
+                // Validaciones
                 if (string.IsNullOrWhiteSpace(txt_Codigo.Text))
                 {
-                    V_Menu_Principal.MSG.ShowMSG("El codigo del cliente no puede estar vacío.", "Error");
+                    V_Menu_Principal.MSG.ShowMSG("El código del cliente no puede estar vacío.", "Error");
                     return;
                 }
 
                 if (string.IsNullOrWhiteSpace(txt_Nombre.Text))
                 {
                     V_Menu_Principal.MSG.ShowMSG("El nombre del cliente no puede estar vacío.", "Error");
-
                     return;
                 }
+
                 if (string.IsNullOrWhiteSpace(txt_Telefono.Text))
                 {
-                    V_Menu_Principal.MSG.ShowMSG("El telefono no puede estar vacío.", "Error");
+                    V_Menu_Principal.MSG.ShowMSG("El teléfono no puede estar vacío.", "Error");
                     return;
                 }
 
-                // **UPDATE**
-                SQLitePCL.Batteries.Init();
-
                 using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
+                context.Database.EnsureCreated();
 
                 var cliente = context.Clientes.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
                 if (cliente != null)
@@ -299,86 +231,51 @@ namespace Monitux_POS.Ventanas
                     cliente.Telefono = txt_Telefono.Text;
                     cliente.Direccion = txt_Direccion.Text;
                     cliente.Email = txt_Email.Text;
-                    cliente.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
-
                     cliente.Activo = checkBox1.Checked;
+                    cliente.Imagen = imagenBytes ?? cliente.Imagen;
 
-
-
-                    cliente.Imagen = Imagen;
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado el cliente: " + cliente.Nombre, V_Menu_Principal.Secuencial_Empresa);
+                    Util.Registrar_Actividad(Secuencial_Usuario, $"Ha modificado el cliente: {cliente.Nombre}", V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Cliente actualizado correctamente.", "Éxito");
-                    Cargar_Datos(); // Recargar los datos después de actualizar el cliente
+                    Cargar_Datos();
                 }
-
-
             }
             else
             {
-
+                // Validaciones
                 if (string.IsNullOrWhiteSpace(txt_Nombre.Text))
                 {
                     V_Menu_Principal.MSG.ShowMSG("El nombre del cliente no puede estar vacío.", "Error");
                     return;
                 }
+
                 if (string.IsNullOrWhiteSpace(txt_Telefono.Text))
                 {
-                    V_Menu_Principal.MSG.ShowMSG("El telefono no puede estar vacío.", "Error");
+                    V_Menu_Principal.MSG.ShowMSG("El teléfono no puede estar vacío.", "Error");
                     return;
                 }
-
-
-                // **Create**
-                SQLitePCL.Batteries.Init();
 
                 using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated(); // Crea la base de datos si no existe
+                context.Database.EnsureCreated();
 
-                var cliente = new Cliente();
-                cliente.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
-                cliente.Codigo = txt_Codigo.Text;
-                cliente.Nombre = txt_Nombre.Text;
-                cliente.Telefono = txt_Telefono.Text;
-                cliente.Direccion = txt_Direccion.Text;
-                cliente.Email = txt_Email.Text;
-
-                cliente.Activo = true;
-
-
-                if (pictureBox1.Image != null)
+                var cliente = new Cliente
                 {
-                    cliente.Imagen = Imagen;
-                }
-                else
-                {
-                    cliente.Imagen = "Sin Imagen"; // Asigna una imagen por defecto si no se ha seleccionado una imagen
-                }
+                    Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa,
+                    Codigo = txt_Codigo.Text,
+                    Nombre = txt_Nombre.Text,
+                    Telefono = txt_Telefono.Text,
+                    Direccion = txt_Direccion.Text,
+                    Email = txt_Email.Text,
+                    Activo = true,
+                    Imagen = imagenBytes // Comprimida o null
+                };
 
-                try
-                {
-                    context.Clientes.Add(cliente);
-
-                    context.SaveChanges();
-
-                }
-                catch (Exception ex)
-                {
-                    V_Menu_Principal.MSG.ShowMSG("Error al crear el cliente: Ya existe o los datos proporcionados no son validos.", "Error");
-                    return;
-                }
-
-
-
+                context.Clientes.Add(cliente);
+                context.SaveChanges();
+                Util.Registrar_Actividad(Secuencial_Usuario, $"Ha creado el cliente: {cliente.Nombre}", V_Menu_Principal.Secuencial_Empresa);
                 V_Menu_Principal.MSG.ShowMSG("Cliente creado correctamente.", "Éxito");
-                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado el cliente: " + txt_Nombre.Text, V_Menu_Principal.Secuencial_Empresa);
-                Cargar_Datos(); // Recargar los datos después de crear el cliente
-
-
+                Cargar_Datos();
             }
-
-
-
 
 
 
@@ -387,89 +284,45 @@ namespace Monitux_POS.Ventanas
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
 
-
-
             try
             {
+                if (e.RowIndex < 0 || e.RowIndex >= dataGridView1.Rows.Count)
+                    return;
 
+                if (dataGridView1.Rows[e.RowIndex].IsNewRow)
+                    return;
 
+                var row = dataGridView1.Rows[e.RowIndex];
 
+                this.Secuencial = Convert.ToInt32(row.Cells["Secuencial"].Value);
+                txt_Codigo.Text = row.Cells["Codigo"].Value?.ToString();
+                txt_Nombre.Text = row.Cells["Nombre"].Value?.ToString();
+                txt_Telefono.Text = row.Cells["Telefono"].Value?.ToString();
+                txt_Direccion.Text = row.Cells["Direccion"].Value?.ToString();
+                txt_Email.Text = row.Cells["Email"].Value?.ToString();
+                //checkBox1.Checked = row.Cells["Activo"].Value?.ToString() == "Si";
 
+                // Cargar imagen desde la base de datos
+                using var context = new Monitux_DB_Context();
+                var cliente = context.Clientes.FirstOrDefault(c => c.Secuencial == this.Secuencial && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
 
-                if (dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value != null)
+                checkBox1.Checked = cliente?.Activo ?? true; // Asegura que el checkbox esté marcado si el cliente está activo
+                if (cliente?.Imagen != null && cliente.Imagen.Length > 0)
                 {
-                    this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
-
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Codigo"].Value != null)
-                {
-                    txt_Codigo.Text = dataGridView1.Rows[e.RowIndex].Cells["Codigo"].Value.ToString();
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value != null)
-                {
-                    txt_Nombre.Text = dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Telefono"].Value != null)
-                {
-                    txt_Telefono.Text = dataGridView1.Rows[e.RowIndex].Cells["Telefono"].Value.ToString();
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Direccion"].Value != null)
-                {
-                    txt_Direccion.Text = dataGridView1.Rows[e.RowIndex].Cells["Direccion"].Value.ToString();
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Email"].Value != null)
-                {
-                    txt_Email.Text = dataGridView1.Rows[e.RowIndex].Cells["Email"].Value.ToString();
-                }
-
-
-
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Activo"].Value != null)
-                {
-                    if (dataGridView1.Rows[e.RowIndex].Cells["Activo"].Value.ToString() == "Si")
-                    {
-                        checkBox1.Checked = true;
-                    }
-                    else
-                    {
-                        checkBox1.Checked = false;
-                    }
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value != null &&
-                    !string.IsNullOrEmpty(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString()))
-                {
-                    try
-                    {
-                        pictureBox1.Image = Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
-                        Imagen = dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString(); // Guarda la ruta de la imagen
-                    }
-                    catch
-                    {
-
-                        pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
-                    }
-
+                    using var ms = new MemoryStream(cliente.Imagen);
+                    pictureBox1.Image = System.Drawing.Image.FromStream(ms);
+                    Imagen = cliente.Imagen;
                 }
                 else
                 {
-
-                    pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
-                                              // txtNombre.Text = "";
-                                              //txtDescripcion.Text = "";
-
+                    pictureBox1.Image = null;
+                    Imagen = null;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
                 pictureBox1.Image = null;
+                Imagen = null;
             }
 
 
@@ -512,36 +365,50 @@ namespace Monitux_POS.Ventanas
         private void Menu_Eliminar_Click(object sender, EventArgs e)
         {
 
-
-
             var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar este cliente?", "Confirmación");
 
             if (res == DialogResult.Yes)
             {
-                // **DELETE**
                 try
                 {
                     if (pictureBox1.Image != null)
-                        pictureBox1.Image.Dispose(); // Libera la imagen del PictureBox antes de eliminarla
+                    {
+                        pictureBox1.Image.Dispose(); // Libera la imagen del PictureBox
+                        pictureBox1.Image = null;
+                    }
+
+                    Imagen = null; // Limpia también la imagen en memoria
                 }
-                catch { }
+                catch
+                {
+                    // Puedes registrar el error si lo deseas
+                }
 
                 SQLitePCL.Batteries.Init();
 
                 using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated(); // Crea la base de datos si no existe
+                context.Database.EnsureCreated();
 
-                var cliente = context.Clientes.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
+                var cliente = context.Clientes.FirstOrDefault(p =>
+                    p.Secuencial == this.Secuencial &&
+                    p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
+
                 if (cliente != null)
                 {
+                    string nombreCliente = cliente.Nombre;
+
                     context.Clientes.Remove(cliente);
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al cliente: " + cliente.Nombre, V_Menu_Principal.Secuencial_Empresa);
+
+                    Util.Registrar_Actividad(Secuencial_Usuario, $"Ha eliminado al cliente: {nombreCliente}", V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Cliente eliminado correctamente.", "Éxito");
-                    Cargar_Datos(); // Recargar los datos después de eliminar el cliente
+                    Cargar_Datos();
+                }
+                else
+                {
+                    V_Menu_Principal.MSG.ShowMSG("No se encontró el cliente a eliminar.", "Error");
                 }
             }
-
 
 
         }
@@ -551,62 +418,20 @@ namespace Monitux_POS.Ventanas
 
         private void Filtrar(string campo, string valor)
         {
-
-
-
-
-
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+            context.Database.EnsureCreated();
 
-            // Filtrar categorías antes de agregarlas al DataGridView
-            /*  string filtro = "eeee"; // Define el criterio de búsqueda
-              var categoriasFiltradas = context.Categorias
-                  .Where(c => c.Nombre.Contains(filtro)) // Aplica filtro en la consulta
-                  .ToList();*/
-
-
-
-
-
-            //-------------------Filtro que usare
-
-
-
-            string columnaSeleccionada = campo; // Cambia esto a la columna que desees filtrar
+            string columnaSeleccionada = campo;
 
             var clientes = context.Clientes
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
-                    .ToList();
-
-            dataGridView1.Rows.Clear();
-            foreach (var item in clientes)
-            {
-                dataGridView1.Rows.Add(item.Secuencial,
-                    item.Codigo,
-                    item.Nombre,
-                    item.Telefono,
-                    item.Direccion,
-                    item.Email,
-
-
-                    (bool)item.Activo ? "Si" : "No",
-                    item.Imagen ?? "No Imagen" // Maneja el caso donde Imagen sea null
-                );
-            }
-
-
-            //-------------------Filtro que usare
-
-
-
+                .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) &&
+                            c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                .ToList();
 
             dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             // Agregar columnas si no existen
             if (dataGridView1.Columns.Count == 0)
@@ -630,10 +455,7 @@ namespace Monitux_POS.Ventanas
                 dataGridView1.Columns["Email"].Width = 100;
 
                 dataGridView1.Columns.Add("Activo", "Activo");
-
-                dataGridView1.Columns.Add("Imagen", "Imagen");
-
-
+                
             }
 
             // Limpiar filas antes de agregar nuevas
@@ -648,15 +470,12 @@ namespace Monitux_POS.Ventanas
                     item.Telefono,
                     item.Direccion,
                     item.Email,
-
-                    (bool)item.Activo ? "Si" : "No",
-
-                    item.Imagen ?? "No Imagen" // Maneja el caso donde Imagen sea null
+                    item.Activo == true ? "Sí" : "No"
+                   
                 );
             }
-
-
         }
+
 
 
 
@@ -667,22 +486,26 @@ namespace Monitux_POS.Ventanas
         }
 
         private void pictureBox6_Click(object sender, EventArgs e)
-        { 
+        {
             V_Captura_Imagen capturaImagen = new V_Captura_Imagen(Secuencial);
-            capturaImagen.titulo=txt_Codigo.Text;
+            capturaImagen.titulo = txt_Codigo.Text;
             capturaImagen.ShowDialog();
+
             Bitmap imagenCapturada = V_Captura_Imagen.Get_Imagen();
+
             if (imagenCapturada != null)
             {
                 pictureBox1.Image = imagenCapturada;
-                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CLI\\" + V_Menu_Principal.Secuencial_Empresa + "-Cli - " + Secuencial + ".PNG");
-                imagenCapturada.Save(rutaGuardado); // Guarda la imagen capturada en la ruta especificada
-                Imagen = rutaGuardado; // Actualiza la variable Imagen con la ruta guardada
+
+                using var ms = new MemoryStream();
+                imagenCapturada.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                Imagen = ms.ToArray(); // Guarda la imagen como byte[]
             }
             else
             {
                 V_Menu_Principal.MSG.ShowMSG("No se ha capturado ninguna imagen.", "Error");
             }
+
         }
 
         private void archivoToolStripMenuItem_Click(object sender, EventArgs e) 

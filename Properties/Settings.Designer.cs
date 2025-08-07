@@ -117,5 +117,29 @@ namespace Monitux_POS.Properties {
                 this["Usuario_Creado"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mysql")]
+        public string DB_PROVIDER {
+            get {
+                return ((string)(this["DB_PROVIDER"]));
+            }
+            set {
+                this["DB_PROVIDER"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("server=localhost;user=root;password=00511;database=monitux;")]
+        public string DB_CONNECTION {
+            get {
+                return ((string)(this["DB_CONNECTION"]));
+            }
+            set {
+                this["DB_CONNECTION"] = value;
+            }
+        }
     }
 }

@@ -53,7 +53,8 @@ namespace Monitux_POS.Ventanas
         public static int Secuencial_Usuario;
         public static string Nombre_Usuario = string.Empty;
         public static string Codigo_Usuario = string.Empty;
-        public static string Imagen_Usuario = "Sin Imagen"; // Variable para almacenar la imagen del usuario
+        public static byte[] Imagen_Usuario = null; // Variable para almacenar la imagen del usuario como byte[]
+
         public static string Acceso_Usuario = string.Empty; // Variable para almacenar los permisos del usuario
         public static double ISV = 0;
 
@@ -217,14 +218,27 @@ namespace Monitux_POS.Ventanas
                                                                                          //  btn_reportes.Visible = Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de reportes solo si el usuario es administrador
 
                 btn_movimientos.Visible = true;// Acceso_Usuario == "Administrador" ? true : false; // Mostrar el boton de campañas solo si el usuario es administrador
+
+
                 try
                 {
-                    pictureBox1.Image = Util.Cargar_Imagen_Local(Imagen_Usuario);
+                    if (V_Menu_Principal.Imagen_Usuario != null && V_Menu_Principal.Imagen_Usuario.Length > 0)
+                    {
+                        using var ms = new MemoryStream(V_Menu_Principal.Imagen_Usuario);
+                        pictureBox1.Image = Image.FromStream(ms);
+                    }
+                    else
+                    {
+                        pictureBox1.Image = null;
+                    }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    // MSG.ShowMSG("Error al cargar la imagen del usuario: " + ex.Message, "Error");
+                    pictureBox1.Image = null;
                 }
+
+
+
 
                 btn_inicio.PerformClick();
 

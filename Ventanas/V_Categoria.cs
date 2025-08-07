@@ -16,7 +16,7 @@ namespace Monitux_POS.Ventanas
     {
         public int Secuencial_Usuario { get; set; } = V_Menu_Principal.Secuencial_Usuario;
         int Secuencial = 0; // Variable para almacenar el secuencial de la categoria seleccionada
-        string Imagen = ""; // Variable para almacenar la imagen de la categoria seleccionada
+        byte[]? Imagen; // Variable para almacenar la imagen de la categoria seleccionada
         public V_Categoria()
         {
             InitializeComponent();
@@ -58,46 +58,61 @@ namespace Monitux_POS.Ventanas
 
         private void Cargar_Datos()
         {
-
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
 
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+            context.Database.EnsureCreated();
 
             var categorias = context.Categorias
-    .Where(c => c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
-    .ToList();
+                .Where(c => c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                .ToList();
 
-
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
-            dataGridView1.Columns.Add("Secuencial", "S");
-            dataGridView1.Columns["Secuencial"].Width = 20; // Ajusta el ancho de la columna Secuencial
-            dataGridView1.Columns.Add("Nombre", "Nombre");
-            dataGridView1.Columns["Nombre"].Width = 80; // Ajusta el ancho de la columna Nombre
-            dataGridView1.Columns.Add("Descripcion", "Descripcion");
-            dataGridView1.Columns["Descripcion"].Width = 250; // Ajusta el ancho de la columna Descripcion
-            dataGridView1.Columns.Add("Imagen", "Imagen");
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
+            // Columnas
+            dataGridView1.Columns.Add("Secuencial", "S");
+            dataGridView1.Columns["Secuencial"].Width = 20;
 
+            dataGridView1.Columns.Add("Nombre", "Nombre");
+            dataGridView1.Columns["Nombre"].Width = 80;
+
+            dataGridView1.Columns.Add("Descripcion", "Descripcion");
+            dataGridView1.Columns["Descripcion"].Width = 250;
+
+           /* // Columna de imagen como tipo imagen
+            var imageColumn = new DataGridViewImageColumn
+            {
+                Name = "Imagen",
+                HeaderText = "Imagen",
+                ImageLayout = DataGridViewImageCellLayout.Zoom,
+                Width = 100
+            };
+            dataGridView1.Columns.Add(imageColumn);*/
+
+            // Cargar datos
             foreach (var item in categorias)
             {
+                Image? imagen = null;
+
+                if (item.Imagen != null && item.Imagen.Length > 0)
+                {
+                    using var ms = new MemoryStream(item.Imagen);
+                    imagen = Image.FromStream(ms);
+                }
+
                 dataGridView1.Rows.Add(
                     item.Secuencial,
                     item.Nombre,
-                    item.Descripcion,
-                    item.Imagen ?? "No Imagen" // Maneja el caso donde Imagen sea null
-
+                    item.Descripcion
+                    //imagen ?? Properties.Resources.SinImagen // Usa una imagen por defecto si no hay
                 );
-
-
             }
-
-
         }
+
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -106,46 +121,43 @@ namespace Monitux_POS.Ventanas
             {
                 if (dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value != null)
                 {
-                    this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
-                }
+                    int secuencialSeleccionado = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
 
-                if (dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value != null)
-                {
-                    txtNombre.Text = dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
-                }
+                    using var context = new Monitux_DB_Context();
+                    var categoria = context.Categorias.FirstOrDefault(c => c.Secuencial == secuencialSeleccionado);
 
-                if (dataGridView1.Rows[e.RowIndex].Cells["Descripcion"].Value != null)
-                {
-                    txtDescripcion.Text = dataGridView1.Rows[e.RowIndex].Cells["Descripcion"].Value.ToString();
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value != null &&
-                    !string.IsNullOrEmpty(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString()))
-                {
-                    try
+                    if (categoria != null)
                     {
-                        pictureBox1.Image = Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
+                        this.Secuencial = categoria.Secuencial;
+                        txtNombre.Text = categoria.Nombre ?? "";
+                        txtDescripcion.Text = categoria.Descripcion ?? "";
+
+                        if (categoria.Imagen != null && categoria.Imagen.Length > 0)
+                        {
+                            try
+                            {
+                                using var ms = new MemoryStream(categoria.Imagen);
+                                pictureBox1.Image = Image.FromStream(ms);
+                            }
+                            catch
+                            {
+                                pictureBox1.Image = null;//Properties.Resources.SinImagen;
+                            }
+                        }
+                        else
+                        {
+                            pictureBox1.Image = null; //Properties.Resources.SinImagen;
+                        }
                     }
-                    catch
+                    else
                     {
-
-                        pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
+                       // Limpiar
                     }
-
-                }
-                else
-                {
-                    Secuencial = 0;
-                    pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
-                    txtNombre.Text = "";
-                    txtDescripcion.Text = "";
-
                 }
             }
             catch (Exception ex)
             {
-
-                pictureBox1.Image = null;
+               // LimpiarCampos();
             }
 
 
@@ -154,118 +166,126 @@ namespace Monitux_POS.Ventanas
         private void eliminarToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-
-
-            var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar esta categoria?", "Confirmación");
+            var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar esta categoría?", "Confirmación");
 
             if (res == DialogResult.Yes)
             {
-                // **DELETE**
                 try
                 {
                     if (pictureBox1.Image != null)
-                        pictureBox1.Image.Dispose(); // Libera la imagen del PictureBox antes de eliminarla
-                }
-                catch { }
+                    {
+                        pictureBox1.Image.Dispose(); // Libera la imagen del PictureBox
+                        pictureBox1.Image = null;    // Limpia la referencia visual
+                    }
 
-                SQLitePCL.Batteries.Init();
+                    Imagen = null; // Limpia también la imagen en memoria
+                }
+                catch
+                {
+                    // Puedes registrar el error si lo deseas
+                }
 
                 using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated(); // Crea la base de datos si no existe
+                context.Database.EnsureCreated();
 
-                var categoria = context.Categorias.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa);
+                var categoria = context.Categorias.FirstOrDefault(p =>
+                    p.Secuencial == this.Secuencial &&
+                    p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
+
                 if (categoria != null)
                 {
+                    string nombreCategoria = categoria.Nombre;
+
                     context.Categorias.Remove(categoria);
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado la categoria: " + categoria.Nombre, V_Menu_Principal.Secuencial_Empresa);
-                    V_Menu_Principal.MSG.ShowMSG("Categoria eliminada correctamente.", "Éxito");
+
+                    Util.Registrar_Actividad(Secuencial_Usuario, $"Ha eliminado la categoría: {nombreCategoria}", V_Menu_Principal.Secuencial_Empresa);
+                    V_Menu_Principal.MSG.ShowMSG("Categoría eliminada correctamente.", "Éxito");
                     Cargar_Datos();
                 }
+                else
+                {
+                    V_Menu_Principal.MSG.ShowMSG("No se encontró la categoría a eliminar.", "Error");
+                }
             }
+
+
         }
 
         private void guardarToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+            // Comprimir imagen si existe
+            byte[] imagenBytes = null;
+            if (pictureBox1.Image != null)
+            {
+                imagenBytes = Util.ComprimirImagen(pictureBox1.Image, 40L); // Calidad ajustable
+            }
+
             if (Secuencial != 0)
             {
-
-
-
+                // Validaciones
                 if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 {
-                    V_Menu_Principal.MSG.ShowMSG("El nombre de la categoria no puede estar vacío.", "Error");
+                    V_Menu_Principal.MSG.ShowMSG("El nombre de la categoría no puede estar vacío.", "Error");
                     return;
                 }
+
                 if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
                 {
-                    V_Menu_Principal.MSG.ShowMSG("La descripción de la categoria no puede estar vacía.", "Error");
+                    V_Menu_Principal.MSG.ShowMSG("La descripción de la categoría no puede estar vacía.", "Error");
                     return;
                 }
-                // **UPDATE**
-                SQLitePCL.Batteries.Init();
 
                 using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated(); // Crea la base de datos si no existe
-
+                context.Database.EnsureCreated();
 
                 var categoria = context.Categorias.FirstOrDefault(p => p.Secuencial == this.Secuencial);
                 if (categoria != null)
                 {
-                    categoria.Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa;
+                    categoria.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
                     categoria.Nombre = txtNombre.Text;
                     categoria.Descripcion = txtDescripcion.Text;
-                    categoria.Imagen = Imagen;
+                    categoria.Imagen = imagenBytes ?? categoria.Imagen;
+
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado la categoria: " + categoria.Nombre, V_Menu_Principal.Secuencial_Empresa);
-                    V_Menu_Principal.MSG.ShowMSG("Categoria actualizada correctamente.", "Éxito");
-                    Cargar_Datos(); // Recarga los datos para mostrar la categoria actualizada
+                    Util.Registrar_Actividad(Secuencial_Usuario, $"Ha modificado la categoría: {categoria.Nombre}", V_Menu_Principal.Secuencial_Empresa);
+                    V_Menu_Principal.MSG.ShowMSG("Categoría actualizada correctamente.", "Éxito");
+                    Cargar_Datos();
                 }
-
-
             }
             else
             {
-
+                // Validaciones
                 if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 {
-                    V_Menu_Principal.MSG.ShowMSG("El nombre de la categoria no puede estar vacío.", "Error");
+                    V_Menu_Principal.MSG.ShowMSG("El nombre de la categoría no puede estar vacío.", "Error");
                     return;
                 }
+
                 if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
                 {
-                    V_Menu_Principal.MSG.ShowMSG("La descripción de la categoria no puede estar vacía.", "Error");
+                    V_Menu_Principal.MSG.ShowMSG("La descripción de la categoría no puede estar vacía.", "Error");
                     return;
                 }
-                // **Create**
-                SQLitePCL.Batteries.Init();
 
                 using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated(); // Crea la base de datos si no existe
+                context.Database.EnsureCreated();
 
-                var categoria = new Categoria();
-                categoria.Secuencial_Empresa=V_Menu_Principal.Secuencial_Empresa;
-                categoria.Secuencial = context.Categorias.Any() ? context.Categorias.Max(c => c.Secuencial) + 1 : 1; // Asigna un nuevo secuencial
-                categoria.Nombre = txtNombre.Text;
-                categoria.Descripcion = txtDescripcion.Text;
-                if (pictureBox1.Image != null)
+                var categoria = new Categoria
                 {
-                    categoria.Imagen = Imagen;
-                }
-                else
-                {
-                    categoria.Imagen = "Sin Imagen"; // Asigna una imagen por defecto si no se ha seleccionado una imagen
-                }
-
+                    Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa,
+                    Secuencial = context.Categorias.Any() ? context.Categorias.Max(c => c.Secuencial) + 1 : 1,
+                    Nombre = txtNombre.Text,
+                    Descripcion = txtDescripcion.Text,
+                    Imagen = imagenBytes // Comprimida o null
+                };
 
                 context.Categorias.Add(categoria);
                 context.SaveChanges();
-                Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado la categoria: " + txtNombre.Text, V_Menu_Principal.Secuencial_Empresa);
-                V_Menu_Principal.MSG.ShowMSG("Categoria creada correctamente.", "Éxito");
-                Cargar_Datos(); // Recarga los datos para mostrar la nueva categoria
-
-
+                Util.Registrar_Actividad(Secuencial_Usuario, $"Ha creado la categoría: {categoria.Nombre}", V_Menu_Principal.Secuencial_Empresa);
+                V_Menu_Principal.MSG.ShowMSG("Categoría creada correctamente.", "Éxito");
+                Cargar_Datos();
             }
 
 
@@ -274,25 +294,26 @@ namespace Monitux_POS.Ventanas
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CAT\\"+V_Menu_Principal.Secuencial_Empresa+"-Cat - " + Secuencial + ".PNG");
-
 
             try
             {
-                string Imagen_Seleccionada = Util.Abrir_Dialogo_Seleccion_URL();
-                if (Imagen_Seleccionada != "")
+                string imagenSeleccionada = Util.Abrir_Dialogo_Seleccion_URL();
+
+                if (!string.IsNullOrEmpty(imagenSeleccionada))
                 {
-                    Imagen = Imagen_Seleccionada;
-                    pictureBox1.Image = Util.Cargar_Imagen_Local(Imagen);
+                    Image imagenCargada = Image.FromFile(imagenSeleccionada);
+                    pictureBox1.Image = imagenCargada;
 
-                    pictureBox1.Image.Save(rutaGuardado);
-                    this.Imagen = rutaGuardado;
+                    using var ms = new MemoryStream();
+                    imagenCargada.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    Imagen = ms.ToArray(); // Guarda la imagen como byte[]
                 }
-
-
-
             }
-            catch { }
+            catch
+            {
+                Imagen = null;
+            }
+
 
         }
 
@@ -320,81 +341,53 @@ namespace Monitux_POS.Ventanas
         }
 
 
+
+
         private void Filtrar(string campo, string valor)
         {
-
-
-
-
-
-            SQLitePCL.Batteries.Init();
-
             using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+            context.Database.EnsureCreated();
 
-            // Filtrar categorías antes de agregarlas al DataGridView
-            /*  string filtro = "eeee"; // Define el criterio de búsqueda
-              var categoriasFiltradas = context.Categorias
-                  .Where(c => c.Nombre.Contains(filtro)) // Aplica filtro en la consulta
-                  .ToList();*/
-
-
-
-
-
-            //-------------------Filtro que usare
-
-
-
-            string columnaSeleccionada = campo; // Cambia esto a la columna que desees filtrar
-
+            // Filtrar por el campo especificado y empresa actual
             var categoriasFiltradas = context.Categorias
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa)
-                    .ToList();
+                .Where(c => EF.Property<string>(c, campo).Contains(valor) &&
+                            c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                .ToList();
 
-            dataGridView1.Rows.Clear();
-            foreach (var item in categoriasFiltradas)
-            {
-                dataGridView1.Rows.Add(item.Secuencial, item.Nombre, item.Descripcion, item.Imagen ?? "No Imagen");
-            }
-
-
-            //-------------------Filtro que usare
-
-
-
-
-
-
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
-
-            // Agregar columnas si no existen
+            // Configurar columnas si aún no existen
             if (dataGridView1.Columns.Count == 0)
             {
                 dataGridView1.Columns.Add("Secuencial", "S");
                 dataGridView1.Columns["Secuencial"].Width = 20;
+
                 dataGridView1.Columns.Add("Nombre", "Nombre");
                 dataGridView1.Columns["Nombre"].Width = 80;
-                dataGridView1.Columns.Add("Descripcion", "Descripcion");
+
+                dataGridView1.Columns.Add("Descripcion", "Descripción");
                 dataGridView1.Columns["Descripcion"].Width = 250;
-                dataGridView1.Columns.Add("Imagen", "Imagen");
+
+                
             }
 
-            // Limpiar filas antes de agregar nuevas
             dataGridView1.Rows.Clear();
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             foreach (var item in categoriasFiltradas)
             {
+               
+
                 dataGridView1.Rows.Add(
                     item.Secuencial,
                     item.Nombre,
-                    item.Descripcion,
-                    item.Imagen ?? "No Imagen" // Maneja el caso donde Imagen sea null
+                    item.Descripcion
+                    
                 );
             }
-
-
         }
+
+
+
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -455,66 +448,72 @@ namespace Monitux_POS.Ventanas
             {
                 if (dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value != null)
                 {
-                    this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
-                }
+                    int secuencialSeleccionado = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
 
-                if (dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value != null)
-                {
-                    txtNombre.Text = dataGridView1.Rows[e.RowIndex].Cells["Nombre"].Value.ToString();
-                }
+                    using var context = new Monitux_DB_Context();
+                    var categoria = context.Categorias.FirstOrDefault(c => c.Secuencial == secuencialSeleccionado);
 
-                if (dataGridView1.Rows[e.RowIndex].Cells["Descripcion"].Value != null)
-                {
-                    txtDescripcion.Text = dataGridView1.Rows[e.RowIndex].Cells["Descripcion"].Value.ToString();
-                }
-
-                if (dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value != null &&
-                    !string.IsNullOrEmpty(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString()))
-                {
-                    try
+                    if (categoria != null)
                     {
-                        pictureBox1.Image = Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
-                        Imagen = dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString(); // Guarda la imagen seleccionada
+                        this.Secuencial = categoria.Secuencial;
+                        txtNombre.Text = categoria.Nombre ?? "";
+                        txtDescripcion.Text = categoria.Descripcion ?? "";
+
+                        if (categoria.Imagen != null && categoria.Imagen.Length > 0)
+                        {
+                            try
+                            {
+                                using var ms = new MemoryStream(categoria.Imagen);
+                                pictureBox1.Image = Image.FromStream(ms);
+                            }
+                            catch
+                            {
+                                pictureBox1.Image = null;//Properties.Resources.SinImagen;
+                            }
+                        }
+                        else
+                        {
+                            pictureBox1.Image = null; //Properties.Resources.SinImagen;
+                        }
                     }
-                    catch
+                    else
                     {
-
-                        pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
+                        // Limpiar
                     }
-
-                }
-                else
-                {
-                    Secuencial = 0;
-                    pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
-                    txtNombre.Text = "";
-                    txtDescripcion.Text = "";
-
                 }
             }
             catch (Exception ex)
             {
-
-                pictureBox1.Image = null;
+                // LimpiarCampos();
             }
+
+
+
 
         }
 
         private void pictureBox6_Click(object sender, EventArgs e)
         {
+
             V_Captura_Imagen capturaImagen = new V_Captura_Imagen();
             capturaImagen.ShowDialog();
+
             Bitmap imagenCapturada = V_Captura_Imagen.Get_Imagen();
+
             if (imagenCapturada != null)
             {
                 pictureBox1.Image = imagenCapturada;
-                Imagen = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\CAT\\"+V_Menu_Principal.Secuencial_Empresa+"-Cat - " + Secuencial + ".PNG");
-                pictureBox1.Image.Save(Imagen); // Guarda la imagen capturada en la ruta especificada
+
+                using var ms = new MemoryStream();
+                imagenCapturada.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                Imagen = ms.ToArray(); // Guarda la imagen como byte[]
             }
             else
             {
                 V_Menu_Principal.MSG.ShowMSG("No se ha capturado ninguna imagen.", "Error");
             }
+
+
         }
     }
 }

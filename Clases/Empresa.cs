@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Monitux_POS.Clases
 {
@@ -18,10 +15,11 @@ namespace Monitux_POS.Clases
         public double ISV { get; set; } = 0.0;
 
         public bool Activa { get; set; } = true;
-        public string Imagen { get; set; } = string.Empty;
-        public int Secuencial_Usuario { get; set; } 
+
+        public byte[]? Imagen { get; set; } // Imagen como byte[] en lugar de string
+
+        public int Secuencial_Usuario { get; set; }
 
         public string RSS { get; set; } = "https://www.tunota.com/rss/honduras-hoy.xml";
-
     }
 }

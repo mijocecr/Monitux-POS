@@ -1,9 +1,10 @@
 ﻿namespace Monitux_POS.Clases
 {
 
+    using Microsoft.EntityFrameworkCore;
 
     using Microsoft.Data.Sqlite;
-    using Microsoft.EntityFrameworkCore;
+    
     using System;
     using System.IO;
     using System.Reflection;

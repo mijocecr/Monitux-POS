@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using Monitux_POS.Clases;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Monitux_POS.Ventanas
     {
         public int Secuencial_Usuario { get; set; } = V_Menu_Principal.Secuencial_Usuario;
         int Secuencial = 0;
-        string Imagen = "";
+        public byte[]? Imagen { get; set; }
         public V_Usuario()
         {
             InitializeComponent();
@@ -76,48 +77,47 @@ namespace Monitux_POS.Ventanas
         }
 
 
-
         private void Cargar_Datos()
         {
-
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
-            SQLitePCL.Batteries.Init();
 
+            SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+            context.Database.EnsureCreated();
 
             var usuarios = context.Usuarios
-                      .Where(u => u.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
-                      .ToList();
-
+                .Where(u => u.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                .ToList();
 
             dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
             dataGridView1.Columns.Add("Secuencial", "S");
-            dataGridView1.Columns["Secuencial"].Width = 20; // Ajusta el ancho de la columna Secuencial
+            dataGridView1.Columns["Secuencial"].Width = 20;
 
-
-            dataGridView1.Columns.Add("Codigo", "Codigo");
-            dataGridView1.Columns["Codigo"].Width = 80; // Ajusta el ancho de la columna Nombre
+            dataGridView1.Columns.Add("Codigo", "Código");
+            dataGridView1.Columns["Codigo"].Width = 80;
 
             dataGridView1.Columns.Add("Nombre", "Nombre");
-            dataGridView1.Columns["Nombre"].Width = 80; // Ajusta el ancho de la columna Nombre
+            dataGridView1.Columns["Nombre"].Width = 80;
 
             dataGridView1.Columns.Add("Password", "Password");
-            dataGridView1.Columns["Password"].Width = 60; // Ajusta el ancho de la columna Nombre
-            dataGridView1.Columns["Password"].Visible = false; // Oculta la columna Password
-            dataGridView1.Columns.Add("Imagen", "Imagen");
+            dataGridView1.Columns["Password"].Width = 60;
+            dataGridView1.Columns["Password"].Visible = false;
+
+            var colImagen = new DataGridViewTextBoxColumn
+            {
+                Name = "Imagen",
+                HeaderText = "Imagen",
+                Visible = false // Oculta la columna de imagen binaria
+            };
+            dataGridView1.Columns.Add(colImagen);
+
             dataGridView1.Columns.Add("Acceso", "Acceso");
-            dataGridView1.Columns["Acceso"].Width = 150; // Ajusta el ancho de la columna Descripcion
-
-
+            dataGridView1.Columns["Acceso"].Width = 150;
 
             dataGridView1.Columns.Add("Activo", "Activo");
-
-
-
 
             foreach (var item in usuarios)
             {
@@ -126,53 +126,36 @@ namespace Monitux_POS.Ventanas
                     item.Codigo,
                     item.Nombre,
                     item.Password,
-
-                       item.Imagen ?? "No Imagen", // Maneja el caso donde Imagen sea null
-                       item.Acceso,
-                    (bool)item.Activo ? "Si" : "No"
-
-
-
-
+                    item.Imagen, // byte[] se guarda internamente
+                    item.Acceso,
+                    item.Activo ? "Si" : "No"
                 );
-
-
             }
-
-
         }
+
 
 
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
-
-
-
-            string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\USR\\" + V_Menu_Principal.Secuencial_Empresa + "-Usr - " + Secuencial + ".PNG");
-
-
             try
             {
-                string Imagen_Seleccionada = Util.Abrir_Dialogo_Seleccion_URL();
-                if (Imagen_Seleccionada != "")
+                string imagenSeleccionada = Util.Abrir_Dialogo_Seleccion_URL();
+                if (!string.IsNullOrWhiteSpace(imagenSeleccionada))
                 {
-                    Imagen = Imagen_Seleccionada;
-                    pictureBox1.Image = Util.Cargar_Imagen_Local(Imagen);
+                    Image imagenCargada = Util.Cargar_Imagen_Local(imagenSeleccionada);
+                    pictureBox1.Image = imagenCargada;
 
-                    pictureBox1.Image.Save(rutaGuardado);
-                    this.Imagen = rutaGuardado;
+                    using var ms = new MemoryStream();
+                    imagenCargada.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    Imagen = ms.ToArray(); // Guarda la imagen como byte[]
                 }
-
-
-
             }
             catch
             {
-
-                Imagen = "Sin Imagen";
-
+                Imagen = null; // Si falla, no se asigna imagen
+                V_Menu_Principal.MSG.ShowMSG("No se pudo cargar la imagen seleccionada.", "Error");
             }
 
 
@@ -181,19 +164,11 @@ namespace Monitux_POS.Ventanas
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
-
-
             try
             {
-
-
-
-
-
                 if (dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value != null)
                 {
                     this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
-
                 }
 
                 if (dataGridView1.Rows[e.RowIndex].Cells["Codigo"].Value != null)
@@ -208,78 +183,58 @@ namespace Monitux_POS.Ventanas
 
                 if (dataGridView1.Rows[e.RowIndex].Cells["Password"].Value != null)
                 {
-
-
-                    string password = Util.Encriptador.Desencriptar(txt_Password.Text = dataGridView1.Rows[e.RowIndex].Cells["Password"].Value.ToString());
-                    txt_Password.Text = password; // Asigna el valor desencriptado al TextBox
-
+                    string password = dataGridView1.Rows[e.RowIndex].Cells["Password"].Value.ToString();
+                    txt_Password.Text = Util.Encriptador.Desencriptar(password);
                 }
-
 
                 if (dataGridView1.Rows[e.RowIndex].Cells["Acceso"].Value != null)
                 {
-
-
+                    string acceso = dataGridView1.Rows[e.RowIndex].Cells["Acceso"].Value.ToString();
                     foreach (var item in comboBox1.Items)
                     {
-                        if (item.ToString().Contains(dataGridView1.Rows[e.RowIndex].Cells["Acceso"].Value.ToString()))  // Verifica si hay un número
+                        if (item.ToString().Contains(acceso))
                         {
                             comboBox1.SelectedItem = item;
                             break;
                         }
                     }
-
                 }
-
-
-
-
-
 
                 if (dataGridView1.Rows[e.RowIndex].Cells["Activo"].Value != null)
                 {
-                    if (dataGridView1.Rows[e.RowIndex].Cells["Activo"].Value.ToString() == "Si")
-                    {
-                        checkBox1.Checked = true;
-                    }
-                    else
-                    {
-                        checkBox1.Checked = false;
-                    }
+                    checkBox1.Checked = dataGridView1.Rows[e.RowIndex].Cells["Activo"].Value.ToString() == "Si";
                 }
 
-                if (dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value != null &&
-                    !string.IsNullOrEmpty(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString()))
+                // Cargar imagen desde la base de datos como byte[]
+                SQLitePCL.Batteries.Init();
+                using var context = new Monitux_DB_Context();
+                context.Database.EnsureCreated();
+
+                var usuario = context.Usuarios.FirstOrDefault(u =>
+                    u.Secuencial == this.Secuencial &&
+                    u.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
+
+                if (usuario != null && usuario.Imagen != null && usuario.Imagen.Length > 0)
                 {
                     try
                     {
-                        pictureBox1.Image = Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
-                        Imagen = dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString(); // Guarda la ruta de la imagen
+                        using var ms = new MemoryStream(usuario.Imagen);
+                        pictureBox1.Image = Image.FromStream(ms);
                     }
                     catch
                     {
-
-                        pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
+                        pictureBox1.Image = null;
                     }
-
                 }
                 else
                 {
-
-                    pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
-                                              // txtNombre.Text = "";
-                                              //txtDescripcion.Text = "";
-
+                    pictureBox1.Image = null;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
                 pictureBox1.Image = null;
             }
-
-
-
 
 
 
@@ -294,20 +249,23 @@ namespace Monitux_POS.Ventanas
         {
 
 
-
-
-            if (Secuencial != 0)
+            byte[] imagenBytes = null;
+            if (pictureBox1.Image != null)
             {
+                imagenBytes = Util.ComprimirImagen(pictureBox1.Image, 40L); // Calidad ajustable
+            }
 
-
+            if (Secuencial != 0) // MODO EDICIÓN
+            {
                 if (string.IsNullOrWhiteSpace(txt_Nombre.Text))
                 {
                     V_Menu_Principal.MSG.ShowMSG("El nombre del usuario no puede estar vacío.", "Error");
                     return;
                 }
+
                 if (string.IsNullOrWhiteSpace(txt_Codigo.Text))
                 {
-                    V_Menu_Principal.MSG.ShowMSG("El codigo de usuario no puede estar vacío.", "Error");
+                    V_Menu_Principal.MSG.ShowMSG("El código de usuario no puede estar vacío.", "Error");
                     return;
                 }
 
@@ -316,36 +274,28 @@ namespace Monitux_POS.Ventanas
                     V_Menu_Principal.MSG.ShowMSG("El password no puede estar vacío.", "Error");
                     return;
                 }
-                // **UPDATE**
-                SQLitePCL.Batteries.Init();
 
+                SQLitePCL.Batteries.Init();
                 using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated(); // Crea la base de datos si no existe
-                //string passwordEncriptado;
+                context.Database.EnsureCreated();
 
                 var usuario = context.Usuarios.FirstOrDefault(p => p.Secuencial == this.Secuencial);
                 if (usuario != null)
                 {
-                    // passwordEncriptado = usuario.Password;
                     usuario.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
                     usuario.Nombre = txt_Nombre.Text;
                     usuario.Codigo = txt_Codigo.Text;
                     usuario.Password = Util.Encriptador.Encriptar(txt_Password.Text);
-                    usuario.Acceso = comboBox1.SelectedItem != null ? comboBox1.SelectedItem.ToString() : "Sin Tipo";
+                    usuario.Acceso = comboBox1.SelectedItem?.ToString() ?? "Sin Tipo";
                     usuario.Activo = checkBox1.Checked;
+                    usuario.Imagen = imagenBytes ?? usuario.Imagen; // Actualiza si hay nueva imagen
 
-
-
-                    usuario.Imagen = Imagen;
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha modificado al usuario: " + usuario.Nombre, V_Menu_Principal.Secuencial_Empresa);
+                    Util.Registrar_Actividad(Secuencial_Usuario, $"Ha modificado al usuario: {usuario.Nombre}", V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Usuario actualizado correctamente.", "Éxito");
-
                 }
-
-
             }
-            else
+            else // MODO CREACIÓN
             {
                 if (comboBox1.SelectedIndex == -1)
                 {
@@ -358,9 +308,10 @@ namespace Monitux_POS.Ventanas
                     V_Menu_Principal.MSG.ShowMSG("El nombre del usuario no puede estar vacío.", "Error");
                     return;
                 }
+
                 if (string.IsNullOrWhiteSpace(txt_Codigo.Text))
                 {
-                    V_Menu_Principal.MSG.ShowMSG("El codigo no puede estar vacío.", "Error");
+                    V_Menu_Principal.MSG.ShowMSG("El código no puede estar vacío.", "Error");
                     return;
                 }
 
@@ -369,57 +320,39 @@ namespace Monitux_POS.Ventanas
                     V_Menu_Principal.MSG.ShowMSG("El password no puede estar vacío.", "Error");
                     return;
                 }
-                // **Create**
+
                 SQLitePCL.Batteries.Init();
-
                 using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated(); // Crea la base de datos si no existe
+                context.Database.EnsureCreated();
 
-                var usuario = new Usuario();
-                usuario.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
-                usuario.Nombre = txt_Nombre.Text;
-                usuario.Codigo = txt_Codigo.Text;
-                usuario.Password = Util.Encriptador.Encriptar(txt_Password.Text);
-
-
-                usuario.Acceso = comboBox1.SelectedItem != null ? comboBox1.SelectedItem.ToString() : "Sin Tipo";
-                usuario.Activo = true;
-
-
-                if (pictureBox1.Image != null)
+                var usuario = new Usuario
                 {
-                    usuario.Imagen = Imagen;
-                }
-                else
-                {
-                    usuario.Imagen = "Sin Imagen"; // Asigna una imagen por defecto si no se ha seleccionado una imagen
-                }
+                    Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa,
+                    Nombre = txt_Nombre.Text,
+                    Codigo = txt_Codigo.Text,
+                    Password = Util.Encriptador.Encriptar(txt_Password.Text),
+                    Acceso = comboBox1.SelectedItem?.ToString() ?? "Sin Tipo",
+                    Activo = true,
+                    Imagen = imagenBytes // Comprimida o null
+                };
 
                 try
                 {
                     context.Usuarios.Add(usuario);
                     context.SaveChanges();
                     V_Menu_Principal.MSG.ShowMSG("Usuario creado correctamente.", "Éxito");
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha creado al usuario: " + txt_Nombre.Text, V_Menu_Principal.Secuencial_Empresa);
-
-
+                    Util.Registrar_Actividad(Secuencial_Usuario, $"Ha creado al usuario: {usuario.Nombre}", V_Menu_Principal.Secuencial_Empresa);
                 }
-
-
-
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    V_Menu_Principal.MSG.ShowMSG("Error al crear usuario: Ya existe o los datos proporcionados no son validos.", "Error");
+                    V_Menu_Principal.MSG.ShowMSG("Error al crear usuario: Ya existe o los datos proporcionados no son válidos.", "Error");
                     return;
                 }
-
-
-
-
             }
 
+            Cargar_Datos(); // Refresca la vista
 
-            Cargar_Datos();
+
 
 
 
@@ -431,7 +364,7 @@ namespace Monitux_POS.Ventanas
             txt_Nombre.Text = "";
             txt_Password.Text = "";
             pictureBox1.Image = null; // Limpia la imagen
-            Imagen = ""; // Limpia la variable de imagen
+            
             Secuencial = 0; // Reinicia el secuencial
             comboBox1.SelectedIndex = 0; // Selecciona el primer elemento del comboBox
             checkBox1.Checked = true; // Marca el checkbox como activo
@@ -442,35 +375,41 @@ namespace Monitux_POS.Ventanas
         {
 
 
-
-
             var res = V_Menu_Principal.MSG.ShowMSG("¿Está seguro de eliminar este usuario?", "Confirmación");
 
             if (res == DialogResult.Yes)
             {
-                // **DELETE**
                 try
                 {
-                    if (pictureBox1.Image != null)
-                        pictureBox1.Image.Dispose(); // Libera la imagen del PictureBox antes de eliminarla
+                    pictureBox1.Image?.Dispose(); // Libera la imagen si existe
+                    pictureBox1.Image = null;
+                    Imagen = null;
                 }
-                catch { }
+                catch
+                {
+                    // Silenciar errores de liberación de imagen
+                }
 
                 SQLitePCL.Batteries.Init();
-
                 using var context = new Monitux_DB_Context();
-                context.Database.EnsureCreated(); // Crea la base de datos si no existe
+                context.Database.EnsureCreated();
 
-                var usuario = context.Usuarios.FirstOrDefault(p => p.Secuencial == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
+                var usuario = context.Usuarios.FirstOrDefault(p =>
+                    p.Secuencial == this.Secuencial &&
+                    p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
+
                 if (usuario != null)
                 {
                     context.Usuarios.Remove(usuario);
                     context.SaveChanges();
-                    Util.Registrar_Actividad(Secuencial_Usuario, "Ha eliminado al usuario: " + usuario.Nombre, V_Menu_Principal.Secuencial_Empresa);
+
+                    Util.Registrar_Actividad(Secuencial_Usuario, $"Ha eliminado al usuario: {usuario.Nombre}", V_Menu_Principal.Secuencial_Empresa);
                     V_Menu_Principal.MSG.ShowMSG("Usuario eliminado correctamente.", "Éxito");
                     Cargar_Datos();
                 }
             }
+
+
 
 
         }
@@ -478,70 +417,26 @@ namespace Monitux_POS.Ventanas
 
 
 
-
         private void Filtrar(string campo, string valor)
         {
-
-
-
-
-
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+            context.Database.EnsureCreated();
 
-            // Filtrar categorías antes de agregarlas al DataGridView
-            /*  string filtro = "eeee"; // Define el criterio de búsqueda
-              var categoriasFiltradas = context.Categorias
-                  .Where(c => c.Nombre.Contains(filtro)) // Aplica filtro en la consulta
-                  .ToList();*/
-
-
-
-
-
-            //-------------------Filtro que usare
-
-
-
-            string columnaSeleccionada = campo; // Cambia esto a la columna que desees filtrar
-
+            // Obtener usuarios filtrados por el campo y valor especificado
             var usuarios = context.Usuarios
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
-                    .ToList();
+                .Where(u => EF.Property<string>(u, campo).Contains(valor) &&
+                            u.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                .ToList();
 
-            dataGridView1.Rows.Clear();
-            foreach (var item in usuarios)
-            {
-                dataGridView1.Rows.Add(item.Secuencial,
-                    item.Codigo,
-                    item.Nombre,
-                    item.Password,
-
-
-                    (bool)item.Activo ? "Si" : "No",
-                    item.Imagen ?? "No Imagen" // Maneja el caso donde Imagen sea null
-                );
-            }
-
-
-            //-------------------Filtro que usare
-
-
-
-
-
-
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
-
-            // Agregar columnas si no existen
+            // Configurar columnas si aún no existen
             if (dataGridView1.Columns.Count == 0)
             {
                 dataGridView1.Columns.Add("Secuencial", "S");
                 dataGridView1.Columns["Secuencial"].Width = 20;
 
-                dataGridView1.Columns.Add("Codigo", "Codigo");
+                dataGridView1.Columns.Add("Codigo", "Código");
                 dataGridView1.Columns["Codigo"].Width = 80;
 
                 dataGridView1.Columns.Add("Nombre", "Nombre");
@@ -549,36 +444,30 @@ namespace Monitux_POS.Ventanas
 
                 dataGridView1.Columns.Add("Password", "Password");
                 dataGridView1.Columns["Password"].Width = 60;
-                dataGridView1.Columns["Password"].Visible = false; // Oculta la columna Password
-
-
+                dataGridView1.Columns["Password"].Visible = false;
 
                 dataGridView1.Columns.Add("Activo", "Activo");
-
-                dataGridView1.Columns.Add("Imagen", "Imagen");
-
-
+                
             }
 
-            // Limpiar filas antes de agregar nuevas
+            // Limpiar y cargar resultados
             dataGridView1.Rows.Clear();
-
-            foreach (var item in usuarios)
+            foreach (var u in usuarios)
             {
                 dataGridView1.Rows.Add(
-                    item.Secuencial,
-                    item.Codigo,
-                    item.Nombre,
-                    item.Password,
-
-                    (bool)item.Activo ? "Si" : "No",
-
-                    item.Imagen ?? "No Imagen" // Maneja el caso donde Imagen sea null
+                    u.Secuencial,
+                    u.Codigo,
+                    u.Nombre,
+                    u.Password,
+                    u.Activo ? "Sí" : "No"
+                    
                 );
             }
 
-
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
+
+
 
 
 
@@ -596,20 +485,11 @@ namespace Monitux_POS.Ventanas
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
 
-
-
-
             try
             {
-
-
-
-
-
                 if (dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value != null)
                 {
                     this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
-
                 }
 
                 if (dataGridView1.Rows[e.RowIndex].Cells["Codigo"].Value != null)
@@ -624,80 +504,58 @@ namespace Monitux_POS.Ventanas
 
                 if (dataGridView1.Rows[e.RowIndex].Cells["Password"].Value != null)
                 {
-
-
-                    string password = Util.Encriptador.Desencriptar(txt_Password.Text = dataGridView1.Rows[e.RowIndex].Cells["Password"].Value.ToString());
-                    txt_Password.Text = password; // Asigna el valor desencriptado al TextBox
-
+                    string password = dataGridView1.Rows[e.RowIndex].Cells["Password"].Value.ToString();
+                    txt_Password.Text = Util.Encriptador.Desencriptar(password);
                 }
-
 
                 if (dataGridView1.Rows[e.RowIndex].Cells["Acceso"].Value != null)
                 {
-
-
+                    string acceso = dataGridView1.Rows[e.RowIndex].Cells["Acceso"].Value.ToString();
                     foreach (var item in comboBox1.Items)
                     {
-                        if (item.ToString().Contains(dataGridView1.Rows[e.RowIndex].Cells["Acceso"].Value.ToString()))  // Verifica si hay un número
+                        if (item.ToString().Contains(acceso))
                         {
                             comboBox1.SelectedItem = item;
                             break;
                         }
                     }
-
                 }
-
-
-
-
-
 
                 if (dataGridView1.Rows[e.RowIndex].Cells["Activo"].Value != null)
                 {
-                    if (dataGridView1.Rows[e.RowIndex].Cells["Activo"].Value.ToString() == "Si")
-                    {
-                        checkBox1.Checked = true;
-                    }
-                    else
-                    {
-                        checkBox1.Checked = false;
-                    }
+                    checkBox1.Checked = dataGridView1.Rows[e.RowIndex].Cells["Activo"].Value.ToString() == "Si";
                 }
 
-                if (dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value != null &&
-                    !string.IsNullOrEmpty(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString()))
+                // Cargar imagen desde la base de datos como byte[]
+                SQLitePCL.Batteries.Init();
+                using var context = new Monitux_DB_Context();
+                context.Database.EnsureCreated();
+
+                var usuario = context.Usuarios.FirstOrDefault(u =>
+                    u.Secuencial == this.Secuencial &&
+                    u.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
+
+                if (usuario != null && usuario.Imagen != null && usuario.Imagen.Length > 0)
                 {
                     try
                     {
-                        pictureBox1.Image = Util.Cargar_Imagen_Local(dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString());
-                        Imagen = dataGridView1.Rows[e.RowIndex].Cells["Imagen"].Value.ToString(); // Guarda la ruta de la imagen
+                        using var ms = new MemoryStream(usuario.Imagen);
+                        pictureBox1.Image = Image.FromStream(ms);
                     }
                     catch
                     {
-
-                        pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
+                        pictureBox1.Image = null;
                     }
-
                 }
                 else
                 {
-
-                    pictureBox1.Image = null; // Si no se puede cargar la imagen, establece la imagen como nula
-                                              // txtNombre.Text = "";
-                                              //txtDescripcion.Text = "";
-
+                    pictureBox1.Image = null;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
                 pictureBox1.Image = null;
             }
-
-
-
-
-
 
 
 
@@ -727,18 +585,21 @@ namespace Monitux_POS.Ventanas
         {
             V_Captura_Imagen capturaImagen = new V_Captura_Imagen(Secuencial);
             capturaImagen.ShowDialog();
+
             Bitmap imagenCapturada = V_Captura_Imagen.Get_Imagen();
             if (imagenCapturada != null)
             {
-                pictureBox1.Image = imagenCapturada; // Asigna la imagen capturada al PictureBox
-                string rutaGuardado = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\USR\\" + V_Menu_Principal.Secuencial_Empresa + "-Usr - " + Secuencial + ".PNG");
-                imagenCapturada.Save(rutaGuardado); // Guarda la imagen en la ruta especificada
-                Imagen = rutaGuardado; // Actualiza la variable Imagen con la ruta guardada
+                pictureBox1.Image = imagenCapturada;
+
+                using var ms = new MemoryStream();
+                imagenCapturada.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                Imagen = ms.ToArray(); // Guarda la imagen como byte[]
             }
             else
             {
                 V_Menu_Principal.MSG.ShowMSG("No se ha capturado ninguna imagen.", "Error");
             }
+
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
