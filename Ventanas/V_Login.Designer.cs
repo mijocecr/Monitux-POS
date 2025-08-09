@@ -454,8 +454,8 @@
             panel2.Controls.Add(label11);
             panel2.Controls.Add(linkLabel1);
             panel2.Controls.Add(label3);
-            panel2.Controls.Add(panel4);
             panel2.Controls.Add(panel3);
+            panel2.Controls.Add(panel4);
             panel2.Dock = DockStyle.Right;
             panel2.Location = new Point(411, 0);
             panel2.Name = "panel2";

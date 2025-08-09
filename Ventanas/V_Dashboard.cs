@@ -128,19 +128,26 @@ namespace Monitux_POS.Ventanas
 
         }
 
+
+
+
+
         private void Cargar_Destacados(int secuencial_Empresa)
         {
-
-
             using (var db = new Monitux_DB_Context())
             {
-                var destacados = db.Clientes
-                    .AsEnumerable()
+                // ✅ Fase 1: Cargar datos en memoria
+                var clientes = db.Clientes.ToList();
+                var ventas = db.Ventas
+                    .Where(v => v.Secuencial_Empresa == secuencial_Empresa)
+                    .ToList();
+
+                // ✅ Fase 2: Procesar en memoria
+                var destacados = clientes
                     .Select(c =>
                     {
-                        var ventasCliente = db.Ventas
-                            .AsEnumerable()
-                            .Where(v => v.Secuencial_Cliente == c.Secuencial && v.Secuencial_Empresa == secuencial_Empresa);
+                        var ventasCliente = ventas
+                            .Where(v => v.Secuencial_Cliente == c.Secuencial);
 
                         var ventasUltimos30Dias = ventasCliente
                             .Where(v =>
@@ -175,23 +182,22 @@ namespace Monitux_POS.Ventanas
                     .Take(5)
                     .ToList();
 
+                // ✅ Mostrar en DataGridView
                 dataGridViewClientesDestacados.DataSource = destacados;
 
-
-
-
+                // ✅ Mostrar tarjetas visuales
                 string[] titulos = { "🥇 Cliente #1", "🥈 Cliente #2", "🥉 Cliente #3" };
                 Color[] fondos = {
-    Color.FromArgb(26, 32, 44),
-    Color.FromArgb(36, 42, 60),
-    Color.FromArgb(46, 50, 66)
-};
+            Color.FromArgb(26, 32, 44),
+            Color.FromArgb(36, 42, 60),
+            Color.FromArgb(46, 50, 66)
+        };
                 Color[] coloresValor = { Color.Gold, Color.Silver, Color.DarkOrange };
                 Image[] iconos = {
-    Properties.Resources.oro,
-    Properties.Resources.plata,
-    Properties.Resources.bronze
-};
+            Properties.Resources.oro,
+            Properties.Resources.plata,
+            Properties.Resources.bronze
+        };
 
                 int alturaBase = 10;
                 int separacionVertical = 90;
@@ -200,14 +206,13 @@ namespace Monitux_POS.Ventanas
                 {
                     var cliente = destacados[i];
 
-                    string titulo = $"{cliente.Nombre}";//{titulos[i]} del Mes: 
+                    string titulo = $"{cliente.Nombre}";
                     string valorPrincipal = $"{V_Menu_Principal.moneda}{cliente.ComprasTotales:N2}";
                     string variacion = $"Compras: {cliente.NumeroTransacciones} | Última: {cliente.UltimaCompra?.ToString("dd/MM/yyyy") ?? "N/D"}";
                     Point ubicacion = new Point(10, alturaBase + i * separacionVertical);
 
                     var tarjeta = new TarjetaDashboard(titulo, valorPrincipal, variacion, iconos[i], fondos[i], ubicacion);
 
-                    // Tipografía compacta
                     tarjeta.LabelTitulo.Font = new Font("Segoe UI", 9, FontStyle.Bold);
                     tarjeta.LabelTitulo.ForeColor = Color.White;
 
@@ -217,7 +222,6 @@ namespace Monitux_POS.Ventanas
                     tarjeta.LabelVariacion.Font = new Font("Segoe UI", 8, FontStyle.Regular);
                     tarjeta.LabelVariacion.ForeColor = Color.LightGray;
 
-                    // 🧱 Tamaño más pequeño
                     tarjeta.Panel.Size = new Size(250, 80);
                     tarjeta.Panel.Padding = new Padding(8);
                     tarjeta.Panel.BorderStyle = BorderStyle.FixedSingle;
@@ -229,15 +233,11 @@ namespace Monitux_POS.Ventanas
 
                     panelClientes.Controls.Add(tarjeta.Panel);
                 }
-
-
-
-
             }
-
-
-
         }
+
+
+
 
 
         void EjecutarAccionTarjeta(string titulo)

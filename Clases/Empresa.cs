@@ -12,7 +12,7 @@ namespace Monitux_POS.Clases
         public string Telefono { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Moneda { get; set; } = string.Empty;
-        public double ISV { get; set; } = 0.0;
+        public decimal ISV { get; set; } = 0;//ojo aqui cambie tipo de dato a decimal para manejar mejor los valores monetarios
 
         public bool Activa { get; set; } = true;
 

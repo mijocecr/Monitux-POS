@@ -77,6 +77,7 @@ namespace Monitux_POS.Ventanas
 
 
         public static V_Login v_Login = new V_Login();
+        public static V_Config_DB v_Config_DB = new V_Config_DB();
         public V_Menu_Principal()
         {
 
@@ -195,6 +196,16 @@ namespace Monitux_POS.Ventanas
 
             CargarTitularesRSS();
             lbl_Titulo.Text = "Monitux-POS v." + VER;
+
+
+            if (Properties.Settings.Default.Primer_Arranque == true)
+            {
+                v_Config_DB.ShowDialog();
+            }
+            
+
+
+
             //Abrir_Ventana(v_Login);
             if (v_Login.ShowDialog() == DialogResult.OK)
             {
@@ -775,7 +786,7 @@ namespace Monitux_POS.Ventanas
                 }
                 catch
                 {
-                    MessageBox.Show("No se pudo abrir la noticia.");
+                    V_Menu_Principal.MSG.ShowMSG("No se pudo abrir la noticia.", "Error");
                 }
             }
         }
@@ -838,7 +849,7 @@ namespace Monitux_POS.Ventanas
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al reproducir: " + ex.Message);
+                    nnnnnMessageBox.Show("Error al reproducir: " + ex.Message);
                 }
             }
             else
@@ -857,35 +868,7 @@ namespace Monitux_POS.Ventanas
         {
 
 
-            /*  try
-              {
-                  // Configura el mensaje
-                  MailMessage mail = new MailMessage();
-                  mail.From = new MailAddress("miguel.cerrato.es@gmail.com");
-                  mail.To.Add("cerratonix@gmail.com");
-                  mail.Subject = "Envío de PDF desde C#";
-                  mail.Body = "Hola, adjunto te envío el archivo PDF.";
-
-                  // Adjuntar el PDF
-                  string rutaPdf = @"C:\Users\Miguel Cerrato\Desktop\Factura.pdf";
-                  Attachment adjunto = new Attachment(rutaPdf, MediaTypeNames.Application.Pdf);
-                  mail.Attachments.Add(adjunto);
-
-                  // Configura el servidor SMTP
-                  SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-
-                  smtp.Credentials = new NetworkCredential("miguel.cerrato.es@gmail.com", "pnma abut vzvp rdld");
-                  smtp.EnableSsl = true;
-
-                  // Enviar
-                  smtp.Send(mail);
-                  Console.WriteLine("Correo enviado correctamente.");
-              }
-              catch (Exception ex)
-              {
-                  MessageBox.Show("Error al enviar el correo: " + ex.Message);
-              }*/
-
+         
 
         }
 

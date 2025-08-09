@@ -250,7 +250,7 @@ namespace Monitux_POS.Ventanas
                 acceso = false;
                 txtPassword.Clear(); // Limpia el campo de contraseña si el acceso es incorrecto
 
-                V_Menu_Principal.MSG.ShowMSG("Error al validar el usuario. ", "Error");
+                V_Menu_Principal.MSG.ShowMSG("Error al validar el usuario. "+ex.Message, "Error");
 
                 return;
             }
@@ -628,7 +628,7 @@ namespace Monitux_POS.Ventanas
                 V_Menu_Principal.Email_Empresa = item.Email; // Asigna el email de la empresa seleccionada
                 V_Menu_Principal.RSS = item.RSS; // Asigna el RUC de la empresa seleccionada
                 V_Menu_Principal.moneda = item.Moneda; // Asigna la moneda de la empresa seleccionada
-                V_Menu_Principal.ISV = item.ISV; // Asigna el ISV de la empresa seleccionada
+                V_Menu_Principal.ISV = (double)item.ISV; // Asigna el ISV de la empresa seleccionada
 
             }
 
@@ -636,7 +636,7 @@ namespace Monitux_POS.Ventanas
 
             V_Menu_Principal.Secuencial_Empresa = int.Parse(comboEmpresa.SelectedItem.ToString().Split('-')[0].Trim());
 
-            // MessageBox.Show(V_Menu_Principal.Secuencial_Empresa.ToString() + " - " + V_Menu_Principal.Nombre_Empresa, "Empresa Seleccionada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+           
 
 
 

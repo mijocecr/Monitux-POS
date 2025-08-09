@@ -524,7 +524,7 @@ namespace Monitux_POS.Ventanas
                 // Manejar cualquier excepción que pueda ocurrir al decodificar el código de barras
                 //               Console.WriteLine("Error al decodificar el código de barras: " + ex.Message);
 
-                //MessageBox.Show("Error al decodificar el código de barras: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //nnnnnnnnnMessageBox.Show("Error al decodificar el código de barras: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 
@@ -614,7 +614,7 @@ namespace Monitux_POS.Ventanas
 
             var venta = new Venta
             {
-                Secuencial = secuencial,
+                //Secuencial = secuencial,
                 Secuencial_Cliente = int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()),
                 Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario,
                 Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"),

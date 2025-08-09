@@ -120,7 +120,7 @@ namespace Monitux_POS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("mysql")]
+        [global::System.Configuration.DefaultSettingValueAttribute("sqlserver")]
         public string DB_PROVIDER {
             get {
                 return ((string)(this["DB_PROVIDER"]));
@@ -132,7 +132,7 @@ namespace Monitux_POS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("server=localhost;user=root;password=00511;database=monitux;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=DESKTOP-N4UCDLP\\\\SQLEXPRESS;Database=monitux;Trusted_Connection=True;")]
         public string DB_CONNECTION {
             get {
                 return ((string)(this["DB_CONNECTION"]));

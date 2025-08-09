@@ -102,7 +102,7 @@ namespace Monitux_POS
                 Marca = item.Marca;
                 Codigo_Barra = item.Codigo_Barra;
                 Codigo_Fabricante = item.Codigo_Fabricante;
-                Codigo_QR = item.Codigo_QR;
+                
                 Imagen = item.Imagen; // byte[]
                 Secuencial_Categoria = item.Secuencial_Categoria;
                 Item_Codigo.Text = item.Codigo;
@@ -162,7 +162,7 @@ namespace Monitux_POS
                 producto.Marca,
                 producto.Codigo_Barra,
                 producto.Codigo_Fabricante,
-                producto.Codigo_QR,
+                
                 producto.Imagen,
                 producto.Secuencial_Categoria,
                 producto.Fecha_Caducidad,
@@ -501,7 +501,7 @@ namespace Monitux_POS
                 Marca = Marca,
                 Codigo_Barra = Codigo_Barra,
                 Codigo_Fabricante = Codigo_Fabricante,
-                Codigo_QR = Codigo_QR,
+                
                 Imagen = Imagen,
                 Secuencial_Categoria = Secuencial_Categoria,
                 Existencia_Minima = Existencia_Minima,

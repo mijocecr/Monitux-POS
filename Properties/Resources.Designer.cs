@@ -213,6 +213,16 @@ namespace Monitux_POS.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap microsoft_sql_server_logo_png_seeklogo_298266 {
+            get {
+                object obj = ResourceManager.GetObject("microsoft-sql-server-logo-png_seeklogo-298266", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap money {
             get {
                 object obj = ResourceManager.GetObject("money", resourceCulture);

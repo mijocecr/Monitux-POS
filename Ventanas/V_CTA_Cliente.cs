@@ -209,7 +209,7 @@ namespace Monitux_POS.Ventanas
             catch (Exception ex)
             {
 
-                // MessageBox.Show("error: "+ex);
+                //Nada que decir, solo para evitar errores
 
             }
 

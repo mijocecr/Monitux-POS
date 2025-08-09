@@ -219,7 +219,9 @@ namespace Monitux_POS.Ventanas
             byte[] imagenBytes = null;
             if (pictureBox1.Image != null)
             {
-                imagenBytes = Util.ComprimirImagen(pictureBox1.Image, 40L); // Calidad ajustable
+                //imagenBytes = Util.ComprimirImagen(pictureBox1.Image, 40L); // Calidad ajustable
+                using var imagenCopia = new Bitmap(pictureBox1.Image); // ✅ Clona la imagen
+                imagenBytes = Util.ComprimirImagen(imagenCopia, 40L);
             }
 
             if (Secuencial != 0)
@@ -275,7 +277,7 @@ namespace Monitux_POS.Ventanas
                 var categoria = new Categoria
                 {
                     Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa,
-                    Secuencial = context.Categorias.Any() ? context.Categorias.Max(c => c.Secuencial) + 1 : 1,
+                //    Secuencial = context.Categorias.Any() ? context.Categorias.Max(c => c.Secuencial) + 1 : 1,
                     Nombre = txtNombre.Text,
                     Descripcion = txtDescripcion.Text,
                     Imagen = imagenBytes // Comprimida o null
@@ -288,6 +290,7 @@ namespace Monitux_POS.Ventanas
                 Cargar_Datos();
             }
 
+            this.Dispose(); // Cierra el formulario después de guardar
 
         }
 

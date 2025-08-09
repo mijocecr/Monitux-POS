@@ -2,7 +2,7 @@
 {
 
     using Microsoft.EntityFrameworkCore;
-
+    
     using Microsoft.Data.Sqlite;
     
     using System;
@@ -55,19 +55,80 @@
 
         public DbSet<Empresa> Empresas { get; set; }
 
+        /* 
+         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+         {
+
+             //string dbPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "monitux.db"));
+
+             string dbPath = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Database\\monitux.db");
+
+
+             // Verificar si la base de datos ya existe y si contiene la tabla "Productos"
+
+
+             optionsBuilder.UseSqlite($"Data Source={dbPath}");
+         }
+         */
+
+
+
+
+
+
+        /// Ojo
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
-            //string dbPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "monitux.db"));
+            string proveedor = Properties.Settings.Default.DB_PROVIDER;//Properties.Settings.Default.DB_PROVIDER?.ToLower(); // "sqlite", "mysql", "sqlserver"
 
-            string dbPath = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\Resources\\Database\\monitux.db");
+            if (proveedor == "sqlite")
+            {
+                string dbPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Database", "Sqlite-DB.db");
 
-            
-            // Verificar si la base de datos ya existe y si contiene la tabla "Productos"
+                if (!File.Exists(dbPath))
+                    throw new FileNotFoundException($"No se encontró la base de datos SQLite en: {dbPath}");
 
+                optionsBuilder.UseSqlite($"Data Source={dbPath}");
+            }
+            else if (proveedor == "mysql")
+            {
+                
+                string conexion = Properties.Settings.Default.DB_CONNECTION; //"server=localhost;user=root;password=00511;database=monitux;"; 
 
-            optionsBuilder.UseSqlite($"Data Source={dbPath}");
+                if (string.IsNullOrWhiteSpace(conexion))
+                    throw new InvalidOperationException("Cadena de conexión MySQL no definida.");
+
+                optionsBuilder.UseMySql(conexion, ServerVersion.AutoDetect(conexion));
+            }
+            else if (proveedor == "sqlserver")
+            {
+
+                //string connectionString = "Server=DESKTOP-N4UCDLP\\SQLEXPRESS;Database=monitux;Trusted_Connection=True;";
+
+                //string connectionString = "Server=DESKTOP-N4UCDLP\\SQLEXPRESS;Database=monitux;Trusted_Connection=True;Encrypt=False;";
+
+                string conexion = Properties.Settings.Default.DB_CONNECTION; //@"Server=DESKTOP-N4UCDLP\SQLEXPRESS;Database=monitux;Trusted_Connection=True;Encrypt=False;";
+
+                if (string.IsNullOrWhiteSpace(conexion))
+                    throw new InvalidOperationException("Cadena de conexión SQL Server no definida.");
+
+                optionsBuilder.UseSqlServer(conexion);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Proveedor de base de datos no reconocido: {proveedor}");
+            }
         }
+
+
+
+        /// Ojo
+
+
+
+
+
 
 
 

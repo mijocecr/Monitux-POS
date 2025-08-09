@@ -8,7 +8,7 @@ namespace Monitux_POS.Clases
     {
         public Producto() { }
 
-        public Producto(int secuencial, int secuencial_Proveedor, string codigo, string descripcion, double cantidad, double precio_Costo, double precio_Venta, string? marca, string? codigo_Barra, string? codigo_Fabricante, string? codigo_QR, byte[]? imagen, int secuencial_Categoria, string? fecha_Caducidad, bool expira, string tipo, int secuencial_Empresa)
+        public Producto(int secuencial, int secuencial_Proveedor, string codigo, string descripcion, double cantidad, double precio_Costo, double precio_Venta, string? marca, string? codigo_Barra, string? codigo_Fabricante, byte[]? imagen, int secuencial_Categoria, string? fecha_Caducidad, bool expira, string tipo, int secuencial_Empresa)
         {
             Secuencial = secuencial;
             Secuencial_Proveedor = secuencial_Proveedor;
@@ -20,7 +20,7 @@ namespace Monitux_POS.Clases
             Marca = marca;
             Codigo_Barra = codigo_Barra;
             Codigo_Fabricante = codigo_Fabricante;
-            Codigo_QR = codigo_QR;
+            
             Imagen = imagen;
             Secuencial_Categoria = secuencial_Categoria;
             Fecha_Caducidad = fecha_Caducidad;
@@ -42,7 +42,7 @@ namespace Monitux_POS.Clases
         public string? Marca { get; set; }
         public string? Codigo_Barra { get; set; }
         public string? Codigo_Fabricante { get; set; }
-        public string? Codigo_QR { get; set; }
+        
         public byte[]? Imagen { get; set; }
 
         public string? Fecha_Caducidad { get; set; } = null;
@@ -66,7 +66,7 @@ namespace Monitux_POS.Clases
             Marca = producto.Marca;
             Codigo_Barra = producto.Codigo_Barra;
             Codigo_Fabricante = producto.Codigo_Fabricante;
-            Codigo_QR = producto.Codigo_QR;
+            
             Imagen = producto.Imagen;
             Secuencial_Categoria = producto.Secuencial_Categoria;
             Fecha_Caducidad = producto.Fecha_Caducidad;
@@ -90,7 +90,7 @@ namespace Monitux_POS.Clases
                 Marca = this.Marca,
                 Codigo_Barra = this.Codigo_Barra,
                 Codigo_Fabricante = this.Codigo_Fabricante,
-                Codigo_QR = this.Codigo_QR,
+                
                 Imagen = this.Imagen,
                 Fecha_Caducidad = this.Fecha_Caducidad,
                 Tipo = this.Tipo,

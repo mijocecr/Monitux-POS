@@ -82,11 +82,7 @@ namespace Monitux_POS.Ventanas
                 llenar_Combo_Proveedor();
                 llenar_Combo_Categoria();
 
-                try
-                {
-                    pictureBox2.Image = Vista_producto.Codigo_QR != null ? Image.FromFile(Vista_producto.Codigo_QR) : null;
-                }
-                catch { }
+               
 
                 Imagen = Vista_producto.Imagen; // byte[]
 
@@ -365,13 +361,18 @@ namespace Monitux_POS.Ventanas
                 context.SaveChanges();
                 context.Entry(producto).Reload();
 
-                producto.Codigo_QR = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "QR", $"{producto.Secuencial_Empresa}-QR-{producto.Secuencial}.PNG");
+                
 
                 // Guardar imagen comprimida si existe en el PictureBox
                 if (pictureBox1.Image != null)
                 {
-                    byte[] imagenComprimida = Util.ComprimirImagen(pictureBox1.Image, 50L);
-                    producto.Imagen = imagenComprimida;
+
+                    using (var imagenCopia = new Bitmap(pictureBox1.Image)) // ✅ Clona la imagen
+                    {
+                        byte[] imagenComprimida = Util.ComprimirImagen(imagenCopia, 50L);
+                        producto.Imagen = imagenComprimida;
+                    }
+
                 }
 
                 context.SaveChanges();
@@ -398,7 +399,7 @@ namespace Monitux_POS.Ventanas
             }
             catch (Exception ex)
             {
-                V_Menu_Principal.MSG.ShowMSG($"Error al guardar el producto:\n{ex.Message}", "Error");
+                V_Menu_Principal.MSG.ShowMSG($"Error al guardar el producto:{ex.InnerException}", "Error");
             }
 
 
@@ -541,8 +542,7 @@ namespace Monitux_POS.Ventanas
 
                     if (producto != null)
                     {
-                        string rutaArchivo1 = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "BC", $"BC-{producto.Secuencial}-{producto.Codigo_Barra}.PNG");
-                        string rutaArchivo2 = producto.Codigo_QR;
+                       
 
                         Util.Registrar_Actividad(Secuencial_Usuario, $"Ha eliminado el producto: {producto.Codigo}", V_Menu_Principal.Secuencial_Empresa);
 

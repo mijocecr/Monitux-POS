@@ -97,7 +97,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Existencia_Minima = item.Existencia_Minima;
                 miniatura_Producto1.Codigo_Barra = item.Codigo_Barra;
                 miniatura_Producto1.Codigo_Fabricante = item.Codigo_Fabricante;
-                miniatura_Producto1.Codigo_QR = item.Codigo_QR;
+                
                 miniatura_Producto1.Secuencial_Proveedor = item.Secuencial_Proveedor;
                 miniatura_Producto1.Secuencial_Categoria = item.Secuencial_Categoria;
                 miniatura_Producto1.Secuencial_Usuario = Secuencial_Usuario;
@@ -349,7 +349,7 @@ namespace Monitux_POS.Ventanas
                     miniatura_Producto.Existencia_Minima = item.Existencia_Minima;
                     miniatura_Producto.Codigo_Barra = item.Codigo_Barra;
                     miniatura_Producto.Codigo_Fabricante = item.Codigo_Fabricante;
-                    miniatura_Producto.Codigo_QR = item.Codigo_QR;
+                    
                     miniatura_Producto.Secuencial_Proveedor = item.Secuencial_Proveedor;
                     miniatura_Producto.Secuencial_Categoria = item.Secuencial_Categoria;
                     miniatura_Producto.Secuencial_Usuario = Secuencial_Usuario;
@@ -494,7 +494,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Existencia_Minima = item.Existencia_Minima;
                 miniatura_Producto1.Codigo_Barra = item.Codigo_Barra;
                 miniatura_Producto1.Codigo_Fabricante = item.Codigo_Fabricante;
-                miniatura_Producto1.Codigo_QR = item.Codigo_QR;
+                
                 miniatura_Producto1.Secuencial_Proveedor = item.Secuencial_Proveedor;
                 miniatura_Producto1.Secuencial_Categoria = item.Secuencial_Categoria;
                 miniatura_Producto1.Secuencial_Usuario = Secuencial_Usuario;
@@ -1257,7 +1257,7 @@ namespace Monitux_POS.Ventanas
             var venta = new Venta
             {
                 Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa,
-                Secuencial = secuencial,
+                //Secuencial = secuencial,
                 Secuencial_Cliente = int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()),
                 Secuencial_Usuario = Secuencial_Usuario,
                 Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"),

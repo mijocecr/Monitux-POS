@@ -153,349 +153,178 @@ namespace Monitux_POS.Ventanas
 
 
 
-
-        private void Filtrar_Compra(string campo, string valor)
+        private void Filtrar_Compra(int secuencial_proveedor)
         {
-
-
-
-
-
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
+            var compras = context.Compras
+                .Where(c => c.Secuencial_Proveedor == secuencial_proveedor &&
+                            c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                .ToList();
 
-
-            string columnaSeleccionada = campo;
-
-            var compra = context.Compras
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
-                    .ToList();
+            // Configurar DataGridView si es necesario
+            if (dataGridView3.Columns.Count == 0)
+            {
+                Configurar_DataGridView_Compras();
+            }
 
             dataGridView3.Rows.Clear();
-            foreach (var item in compra)
+            dataGridView3.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            foreach (var item in compras)
             {
-                dataGridView3.Rows.Add(item.Secuencial,
+                dataGridView3.Rows.Add(
+                    item.Secuencial,
                     item.Fecha,
                     item.Tipo,
                     item.Total,
                     item.Gran_Total,
                     item.Secuencial_Proveedor
-
-
-
                 );
             }
 
-
-            //-------------------Filtro que usare
-
-
-
-
-
-
-            dataGridView3.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
-
-            // Agregar columnas si no existen
-            if (dataGridView3.Columns.Count == 0)
-            {
-                Configurar_DataGridView_Compras();
-
-
-            }
-
-            // Limpiar filas antes de agregar nuevas
-            dataGridView3.Rows.Clear();
-
-            foreach (var item in compra)
-            {
-
-
-                dataGridView3.Rows.Add(item.Secuencial,
-                   item.Fecha,
-                   item.Tipo,
-                  item.Total,
-                  item.Gran_Total,
-                  item.Secuencial_Proveedor
-
-
-               );
-
-            }
-
-
+            // Si no hay compras, limpiar detalle
             if (dataGridView3.Rows.Count == 0)
             {
-                dataGridView4.Rows.Clear();
+                dataGridView3.Rows.Clear();
                 return;
             }
 
-
+            // Actualizar variable si estás usando ComboBox para seleccionar proveedor
+            Secuencial_Proveedor = int.Parse(comboProveedor.SelectedItem.ToString().Split('-')[0].Trim());
         }
 
 
 
 
 
-        /////////////////////////////////////////////////////////
 
 
-        private void Filtrar_Venta(string campo, string valor)
+
+        private void Filtrar_Venta(int secuencial_cliente)
         {
-
-
-
-
-
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
+            var ventas = context.Ventas
+                .Where(v => v.Secuencial_Cliente == secuencial_cliente &&
+                            v.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                .ToList();
 
-
-            string columnaSeleccionada = campo;
-
-            var venta = context.Ventas
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
-                    .ToList();
+            // Configurar columnas si es necesario
+            if (dataGridView1.Columns.Count == 0)
+            {
+                Configurar_DataGridView_Ventas();
+            }
 
             dataGridView1.Rows.Clear();
-            foreach (var item in venta)
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            foreach (var item in ventas)
             {
-                dataGridView1.Rows.Add(item.Secuencial,
+                dataGridView1.Rows.Add(
+                    item.Secuencial,
                     item.Fecha,
                     item.Tipo,
                     item.Total,
                     item.Gran_Total,
                     item.Secuencial_Cliente
-
-
-
                 );
             }
 
-
-            //-------------------Filtro que usare
-
-
-
-
-
-
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
-
-            // Agregar columnas si no existen
-            if (dataGridView1.Columns.Count == 0)
-            {
-                Configurar_DataGridView_Ventas();
-
-
-            }
-
-            // Limpiar filas antes de agregar nuevas
-            dataGridView1.Rows.Clear();
-
-            foreach (var item in venta)
-            {
-
-
-                dataGridView1.Rows.Add(item.Secuencial,
-                   item.Fecha,
-                   item.Tipo,
-                  item.Total,
-                  item.Gran_Total,
-                  item.Secuencial_Cliente
-
-
-               );
-
-            }
-
-
-            if (dataGridView1.Rows.Count == 0)
+            // Si no hay resultados, limpiar detalle
+            if (ventas.Count == 0)
             {
                 dataGridView2.Rows.Clear();
                 return;
             }
 
-
-
+            // Actualizar variable si estás usando ComboBox para seleccionar cliente
             Secuencial_Cliente = int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim());
-
-
         }
 
 
 
-
-
-        private void Filtrar_Detalle_Venta(string campo, string valor)
+        private void Filtrar_Detalle_Venta()
         {
-
-
-
-
-
             SQLitePCL.Batteries.Init();
 
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
 
+            var detalles = context.Ventas_Detalles
+                .Where(v => v.Secuencial_Factura == Secuencial_Venta &&
+                            v.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                .ToList();
 
-
-            string columnaSeleccionada = campo;
-
-            var venta_detalle = context.Ventas_Detalles
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
-                    .ToList();
-
-            dataGridView2.Rows.Clear();
-            foreach (var item in venta_detalle)
-            {
-                dataGridView2.Rows.Add(item.Secuencial,
-                    item.Codigo,
-                    item.Descripcion,
-                    item.Cantidad,
-                    item.Precio,
-                    Math.Round((double)item.Total, 2),
-
-                    item.Secuencial_Producto,
-                    item.Tipo
-
-
-
-
-                );
-
-            }
-
-
-            //-------------------Filtro que usare
-
-
-
-
-
-
-            dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
-
-            // Agregar columnas si no existen
+            // Configurar columnas si es necesario
             if (dataGridView2.Columns.Count == 0)
             {
                 Configurar_DataGridView_Detalle_Venta();
-
-
             }
 
-            // Limpiar filas antes de agregar nuevas
             dataGridView2.Rows.Clear();
+            dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-            foreach (var item in venta_detalle)
+            foreach (var item in detalles)
             {
-
-
-
-                dataGridView2.Rows.Add(item.Secuencial,
-                   item.Codigo,
-                   item.Descripcion,
-                   item.Cantidad,
-                   item.Precio,
-                   item.Total,
-
-                   item.Secuencial_Producto, item.Tipo);
-            }
-
-
-        }
-
-
-
-
-
-
-        private void Filtrar_Detalle_Compra(string campo, string valor)
-        {
-
-
-
-
-
-            SQLitePCL.Batteries.Init();
-
-            using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated();
-
-
-
-            string columnaSeleccionada = campo;
-
-            var compra_detalle = context.Compras_Detalles
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
-                    .ToList();
-
-            dataGridView4.Rows.Clear();
-            foreach (var item in compra_detalle)
-            {
-                dataGridView4.Rows.Add(item.Secuencial,
+                dataGridView2.Rows.Add(
+                    item.Secuencial,
                     item.Codigo,
                     item.Descripcion,
                     item.Cantidad,
                     item.Precio,
                     Math.Round((double)item.Total, 2),
-
                     item.Secuencial_Producto,
                     item.Tipo
-
-
-
-
                 );
-
             }
-
-
-            //-------------------Filtro que usare
-
+        }
 
 
 
 
 
-            dataGridView4.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Selecciona toda la fila
+        private void Filtrar_Detalle_Compra()
+        {
+            SQLitePCL.Batteries.Init();
 
-            // Agregar columnas si no existen
+            using var context = new Monitux_DB_Context();
+            context.Database.EnsureCreated();
+
+            var detalles = context.Compras_Detalles
+                .Where(c => c.Secuencial_Factura == Secuencial_Compra &&
+                            c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                .ToList();
+
+            // Configurar columnas si es necesario
             if (dataGridView4.Columns.Count == 0)
             {
                 Configurar_DataGridView_Detalle_Compra();
-
-
             }
 
-            // Limpiar filas antes de agregar nuevas
             dataGridView4.Rows.Clear();
+            dataGridView4.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-            foreach (var item in compra_detalle)
+            foreach (var item in detalles)
             {
-
-
-
-                dataGridView4.Rows.Add(item.Secuencial,
-                   item.Codigo,
-                   item.Descripcion,
-                   item.Cantidad,
-                   item.Precio,
-                   item.Total,
-
-                   item.Secuencial_Producto, item.Tipo);
+                dataGridView4.Rows.Add(
+                    item.Secuencial,
+                    item.Codigo,
+                    item.Descripcion,
+                    item.Cantidad,
+                    item.Precio,
+                    Math.Round((double)item.Total, 2),
+                    item.Secuencial_Producto,
+                    item.Tipo
+                );
             }
-
-
         }
-
 
 
 
@@ -578,7 +407,7 @@ namespace Monitux_POS.Ventanas
 
         private void comboCliente_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Filtrar_Venta("Secuencial_Cliente", comboCliente.SelectedItem.ToString().Split('-')[0].Trim());
+            Filtrar_Venta(int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()));
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -621,7 +450,7 @@ namespace Monitux_POS.Ventanas
                 {
                     this.Secuencial_Venta = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
 
-                    Filtrar_Detalle_Venta("Secuencial_Factura", this.Secuencial_Venta.ToString());
+                    Filtrar_Detalle_Venta();
 
                 }
 
@@ -645,7 +474,7 @@ namespace Monitux_POS.Ventanas
 
         private void comboProveedor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Filtrar_Compra("Secuencial_Proveedor", comboProveedor.SelectedItem.ToString().Split('-')[0].Trim());
+            Filtrar_Compra(int.Parse(comboProveedor.SelectedItem.ToString().Split('-')[0].Trim()));
         }
 
         private void dataGridView3_CellEnter(object sender, DataGridViewCellEventArgs e)
@@ -661,7 +490,7 @@ namespace Monitux_POS.Ventanas
                 {
                     this.Secuencial_Compra = Convert.ToInt32(dataGridView3.Rows[e.RowIndex].Cells["Secuencial"].Value);
 
-                    Filtrar_Detalle_Compra("Secuencial_Factura", this.Secuencial_Compra.ToString());
+                    Filtrar_Detalle_Compra();
 
                 }
 
@@ -883,7 +712,6 @@ namespace Monitux_POS.Ventanas
 
 
 
-
             Lista.Clear();
             V_Editar_Factura_Venta.Lista_de_Items.Clear();
             if (dataGridView1.Rows.Count == 0)
@@ -911,25 +739,6 @@ namespace Monitux_POS.Ventanas
             }
 
 
-
-
-            /* Esta Logica es necesaria luego de momento se queda comentada, igual va en otro lugar
-
-            SQLitePCL.Batteries.Init();
-
-            using var context1 = new Monitux_DB_Context();
-            context1.Database.EnsureCreated();
-
-            var cotizacion_detalle = context1.Cotizaciones_Detalles.Where(p => p.Secuencial_Cotizacion == this.Secuencial && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa).ToList();
-
-            if (cotizacion_detalle.Any()) // Verifica si hay elementos en la lista
-            {
-                context1.Cotizaciones_Detalles.RemoveRange(cotizacion_detalle); // Elimina múltiples registros
-                context1.SaveChanges();
-            }
-
-            */
-
             if (Secuencial_Venta == 0)
             {
 
@@ -949,8 +758,9 @@ namespace Monitux_POS.Ventanas
 
             v_Editar_Factura_Venta.ShowDialog();
 
-            Filtrar_Venta("Secuencial_Cliente", comboCliente.SelectedItem.ToString().Split('-')[0].Trim());
-            Filtrar_Detalle_Venta("Secuencial_Factura", this.Secuencial_Venta.ToString());
+            Filtrar_Venta(int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()));
+            Filtrar_Detalle_Venta();
+
 
 
         }
@@ -1007,8 +817,8 @@ namespace Monitux_POS.Ventanas
             v_Editar_Factura_Compra.ShowDialog();
 
             // ✅ Refresca vista
-            Filtrar_Compra("Secuencial_Proveedor", Secuencial_Proveedor.ToString());
-            Filtrar_Detalle_Compra("Secuencial_Factura", Secuencial_Compra.ToString());
+            Filtrar_Compra(int.Parse(comboProveedor.SelectedItem.ToString().Split('-')[0].Trim()));
+            Filtrar_Detalle_Compra();
 
 
 

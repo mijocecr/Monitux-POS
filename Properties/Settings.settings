@@ -27,10 +27,10 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DB_PROVIDER" Type="System.String" Scope="User">
-      <Value Profile="(Default)">mysql</Value>
+      <Value Profile="(Default)">sqlserver</Value>
     </Setting>
     <Setting Name="DB_CONNECTION" Type="System.String" Scope="User">
-      <Value Profile="(Default)">server=localhost;user=root;password=00511;database=monitux;</Value>
+      <Value Profile="(Default)">Server=DESKTOP-N4UCDLP\\SQLEXPRESS;Database=monitux;Trusted_Connection=True;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

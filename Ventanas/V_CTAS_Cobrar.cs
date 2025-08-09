@@ -470,7 +470,7 @@ namespace Monitux_POS.Ventanas
 
                 if (row == null)
                 {
-                    MessageBox.Show("No hay ninguna fila seleccionada.");
+                    V_Menu_Principal.MSG.ShowMSG("No hay ninguna fila seleccionada.","Error");
                     return;
                 }
 
@@ -503,7 +503,7 @@ namespace Monitux_POS.Ventanas
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                V_Menu_Principal.MSG.ShowMSG("Error: " + ex.Message,"Error");
             }
 
 

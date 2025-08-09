@@ -288,7 +288,7 @@ namespace Monitux_POS.Ventanas
 
             if (string.IsNullOrEmpty(secuencialProveedor))
             {
-                MessageBox.Show("Seleccione un proveedor para generar el reporte.", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                V_Menu_Principal.MSG.ShowMSG("Seleccione un proveedor para generar el reporte.", "Monitux-POS");
                 return;
             }
 
@@ -320,7 +320,7 @@ namespace Monitux_POS.Ventanas
 
             if (!productos.Any())
             {
-                MessageBox.Show($"No hay productos registrados para el proveedor: {secuencialProveedor}", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                V_Menu_Principal.MSG.ShowMSG($"No hay productos registrados para el proveedor: {secuencialProveedor}", "Monitux-POS");
                 return;
             }
 
@@ -499,7 +499,7 @@ namespace Monitux_POS.Ventanas
 
             if (string.IsNullOrEmpty(categoriaSeleccionada))
             {
-                MessageBox.Show("Seleccione una categoría válida para generar el reporte.", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                V_Menu_Principal.MSG.ShowMSG("Seleccione una categoría válida para generar el reporte.", "Monitux-POS");
                 return;
             }
 
@@ -532,7 +532,7 @@ namespace Monitux_POS.Ventanas
 
             if (!productos.Any())
             {
-                MessageBox.Show($"No hay productos registrados para la categoría: {comboCategoria.SelectedItem}", "Monitux-POS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                V_Menu_Principal.MSG.ShowMSG($"No hay productos registrados para la categoría: {comboCategoria.SelectedItem}", "Monitux-POS");
                 return;
             }
 

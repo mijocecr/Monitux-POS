@@ -383,7 +383,9 @@ namespace Monitux_POS.Ventanas
             byte[] imagenBytes = null;
             if (pictureBox1.Image != null)
             {
-                imagenBytes = Util.ComprimirImagen(pictureBox1.Image, 40L); // Calidad ajustable
+                using var imagenCopia = new Bitmap(pictureBox1.Image); // ✅ Clona la imagen
+                imagenBytes = Util.ComprimirImagen(imagenCopia, 40L);
+                // imagenBytes = Util.ComprimirImagen(pictureBox1.Image, 40L); // Calidad ajustable
             }
 
             // Validar campos obligatorios
@@ -411,7 +413,7 @@ namespace Monitux_POS.Ventanas
                     empresa.Telefono = txt_Telefono.Text;
                     empresa.Direccion = txt_Direccion.Text;
                     empresa.Email = txt_Email.Text;
-                    empresa.ISV = double.Parse(texto, CultureInfo.InvariantCulture);
+                    empresa.ISV = (decimal)double.Parse(texto, CultureInfo.InvariantCulture);
                     empresa.RSS = txt_RSS.Text;
                     empresa.Moneda = combo_Moneda.SelectedItem.ToString().Split('-')[0].Trim();
                     empresa.Activa = checkBox1.Checked;
@@ -432,7 +434,7 @@ namespace Monitux_POS.Ventanas
                     Telefono = txt_Telefono.Text,
                     Direccion = txt_Direccion.Text,
                     Email = txt_Email.Text,
-                    ISV = double.Parse(texto, CultureInfo.InvariantCulture),
+                    ISV = (decimal)double.Parse(texto, CultureInfo.InvariantCulture),
                     RSS = txt_RSS.Text,
                     Moneda = combo_Moneda.SelectedItem.ToString().Split('-')[0].Trim(),
                     Secuencial_Usuario = Secuencial_Usuario,

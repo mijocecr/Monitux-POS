@@ -192,12 +192,14 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Codigo = item.Codigo;
                 miniatura_Producto1.Marca = item.Marca;
                 miniatura_Producto1.Descripcion = item.Descripcion;
+                
                 miniatura_Producto1.Precio_Venta = item.Precio_Venta;
                 miniatura_Producto1.Precio_Costo = item.Precio_Costo;
+
                 miniatura_Producto1.Existencia_Minima = item.Existencia_Minima;
                 miniatura_Producto1.Codigo_Barra = item.Codigo_Barra;
                 miniatura_Producto1.Codigo_Fabricante = item.Codigo_Fabricante;
-                miniatura_Producto1.Codigo_QR = item.Codigo_QR;
+                
                 miniatura_Producto1.Secuencial_Proveedor = item.Secuencial_Proveedor;
                 miniatura_Producto1.Secuencial_Categoria = item.Secuencial_Categoria;
                 miniatura_Producto1.Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario;
@@ -320,7 +322,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Existencia_Minima = item.Existencia_Minima;
                 miniatura_Producto1.Codigo_Barra = item.Codigo_Barra;
                 miniatura_Producto1.Codigo_Fabricante = item.Codigo_Fabricante;
-                miniatura_Producto1.Codigo_QR = item.Codigo_QR;
+                
                 miniatura_Producto1.Secuencial_Proveedor = item.Secuencial_Proveedor;
                 miniatura_Producto1.Secuencial_Categoria = item.Secuencial_Categoria;
                 miniatura_Producto1.Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario;
@@ -453,7 +455,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Existencia_Minima = item.Existencia_Minima;
                 miniatura_Producto1.Codigo_Barra = item.Codigo_Barra;
                 miniatura_Producto1.Codigo_Fabricante = item.Codigo_Fabricante;
-                miniatura_Producto1.Codigo_QR = item.Codigo_QR;
+                
                 miniatura_Producto1.Secuencial_Proveedor = item.Secuencial_Proveedor;
                 miniatura_Producto1.Secuencial_Categoria = item.Secuencial_Categoria;
                 miniatura_Producto1.Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario;
@@ -1333,7 +1335,7 @@ namespace Monitux_POS.Ventanas
                 miniatura_Producto1.Existencia_Minima = item.Existencia_Minima;
                 miniatura_Producto1.Codigo_Barra = item.Codigo_Barra;
                 miniatura_Producto1.Codigo_Fabricante = item.Codigo_Fabricante;
-                miniatura_Producto1.Codigo_QR = item.Codigo_QR;
+                
                 miniatura_Producto1.Secuencial_Proveedor = item.Secuencial_Proveedor;
                 miniatura_Producto1.Secuencial_Categoria = item.Secuencial_Categoria;
                 miniatura_Producto1.Secuencial_Usuario = V_Menu_Principal.Secuencial_Usuario;
@@ -1414,7 +1416,7 @@ namespace Monitux_POS.Ventanas
                 miniatura.Existencia_Minima = item.Existencia_Minima;
                 miniatura.Codigo_Barra = item.Codigo_Barra;
                 miniatura.Codigo_Fabricante = item.Codigo_Fabricante;
-                miniatura.Codigo_QR = item.Codigo_QR;
+                
                 miniatura.Secuencial_Proveedor = item.Secuencial_Proveedor;
                 miniatura.Secuencial_Categoria = item.Secuencial_Categoria;
 

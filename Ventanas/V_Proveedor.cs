@@ -226,7 +226,11 @@ namespace Monitux_POS.Ventanas
             byte[] imagenBytes = null;
             if (pictureBox1.Image != null)
             {
-                imagenBytes = Util.ComprimirImagen(pictureBox1.Image, 40L); // Calidad ajustable
+                // imagenBytes = Util.ComprimirImagen(pictureBox1.Image, 40L); // Calidad ajustable
+
+                using var imagenCopia = new Bitmap(pictureBox1.Image); // ✅ Clona la imagen
+                imagenBytes = Util.ComprimirImagen(imagenCopia, 40L);
+
             }
 
             if (Secuencial != 0) // MODO EDICIÓN
@@ -328,6 +332,7 @@ namespace Monitux_POS.Ventanas
                 Cargar_Datos();
             }
 
+            this.Dispose();
 
         }
 
