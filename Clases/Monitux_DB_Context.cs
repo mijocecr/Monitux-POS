@@ -8,6 +8,7 @@
     using System;
     using System.IO;
     using System.Reflection;
+    using Monitux_POS.Ventanas;
 
     public class Monitux_DB_Context : DbContext
     {
@@ -78,46 +79,53 @@
 
         /// Ojo
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string proveedor = Properties.Settings.Default.DB_PROVIDER;//Properties.Settings.Default.DB_PROVIDER?.ToLower(); // "sqlite", "mysql", "sqlserver"
+            string proveedor = Properties.Settings.Default.DB_PROVIDER?.ToLower(); // "sqlite", "mysql", "sqlserver"
 
-            if (proveedor == "sqlite")
+            switch (proveedor)
             {
-                string dbPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Database", "Sqlite-DB.db");
+                case "sqlite":
+                    string dbPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Database", "Sqlite-DB.db");
 
-                if (!File.Exists(dbPath))
-                    throw new FileNotFoundException($"No se encontró la base de datos SQLite en: {dbPath}");
+                    if (!File.Exists(dbPath))
+                        throw new FileNotFoundException($"No se encontró la base de datos SQLite en: {dbPath}");
 
-                optionsBuilder.UseSqlite($"Data Source={dbPath}");
-            }
-            else if (proveedor == "mysql")
-            {
-                
-                string conexion = Properties.Settings.Default.DB_CONNECTION; //"server=localhost;user=root;password=00511;database=monitux;"; 
+                    optionsBuilder.UseSqlite($"Data Source={dbPath}");
+                    break;
 
-                if (string.IsNullOrWhiteSpace(conexion))
-                    throw new InvalidOperationException("Cadena de conexión MySQL no definida.");
+                case "mysql":
+                    string conexionMySql = Properties.Settings.Default.DB_CONNECTION;
 
-                optionsBuilder.UseMySql(conexion, ServerVersion.AutoDetect(conexion));
-            }
-            else if (proveedor == "sqlserver")
-            {
+                    if (string.IsNullOrWhiteSpace(conexionMySql))
+                    {
+                        V_Config_DB v_Config_DB = new V_Config_DB();
+                        v_Config_DB.ShowDialog();
+                        return; // Evita continuar si no hay conexión
+                    }
 
-                //string connectionString = "Server=DESKTOP-N4UCDLP\\SQLEXPRESS;Database=monitux;Trusted_Connection=True;";
+                    optionsBuilder.UseMySql(conexionMySql, ServerVersion.AutoDetect(conexionMySql));
+                    break;
 
-                //string connectionString = "Server=DESKTOP-N4UCDLP\\SQLEXPRESS;Database=monitux;Trusted_Connection=True;Encrypt=False;";
+              
 
-                string conexion = Properties.Settings.Default.DB_CONNECTION; //@"Server=DESKTOP-N4UCDLP\SQLEXPRESS;Database=monitux;Trusted_Connection=True;Encrypt=False;";
+                case "sqlserver":
+                    string conexionSqlServer = Properties.Settings.Default.DB_CONNECTION;
 
-                if (string.IsNullOrWhiteSpace(conexion))
-                    throw new InvalidOperationException("Cadena de conexión SQL Server no definida.");
+                    if (string.IsNullOrWhiteSpace(conexionSqlServer))
+                    {
+                        V_Config_DB v_Config_DB = new V_Config_DB();
+                        v_Config_DB.ShowDialog();
+                        return; // Evita continuar si no hay conexión
+                    }
 
-                optionsBuilder.UseSqlServer(conexion);
-            }
-            else
-            {
-                throw new InvalidOperationException($"Proveedor de base de datos no reconocido: {proveedor}");
+                    optionsBuilder.UseSqlServer(conexionSqlServer);
+                    break;
+
+
+                default:
+                    throw new NotSupportedException($"Proveedor de base de datos no soportado: {proveedor}");
             }
         }
 
