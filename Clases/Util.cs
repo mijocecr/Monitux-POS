@@ -1,8 +1,11 @@
 ﻿using Humanizer;
+using Microsoft.Data.SqlClient;
 using Microsoft.Data.Sqlite;
 using Monitux_POS.Ventanas;
+using MySql.Data.MySqlClient;
 using System;
 using System;
+using System.Data;
 using System.Drawing;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -366,6 +369,119 @@ namespace Monitux_POS.Clases
 
 
         #endregion
+
+
+        #region Transferir Datos entre Bases de Datos
+
+        public class Transferir_Datos {
+
+
+
+            void TransferData(string sourceConnStr, string targetConnStr, string sourceType, string targetType)
+            {
+                IDbConnection sourceConn = CreateConnection(sourceConnStr, sourceType);
+                IDbConnection targetConn = CreateConnection(targetConnStr, targetType);
+
+                sourceConn.Open();
+                targetConn.Open();
+
+                var tables = GetTables(sourceConn, sourceType);
+
+                foreach (var table in tables)
+                {
+                    var columns = GetColumns(sourceConn, sourceType, table);
+                    var selectCmd = sourceConn.CreateCommand();
+                    selectCmd.CommandText = $"SELECT {string.Join(",", columns)} FROM {table}";
+                    using var reader = selectCmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        var insertCmd = targetConn.CreateCommand();
+                        insertCmd.CommandText = $"INSERT INTO {table} ({string.Join(",", columns)}) VALUES ({string.Join(",", columns.Select(c => "@" + c))})";
+
+                        foreach (var col in columns)
+                        {
+                            var param = insertCmd.CreateParameter();
+                            param.ParameterName = "@" + col;
+                            param.Value = reader[col];
+                            insertCmd.Parameters.Add(param);
+                        }
+
+                        insertCmd.ExecuteNonQuery();
+                    }
+
+                    Console.WriteLine($"✅ Copiado: {table}");
+                }
+
+                sourceConn.Close();
+                targetConn.Close();
+            }
+
+
+
+            IDbConnection CreateConnection(string connStr, string type) => type switch
+            {
+                "sqlite" => new SqliteConnection(connStr),
+                "mysql" => new MySqlConnection(connStr),
+                "sqlserver" => new SqlConnection(connStr),
+                _ => throw new Exception("Tipo de proveedor no soportado")
+            };
+
+            List<string> GetTables(IDbConnection conn, string type)
+            {
+                var tables = new List<string>();
+                IDbCommand cmd = conn.CreateCommand();
+
+                cmd.CommandText = type switch
+                {
+                    "sqlite" => "SELECT name FROM sqlite_master WHERE type='table'",
+                    "mysql" => "SHOW TABLES",
+                    "sqlserver" => "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'",
+                    _ => throw new Exception("Tipo no soportado")
+                };
+
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read()) tables.Add(reader.GetString(0));
+                return tables;
+            }
+
+            List<string> GetColumns(IDbConnection conn, string type, string table)
+            {
+                var columns = new List<string>();
+                IDbCommand cmd = conn.CreateCommand();
+
+                cmd.CommandText = type switch
+                {
+                    "sqlite" => $"PRAGMA table_info({table})",
+                    "mysql" => $"SHOW COLUMNS FROM {table}",
+                    "sqlserver" => $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{table}'",
+                    _ => throw new Exception("Tipo no soportado")
+                };
+
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    columns.Add(type == "sqlite" ? reader["name"].ToString()
+                          : type == "mysql" ? reader["Field"].ToString()
+                          : reader[0].ToString());
+                }
+
+                return columns;
+            }
+
+
+
+
+
+
+
+        }
+
+
+#endregion
+
+
+
 
 
 

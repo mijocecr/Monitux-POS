@@ -1468,7 +1468,7 @@ namespace Monitux_POS.Ventanas
 
             int secuencial = context.Cotizaciones.Any() ? context.Cotizaciones.Max(p => p.Secuencial) + 1 : 1;
             cotizacion.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
-            cotizacion.Secuencial = secuencial;
+            //cotizacion.Secuencial = secuencial;
             cotizacion.Secuencial_Cliente = comboCliente.SelectedIndex != -1 ? int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()) : 0; // Obtener el secuencial del cliente seleccionado
 
             cotizacion.Secuencial_Usuario = Secuencial_Usuario; // Asignar el secuencial del usuario que está realizando la venta

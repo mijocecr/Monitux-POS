@@ -253,7 +253,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        private void Filtrar_Detalle(string campo, string valor)
+        private void Filtrar_Detalle(int secuencial_Orden)
         {
 
 
@@ -267,14 +267,25 @@ namespace Monitux_POS.Ventanas
 
 
 
-            string columnaSeleccionada = campo;
 
+            /*
             var cotizacion_detalle = context.Ordenes_Detalles
                     .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
+            */
+
+
+
+            var orden_detalle = context.Ordenes_Detalles
+               .Where(c => c.Secuencial_Orden == secuencial_Orden &&
+                           c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+               .ToList();
+
+
+
 
             dataGridView2.Rows.Clear();
-            foreach (var item in cotizacion_detalle)
+            foreach (var item in orden_detalle)
             {
                 dataGridView2.Rows.Add(item.Secuencial,
                     item.Codigo,
@@ -314,7 +325,7 @@ namespace Monitux_POS.Ventanas
             // Limpiar filas antes de agregar nuevas
             dataGridView2.Rows.Clear();
 
-            foreach (var item in cotizacion_detalle)
+            foreach (var item in orden_detalle)
             {
 
 
@@ -356,7 +367,7 @@ namespace Monitux_POS.Ventanas
                 {
                     this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
 
-                    Filtrar_Detalle("Secuencial_Orden", this.Secuencial.ToString());
+                    Filtrar_Detalle(this.Secuencial);
 
                     if (dataGridView1.Rows[e.RowIndex].Cells["Secuencial_Proveedor"].Value != null)
                     {
@@ -401,7 +412,7 @@ namespace Monitux_POS.Ventanas
                 {
                     this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
 
-                    Filtrar_Detalle("Secuencial_Orden", this.Secuencial.ToString());
+                    Filtrar_Detalle(this.Secuencial);
 
                 }
 
@@ -425,7 +436,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        private void Filtrar_Orden(string campo, string valor)
+        private void Filtrar_Orden(int secuencial_Proveedor)
         {
 
 
@@ -439,11 +450,21 @@ namespace Monitux_POS.Ventanas
 
 
 
-            string columnaSeleccionada = campo;
+            
 
+
+            /*
             var orden = context.Ordenes
                     .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
                     .ToList();
+            */
+
+
+            var orden = context.Ordenes
+               .Where(c => c.Secuencial_Proveedor == secuencial_Proveedor &&
+                           c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+               .ToList();
+
 
             dataGridView1.Rows.Clear();
             foreach (var item in orden)
@@ -511,7 +532,7 @@ namespace Monitux_POS.Ventanas
 
         private void comboCliente_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Filtrar_Orden("Secuencial_Proveedor", comboCliente.SelectedItem.ToString().Split('-')[0].Trim());
+            Filtrar_Orden(int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()));
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)

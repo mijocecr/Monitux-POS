@@ -213,7 +213,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 165);
             panel1.Name = "panel1";
-            panel1.Size = new Size(806, 117);
+            panel1.Size = new Size(806, 121);
             panel1.TabIndex = 92;
             // 
             // pictureBox3
@@ -239,9 +239,9 @@
             panel2.Controls.Add(button8);
             panel2.Controls.Add(textBox4);
             panel2.Dock = DockStyle.Top;
-            panel2.Location = new Point(0, 282);
+            panel2.Location = new Point(0, 286);
             panel2.Name = "panel2";
-            panel2.Size = new Size(806, 117);
+            panel2.Size = new Size(806, 127);
             panel2.TabIndex = 93;
             // 
             // pictureBox2
@@ -362,9 +362,9 @@
             panel3.Controls.Add(button12);
             panel3.Controls.Add(textBox6);
             panel3.Dock = DockStyle.Top;
-            panel3.Location = new Point(0, 399);
+            panel3.Location = new Point(0, 413);
             panel3.Name = "panel3";
-            panel3.Size = new Size(806, 117);
+            panel3.Size = new Size(806, 121);
             panel3.TabIndex = 94;
             // 
             // pictureBox1
@@ -477,18 +477,18 @@
             label12.Dock = DockStyle.Top;
             label12.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.MidnightBlue;
-            label12.Location = new Point(0, 516);
+            label12.Location = new Point(0, 534);
             label12.Name = "label12";
             label12.Size = new Size(806, 48);
             label12.TabIndex = 95;
-            label12.Text = "Atención: Se recomienda crear una carpeta llama \"Respaldo\" en [Disco Local C:]  algunos servidores tienen conflictos de permisos para escribir sus respaldos.";
+            label12.Text = "Atención: Se recomienda crear una carpeta llamada \"Respaldo\" en [Disco Local C:]  algunos servidores tienen conflictos de permisos para escribir sus respaldos.";
             // 
             // V_Configuracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(806, 701);
+            ClientSize = new Size(806, 690);
             Controls.Add(label12);
             Controls.Add(panel3);
             Controls.Add(panel2);

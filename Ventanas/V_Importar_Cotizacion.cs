@@ -214,7 +214,7 @@ namespace Monitux_POS.Ventanas
                 {
                     this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
 
-                    Filtrar_Detalle("Secuencial_Cotizacion", this.Secuencial.ToString());
+                    Filtrar_Detalle(this.Secuencial);
 
                     if (dataGridView1.Rows[e.RowIndex].Cells["Secuencial_Cliente"].Value != null)
                     {
@@ -244,7 +244,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        private void Filtrar_Detalle(string campo, string valor)
+        private void Filtrar_Detalle(int secuencial_Cotizacion)
         {
 
 
@@ -258,11 +258,19 @@ namespace Monitux_POS.Ventanas
 
 
 
-            string columnaSeleccionada = campo;
+            
 
-            var cotizacion_detalle = context.Cotizaciones_Detalles
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor)&&c.Secuencial_Empresa==V_Menu_Principal.Secuencial_Empresa)
-                    .ToList();
+
+            
+             
+             var cotizacion_detalle = context.Cotizaciones_Detalles
+                .Where(c => c.Secuencial_Cotizacion == secuencial_Cotizacion &&
+                            c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+                .ToList();
+            
+             
+             
+
 
             dataGridView2.Rows.Clear();
             foreach (var item in cotizacion_detalle)
@@ -326,7 +334,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-        private void Filtrar_Cotizacion(string campo, string valor)
+        private void Filtrar_Cotizacion( int  secuencial_cliente)
         {
 
 
@@ -340,11 +348,23 @@ namespace Monitux_POS.Ventanas
 
 
 
-            string columnaSeleccionada = campo;
+            
+
+
+          
+
+
+            // var cotizacion = context.Cotizaciones
+            //       .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+            //     .ToList();
+
 
             var cotizacion = context.Cotizaciones
-                    .Where(c => EF.Property<string>(c, columnaSeleccionada).Contains(valor) && c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
-                    .ToList();
+               .Where(c => c.Secuencial_Cliente == secuencial_cliente &&
+                           c.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+               .ToList();
+
+
 
             dataGridView1.Rows.Clear();
             foreach (var item in cotizacion)
@@ -442,7 +462,7 @@ namespace Monitux_POS.Ventanas
                 {
                     this.Secuencial = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["Secuencial"].Value);
 
-                    Filtrar_Detalle("Secuencial_Cotizacion", this.Secuencial.ToString());
+                    Filtrar_Detalle(this.Secuencial);
 
                 }
 
@@ -465,7 +485,7 @@ namespace Monitux_POS.Ventanas
 
         private void comboCliente_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Filtrar_Cotizacion("Secuencial_Cliente", comboCliente.SelectedItem.ToString().Split('-')[0].Trim());
+            Filtrar_Cotizacion(int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()));
         }
 
         private void button1_Click(object sender, EventArgs e)
