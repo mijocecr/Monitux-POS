@@ -963,81 +963,65 @@ namespace Monitux_POS.Ventanas
         private void button2_Click_1(object sender, EventArgs e)
         {
 
-
-
-
             subTotal = 0;
             total = 0;
             dataGridView1.Rows.Clear();
-            lbl_sub_Total.Text = "0.00"; // Reiniciar el subtotal a 0.00
+            lbl_sub_Total.Text = "0.00";
             lbl_Total.Text = "0.00";
-            label10.Visible = false; // Ocultar la etiqueta de impuesto
-            label11.Visible = false; // Ocultar la etiqueta de descuento    
-            label12.Visible = false; // Ocultar la etiqueta de impuesto 
-            otrosCargos = 0.00; // Reiniciar otros cargos a 0.00
-            impuesto = 0.00; // Reiniciar impuesto a 0.00
-            descuento = 0.00; // Reiniciar descuento a 0.00 
-            label9.Visible = false; // Ocultar la etiqueta de otros cargos
-            lbl_OtrosCargos.Visible = false; // Ocultar la etiqueta de otros cargos
-            txt_Impuesto.Visible = false; // Ocultar el campo de impuesto
-            txt_Descuento.Visible = false; // Ocultar el campo de descuento
-            txt_OtrosCargos.Visible = false; // Ocultar el campo de otros cargos
-            lbl_Impuesto.Visible = false; // Ocultar la etiqueta de impuesto
-            lbl_Descuento.Visible = false; // Ocultar la etiqueta de descuento
 
+            // Ocultar etiquetas y campos relacionados
+            label10.Visible = false;
+            label11.Visible = false;
+            label12.Visible = false;
+            otrosCargos = 0.00;
+            impuesto = 0.00;
+            descuento = 0.00;
+            label9.Visible = false;
+            lbl_OtrosCargos.Visible = false;
+            txt_Impuesto.Visible = false;
+            txt_Descuento.Visible = false;
+            txt_OtrosCargos.Visible = false;
+            lbl_Impuesto.Visible = false;
+            lbl_Descuento.Visible = false;
+
+            // Actualizar cantidades seleccionadas
             foreach (Selector_Cantidad selector in flowLayoutPanel2.Controls)
             {
                 if (Lista_de_Items.ContainsKey(selector.GetCodigo()))
                 {
                     Lista_de_Items[selector.GetCodigo()].cantidadSelecccionItem = Convert.ToDouble(selector.numericUpDown1.Value);
                 }
-
             }
 
-
-
-
-
-
+            // Calcular totales usando precio de costo
             foreach (var clave in Lista_de_Items.Keys)
             {
-
-
-
-                Lista_de_Items.TryGetValue((clave), out Miniatura_Producto item);
-
-
+                Lista_de_Items.TryGetValue(clave, out Miniatura_Producto item);
 
                 if (item.cantidadSelecccionItem != 0)
                 {
-
+                    double totalItem = item.Precio_Costo * item.cantidadSelecccionItem;
 
                     dataGridView1.Rows.Add(
-                    item.Codigo,
-                    item.Descripcion,
-                    item.cantidadSelecccionItem,
-                       item.Precio_Venta,
-                       item.Precio_Venta * item.cantidadSelecccionItem,
-                       item.Secuencial
+                        item.Codigo,
+                        item.Descripcion,
+                        item.cantidadSelecccionItem,
+                        item.Precio_Costo,
+                        totalItem,
+                        item.Secuencial
                     );
 
+                    subTotal += totalItem;
+                    lbl_sub_Total.Text = subTotal.ToString("0.00");
 
-                    lbl_sub_Total.Text = (Convert.ToDouble(lbl_sub_Total.Text) + (item.Precio_Venta * item.cantidadSelecccionItem)).ToString("0.00");
-                    subTotal = Convert.ToDouble(lbl_sub_Total.Text); // Actualizar el subtotal con el nuevo valor
                     Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
                 }
                 else
                 {
-
                     V_Menu_Principal.MSG.ShowMSG("Revise la cantidad que desea agregar.\n -- " + item.Codigo + " --\n" + item.Descripcion, "Error");
                     return;
                 }
-
-
-
-
             }
-
 
 
 
@@ -1136,13 +1120,15 @@ namespace Monitux_POS.Ventanas
             context.SaveChanges(); // Guardar los cambios en la base de datos
 
 
+           
+
+
             foreach (var pro in Lista_de_Items.Values)
             {
-
                 SQLitePCL.Batteries.Init();
 
                 using var context1 = new Monitux_DB_Context();
-                context1.Database.EnsureCreated(); // Crea la base de datos si no existe
+                context1.Database.EnsureCreated();
 
                 Orden_Detalle cotizacion_detalle = new Orden_Detalle();
 
@@ -1150,22 +1136,22 @@ namespace Monitux_POS.Ventanas
                 cotizacion_detalle.Secuencial_Orden = cotizacion.Secuencial;
                 cotizacion_detalle.Secuencial_Proveedor = cotizacion.Secuencial_Proveedor;
                 cotizacion_detalle.Secuencial_Usuario = cotizacion.Secuencial_Usuario;
-
                 cotizacion_detalle.Fecha = cotizacion.Fecha;
 
                 cotizacion_detalle.Secuencial_Producto = pro.Secuencial;
                 cotizacion_detalle.Codigo = pro.Codigo;
                 cotizacion_detalle.Descripcion = pro.Descripcion;
                 cotizacion_detalle.Cantidad = pro.cantidadSelecccionItem;
-                cotizacion_detalle.Precio = Math.Round(pro.Precio_Venta, 2);
-                cotizacion_detalle.Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Venta, 2);
-                cotizacion_detalle.Tipo = pro.Tipo; // Asignar el tipo de producto al detalle de la cotizacion
+
+                // 🔄 Aquí cambiamos Precio_Venta por Precio_Costo
+                cotizacion_detalle.Precio = Math.Round(pro.Precio_Costo, 2);
+                cotizacion_detalle.Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Costo, 2);
+
+                cotizacion_detalle.Tipo = pro.Tipo;
                 context1.Add(cotizacion_detalle);
-                context1.SaveChanges(); // Guardar los cambios en la base de datos
-
-
-
+                context1.SaveChanges();
             }
+
 
 
 
@@ -1440,6 +1426,9 @@ namespace Monitux_POS.Ventanas
             context.Compras.Add(compra);
             context.SaveChanges();
 
+          
+
+
             // Agregar Detalles y actualizar inventario
             foreach (var pro in Lista_de_Items.Values)
             {
@@ -1454,8 +1443,11 @@ namespace Monitux_POS.Ventanas
                     Codigo = pro.Codigo,
                     Descripcion = pro.Descripcion,
                     Cantidad = pro.cantidadSelecccionItem,
-                    Precio = Math.Round(pro.Precio_Venta, 2),
-                    Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Venta, 2),
+
+                    // ✅ Usar precio de costo en lugar de precio de venta
+                    Precio = Math.Round(pro.Precio_Costo, 2),
+                    Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Costo, 2),
+
                     Tipo = pro.Tipo
                 };
                 context.Compras_Detalles.Add(detalle);
@@ -1470,6 +1462,8 @@ namespace Monitux_POS.Ventanas
                         producto.Cantidad = pro.Cantidad + pro.cantidadSelecccionItem;
                 }
             }
+
+
             context.SaveChanges();
 
             // Registrar cuenta por pagar o egreso
