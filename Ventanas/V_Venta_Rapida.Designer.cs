@@ -58,6 +58,7 @@
             button8 = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
             panel2 = new Panel();
+            pictureBox2 = new PictureBox();
             label7 = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
             panel3.SuspendLayout();
@@ -65,6 +66,7 @@
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // panel3
@@ -366,7 +368,7 @@
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.BackColor = Color.FromArgb(0, 168, 107);
+            flowLayoutPanel1.BackColor = Color.FromArgb(73, 147, 40);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             flowLayoutPanel1.ForeColor = Color.Black;
@@ -380,12 +382,24 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(35, 32, 45);
+            panel2.Controls.Add(pictureBox2);
             panel2.Controls.Add(label7);
             panel2.ForeColor = Color.Black;
             panel2.Location = new Point(177, 0);
             panel2.Name = "panel2";
             panel2.Size = new Size(606, 53);
             panel2.TabIndex = 1;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(559, 3);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(48, 43);
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.TabIndex = 51;
+            pictureBox2.TabStop = false;
+            pictureBox2.Visible = false;
             // 
             // label7
             // 
@@ -429,6 +443,7 @@
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
 
@@ -459,5 +474,6 @@
         private ComboBox cboCamaras;
         private ComboBox comboCliente;
         private Label label4;
+        private PictureBox pictureBox2;
     }
 }

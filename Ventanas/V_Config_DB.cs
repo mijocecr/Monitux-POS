@@ -683,17 +683,17 @@ namespace Monitux_POS.Ventanas
 
         private void pictureBox1_MouseEnter(object sender, EventArgs e)
         {
-            comboBox1.SelectedItem = "SQLSERVER";
+            
         }
 
         private void pictureBox2_MouseEnter(object sender, EventArgs e)
         {
-            comboBox1.SelectedItem = "MYSQL";
+            
         }
 
         private void pictureBox3_MouseEnter(object sender, EventArgs e)
         {
-            comboBox1.SelectedItem = "SQLITE";
+            
 
         }
 
@@ -704,12 +704,12 @@ namespace Monitux_POS.Ventanas
 
         private void pictureBox3_MouseLeave(object sender, EventArgs e)
         {
-            textBox1.Text = string.Empty;
+            
         }
 
         private void pictureBox4_MouseEnter(object sender, EventArgs e)
         {
-            comboBox1.SelectedItem = "POSTGRES";
+            
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
@@ -726,6 +726,11 @@ namespace Monitux_POS.Ventanas
         {
             PostgreSQLInstaller postgreSQLInstaller = new PostgreSQLInstaller();
             textBox1.Text = postgreSQLInstaller.GetPostgresConnectionString();
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
         }
     }
 }

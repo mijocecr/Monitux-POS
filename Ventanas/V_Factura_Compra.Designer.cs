@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Factura_Compra));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             panel1 = new Panel();
+            pictureBox1 = new PictureBox();
             label16 = new Label();
             label15 = new Label();
             groupBox2 = new GroupBox();
@@ -80,6 +81,7 @@
             button5 = new Button();
             button4 = new Button();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
@@ -88,6 +90,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(11, 8, 20);
+            panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(label16);
             panel1.Controls.Add(label15);
             panel1.Controls.Add(groupBox2);
@@ -106,6 +109,17 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(798, 592);
             panel1.TabIndex = 35;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(747, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(48, 43);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 51;
+            pictureBox1.TabStop = false;
+            pictureBox1.Visible = false;
             // 
             // label16
             // 
@@ -725,6 +739,7 @@
             Load += V_Factura_Compra_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -784,5 +799,6 @@
         public Button button5;
         private Label label15;
         private Label label16;
+        private PictureBox pictureBox1;
     }
 }

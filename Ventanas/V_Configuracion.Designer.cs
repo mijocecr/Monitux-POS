@@ -646,7 +646,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(806, 762);
+            ClientSize = new Size(806, 787);
             Controls.Add(lblEstado);
             Controls.Add(progressBar1);
             Controls.Add(label12);

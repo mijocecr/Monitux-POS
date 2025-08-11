@@ -73,7 +73,7 @@ namespace Monitux_POS.Ventanas
 
             foreach (var item in productos)
             {
-
+                pictureBox2.Visible = true;
                 if (V_Menu_Principal.IPB.Show("Digite la cantidad en números de este producto que esta agregando", "¿Cuantos: " + item.Codigo + "?", out cantidad) == DialogResult.OK)
                 {
 
@@ -137,7 +137,7 @@ namespace Monitux_POS.Ventanas
 
                 }
 
-
+                pictureBox2.Visible = false;
 
             }
 
@@ -160,7 +160,7 @@ namespace Monitux_POS.Ventanas
 
                         */
 
-
+            pictureBox2.Visible = false;
             dataGridView1.Rows.Clear();
             subtotal = 0.0;
             total = 0.0;
@@ -280,6 +280,7 @@ namespace Monitux_POS.Ventanas
 
                 btn.Click += (s, e) =>
                 {
+                    pictureBox2.Visible = true;
                     var prod = (Producto_Top_VR)((System.Windows.Forms.Button)s).Tag;
                     //AgregarProductoAlCarrito(prod); // ← Implementa esta función según tu lógica
 
@@ -300,7 +301,7 @@ namespace Monitux_POS.Ventanas
                    
 
                     ActualizarTotal();
-
+                    pictureBox2.Visible = false;
 
                 };
 
@@ -425,6 +426,7 @@ namespace Monitux_POS.Ventanas
                 comboBox1.SelectedIndex = 1;
                 cboCamaras.Visible = true;
                 pictureBox1.Visible = true;
+                pictureBox2.Visible = true;
 
                 filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
                 foreach (FilterInfo device in filterInfoCollection)
@@ -450,6 +452,7 @@ namespace Monitux_POS.Ventanas
                 cboCamaras.Visible = false;
                 comboBox1.Enabled = true;
                 pictureBox1.Visible = false;
+                pictureBox2.Visible = false;
                 if (videoCaptureDevice != null && videoCaptureDevice.IsRunning)
                 {
                     videoCaptureDevice.SignalToStop();
@@ -592,7 +595,7 @@ namespace Monitux_POS.Ventanas
 
         private void button6_Click(object sender, EventArgs e)
         {
-
+            pictureBox2.Visible = true;
 
             if (comboCliente.SelectedIndex == -1)
             {
@@ -728,7 +731,7 @@ namespace Monitux_POS.Ventanas
             button7.PerformClick();
             RestaurarFocoEscaner();
 
-
+            pictureBox2.Visible = false;
 
         }
 

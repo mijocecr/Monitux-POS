@@ -74,6 +74,7 @@ namespace Monitux_POS.Ventanas
             linkLabel3 = new LinkLabel();
             linkLabel2 = new LinkLabel();
             linkLabel1 = new LinkLabel();
+            pictureBox1 = new PictureBox();
             label5 = new Label();
             label4 = new Label();
             button8 = new Button();
@@ -85,6 +86,7 @@ namespace Monitux_POS.Ventanas
             ((ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
+            ((ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -613,6 +615,17 @@ namespace Monitux_POS.Ventanas
             linkLabel1.Text = "Agregar Impuesto";
             linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(743, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(48, 43);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 50;
+            pictureBox1.TabStop = false;
+            pictureBox1.Visible = false;
+            // 
             // label5
             // 
             label5.AutoSize = true;
@@ -683,6 +696,7 @@ namespace Monitux_POS.Ventanas
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(11, 8, 20);
+            panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(label16);
             panel1.Controls.Add(label15);
             panel1.Controls.Add(groupBox2);
@@ -746,6 +760,7 @@ namespace Monitux_POS.Ventanas
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            ((ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -801,5 +816,6 @@ namespace Monitux_POS.Ventanas
         public Button button5;
         private Label label15;
         private Label label16;
+        private PictureBox pictureBox1;
     }
 }

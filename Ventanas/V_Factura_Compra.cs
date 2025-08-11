@@ -145,7 +145,7 @@ namespace Monitux_POS.Ventanas
         private void button5_Click(object sender, EventArgs e)
         {
 
-
+            pictureBox1.Visible=true; // Mostrar el PictureBox de carga
 
             V_Importar_Orden.Lista.Clear();
             button5.Enabled = false; // Deshabilitar el botón para evitar múltiples clics
@@ -157,7 +157,7 @@ namespace Monitux_POS.Ventanas
             label5.Text = Lista_de_Items.Count.ToString(); // Actualizar el contador de items seleccionados
             Cargar_Items(); // Recargar los items en el FlowLayoutPanel
 
-
+            pictureBox1.Visible = false; // Ocultar el PictureBox de carga después de completar la operación
 
 
         }
@@ -380,11 +380,14 @@ namespace Monitux_POS.Ventanas
 
         private void button3_Click(object sender, EventArgs e)
         {
+            
+            pictureBox1.Visible = true; // Mostrar el PictureBox de carga
             V_Producto producto = new V_Producto();
             producto.Secuencial_Usuario = Secuencial_Usuario;
 
             producto.ShowDialog();
             Cargar_Items();
+            pictureBox1.Visible = false; // Ocultar el PictureBox de carga después de completar la operación
         }
 
 
@@ -774,10 +777,12 @@ namespace Monitux_POS.Ventanas
 
         private void button4_Click(object sender, EventArgs e)
         {
+            pictureBox1.Visible = true; // Mostrar el PictureBox de carga
             V_Proveedor proveedor = new V_Proveedor();
             proveedor.Secuencial_Usuario = Secuencial_Usuario;
             proveedor.ShowDialog();
             llenar_Combo_Proveedor();
+            pictureBox1.Visible = false; // Ocultar el PictureBox de carga después de completar la operación
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -877,7 +882,7 @@ namespace Monitux_POS.Ventanas
 
         public void Limpiar_Factura()
         {
-
+            pictureBox1.Visible = false; // Ocultar el PictureBox de carga
             V_Importar_Orden.Lista.Clear();
 
             button5.Enabled = true;
@@ -1073,7 +1078,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-
+            pictureBox1.Visible = true; // Mostrar el PictureBox de carga   
 
 
             Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
@@ -1170,7 +1175,7 @@ namespace Monitux_POS.Ventanas
             Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una orden de compra segun Numero: " + secuencial + "\nPor valor de: " + Math.Round(total, 2), V_Menu_Principal.Secuencial_Empresa);
             Limpiar_Factura(); // Llama al método para limpiar la factura después de registrar la venta
 
-
+            pictureBox1.Visible = false; // Ocultar el PictureBox de carga después de registrar la venta
 
 
 
@@ -1377,6 +1382,7 @@ namespace Monitux_POS.Ventanas
         private void button6_Click(object sender, EventArgs e)
         {
 
+            pictureBox1.Visible = true; // Mostrar el PictureBox de carga
 
             Actualizar_Numeros();
 
@@ -1544,7 +1550,7 @@ namespace Monitux_POS.Ventanas
 
             Limpiar_Factura();
 
-
+            pictureBox1.Visible = false; // Ocultar el PictureBox de carga después de registrar la compra
 
 
 

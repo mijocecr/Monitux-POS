@@ -30,16 +30,19 @@ namespace Monitux_POS.Ventanas
                     panel1.Visible = false;
                     panel3.Visible = false;
                     panel2.Visible = true;
+                    panel4.Visible = false;
                     break;
                 case "sqlite":
                     panel2.Visible = false;
                     panel3.Visible = false;
                     panel1.Visible = true;
+                    panel4.Visible = false;
                     break;
                 case "sqlserver":
                     panel1.Visible = false;
                     panel2.Visible = false;
                     panel3.Visible = true;
+                    panel4.Visible = false;
                     break;
 
                 case "postgres":

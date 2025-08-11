@@ -658,20 +658,24 @@ namespace Monitux_POS.Ventanas
 
         private void button3_Click(object sender, EventArgs e)
         {
+            
+            pictureBox1.Visible = true;
             V_Producto producto = new V_Producto();
             producto.Secuencial_Usuario = Secuencial_Usuario;
 
             producto.ShowDialog();
             Cargar_Items();
-
+            pictureBox1.Visible = false; // Ocultar el PictureBox después de abrir el formulario
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
+            pictureBox1.Visible = true;
             V_Cliente cliente = new V_Cliente();
             cliente.Secuencial_Usuario = Secuencial_Usuario;
             cliente.ShowDialog();
             llenar_Combo_Cliente();
+            pictureBox1.Visible = false; // Ocultar el PictureBox después de abrir el formulario
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -794,7 +798,7 @@ namespace Monitux_POS.Ventanas
 
         public void Limpiar_Factura()
         {
-
+            pictureBox1.Visible = false;
             V_Importar_Cotizacion.Lista.Clear();
             button5.Enabled = true;
             dateTimePicker1.Value = DateTime.Now; // Reiniciar la fecha al valor actual
@@ -1036,6 +1040,7 @@ namespace Monitux_POS.Ventanas
 
         private void button5_Click(object sender, EventArgs e)
         {
+            pictureBox1.Visible = true;
             V_Importar_Cotizacion.Lista.Clear();
             button5.Enabled = false; // Deshabilitar el botón para evitar múltiples clics
             Lista_de_Items.Clear(); // Limpiar la lista de items seleccionados
@@ -1045,7 +1050,7 @@ namespace Monitux_POS.Ventanas
             Importar_Cotizacion(V_Importar_Cotizacion.Lista, V_Importar_Cotizacion.cliente_seleccionado);
             label5.Text = Lista_de_Items.Count.ToString(); // Actualizar el contador de items seleccionados
             Cargar_Items(); // Recargar los items en el FlowLayoutPanel
-
+            pictureBox1.Visible = false; // Ocultar el PictureBox después de importar
         }
 
 
@@ -1216,204 +1221,212 @@ namespace Monitux_POS.Ventanas
         private void button6_Click(object sender, EventArgs e)
         {
 
-            Actualizar_Numeros();
+            pictureBox1.Visible = true;
 
-            if (comboBox3.SelectedItem?.ToString() == "Credito")
+           
+
+    Actualizar_Numeros();
+
+    if (comboBox3.SelectedItem?.ToString() == "Credito")
+    {
+        comboBox1.SelectedItem = "Ninguno";
+        if (dateTimePicker1.Value <= DateTime.Now)
+        {
+            V_Menu_Principal.MSG.ShowMSG("La fecha de vencimiento no es válida.", "Error");
+            return;
+        }
+    }
+
+    if (Lista_de_Items.Count == 0)
+    {
+        V_Menu_Principal.MSG.ShowMSG("No hay items seleccionados para registrar la venta.", "Error");
+        return;
+    }
+
+    if (comboCliente.SelectedIndex == -1 ||
+        comboBox3.SelectedIndex == -1 ||
+        comboBox1.SelectedIndex == -1)
+    {
+        V_Menu_Principal.MSG.ShowMSG("Debe completar todos los campos obligatorios.", "Error");
+        return;
+    }
+
+    if (total <= 0)
+    {
+        V_Menu_Principal.MSG.ShowMSG("El total de la venta debe ser mayor a cero.", "Error");
+        return;
+    }
+
+    SQLitePCL.Batteries.Init();
+    using var context = new Monitux_DB_Context();
+    context.Database.EnsureCreated();
+
+    int secuencial = context.Ventas.Any() ? context.Ventas.Max(p => p.Secuencial) + 1 : 1;
+
+    var venta = new Venta
+    {
+        Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa,
+        //Secuencial = secuencial,
+        Secuencial_Cliente = int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()),
+        Secuencial_Usuario = Secuencial_Usuario,
+        Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"),
+        Tipo = comboBox3.SelectedItem.ToString(),
+        Forma_Pago = comboBox1.SelectedItem.ToString(),
+        Total = Math.Round(subTotal, 2),
+        Gran_Total = Math.Round(total, 2),
+        Impuesto = impuesto,
+        Otros_Cargos = otrosCargos,
+        Descuento = descuento
+    };
+
+    context.Ventas.Add(venta);
+    context.SaveChanges();
+
+    foreach (var pro in Lista_de_Items.Values)
+    {
+        var detalle = new Venta_Detalle
+        {
+            Secuencial_Empresa = venta.Secuencial_Empresa,
+            Secuencial_Factura = venta.Secuencial,
+            Secuencial_Cliente = venta.Secuencial_Cliente,
+            Secuencial_Usuario = venta.Secuencial_Usuario,
+            Fecha = venta.Fecha,
+            Secuencial_Producto = pro.Secuencial,
+            Codigo = pro.Codigo,
+            Descripcion = pro.Descripcion,
+            Cantidad = pro.cantidadSelecccionItem,
+            Precio = Math.Round(pro.Precio_Venta, 2),
+            Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Venta, 2),
+            Tipo = pro.Tipo
+        };
+
+        context.Ventas_Detalles.Add(detalle);
+
+        if (detalle.Tipo != "Servicio")
+        {
+            Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion,
+                pro.cantidadSelecccionItem, pro.Precio_Costo, pro.Precio_Venta, "Salida", V_Menu_Principal.Secuencial_Empresa);
+
+            var producto = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
+            if (producto != null)
+                producto.Cantidad = pro.Cantidad - pro.cantidadSelecccionItem;
+        }
+    }
+    context.SaveChanges();
+
+    if (venta.Tipo == "Credito")
+    {
+        var cuenta = new Cuentas_Cobrar
+        {
+            Secuencial_Empresa = venta.Secuencial_Empresa,
+            Secuencial_Factura = venta.Secuencial,
+            Secuencial_Cliente = venta.Secuencial_Cliente,
+            Secuencial_Usuario = venta.Secuencial_Usuario,
+            Fecha = venta.Fecha,
+            Total = Math.Round(total, 2),
+            Saldo = Math.Round(total, 2),
+            Pagado = 0.00,
+            Fecha_Vencimiento = dateTimePicker1.Value.ToString("dd/MM/yyyy"),
+            Descuento = venta.Descuento,
+            Otros_Cargos = venta.Otros_Cargos,
+            Impuesto = venta.Impuesto,
+            Gran_Total = venta.Gran_Total
+        };
+        context.Cuentas_Cobrar.Add(cuenta);
+    }
+    else
+    {
+        var ingreso = new Ingreso
+        {
+            Secuencial_Empresa = venta.Secuencial_Empresa,
+            Secuencial_Factura = venta.Secuencial,
+            Secuencial_Usuario = venta.Secuencial_Usuario,
+            Fecha = venta.Fecha,
+            Total = Math.Round(total, 2),
+            Tipo_Ingreso = venta.Forma_Pago,
+            Descripcion = $"Venta según Factura: {venta.Secuencial}"
+        };
+        context.Ingresos.Add(ingreso);
+    }
+    context.SaveChanges();
+
+    if (checkBox1.Checked)
+    {
+        if (V_Menu_Principal.IPB.Show("Escriba la cantidad en números del dinero recibido por esta venta.",
+            "Cálculo del Cambio", out string recibido) == DialogResult.OK)
+        {
+            if (double.TryParse(recibido?.Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out double monto))
             {
-                comboBox1.SelectedItem = "Ninguno";
-                if (dateTimePicker1.Value <= DateTime.Now)
-                {
-                    V_Menu_Principal.MSG.ShowMSG("La fecha de vencimiento no es válida.", "Error");
-                    return;
-                }
-            }
+                double cambio = monto - total;
+                string mensaje = cambio >= 0
+                    ? $"El Cambio a favor del Cliente es: {cambio}\n\n{Util.Convertir_Numeros_Palabras(cambio.ToString())} {V_Menu_Principal.moneda}"
+                    : $"Falta Dinero: {Math.Abs(cambio)}\n\n{Util.Convertir_Numeros_Palabras(Math.Abs(cambio).ToString())} {V_Menu_Principal.moneda}";
 
-            if (Lista_de_Items.Count == 0)
-            {
-                V_Menu_Principal.MSG.ShowMSG("No hay items seleccionados para registrar la venta.", "Error");
-                return;
-            }
-
-            if (comboCliente.SelectedIndex == -1 ||
-                comboBox3.SelectedIndex == -1 ||
-                comboBox1.SelectedIndex == -1)
-            {
-                V_Menu_Principal.MSG.ShowMSG("Debe completar todos los campos obligatorios.", "Error");
-                return;
-            }
-
-            if (total <= 0)
-            {
-                V_Menu_Principal.MSG.ShowMSG("El total de la venta debe ser mayor a cero.", "Error");
-                return;
-            }
-
-            SQLitePCL.Batteries.Init();
-            using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated();
-
-            int secuencial = context.Ventas.Any() ? context.Ventas.Max(p => p.Secuencial) + 1 : 1;
-
-            var venta = new Venta
-            {
-                Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa,
-                //Secuencial = secuencial,
-                Secuencial_Cliente = int.Parse(comboCliente.SelectedItem.ToString().Split('-')[0].Trim()),
-                Secuencial_Usuario = Secuencial_Usuario,
-                Fecha = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"),
-                Tipo = comboBox3.SelectedItem.ToString(),
-                Forma_Pago = comboBox1.SelectedItem.ToString(),
-                Total = Math.Round(subTotal, 2),
-                Gran_Total = Math.Round(total, 2),
-                Impuesto = impuesto,
-                Otros_Cargos = otrosCargos,
-                Descuento = descuento
-            };
-
-            context.Ventas.Add(venta);
-            context.SaveChanges();
-
-            foreach (var pro in Lista_de_Items.Values)
-            {
-                var detalle = new Venta_Detalle
-                {
-                    Secuencial_Empresa = venta.Secuencial_Empresa,
-                    Secuencial_Factura = venta.Secuencial,
-                    Secuencial_Cliente = venta.Secuencial_Cliente,
-                    Secuencial_Usuario = venta.Secuencial_Usuario,
-                    Fecha = venta.Fecha,
-                    Secuencial_Producto = pro.Secuencial,
-                    Codigo = pro.Codigo,
-                    Descripcion = pro.Descripcion,
-                    Cantidad = pro.cantidadSelecccionItem,
-                    Precio = Math.Round(pro.Precio_Venta, 2),
-                    Total = Math.Round(pro.cantidadSelecccionItem * pro.Precio_Venta, 2),
-                    Tipo = pro.Tipo
-                };
-
-                context.Ventas_Detalles.Add(detalle);
-
-                if (detalle.Tipo != "Servicio")
-                {
-                    Util.Registrar_Movimiento_Kardex(pro.Secuencial, pro.Cantidad, pro.Descripcion,
-                        pro.cantidadSelecccionItem, pro.Precio_Costo, pro.Precio_Venta, "Salida", V_Menu_Principal.Secuencial_Empresa);
-
-                    var producto = context.Productos.FirstOrDefault(p => p.Secuencial == pro.Secuencial);
-                    if (producto != null)
-                        producto.Cantidad = pro.Cantidad - pro.cantidadSelecccionItem;
-                }
-            }
-            context.SaveChanges();
-
-            if (venta.Tipo == "Credito")
-            {
-                var cuenta = new Cuentas_Cobrar
-                {
-                    Secuencial_Empresa = venta.Secuencial_Empresa,
-                    Secuencial_Factura = venta.Secuencial,
-                    Secuencial_Cliente = venta.Secuencial_Cliente,
-                    Secuencial_Usuario = venta.Secuencial_Usuario,
-                    Fecha = venta.Fecha,
-                    Total = Math.Round(total, 2),
-                    Saldo = Math.Round(total, 2),
-                    Pagado = 0.00,
-                    Fecha_Vencimiento = dateTimePicker1.Value.ToString("dd/MM/yyyy"),
-                    Descuento = venta.Descuento,
-                    Otros_Cargos = venta.Otros_Cargos,
-                    Impuesto = venta.Impuesto,
-                    Gran_Total = venta.Gran_Total
-                };
-                context.Cuentas_Cobrar.Add(cuenta);
+                V_Menu_Principal.MSG.ShowMSG(mensaje, "Ventas");
             }
             else
             {
-                var ingreso = new Ingreso
-                {
-                    Secuencial_Empresa = venta.Secuencial_Empresa,
-                    Secuencial_Factura = venta.Secuencial,
-                    Secuencial_Usuario = venta.Secuencial_Usuario,
-                    Fecha = venta.Fecha,
-                    Total = Math.Round(total, 2),
-                    Tipo_Ingreso = venta.Forma_Pago,
-                    Descripcion = $"Venta según Factura: {venta.Secuencial}"
-                };
-                context.Ingresos.Add(ingreso);
+                V_Menu_Principal.MSG.ShowMSG("Error: Solo se permiten números.", "Ventas");
             }
-            context.SaveChanges();
+        }
+    }
 
-            if (checkBox1.Checked)
-            {
-                if (V_Menu_Principal.IPB.Show("Escriba la cantidad en números del dinero recibido por esta venta.",
-                    "Cálculo del Cambio", out string recibido) == DialogResult.OK)
-                {
-                    if (double.TryParse(recibido?.Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out double monto))
-                    {
-                        double cambio = monto - total;
-                        string mensaje = cambio >= 0
-                            ? $"El Cambio a favor del Cliente es: {cambio}\n\n{Util.Convertir_Numeros_Palabras(cambio.ToString())} {V_Menu_Principal.moneda}"
-                            : $"Falta Dinero: {Math.Abs(cambio)}\n\n{Util.Convertir_Numeros_Palabras(Math.Abs(cambio).ToString())} {V_Menu_Principal.moneda}";
+    var factura = new FacturaCompletaPDF_Venta
+    {
+        Secuencial = venta.Secuencial,
+        Cliente = comboCliente.SelectedItem.ToString()
+            .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
+            .Trim(),
+        TipoVenta = venta.Tipo,
+        MetodoPago = venta.Forma_Pago,
+        Fecha = venta.Fecha,
+        Items = ObtenerItemsDesdeGrid(dataGridView1),
+        ISV = (double)venta.Impuesto,
+        OtrosCargos = (double)venta.Otros_Cargos,
+        Descuento = (double)venta.Descuento
+    };
 
-                        V_Menu_Principal.MSG.ShowMSG(mensaje, "Ventas");
-                    }
-                    else
-                    {
-                        V_Menu_Principal.MSG.ShowMSG("Error: Solo se permiten números.", "Ventas");
-                    }
-                }
-            }
+    byte[] pdfBytes = factura.GeneratePdfToBytes();
+    venta.Documento = pdfBytes;
+    context.SaveChanges();
 
-            var factura = new FacturaCompletaPDF_Venta
-            {
-                Secuencial = venta.Secuencial,
-                Cliente = comboCliente.SelectedItem.ToString()
-                    .Substring(comboCliente.SelectedItem.ToString().IndexOf("- ") + 2)
-                    .Trim(),
-                TipoVenta = venta.Tipo,
-                MetodoPago = venta.Forma_Pago,
-                Fecha = venta.Fecha,
-                Items = ObtenerItemsDesdeGrid(dataGridView1),
-                ISV = (double)venta.Impuesto,
-                OtrosCargos = (double)venta.Otros_Cargos,
-                Descuento = (double)venta.Descuento
-            };
+    var destinatariocliente = context.Clientes.FirstOrDefault(c => c.Secuencial == venta.Secuencial_Cliente);
+    string? destinatario = destinatariocliente?.Email;
 
-            byte[] pdfBytes = factura.GeneratePdfToBytes();
-            venta.Documento = pdfBytes;
-            context.SaveChanges();
-
-            var destinatariocliente = context.Clientes.FirstOrDefault(c => c.Secuencial == venta.Secuencial_Cliente);
-            string? destinatario = destinatariocliente?.Email;
-
-            if (!string.IsNullOrWhiteSpace(destinatario))
-            {
-                Util.EnviarCorreoConPdfBytes("monitux.pos@gmail.com",
-                    destinatario,
-                    $"{V_Menu_Principal.Nombre_Empresa} - Comprobante",
-                    "Gracias por su compra. Adjunto tiene su comprobante.",
-                    pdfBytes,
-                    "smtp.gmail.com",
-                    587,
-                    "monitux.pos", "ffeg qqnx zaij otmb");
-            }
-            var visor = new V_Visor_Factura
-            {
-                DocumentoEnBytes = pdfBytes,
-                titulo = $"Factura de Venta No. {venta.Secuencial}"
-            };
-            visor.ShowDialog();
+    if (!string.IsNullOrWhiteSpace(destinatario))
+    {
+        Util.EnviarCorreoConPdfBytes("monitux.pos@gmail.com",
+            destinatario,
+            $"{V_Menu_Principal.Nombre_Empresa} - Comprobante",
+            "Gracias por su compra. Adjunto tiene su comprobante.",
+            pdfBytes,
+            "smtp.gmail.com",
+            587,
+            "monitux.pos", "ffeg qqnx zaij otmb");
+    }
+    var visor = new V_Visor_Factura
+    {
+        DocumentoEnBytes = pdfBytes,
+        titulo = $"Factura de Venta No. {venta.Secuencial}"
+    };
+    visor.ShowDialog();
 
 
-            V_Menu_Principal.MSG.ShowMSG(
-                venta.Tipo == "Credito"
-                    ? "Venta al crédito registrada correctamente.\n\nRecuerde que debe cobrar la cuenta pendiente antes de la fecha de vencimiento."
-                    : "Venta registrada correctamente.",
-                "Éxito");
+    V_Menu_Principal.MSG.ShowMSG(
+        venta.Tipo == "Credito"
+            ? "Venta al crédito registrada correctamente.\n\nRecuerde que debe cobrar la cuenta pendiente antes de la fecha de vencimiento."
+            : "Venta registrada correctamente.",
+        "Éxito");
 
-            Util.Registrar_Actividad(Secuencial_Usuario,
-                $"Ha registrado una venta{(venta.Tipo == "Credito" ? " al crédito" : "")}, factura: {venta.Secuencial}, por un valor de: {venta.Total} {V_Menu_Principal.moneda}",
-                V_Menu_Principal.Secuencial_Empresa);
+    Util.Registrar_Actividad(Secuencial_Usuario,
+        $"Ha registrado una venta{(venta.Tipo == "Credito" ? " al crédito" : "")}, factura: {venta.Secuencial}, por un valor de: {venta.Total} {V_Menu_Principal.moneda}",
+        V_Menu_Principal.Secuencial_Empresa);
 
-            Limpiar_Factura();
+    Limpiar_Factura();
+
+ 
+            pictureBox1.Visible = false;
+
 
 
         }
@@ -1426,7 +1439,7 @@ namespace Monitux_POS.Ventanas
 
 
 
-
+            pictureBox1.Visible = true; // Mostrar el PictureBox mientras se procesa la cotización
 
 
             Actualizar_Numeros(); // Actualizar los números en los labels correspondientes
@@ -1523,7 +1536,7 @@ namespace Monitux_POS.Ventanas
             Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una cotizacion segun Numero: " + secuencial + "\nPor valor de: " + Math.Round(total, 2), V_Menu_Principal.Secuencial_Empresa);
             Limpiar_Factura(); // Llama al método para limpiar la factura después de registrar la venta
 
-
+            pictureBox1.Visible = false; // Ocultar el PictureBox después de procesar la cotización
 
         }
 

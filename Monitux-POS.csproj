@@ -18,6 +18,11 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <AssemblyVersion>1.5.0.0</AssemblyVersion>
     <FileVersion>1.5.0.0</FileVersion>
+    <Authors>Miguel Josue Cerrato Cruz</Authors>
+    <Company>One Click Solutions</Company>
+    <Product>Monitux-POS</Product>
+    <Description>Monitux-POS es un sistema moderno de punto de venta desarrollado en .NET C#, diseñado para pequeñas y medianas empresas. Ofrece una interfaz intuitiva y herramientas robustas para la gestión eficiente de ventas, inventario y productos, optimizando las operaciones comerciales de forma ágil y confiable.</Description>
+    <Copyright>© 2025 Miguel Cerrato. Todos los derechos reservados.</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
