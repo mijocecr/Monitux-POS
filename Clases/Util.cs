@@ -730,6 +730,46 @@ namespace Monitux_POS.Clases
 
 
 
+        //    public static void Registrar_Movimiento_Kardex(int secuencial_producto, double existencia,
+        //string descripcion, double cantidad_unidades, double costo, double venta,
+        //string movimiento, int secuencial_empresa)
+        //    {
+        //        try
+        //        {
+        //            if (cantidad_unidades < 0 || costo < 0 || venta < 0)
+        //                throw new ArgumentException("Valores inválidos para movimiento de inventario.");
+
+        //            double saldoNuevo = movimiento == "Entrada"
+        //                ? existencia + cantidad_unidades
+        //                : existencia - cantidad_unidades;
+
+        //            var kardex = new Kardex
+        //            {
+        //                Secuencial_Empresa = secuencial_empresa,
+        //                Secuencial_Producto = secuencial_producto,
+        //                Descripcion = descripcion,
+        //                Cantidad = cantidad_unidades,
+        //                Costo = costo,
+        //                Venta = venta,
+        //                Movimiento = movimiento,
+        //                Saldo = saldoNuevo,
+        //                Costo_Total = Math.Round(saldoNuevo * costo, 2),
+        //                Venta_Total = Math.Round(saldoNuevo * venta, 2),
+        //                Fecha = DateTime.Now.ToString("dd/MM/yyyy")
+        //                // Secuencial_Usuario = secuencial_usuario
+        //            };
+
+        //            using var context = new Monitux_DB_Context();
+        //            context.Kardex.Add(kardex);
+        //            context.SaveChanges();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            V_Menu_Principal.MSG.ShowMSG($"Error al registrar movimiento en Kardex:\n{ex.Message}", "Error crítico");
+        //        }
+        //    }
+
+
         public static void Registrar_Movimiento_Kardex(int secuencial_producto, double existencia,
     string descripcion, double cantidad_unidades, double costo, double venta,
     string movimiento, int secuencial_empresa)
@@ -753,10 +793,9 @@ namespace Monitux_POS.Clases
                     Venta = venta,
                     Movimiento = movimiento,
                     Saldo = saldoNuevo,
-                    Costo_Total = Math.Round(saldoNuevo * costo, 2),
-                    Venta_Total = Math.Round(saldoNuevo * venta, 2),
+                    Costo_Total = Math.Round(cantidad_unidades * costo, 2), // ✅ corregido
+                    Venta_Total = Math.Round(cantidad_unidades * venta, 2), // ✅ corregido
                     Fecha = DateTime.Now.ToString("dd/MM/yyyy")
-                    // Secuencial_Usuario = secuencial_usuario
                 };
 
                 using var context = new Monitux_DB_Context();
@@ -768,6 +807,7 @@ namespace Monitux_POS.Clases
                 V_Menu_Principal.MSG.ShowMSG($"Error al registrar movimiento en Kardex:\n{ex.Message}", "Error crítico");
             }
         }
+
 
 
 

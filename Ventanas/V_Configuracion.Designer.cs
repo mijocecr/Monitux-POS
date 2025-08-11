@@ -66,13 +66,28 @@
             button11 = new Button();
             button12 = new Button();
             textBox6 = new TextBox();
+            panel4 = new Panel();
+            pictureBox4 = new PictureBox();
+            textBox7 = new TextBox();
+            button13 = new Button();
+            label13 = new Label();
+            button14 = new Button();
+            label14 = new Label();
+            label15 = new Label();
+            button15 = new Button();
+            button16 = new Button();
+            textBox8 = new TextBox();
             label12 = new Label();
+            progressBar1 = new ProgressBar();
+            lblEstado = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             SuspendLayout();
             // 
             // label6
@@ -472,24 +487,170 @@
             textBox6.Size = new Size(384, 23);
             textBox6.TabIndex = 87;
             // 
+            // panel4
+            // 
+            panel4.Controls.Add(pictureBox4);
+            panel4.Controls.Add(textBox7);
+            panel4.Controls.Add(button13);
+            panel4.Controls.Add(label13);
+            panel4.Controls.Add(button14);
+            panel4.Controls.Add(label14);
+            panel4.Controls.Add(label15);
+            panel4.Controls.Add(button15);
+            panel4.Controls.Add(button16);
+            panel4.Controls.Add(textBox8);
+            panel4.Dock = DockStyle.Top;
+            panel4.Location = new Point(0, 534);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(806, 121);
+            panel4.TabIndex = 96;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(17, 14);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(84, 81);
+            pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox4.TabIndex = 92;
+            pictureBox4.TabStop = false;
+            // 
+            // textBox7
+            // 
+            textBox7.Location = new Point(240, 16);
+            textBox7.Name = "textBox7";
+            textBox7.ReadOnly = true;
+            textBox7.Size = new Size(384, 23);
+            textBox7.TabIndex = 86;
+            // 
+            // button13
+            // 
+            button13.ForeColor = Color.FromArgb(192, 0, 192);
+            button13.Location = new Point(707, 50);
+            button13.Name = "button13";
+            button13.Size = new Size(75, 24);
+            button13.TabIndex = 90;
+            button13.Text = "Exportar";
+            button13.UseVisualStyleBackColor = true;
+            button13.Click += button13_Click;
+            // 
+            // label13
+            // 
+            label13.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label13.ForeColor = Color.Gray;
+            label13.Location = new Point(405, 75);
+            label13.Name = "label13";
+            label13.Size = new Size(219, 30);
+            label13.TabIndex = 91;
+            label13.Text = "Motor de Datos: [POSTGRES]";
+            // 
+            // button14
+            // 
+            button14.ForeColor = Color.Red;
+            button14.Location = new Point(707, 15);
+            button14.Name = "button14";
+            button14.Size = new Size(75, 24);
+            button14.TabIndex = 89;
+            button14.Text = "Importar";
+            button14.UseVisualStyleBackColor = true;
+            button14.Click += button14_Click;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            label14.ForeColor = Color.FromArgb(192, 0, 192);
+            label14.Location = new Point(110, 49);
+            label14.Name = "label14";
+            label14.Size = new Size(124, 19);
+            label14.TabIndex = 81;
+            label14.Text = "Ruta destino .SQL:";
+            label14.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            label15.ForeColor = Color.FromArgb(0, 192, 0);
+            label15.Location = new Point(107, 19);
+            label15.Name = "label15";
+            label15.Size = new Size(127, 19);
+            label15.TabIndex = 82;
+            label15.Text = "[📂] Archivo .SQL:";
+            label15.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // button15
+            // 
+            button15.ForeColor = Color.FromArgb(0, 192, 0);
+            button15.Location = new Point(629, 14);
+            button15.Name = "button15";
+            button15.Size = new Size(75, 24);
+            button15.TabIndex = 84;
+            button15.Text = "Cargar";
+            button15.UseVisualStyleBackColor = true;
+            button15.Click += button15_Click;
+            // 
+            // button16
+            // 
+            button16.ForeColor = Color.FromArgb(192, 0, 192);
+            button16.Location = new Point(629, 49);
+            button16.Name = "button16";
+            button16.Size = new Size(75, 24);
+            button16.TabIndex = 85;
+            button16.Text = "Escoger";
+            button16.UseVisualStyleBackColor = true;
+            button16.Click += button16_Click;
+            // 
+            // textBox8
+            // 
+            textBox8.Location = new Point(240, 49);
+            textBox8.Name = "textBox8";
+            textBox8.ReadOnly = true;
+            textBox8.Size = new Size(384, 23);
+            textBox8.TabIndex = 87;
+            // 
             // label12
             // 
             label12.Dock = DockStyle.Top;
             label12.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.MidnightBlue;
-            label12.Location = new Point(0, 534);
+            label12.Location = new Point(0, 655);
             label12.Name = "label12";
             label12.Size = new Size(806, 48);
-            label12.TabIndex = 95;
-            label12.Text = "Atención: Se recomienda crear una carpeta llamada \"Respaldo\" en [Disco Local C:]  algunos servidores tienen conflictos de permisos para escribir sus respaldos.";
+            label12.TabIndex = 97;
+            label12.Text = "Atención: Se recomienda crear una carpeta llamada \"Respaldo\" en [Disco Local C:]  algunos servidores tienen conflictos de permisos para escribir sus respaldos en carpetas especiales del sistema.";
+            // 
+            // progressBar1
+            // 
+            progressBar1.Dock = DockStyle.Top;
+            progressBar1.Location = new Point(0, 703);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(806, 23);
+            progressBar1.TabIndex = 98;
+            progressBar1.Visible = false;
+            // 
+            // lblEstado
+            // 
+            lblEstado.AutoSize = true;
+            lblEstado.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblEstado.Location = new Point(369, 730);
+            lblEstado.Name = "lblEstado";
+            lblEstado.Size = new Size(27, 25);
+            lblEstado.TabIndex = 99;
+            lblEstado.Text = "...";
+            lblEstado.TextAlign = ContentAlignment.MiddleCenter;
+            lblEstado.Visible = false;
             // 
             // V_Configuracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(806, 690);
+            ClientSize = new Size(806, 762);
+            Controls.Add(lblEstado);
+            Controls.Add(progressBar1);
             Controls.Add(label12);
+            Controls.Add(panel4);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
@@ -509,7 +670,11 @@
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -551,6 +716,19 @@
         private Button button12;
         private TextBox textBox6;
         private PictureBox pictureBox1;
+        private Panel panel4;
+        private TextBox textBox7;
+        private Button button13;
+        private Label label13;
+        private Button button14;
+        private Label label14;
+        private Label label15;
+        private Button button15;
+        private Button button16;
+        private TextBox textBox8;
+        private PictureBox pictureBox4;
         private Label label12;
+        private ProgressBar progressBar1;
+        private Label lblEstado;
     }
 }

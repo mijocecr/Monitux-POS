@@ -153,9 +153,10 @@ namespace Monitux_POS.Ventanas
                 context.Usuarios.Add(usuario);
                 context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 V_Menu_Principal.MSG.ShowMSG("Error al crear el usuario: Ya existe o los datos proporcionados no son válidos.", "Error");
+                MessageBox.Show(ex.InnerException.Message);
                 return;
             }
 
@@ -460,8 +461,8 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
             // Filtrar solo clientes activos
+            //var empresaActiva = context.Empresas.Where(c => (bool)c.Activa).ToList();
             var empresaActiva = context.Empresas.Where(c => (bool)c.Activa).ToList();
-
             foreach (var item in empresaActiva)
             {
                 comboEmpresa.Items.Add(item.Secuencial + " - " + item.Nombre);
@@ -564,9 +565,9 @@ namespace Monitux_POS.Ventanas
 
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
-            int secuencialn = context.Productos.Any() ? context.Productos.Max(p => p.Secuencial) + 1 : 1;
+           // int secuencialn = context.Productos.Any() ? context.Productos.Max(p => p.Secuencial) + 1 : 1;
             var usuario = new Usuario();
-            Secuencial = secuencialn; // Asigna el secuencial al usuario
+           // Secuencial = secuencialn; // Asigna el secuencial al usuario
 
 
         }

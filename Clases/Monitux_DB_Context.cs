@@ -124,6 +124,25 @@
                     break;
 
 
+                case "postgres":
+                    string conexionPostgres = Properties.Settings.Default.DB_CONNECTION;
+
+                    if (string.IsNullOrWhiteSpace(conexionPostgres))
+                    {
+                        V_Config_DB v_Config_DB = new V_Config_DB();
+                        v_Config_DB.ShowDialog();
+                        return; // Evita continuar si no hay conexión
+                    }
+
+                    optionsBuilder.UseNpgsql(conexionPostgres);
+
+                  //  MessageBox.Show($"Conexión a PostgreSQL establecida correctamente. {conexionPostgres}", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+
+
+
+
+
                 default:
                     throw new NotSupportedException($"Proveedor de base de datos no soportado: {proveedor}");
             }

@@ -35,6 +35,10 @@
             label5 = new Label();
             textBox4 = new TextBox();
             panel2 = new Panel();
+            pictureBox4 = new PictureBox();
+            contextMenuStrip3 = new ContextMenuStrip(components);
+            ffToolStripMenuItem = new ToolStripMenuItem();
+            datosDeConexionAInstanciaToolStripMenuItem1 = new ToolStripMenuItem();
             pictureBox1 = new PictureBox();
             contextMenuStrip1 = new ContextMenuStrip(components);
             instalarSQLServerToolStripMenuItem = new ToolStripMenuItem();
@@ -49,15 +53,17 @@
             label3 = new Label();
             button3 = new Button();
             button2 = new Button();
-            button1 = new Button();
             label2 = new Label();
             textBox1 = new TextBox();
             label1 = new Label();
             comboBox1 = new ComboBox();
+            button1 = new Button();
             label15 = new Label();
             textBox2 = new TextBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            contextMenuStrip3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -76,7 +82,6 @@
             panel1.Controls.Add(label3);
             panel1.Controls.Add(button3);
             panel1.Controls.Add(button2);
-            panel1.Controls.Add(button1);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(textBox1);
             panel1.Controls.Add(label1);
@@ -114,13 +119,46 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(11, 8, 20);
+            panel2.Controls.Add(pictureBox4);
             panel2.Controls.Add(pictureBox1);
             panel2.Controls.Add(pictureBox3);
             panel2.Controls.Add(pictureBox2);
-            panel2.Location = new Point(22, 6);
+            panel2.Location = new Point(50, 5);
             panel2.Name = "panel2";
-            panel2.Size = new Size(287, 100);
+            panel2.Size = new Size(378, 100);
             panel2.TabIndex = 46;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.ContextMenuStrip = contextMenuStrip3;
+            pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
+            pictureBox4.Location = new Point(284, 10);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(84, 81);
+            pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox4.TabIndex = 46;
+            pictureBox4.TabStop = false;
+            pictureBox4.MouseEnter += pictureBox4_MouseEnter;
+            // 
+            // contextMenuStrip3
+            // 
+            contextMenuStrip3.Items.AddRange(new ToolStripItem[] { ffToolStripMenuItem, datosDeConexionAInstanciaToolStripMenuItem1 });
+            contextMenuStrip3.Name = "contextMenuStrip3";
+            contextMenuStrip3.Size = new Size(233, 48);
+            // 
+            // ffToolStripMenuItem
+            // 
+            ffToolStripMenuItem.Name = "ffToolStripMenuItem";
+            ffToolStripMenuItem.Size = new Size(232, 22);
+            ffToolStripMenuItem.Text = "Instalar PostgreSQL";
+            ffToolStripMenuItem.Click += ffToolStripMenuItem_Click;
+            // 
+            // datosDeConexionAInstanciaToolStripMenuItem1
+            // 
+            datosDeConexionAInstanciaToolStripMenuItem1.Name = "datosDeConexionAInstanciaToolStripMenuItem1";
+            datosDeConexionAInstanciaToolStripMenuItem1.Size = new Size(232, 22);
+            datosDeConexionAInstanciaToolStripMenuItem1.Text = "Datos de Conexion a Instancia";
+            datosDeConexionAInstanciaToolStripMenuItem1.Click += datosDeConexionAInstanciaToolStripMenuItem1_Click;
             // 
             // pictureBox1
             // 
@@ -141,6 +179,7 @@
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { instalarSQLServerToolStripMenuItem, obtenerCadenaDeConexionDeInstanciaToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(233, 48);
+            contextMenuStrip1.Opening += contextMenuStrip1_Opening;
             // 
             // instalarSQLServerToolStripMenuItem
             // 
@@ -234,9 +273,9 @@
             // 
             button3.FlatStyle = FlatStyle.Flat;
             button3.ForeColor = Color.White;
-            button3.Location = new Point(362, 61);
+            button3.Location = new Point(362, 203);
             button3.Name = "button3";
-            button3.Size = new Size(101, 45);
+            button3.Size = new Size(101, 49);
             button3.TabIndex = 8;
             button3.Text = "Generar Cadena de Conexion";
             button3.UseVisualStyleBackColor = true;
@@ -246,25 +285,13 @@
             // 
             button2.FlatStyle = FlatStyle.Flat;
             button2.ForeColor = Color.White;
-            button2.Location = new Point(362, 206);
+            button2.Location = new Point(362, 258);
             button2.Name = "button2";
-            button2.Size = new Size(101, 100);
+            button2.Size = new Size(101, 49);
             button2.TabIndex = 7;
             button2.Text = "Guardar y Continuar";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
-            // 
-            // button1
-            // 
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(362, 6);
-            button1.Name = "button1";
-            button1.Size = new Size(101, 45);
-            button1.TabIndex = 4;
-            button1.Text = "Probar Conexion";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
             // 
             // label2
             // 
@@ -299,12 +326,24 @@
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FlatStyle = FlatStyle.Flat;
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "SQLITE", "MYSQL", "SQLSERVER" });
+            comboBox1.Items.AddRange(new object[] { "SQLITE", "MYSQL", "SQLSERVER", "POSTGRES" });
             comboBox1.Location = new Point(177, 272);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(166, 23);
             comboBox1.TabIndex = 0;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // button1
+            // 
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(12, 336);
+            button1.Name = "button1";
+            button1.Size = new Size(101, 45);
+            button1.TabIndex = 4;
+            button1.Text = "Probar Conexion";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // label15
             // 
@@ -338,6 +377,7 @@
             Controls.Add(textBox2);
             Controls.Add(label15);
             Controls.Add(panel1);
+            Controls.Add(button1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -349,6 +389,8 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            contextMenuStrip3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
@@ -386,5 +428,9 @@
         private ContextMenuStrip contextMenuStrip2;
         private ToolStripMenuItem instalarMySQLToolStripMenuItem;
         private ToolStripMenuItem datosDeConexionAInstanciaToolStripMenuItem;
+        private PictureBox pictureBox4;
+        private ContextMenuStrip contextMenuStrip3;
+        private ToolStripMenuItem ffToolStripMenuItem;
+        private ToolStripMenuItem datosDeConexionAInstanciaToolStripMenuItem1;
     }
 }

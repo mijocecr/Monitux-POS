@@ -1,7 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
 using Microsoft.EntityFrameworkCore;
 using Monitux_POS.Clases;
-using Monitux_POS.Clases.MonituxPOS.Clases;
+
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -76,6 +76,20 @@ namespace Monitux_POS.Ventanas
                     Properties.Settings.Default.DB_PROVIDER = "sqlserver";
                     break;
 
+
+                case "POSTGRES":
+                    if (string.IsNullOrEmpty(servidor))
+                    {
+                        V_Menu_Principal.MSG.ShowMSG("Por favor, indique el servidor PostgreSQL.", "Advertencia");
+                        return;
+                    }
+
+                    cadena = ConstruirCadenaPostgres(servidor, usuario, contraseña);
+                    Properties.Settings.Default.DB_PROVIDER = "postgres";
+                    break;
+
+
+
                 default:
                     V_Menu_Principal.MSG.ShowMSG("Proveedor de base de datos no reconocido.", "Error");
                     return;
@@ -102,6 +116,25 @@ namespace Monitux_POS.Ventanas
                     return $"Server={servidor};User Id={usuario};Password={contraseña};Database=monitux;Encrypt=False;TrustServerCertificate=True;";
                 }
             }
+
+
+            string ConstruirCadenaPostgres(string servidor, string usuario, string contraseña)
+            {
+                string baseDatos = "monitux";
+                string puerto = "5432";
+
+                if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contraseña))
+                {
+                    // Autenticación sin usuario/contraseña (por ejemplo, con ident o peer en localhost)
+                    return $"Host={servidor};Port={puerto};Database={baseDatos};Integrated Security=true;";
+                }
+                else
+                {
+                    // Autenticación estándar con usuario y contraseña
+                    return $"Host={servidor};Port={puerto};Database={baseDatos};Username={usuario};Password={contraseña};SSL Mode=Prefer;Trust Server Certificate=true;";
+                }
+            }
+
 
 
 
@@ -133,7 +166,7 @@ namespace Monitux_POS.Ventanas
                     return;
                 }
 
-              
+
 
                 var optionsBuilder = new DbContextOptionsBuilder<Monitux_DB_Context>();
 
@@ -198,101 +231,87 @@ namespace Monitux_POS.Ventanas
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ////button3.PerformClick();
-
-            //string proveedor = comboBox1.SelectedItem.ToString().ToLower();
-            //string conexion = textBox1.Text;
 
 
 
-            //if (proveedor == "sqlite")
+
+            //try
             //{
-            //    Properties.Settings.Default.DB_PROVIDER = "sqlite";
-
-            //}
-            //else if (proveedor == "mysql")
-            //{
-            //    Properties.Settings.Default.DB_PROVIDER = "mysql";
-            //}
-            //else if (proveedor == "sqlserver")
-            //{
-            //    Properties.Settings.Default.DB_PROVIDER = "sqlserver";
-            //}
+            //    string proveedor = comboBox1.SelectedItem?.ToString().ToLower();
+            //    string conexion = textBox1.Text?.Trim();
 
 
+            //    if (proveedor != "sqlite")
+            //    {
+            //        if (string.IsNullOrWhiteSpace(conexion))
+            //        {
+            //            V_Menu_Principal.MSG.ShowMSG("Debe ingresar una cadena de conexión válida.", "Advertencia");
+            //            return;
+            //        }
 
-            //Properties.Settings.Default.DB_CONNECTION = textBox1.Text.Trim();
 
-            //Properties.Settings.Default.Save();
+            //        if (string.IsNullOrWhiteSpace(proveedor))
+            //        {
+            //            V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un proveedor de base de datos.", "Advertencia");
+            //            return;
+            //        }
+
+            //    }
 
 
+            //    // Guardar configuración
+            //    Properties.Settings.Default.DB_PROVIDER = proveedor;
+            //    Properties.Settings.Default.DB_CONNECTION = conexion;
+            //    Properties.Settings.Default.Save();
 
+            //    string archivo = proveedor switch
+            //    {
+            //        "mysql" => Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Database", "MySQL-DB.sql"),
+            //        "sqlserver" => Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Database", "SQL-DB.sql"),
+            //        _ => null
+            //    };
 
-            //if (Properties.Settings.Default.DB_PROVIDER == "mysql")
-            //{
-            //    string archivo = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Database", "MySQL-DB.sql");
-
-            //    if (!File.Exists(archivo))
+            //    if (archivo != null && !File.Exists(archivo))
             //    {
             //        V_Menu_Principal.MSG.ShowMSG("El archivo de respaldo no fue encontrado.", "Error");
             //        return;
             //    }
 
             //    string dbName = "monitux";
-            //    string serverConnection = $"Server={textBox5.Text.Trim()};Uid={textBox3.Text.Trim()};Pwd={textBox4.Text.Trim()};"; // sin 'Database='
+            //    string server = textBox5.Text.Trim();
+            //    string user = textBox3.Text.Trim();
+            //    string password = textBox4.Text.Trim();
 
-            //    using (var conn = new MySqlConnection(serverConnection))
+            //    if (proveedor == "mysql")
             //    {
-            //        conn.Open();
+            //        string serverConnection = $"Server={server};Uid={user};Pwd={password};";
 
-            //        // ⚠️ Eliminar la base de datos si existe
-            //        string dropDbScript = $"DROP DATABASE IF EXISTS `{dbName}`;";
-            //        using var dropCmd = new MySqlCommand(dropDbScript, conn);
-            //        dropCmd.ExecuteNonQuery();
+            //        using (var conn = new MySqlConnection(serverConnection))
+            //        {
+            //            conn.Open();
+            //            new MySqlCommand($"DROP DATABASE IF EXISTS `{dbName}`;", conn).ExecuteNonQuery();
+            //            new MySqlCommand($"CREATE DATABASE `{dbName}` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;", conn).ExecuteNonQuery();
+            //        }
 
-            //        // ✅ Crear la base de datos
-            //        string createDbScript = $"CREATE DATABASE `{dbName}` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;";
-            //        using var createCmd = new MySqlCommand(createDbScript, conn);
-            //        createCmd.ExecuteNonQuery();
+            //        string script = File.ReadAllText(archivo);
+            //        string dbConnection = $"Server=localhost;Database={dbName};Uid={user};Pwd={password};";
+
+            //        using (var conn = new MySqlConnection(dbConnection))
+            //        {
+            //            conn.Open();
+            //            new MySqlCommand(script, conn).ExecuteNonQuery();
+            //        }
+
+            //        V_Menu_Principal.MSG.ShowMSG("Base de datos MySQL configurada exitosamente.", "Éxito");
             //    }
-
-            //    // 🧠 Ejecutar el script del esquema
-            //    string script = File.ReadAllText(archivo);
-            //    string dbConnection = $"Server=localhost;Database={dbName};Uid={textBox3.Text.Trim()};Pwd={textBox4.Text.Trim()};";
-
-            //    using (var conn = new MySqlConnection(dbConnection))
+            //    else if (proveedor == "sqlserver")
             //    {
-            //        conn.Open();
+            //        string serverConnection = $"Server={server};User Id={user};Password={password};Encrypt=False;TrustServerCertificate=True;";
 
-            //        // ⚠️ MySQL no permite múltiples instrucciones por defecto
-            //        using var cmd = new MySqlCommand(script, conn);
-            //        cmd.ExecuteNonQuery();
-            //    }
-
-            //    V_Menu_Principal.MSG.ShowMSG("Base de datos MySQL configurada exitosamente.", "Exito");
-            //}
-
-
-            //if (Properties.Settings.Default.DB_PROVIDER == "sqlserver")
-            //{
-            //    string archivo = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Database", "SQL-DB.sql");
-
-            //    if (!File.Exists(archivo))
-            //    {
-            //        V_Menu_Principal.MSG.ShowMSG("El archivo de respaldo no fue encontrado.", "Error");
-            //        return;
-            //    }
-
-            //    string dbName = "monitux";
-            //    string serverConnection = $"Server={textBox5.Text.Trim()};User Id={textBox3.Text.Trim()};Password={textBox4.Text.Trim()};Encrypt=False;TrustServerCertificate=True;";
-
-            //    try
-            //    {
             //        using (var conn = new SqlConnection(serverConnection))
             //        {
             //            conn.Open();
 
-            //            // 🧹 Eliminar conexiones activas
             //            string killConnections = $@"
             //    DECLARE @kill varchar(8000) = '';
             //    SELECT @kill = @kill + 'KILL ' + CONVERT(varchar(5), session_id) + ';'
@@ -300,31 +319,15 @@ namespace Monitux_POS.Ventanas
             //    WHERE database_id = DB_ID('{dbName}');
             //    EXEC(@kill);";
 
-            //            using (var killCmd = new SqlCommand(killConnections, conn))
-            //            {
-            //                killCmd.ExecuteNonQuery();
-            //            }
-
-            //            // 🗑️ Eliminar la base si existe
-            //            string dropDbScript = $"IF EXISTS (SELECT name FROM sys.databases WHERE name = N'{dbName}') DROP DATABASE [{dbName}];";
-            //            using (var dropCmd = new SqlCommand(dropDbScript, conn))
-            //            {
-            //                dropCmd.ExecuteNonQuery();
-            //            }
-
-            //            // ✅ Crear la base
-            //            string createDbScript = $"CREATE DATABASE [{dbName}];";
-            //            using (var createCmd = new SqlCommand(createDbScript, conn))
-            //            {
-            //                createCmd.ExecuteNonQuery();
-            //            }
+            //            new SqlCommand(killConnections, conn).ExecuteNonQuery();
+            //            new SqlCommand($"IF EXISTS (SELECT name FROM sys.databases WHERE name = N'{dbName}') DROP DATABASE [{dbName}];", conn).ExecuteNonQuery();
+            //            new SqlCommand($"CREATE DATABASE [{dbName}];", conn).ExecuteNonQuery();
             //        }
 
-            //        // 🧠 Ejecutar el script del esquema
             //        string script = File.ReadAllText(archivo);
             //        string[] bloques = Regex.Split(script, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+            //        string dbConnection = $"Server={server};Database={dbName};User Id={user};Password={password};Encrypt=False;TrustServerCertificate=True;";
 
-            //        string dbConnection = $"Server={textBox5.Text.Trim()};Database={dbName};User Id={textBox3.Text.Trim()};Password={textBox4.Text.Trim()};Encrypt=False;TrustServerCertificate=True;";
             //        using (var conn = new SqlConnection(dbConnection))
             //        {
             //            conn.Open();
@@ -334,8 +337,7 @@ namespace Monitux_POS.Ventanas
 
             //                try
             //                {
-            //                    using var cmd = new SqlCommand(bloque, conn);
-            //                    cmd.ExecuteNonQuery();
+            //                    new SqlCommand(bloque, conn).ExecuteNonQuery();
             //                }
             //                catch (Exception ex)
             //                {
@@ -344,32 +346,23 @@ namespace Monitux_POS.Ventanas
             //            }
             //        }
 
-            //        V_Menu_Principal.MSG.ShowMSG("Base de datos SQL configurada correctamente.", "Exito");
+            //        V_Menu_Principal.MSG.ShowMSG("Base de datos SQL configurada correctamente.", "Éxito");
             //    }
-            //    catch (Exception ex)
-            //    {
-            //        V_Menu_Principal.MSG.ShowMSG($"Error al configurar la base de datos: {ex.Message}", "Error");
-            //    }
+
+            //    V_Menu_Principal.MSG.ShowMSG("Configuración aplicada correctamente.", "Información");
+            //    this.DialogResult = DialogResult.OK;
+            //    this.Close();
             //}
-
-
-
-            //V_Menu_Principal.MSG.ShowMSG("Configuración aplicada correctamente.", "Información");
-
-
-            //this.DialogResult = DialogResult.OK;
-            //this.Close();
-
-
-
-
+            //catch (Exception ex)
+            //{
+            //    V_Menu_Principal.MSG.ShowMSG($"Error inesperado: {ex.Message}", "Error");
+            //}
 
             try
             {
                 string proveedor = comboBox1.SelectedItem?.ToString().ToLower();
                 string conexion = textBox1.Text?.Trim();
 
-               
                 if (proveedor != "sqlite")
                 {
                     if (string.IsNullOrWhiteSpace(conexion))
@@ -378,15 +371,12 @@ namespace Monitux_POS.Ventanas
                         return;
                     }
 
-
                     if (string.IsNullOrWhiteSpace(proveedor))
                     {
                         V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un proveedor de base de datos.", "Advertencia");
                         return;
                     }
-
                 }
-               
 
                 // Guardar configuración
                 Properties.Settings.Default.DB_PROVIDER = proveedor;
@@ -397,6 +387,7 @@ namespace Monitux_POS.Ventanas
                 {
                     "mysql" => Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Database", "MySQL-DB.sql"),
                     "sqlserver" => Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Database", "SQL-DB.sql"),
+                    "postgres" => Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Database", "Postgres-DB.sql"),
                     _ => null
                 };
 
@@ -477,6 +468,28 @@ namespace Monitux_POS.Ventanas
 
                     V_Menu_Principal.MSG.ShowMSG("Base de datos SQL configurada correctamente.", "Éxito");
                 }
+                else if (proveedor == "postgres")
+                {
+                    string serverConnection = $"Host={server};Port=5432;Username={user};Password={password};Database=postgres";
+
+                    using (var conn = new Npgsql.NpgsqlConnection(serverConnection))
+                    {
+                        conn.Open();
+                        new Npgsql.NpgsqlCommand($"DROP DATABASE IF EXISTS \"{dbName}\";", conn).ExecuteNonQuery();
+                        new Npgsql.NpgsqlCommand($"CREATE DATABASE \"{dbName}\" WITH ENCODING='UTF8';", conn).ExecuteNonQuery();
+                    }
+
+                    string script = File.ReadAllText(archivo);
+                    string dbConnection = $"Host={server};Port=5432;Username={user};Password={password};Database={dbName};";
+
+                    using (var conn = new Npgsql.NpgsqlConnection(dbConnection))
+                    {
+                        conn.Open();
+                        new Npgsql.NpgsqlCommand(script, conn).ExecuteNonQuery();
+                    }
+
+                    V_Menu_Principal.MSG.ShowMSG("Base de datos PostgreSQL configurada exitosamente.", "Éxito");
+                }
 
                 V_Menu_Principal.MSG.ShowMSG("Configuración aplicada correctamente.", "Información");
                 this.DialogResult = DialogResult.OK;
@@ -486,7 +499,6 @@ namespace Monitux_POS.Ventanas
             {
                 V_Menu_Principal.MSG.ShowMSG($"Error inesperado: {ex.Message}", "Error");
             }
-
 
 
 
@@ -587,6 +599,48 @@ namespace Monitux_POS.Ventanas
             }
         }
 
+        private void Cargar_Instalacion_PostgreSQL()
+        {
+            var installer = new PostgreSQLInstaller();
+            var progressForm = new ProgressForm();
+
+            if (!installer.IsPostgreSQLInstalled())
+            {
+                var result = MessageBox.Show("No se detectó PostgreSQL Server. ¿Desea instalarlo automáticamente?", "Instalación", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    progressForm.Show();
+                    string ruta = Path.Combine(Path.GetTempPath(), "postgres-installer.exe");
+
+                    progressForm.UpdateStatus("Descargando instalador...", 10);
+                    PostgreSQLInstaller.DescargarInstalador(ruta);
+
+                    progressForm.UpdateStatus("Ejecutando instalación...", 50);
+                    PostgreSQLInstaller.EjecutarInstalador(ruta);
+
+                    progressForm.UpdateStatus("Finalizando configuración...", 80);
+                    System.Threading.Thread.Sleep(10000); // Espera opcional
+
+                    if (installer.IsPostgreSQLInstalled())
+                    {
+                        progressForm.UpdateStatus("Instalación completada.", 100);
+                        MessageBox.Show("PostgreSQL Server ha sido instalado correctamente.");
+                    }
+                    else
+                    {
+                        progressForm.UpdateStatus("Error en la instalación.", 100);
+                        MessageBox.Show("Hubo un problema al instalar PostgreSQL Server.");
+                    }
+
+                    progressForm.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("PostgreSQL Server ya está instalado.", "Monitux-POS");
+            }
+        }
+
 
 
 
@@ -640,7 +694,7 @@ namespace Monitux_POS.Ventanas
         private void pictureBox3_MouseEnter(object sender, EventArgs e)
         {
             comboBox1.SelectedItem = "SQLITE";
-            
+
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
@@ -651,6 +705,27 @@ namespace Monitux_POS.Ventanas
         private void pictureBox3_MouseLeave(object sender, EventArgs e)
         {
             textBox1.Text = string.Empty;
+        }
+
+        private void pictureBox4_MouseEnter(object sender, EventArgs e)
+        {
+            comboBox1.SelectedItem = "POSTGRES";
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void ffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Cargar_Instalacion_PostgreSQL();
+        }
+
+        private void datosDeConexionAInstanciaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            PostgreSQLInstaller postgreSQLInstaller = new PostgreSQLInstaller();
+            textBox1.Text = postgreSQLInstaller.GetPostgresConnectionString();
         }
     }
 }

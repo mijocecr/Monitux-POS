@@ -289,6 +289,121 @@ namespace Monitux_POS.Ventanas
         public void Menu_Guardar_Click(object sender, EventArgs e)
         {
 
+            //SQLitePCL.Batteries.Init();
+            //using var context = new Monitux_DB_Context();
+            //context.Database.EnsureCreated();
+
+            //// Validaciones iniciales
+            //bool esServicio = comboBox1.SelectedItem?.ToString() == "Servicio";
+            //bool tipoSeleccionado = comboBox1.SelectedIndex != -1;
+            //bool proveedorValido = comboProveedor.SelectedItem != null;
+            //bool categoriaValida = comboCategoria.SelectedItem != null;
+
+            //if (!tipoSeleccionado)
+            //{
+            //    V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un tipo de producto válido.", "Error");
+            //    return;
+            //}
+
+            //if (!esServicio && (!proveedorValido || !categoriaValida))
+            //{
+            //    V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un proveedor y una categoría válidos.", "Error");
+            //    return;
+            //}
+
+            //// Verificar si ya existe el producto
+            //Producto productoExistente = context.Productos
+            //    .FirstOrDefault(p => p.Codigo == txtCodigo.Text && p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa);
+
+            //bool esNuevo = productoExistente == null;
+            //Producto producto = esNuevo ? new Producto() : productoExistente;
+
+            //// Asignar datos
+            //producto.Secuencial_Empresa = V_Menu_Principal.Secuencial_Empresa;
+            //producto.Codigo = txtCodigo.Text;
+            //producto.Descripcion = txtDescripcion.Text;
+            //producto.Marca = txtMarca.Text;
+            //producto.Codigo_Barra = txtCodigoBarra.Text;
+            //producto.Codigo_Fabricante = txtCodigoFabricante.Text;
+            //producto.Tipo = comboBox1.SelectedItem?.ToString();
+            //producto.Expira = checkBox1.Checked;
+            //producto.Fecha_Caducidad = checkBox1.Checked ? dateTimePicker1.Value.ToString("dd/MM/yyyy") : null;
+
+            //double.TryParse(txtPrecioVenta.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double precioVenta);
+            //double.TryParse(txtPrecioCosto.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double precioCosto);
+            //producto.Precio_Venta = precioVenta;
+            //producto.Precio_Costo = precioCosto;
+
+            //if (!esServicio)
+            //{
+            //    double.TryParse(txtCantidad.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double cantidad);
+            //    producto.Cantidad = cantidad;
+
+            //    double.TryParse(txtExistenciaMinima.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double existenciaMinima);
+            //    producto.Existencia_Minima = existenciaMinima;
+
+            //    producto.Secuencial_Categoria = int.Parse(comboCategoria.SelectedItem.ToString().Split('-')[0].Trim());
+            //    producto.Secuencial_Proveedor = int.Parse(comboProveedor.SelectedItem.ToString().Split('-')[0].Trim());
+            //}
+            //else
+            //{
+            //    producto.Cantidad = 0;
+            //    producto.Existencia_Minima = 0;
+            //    producto.Secuencial_Categoria = 0;
+            //    producto.Secuencial_Proveedor = 0;
+            //}
+
+            //try
+            //{
+            //    if (esNuevo)
+            //        context.Productos.Add(producto);
+
+            //    context.SaveChanges();
+            //    context.Entry(producto).Reload();
+
+
+
+            //    // Guardar imagen comprimida si existe en el PictureBox
+            //    if (pictureBox1.Image != null)
+            //    {
+
+            //        using (var imagenCopia = new Bitmap(pictureBox1.Image)) // ✅ Clona la imagen
+            //        {
+            //            byte[] imagenComprimida = Util.ComprimirImagen(imagenCopia, 50L);
+            //            producto.Imagen = imagenComprimida;
+            //        }
+
+            //    }
+
+            //    context.SaveChanges();
+
+            //    if (esNuevo && !esServicio)
+            //    {
+            //        Util.Registrar_Movimiento_Kardex(
+            //            producto.Secuencial,
+            //            producto.Cantidad,
+            //            producto.Descripcion,
+            //            producto.Cantidad,
+            //            producto.Precio_Costo,
+            //            producto.Precio_Venta,
+            //            "Entrada",
+            //            producto.Secuencial_Empresa
+            //        );
+            //    }
+
+            //    V_Menu_Principal.MSG.ShowMSG(esNuevo ? "Producto creado correctamente." : "Producto actualizado correctamente.", "Éxito");
+            //    Util.Registrar_Actividad(Secuencial_Usuario, $"Ha {(esNuevo ? "creado" : "modificado")} el producto: {producto.Codigo}", producto.Secuencial_Empresa);
+
+            //    this.Dispose();
+            //    OnProductoEditado?.Invoke();
+            //}
+            //catch (Exception ex)
+            //{
+            //    V_Menu_Principal.MSG.ShowMSG($"Error al guardar el producto:{ex.InnerException}", "Error");
+            //}
+
+
+
             SQLitePCL.Batteries.Init();
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated();
@@ -334,6 +449,8 @@ namespace Monitux_POS.Ventanas
             producto.Precio_Venta = precioVenta;
             producto.Precio_Costo = precioCosto;
 
+            double cantidadAnterior = producto.Cantidad;
+
             if (!esServicio)
             {
                 double.TryParse(txtCantidad.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out double cantidad);
@@ -361,34 +478,50 @@ namespace Monitux_POS.Ventanas
                 context.SaveChanges();
                 context.Entry(producto).Reload();
 
-                
-
                 // Guardar imagen comprimida si existe en el PictureBox
                 if (pictureBox1.Image != null)
                 {
-
-                    using (var imagenCopia = new Bitmap(pictureBox1.Image)) // ✅ Clona la imagen
+                    using (var imagenCopia = new Bitmap(pictureBox1.Image))
                     {
                         byte[] imagenComprimida = Util.ComprimirImagen(imagenCopia, 50L);
                         producto.Imagen = imagenComprimida;
                     }
-
                 }
 
                 context.SaveChanges();
 
-                if (esNuevo && !esServicio)
+                if (!esServicio)
                 {
-                    Util.Registrar_Movimiento_Kardex(
-                        producto.Secuencial,
-                        producto.Cantidad,
-                        producto.Descripcion,
-                        producto.Cantidad,
-                        producto.Precio_Costo,
-                        producto.Precio_Venta,
-                        "Entrada",
-                        producto.Secuencial_Empresa
-                    );
+                    double diferencia = producto.Cantidad - cantidadAnterior;
+
+                    if (esNuevo)
+                    {
+                        Util.Registrar_Movimiento_Kardex(
+                            producto.Secuencial,
+                            0,
+                            producto.Descripcion,
+                            producto.Cantidad,
+                            producto.Precio_Costo,
+                            producto.Precio_Venta,
+                            "Entrada",
+                            producto.Secuencial_Empresa
+                        );
+                    }
+                    else if (diferencia != 0)
+                    {
+                        string tipoMovimiento = diferencia > 0 ? "Entrada" : "Salida";
+
+                        Util.Registrar_Movimiento_Kardex(
+                            producto.Secuencial,
+                            cantidadAnterior,
+                            producto.Descripcion,
+                            Math.Abs(diferencia),
+                            producto.Precio_Costo,
+                            producto.Precio_Venta,
+                            tipoMovimiento,
+                            producto.Secuencial_Empresa
+                        );
+                    }
                 }
 
                 V_Menu_Principal.MSG.ShowMSG(esNuevo ? "Producto creado correctamente." : "Producto actualizado correctamente.", "Éxito");
@@ -401,6 +534,11 @@ namespace Monitux_POS.Ventanas
             {
                 V_Menu_Principal.MSG.ShowMSG($"Error al guardar el producto:{ex.InnerException}", "Error");
             }
+
+
+
+
+
 
 
         }

@@ -174,22 +174,25 @@ namespace Monitux_POS.Ventanas
             context.Database.EnsureCreated();
 
 
-            var ultimoMovimiento = (from k in context.Kardex
-                                    join p in context.Productos
-                                    on k.Secuencial_Producto equals p.Secuencial
-                                    where k.Secuencial_Producto == Secuencial_Producto &&
-                                          k.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa
-                                    orderby k.Fecha descending
-                                    select new
-                                    {
-                                        k.Fecha,
-                                        k.Cantidad,
-                                       Codigo_Producto = p.Codigo,
-                                        k.Saldo,
-                                        ProductoDescripcion = p.Descripcion,
-                                        ProductoTipo = p.Tipo
-                                    })
-                                 .FirstOrDefault();
+            var ultimoMovimiento = context.Kardex
+      .Where(k => k.Secuencial_Producto == Secuencial_Producto &&
+                  k.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa)
+      .OrderByDescending(k => k.Fecha)
+      .ThenByDescending(k => k.Secuencial) // ← asegura que sea el último registrado
+      .Join(context.Productos,
+            k => k.Secuencial_Producto,
+            p => p.Secuencial,
+            (k, p) => new
+            {
+                k.Fecha,
+                k.Cantidad,
+                Codigo_Producto = p.Codigo,
+                k.Saldo,
+                ProductoDescripcion = p.Descripcion,
+                ProductoTipo = p.Tipo
+            })
+      .FirstOrDefault();
+
 
 
             if (ultimoMovimiento != null)
