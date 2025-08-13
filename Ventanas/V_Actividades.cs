@@ -189,53 +189,55 @@ namespace Monitux_POS.Ventanas
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /////////////////////
+            // Obtener el secuencial del usuario seleccionado
+            if (comboBox1.SelectedItem == null)
+            {
+                V_Menu_Principal.MSG.ShowMSG("Debe seleccionar un usuario.", "Error");
+                return;
+            }
 
-            int SU = int.Parse(comboBox1.SelectedItem.ToString().Split('-')[0].Trim());
+            if (!int.TryParse(comboBox1.SelectedItem.ToString().Split('-')[0].Trim(), out int SU))
+            {
+                V_Menu_Principal.MSG.ShowMSG("Formato de usuario no válido.", "Error");
+                return;
+            }
 
+            // Configurar y limpiar el DataGridView
             Configurar_DataGridView();
+            dataGridView1.Rows.Clear();
 
+            // Rango de fechas
             DateTime inicio = fecha_inicio.Value.Date;
             DateTime fin = fecha_fin.Value.Date;
 
-            dataGridView1.Rows.Clear();
-
             SQLitePCL.Batteries.Init();
-
             using var context = new Monitux_DB_Context();
-            context.Database.EnsureCreated(); // Crea la base de datos si no existe
+            context.Database.EnsureCreated();
 
-
-           
-
+            // Obtener actividades filtradas
             var actividades = context.Actividades
                 .Where(p => p.Secuencial_Empresa == V_Menu_Principal.Secuencial_Empresa
-                    && p.Secuencial_Usuario == SU)
-                .ToList() // Traemos los datos a memoria
+                         && p.Secuencial_Usuario == SU)
+                .AsEnumerable() // Pasamos a memoria para usar DateTime.TryParse
                 .Where(p => DateTime.TryParse(p.Fecha, out var fecha)
-                    && fecha >= inicio&& fecha<=fin)
+                         && fecha >= inicio && fecha <= fin)
                 .ToList();
 
-
-
-
-            // Mostrar resultados en el DataGridView
+            // Mostrar resultados
             foreach (var item in actividades)
             {
-                DateTime.TryParse(item.Fecha, out var fechaFormateada);
-
-                dataGridView1.Rows.Add(
-                    item.Secuencial,
-                    fechaFormateada.ToString("dd/MM/yyyy"),
-                    item.Descripcion,
-                    item.Secuencial_Usuario,
-                    item.Secuencial_Empresa
-                );
+                if (DateTime.TryParse(item.Fecha, out var fechaFormateada))
+                {
+                    dataGridView1.Rows.Add(
+                        item.Secuencial,
+                        fechaFormateada.ToString("dd/MM/yyyy"),
+                        item.Descripcion,
+                        item.Secuencial_Usuario,
+                        item.Secuencial_Empresa
+                    );
+                }
             }
 
-
-
-            /////////////////////
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

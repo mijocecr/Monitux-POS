@@ -28,23 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Config_DB));
             panel1 = new Panel();
+            checkBox1 = new CheckBox();
             label7 = new Label();
             pictureBox3 = new PictureBox();
             pictureBox4 = new PictureBox();
-            contextMenuStrip3 = new ContextMenuStrip(components);
-            ffToolStripMenuItem = new ToolStripMenuItem();
-            datosDeConexionAInstanciaToolStripMenuItem1 = new ToolStripMenuItem();
             pictureBox2 = new PictureBox();
-            contextMenuStrip2 = new ContextMenuStrip(components);
-            instalarMySQLToolStripMenuItem = new ToolStripMenuItem();
-            datosDeConexionAInstanciaToolStripMenuItem = new ToolStripMenuItem();
             pictureBox1 = new PictureBox();
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            instalarSQLServerToolStripMenuItem = new ToolStripMenuItem();
-            obtenerCadenaDeConexionDeInstanciaToolStripMenuItem = new ToolStripMenuItem();
             textBox5 = new TextBox();
             label5 = new Label();
             textBox4 = new TextBox();
@@ -59,19 +50,16 @@
             label1 = new Label();
             comboBox1 = new ComboBox();
             label6 = new Label();
-            toolTip1 = new ToolTip(components);
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            contextMenuStrip3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Controls.Add(checkBox1);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(pictureBox3);
             panel1.Controls.Add(pictureBox4);
@@ -95,6 +83,19 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(469, 454);
             panel1.TabIndex = 0;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Checked = true;
+            checkBox1.CheckState = CheckState.Checked;
+            checkBox1.ForeColor = Color.FromArgb(255, 128, 0);
+            checkBox1.Location = new Point(20, 224);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(172, 19);
+            checkBox1.TabIndex = 55;
+            checkBox1.Text = "No inicializar base de datos.";
+            checkBox1.UseVisualStyleBackColor = true;
             // 
             // label7
             // 
@@ -121,7 +122,6 @@
             // 
             // pictureBox4
             // 
-            pictureBox4.ContextMenuStrip = contextMenuStrip3;
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
             pictureBox4.Location = new Point(367, 68);
             pictureBox4.Name = "pictureBox4";
@@ -129,33 +129,10 @@
             pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox4.TabIndex = 46;
             pictureBox4.TabStop = false;
-            toolTip1.SetToolTip(pictureBox4, "Click derecho para ver opciones.");
             pictureBox4.MouseEnter += pictureBox4_MouseEnter;
-            // 
-            // contextMenuStrip3
-            // 
-            contextMenuStrip3.Items.AddRange(new ToolStripItem[] { ffToolStripMenuItem, datosDeConexionAInstanciaToolStripMenuItem1 });
-            contextMenuStrip3.Name = "contextMenuStrip3";
-            contextMenuStrip3.Size = new Size(233, 48);
-            // 
-            // ffToolStripMenuItem
-            // 
-            ffToolStripMenuItem.Name = "ffToolStripMenuItem";
-            ffToolStripMenuItem.Size = new Size(232, 22);
-            ffToolStripMenuItem.Text = "Instalar PostgreSQL";
-            ffToolStripMenuItem.Click += ffToolStripMenuItem_Click;
-            // 
-            // datosDeConexionAInstanciaToolStripMenuItem1
-            // 
-            datosDeConexionAInstanciaToolStripMenuItem1.Name = "datosDeConexionAInstanciaToolStripMenuItem1";
-            datosDeConexionAInstanciaToolStripMenuItem1.Size = new Size(232, 22);
-            datosDeConexionAInstanciaToolStripMenuItem1.Text = "Datos de Conexion a Instancia";
-            datosDeConexionAInstanciaToolStripMenuItem1.Click += datosDeConexionAInstanciaToolStripMenuItem1_Click;
             // 
             // pictureBox2
             // 
-            pictureBox2.ContextMenuStrip = contextMenuStrip2;
-            pictureBox2.Cursor = Cursors.Hand;
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
             pictureBox2.Location = new Point(277, 155);
             pictureBox2.Name = "pictureBox2";
@@ -163,34 +140,11 @@
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 44;
             pictureBox2.TabStop = false;
-            toolTip1.SetToolTip(pictureBox2, "Click derecho para ver opciones.");
             pictureBox2.Click += pictureBox2_Click;
             pictureBox2.MouseEnter += pictureBox2_MouseEnter;
             // 
-            // contextMenuStrip2
-            // 
-            contextMenuStrip2.Items.AddRange(new ToolStripItem[] { instalarMySQLToolStripMenuItem, datosDeConexionAInstanciaToolStripMenuItem });
-            contextMenuStrip2.Name = "contextMenuStrip2";
-            contextMenuStrip2.Size = new Size(233, 48);
-            // 
-            // instalarMySQLToolStripMenuItem
-            // 
-            instalarMySQLToolStripMenuItem.Name = "instalarMySQLToolStripMenuItem";
-            instalarMySQLToolStripMenuItem.Size = new Size(232, 22);
-            instalarMySQLToolStripMenuItem.Text = "Instalar MySQL";
-            instalarMySQLToolStripMenuItem.Click += instalarMySQLToolStripMenuItem_Click;
-            // 
-            // datosDeConexionAInstanciaToolStripMenuItem
-            // 
-            datosDeConexionAInstanciaToolStripMenuItem.Name = "datosDeConexionAInstanciaToolStripMenuItem";
-            datosDeConexionAInstanciaToolStripMenuItem.Size = new Size(232, 22);
-            datosDeConexionAInstanciaToolStripMenuItem.Text = "Datos de Conexion a Instancia";
-            datosDeConexionAInstanciaToolStripMenuItem.Click += datosDeConexionAInstanciaToolStripMenuItem_Click;
-            // 
             // pictureBox1
             // 
-            pictureBox1.ContextMenuStrip = contextMenuStrip1;
-            pictureBox1.Cursor = Cursors.Hand;
             pictureBox1.Image = Properties.Resources.microsoft_sql_server_logo_png_seeklogo_298266;
             pictureBox1.Location = new Point(277, 68);
             pictureBox1.Name = "pictureBox1";
@@ -198,30 +152,8 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 43;
             pictureBox1.TabStop = false;
-            toolTip1.SetToolTip(pictureBox1, "Click derecho para ver opciones.");
             pictureBox1.Click += pictureBox1_Click;
             pictureBox1.MouseEnter += pictureBox1_MouseEnter;
-            // 
-            // contextMenuStrip1
-            // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { instalarSQLServerToolStripMenuItem, obtenerCadenaDeConexionDeInstanciaToolStripMenuItem });
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(233, 48);
-            contextMenuStrip1.Opening += contextMenuStrip1_Opening;
-            // 
-            // instalarSQLServerToolStripMenuItem
-            // 
-            instalarSQLServerToolStripMenuItem.Name = "instalarSQLServerToolStripMenuItem";
-            instalarSQLServerToolStripMenuItem.Size = new Size(232, 22);
-            instalarSQLServerToolStripMenuItem.Text = "Instalar SQL Server";
-            instalarSQLServerToolStripMenuItem.Click += instalarSQLServerToolStripMenuItem_Click;
-            // 
-            // obtenerCadenaDeConexionDeInstanciaToolStripMenuItem
-            // 
-            obtenerCadenaDeConexionDeInstanciaToolStripMenuItem.Name = "obtenerCadenaDeConexionDeInstanciaToolStripMenuItem";
-            obtenerCadenaDeConexionDeInstanciaToolStripMenuItem.Size = new Size(232, 22);
-            obtenerCadenaDeConexionDeInstanciaToolStripMenuItem.Text = "Datos de Conexion a Instancia";
-            obtenerCadenaDeConexionDeInstanciaToolStripMenuItem.Click += obtenerCadenaDeConexionDeInstanciaToolStripMenuItem_Click;
             // 
             // textBox5
             // 
@@ -252,7 +184,7 @@
             // 
             label15.Font = new Font("Segoe UI Semibold", 18.25F, FontStyle.Bold);
             label15.ForeColor = Color.White;
-            label15.Location = new Point(2, 6);
+            label15.Location = new Point(2, 1);
             label15.Name = "label15";
             label15.Size = new Size(384, 76);
             label15.TabIndex = 40;
@@ -314,7 +246,7 @@
             // 
             label2.AutoSize = true;
             label2.ForeColor = Color.White;
-            label2.Location = new Point(22, 351);
+            label2.Location = new Point(15, 347);
             label2.Name = "label2";
             label2.Size = new Size(119, 15);
             label2.TabIndex = 3;
@@ -354,16 +286,11 @@
             // 
             label6.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(3, 68);
+            label6.Location = new Point(3, 52);
             label6.Name = "label6";
             label6.Size = new Size(268, 168);
             label6.TabIndex = 3;
             label6.Text = "\r\n\r\n🗂️ Mejora en gestión de archivos\r\n\r\n✅ Copias de seguridad completas\r\n\r\n🌐 Soporte para sistema distribuido\r\n\r\n🖼️ Compresión y persistencia de imágenes";
-            // 
-            // toolTip1
-            // 
-            toolTip1.ToolTipTitle = "Instale este Servidor";
-            toolTip1.Popup += toolTip1_Popup;
             // 
             // V_Config_DB
             // 
@@ -378,17 +305,14 @@
             Name = "V_Config_DB";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Ajustes de Proveedor de Datos";
+            Text = "Ajustes de Conexión a Datos";
             Load += V_Config_DB_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            contextMenuStrip3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            contextMenuStrip2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -411,18 +335,9 @@
         private TextBox textBox4;
         private Label label4;
         private TextBox textBox3;
-        private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem instalarSQLServerToolStripMenuItem;
-        private ToolStripMenuItem obtenerCadenaDeConexionDeInstanciaToolStripMenuItem;
-        private ContextMenuStrip contextMenuStrip2;
-        private ToolStripMenuItem instalarMySQLToolStripMenuItem;
-        private ToolStripMenuItem datosDeConexionAInstanciaToolStripMenuItem;
         private PictureBox pictureBox4;
-        private ContextMenuStrip contextMenuStrip3;
-        private ToolStripMenuItem ffToolStripMenuItem;
-        private ToolStripMenuItem datosDeConexionAInstanciaToolStripMenuItem1;
         private Label label6;
-        private ToolTip toolTip1;
         private Label label7;
+        private CheckBox checkBox1;
     }
 }

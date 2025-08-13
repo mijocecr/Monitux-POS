@@ -102,7 +102,7 @@ namespace Monitux_POS
                 Marca = item.Marca;
                 Codigo_Barra = item.Codigo_Barra;
                 Codigo_Fabricante = item.Codigo_Fabricante;
-                
+
                 Imagen = item.Imagen; // byte[]
                 Secuencial_Categoria = item.Secuencial_Categoria;
                 Item_Codigo.Text = item.Codigo;
@@ -162,7 +162,7 @@ namespace Monitux_POS
                 producto.Marca,
                 producto.Codigo_Barra,
                 producto.Codigo_Fabricante,
-                
+
                 producto.Imagen,
                 producto.Secuencial_Categoria,
                 producto.Fecha_Caducidad,
@@ -501,7 +501,7 @@ namespace Monitux_POS
                 Marca = Marca,
                 Codigo_Barra = Codigo_Barra,
                 Codigo_Fabricante = Codigo_Fabricante,
-                
+
                 Imagen = Imagen,
                 Secuencial_Categoria = Secuencial_Categoria,
                 Existencia_Minima = Existencia_Minima,
@@ -1010,6 +1010,21 @@ namespace Monitux_POS
         private void Menu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
+        }
+
+        private void Item_Precio_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Item_Precio_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void Item_Precio_MouseEnter(object sender, EventArgs e)
+        {
+            
         }
     }//Fin de Clase
 }

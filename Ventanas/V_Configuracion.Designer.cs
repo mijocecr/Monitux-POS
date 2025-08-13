@@ -67,12 +67,12 @@
             button12 = new Button();
             textBox6 = new TextBox();
             panel4 = new Panel();
+            label14 = new Label();
             pictureBox4 = new PictureBox();
             textBox7 = new TextBox();
             button13 = new Button();
             label13 = new Label();
             button14 = new Button();
-            label14 = new Label();
             label15 = new Label();
             button15 = new Button();
             button16 = new Button();
@@ -80,6 +80,9 @@
             label12 = new Label();
             progressBar1 = new ProgressBar();
             lblEstado = new Label();
+            panel5 = new Panel();
+            label16 = new Label();
+            textBox9 = new TextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             panel2.SuspendLayout();
@@ -88,6 +91,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            panel5.SuspendLayout();
             SuspendLayout();
             // 
             // label6
@@ -107,12 +111,12 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            label1.ForeColor = Color.FromArgb(192, 0, 192);
+            label1.ForeColor = Color.Black;
             label1.Location = new Point(110, 49);
             label1.Name = "label1";
-            label1.Size = new Size(116, 19);
+            label1.Size = new Size(114, 19);
             label1.TabIndex = 81;
-            label1.Text = "Ruta destino .DB:";
+            label1.Text = "Ruta destino .db:";
             label1.TextAlign = ContentAlignment.TopCenter;
             label1.Click += label1_Click;
             // 
@@ -120,12 +124,12 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            label2.ForeColor = Color.FromArgb(0, 192, 0);
+            label2.ForeColor = Color.Black;
             label2.Location = new Point(107, 19);
             label2.Name = "label2";
-            label2.Size = new Size(119, 19);
+            label2.Size = new Size(117, 19);
             label2.TabIndex = 82;
-            label2.Text = "[📂] Archivo .DB:";
+            label2.Text = "[📂] Archivo .db:";
             label2.TextAlign = ContentAlignment.TopCenter;
             // 
             // button1
@@ -141,7 +145,7 @@
             // 
             // button2
             // 
-            button2.ForeColor = Color.FromArgb(192, 0, 192);
+            button2.ForeColor = Color.Black;
             button2.Location = new Point(629, 49);
             button2.Name = "button2";
             button2.Size = new Size(75, 24);
@@ -174,12 +178,13 @@
             // 
             label3.Dock = DockStyle.Top;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.MidnightBlue;
+            label3.ForeColor = Color.Red;
             label3.Location = new Point(0, 37);
             label3.Name = "label3";
             label3.Size = new Size(806, 128);
             label3.TabIndex = 88;
             label3.Text = resources.GetString("label3.Text");
+            label3.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // button3
             // 
@@ -194,7 +199,7 @@
             // 
             // button4
             // 
-            button4.ForeColor = Color.FromArgb(192, 0, 192);
+            button4.ForeColor = Color.Black;
             button4.Location = new Point(710, 49);
             button4.Name = "button4";
             button4.Size = new Size(75, 24);
@@ -206,7 +211,7 @@
             // label4
             // 
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.Gray;
+            label4.ForeColor = Color.Blue;
             label4.Location = new Point(426, 75);
             label4.Name = "label4";
             label4.Size = new Size(198, 30);
@@ -226,6 +231,7 @@
             panel1.Controls.Add(button2);
             panel1.Controls.Add(textBox2);
             panel1.Dock = DockStyle.Top;
+            panel1.ForeColor = Color.Black;
             panel1.Location = new Point(0, 165);
             panel1.Name = "panel1";
             panel1.Size = new Size(806, 121);
@@ -280,7 +286,7 @@
             // 
             // button5
             // 
-            button5.ForeColor = Color.FromArgb(192, 0, 192);
+            button5.ForeColor = Color.Black;
             button5.Location = new Point(708, 50);
             button5.Name = "button5";
             button5.Size = new Size(75, 24);
@@ -292,7 +298,7 @@
             // label5
             // 
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.ForeColor = Color.Gray;
+            label5.ForeColor = Color.Blue;
             label5.Location = new Point(437, 75);
             label5.Name = "label5";
             label5.Size = new Size(187, 30);
@@ -314,24 +320,24 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            label7.ForeColor = Color.FromArgb(192, 0, 192);
+            label7.ForeColor = Color.Black;
             label7.Location = new Point(110, 49);
             label7.Name = "label7";
-            label7.Size = new Size(124, 19);
+            label7.Size = new Size(116, 19);
             label7.TabIndex = 81;
-            label7.Text = "Ruta destino .SQL:";
+            label7.Text = "Ruta destino .sql:";
             label7.TextAlign = ContentAlignment.TopCenter;
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            label8.ForeColor = Color.FromArgb(0, 192, 0);
+            label8.ForeColor = Color.Black;
             label8.Location = new Point(107, 19);
             label8.Name = "label8";
-            label8.Size = new Size(127, 19);
+            label8.Size = new Size(119, 19);
             label8.TabIndex = 82;
-            label8.Text = "[📂] Archivo .SQL:";
+            label8.Text = "[📂] Archivo .sql:";
             label8.TextAlign = ContentAlignment.TopCenter;
             // 
             // button7
@@ -347,7 +353,7 @@
             // 
             // button8
             // 
-            button8.ForeColor = Color.FromArgb(192, 0, 192);
+            button8.ForeColor = Color.Black;
             button8.Location = new Point(630, 49);
             button8.Name = "button8";
             button8.Size = new Size(75, 24);
@@ -403,7 +409,7 @@
             // 
             // button9
             // 
-            button9.ForeColor = Color.FromArgb(192, 0, 192);
+            button9.ForeColor = Color.Black;
             button9.Location = new Point(707, 50);
             button9.Name = "button9";
             button9.Size = new Size(75, 24);
@@ -415,7 +421,7 @@
             // label9
             // 
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label9.ForeColor = Color.Gray;
+            label9.ForeColor = Color.Blue;
             label9.Location = new Point(405, 75);
             label9.Name = "label9";
             label9.Size = new Size(219, 30);
@@ -437,24 +443,24 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            label10.ForeColor = Color.FromArgb(192, 0, 192);
+            label10.ForeColor = Color.Black;
             label10.Location = new Point(110, 49);
             label10.Name = "label10";
-            label10.Size = new Size(124, 19);
+            label10.Size = new Size(121, 19);
             label10.TabIndex = 81;
-            label10.Text = "Ruta destino .SQL:";
+            label10.Text = "Ruta destino .bak:";
             label10.TextAlign = ContentAlignment.TopCenter;
             // 
             // label11
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            label11.ForeColor = Color.FromArgb(0, 192, 0);
+            label11.ForeColor = Color.Black;
             label11.Location = new Point(107, 19);
             label11.Name = "label11";
-            label11.Size = new Size(127, 19);
+            label11.Size = new Size(124, 19);
             label11.TabIndex = 82;
-            label11.Text = "[📂] Archivo .SQL:";
+            label11.Text = "[📂] Archivo .bak:";
             label11.TextAlign = ContentAlignment.TopCenter;
             // 
             // button11
@@ -470,7 +476,7 @@
             // 
             // button12
             // 
-            button12.ForeColor = Color.FromArgb(192, 0, 192);
+            button12.ForeColor = Color.Black;
             button12.Location = new Point(629, 49);
             button12.Name = "button12";
             button12.Size = new Size(75, 24);
@@ -489,12 +495,12 @@
             // 
             // panel4
             // 
+            panel4.Controls.Add(label14);
             panel4.Controls.Add(pictureBox4);
             panel4.Controls.Add(textBox7);
             panel4.Controls.Add(button13);
             panel4.Controls.Add(label13);
             panel4.Controls.Add(button14);
-            panel4.Controls.Add(label14);
             panel4.Controls.Add(label15);
             panel4.Controls.Add(button15);
             panel4.Controls.Add(button16);
@@ -505,10 +511,22 @@
             panel4.Size = new Size(806, 121);
             panel4.TabIndex = 96;
             // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            label14.ForeColor = Color.Black;
+            label14.Location = new Point(96, 49);
+            label14.Name = "label14";
+            label14.Size = new Size(143, 19);
+            label14.TabIndex = 81;
+            label14.Text = "Ruta destino .backup:";
+            label14.TextAlign = ContentAlignment.TopCenter;
+            // 
             // pictureBox4
             // 
             pictureBox4.Image = (Image)resources.GetObject("pictureBox4.Image");
-            pictureBox4.Location = new Point(17, 14);
+            pictureBox4.Location = new Point(11, 14);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new Size(84, 81);
             pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -525,7 +543,7 @@
             // 
             // button13
             // 
-            button13.ForeColor = Color.FromArgb(192, 0, 192);
+            button13.ForeColor = Color.Black;
             button13.Location = new Point(707, 50);
             button13.Name = "button13";
             button13.Size = new Size(75, 24);
@@ -537,7 +555,7 @@
             // label13
             // 
             label13.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label13.ForeColor = Color.Gray;
+            label13.ForeColor = Color.Blue;
             label13.Location = new Point(405, 75);
             label13.Name = "label13";
             label13.Size = new Size(219, 30);
@@ -555,28 +573,16 @@
             button14.UseVisualStyleBackColor = true;
             button14.Click += button14_Click;
             // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            label14.ForeColor = Color.FromArgb(192, 0, 192);
-            label14.Location = new Point(110, 49);
-            label14.Name = "label14";
-            label14.Size = new Size(124, 19);
-            label14.TabIndex = 81;
-            label14.Text = "Ruta destino .SQL:";
-            label14.TextAlign = ContentAlignment.TopCenter;
-            // 
             // label15
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
-            label15.ForeColor = Color.FromArgb(0, 192, 0);
-            label15.Location = new Point(107, 19);
+            label15.ForeColor = Color.Black;
+            label15.Location = new Point(92, 19);
             label15.Name = "label15";
-            label15.Size = new Size(127, 19);
+            label15.Size = new Size(146, 19);
             label15.TabIndex = 82;
-            label15.Text = "[📂] Archivo .SQL:";
+            label15.Text = "[📂] Archivo .backup:";
             label15.TextAlign = ContentAlignment.TopCenter;
             // 
             // button15
@@ -592,7 +598,7 @@
             // 
             // button16
             // 
-            button16.ForeColor = Color.FromArgb(192, 0, 192);
+            button16.ForeColor = Color.Black;
             button16.Location = new Point(629, 49);
             button16.Name = "button16";
             button16.Size = new Size(75, 24);
@@ -613,12 +619,12 @@
             // 
             label12.Dock = DockStyle.Top;
             label12.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label12.ForeColor = Color.MidnightBlue;
+            label12.ForeColor = Color.Green;
             label12.Location = new Point(0, 655);
             label12.Name = "label12";
             label12.Size = new Size(806, 48);
             label12.TabIndex = 97;
-            label12.Text = "Atención: Se recomienda crear una carpeta llamada \"Respaldo\" en [Disco Local C:]  algunos servidores tienen conflictos de permisos para escribir sus respaldos en carpetas especiales del sistema.";
+            label12.Text = resources.GetString("label12.Text");
             // 
             // progressBar1
             // 
@@ -641,12 +647,43 @@
             lblEstado.TextAlign = ContentAlignment.MiddleCenter;
             lblEstado.Visible = false;
             // 
+            // panel5
+            // 
+            panel5.Controls.Add(label16);
+            panel5.Controls.Add(textBox9);
+            panel5.Dock = DockStyle.Bottom;
+            panel5.Location = new Point(0, 775);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(806, 100);
+            panel5.TabIndex = 102;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.ForeColor = Color.FromArgb(64, 0, 64);
+            label16.Location = new Point(1, 16);
+            label16.Name = "label16";
+            label16.Size = new Size(119, 15);
+            label16.TabIndex = 103;
+            label16.Text = "Cadena de Conexion:";
+            // 
+            // textBox9
+            // 
+            textBox9.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textBox9.ForeColor = Color.Blue;
+            textBox9.Location = new Point(6, 34);
+            textBox9.Multiline = true;
+            textBox9.Name = "textBox9";
+            textBox9.ScrollBars = ScrollBars.Vertical;
+            textBox9.Size = new Size(776, 50);
+            textBox9.TabIndex = 102;
+            // 
             // V_Configuracion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(806, 787);
+            ClientSize = new Size(806, 875);
             Controls.Add(lblEstado);
             Controls.Add(progressBar1);
             Controls.Add(label12);
@@ -656,6 +693,7 @@
             Controls.Add(panel1);
             Controls.Add(label3);
             Controls.Add(label6);
+            Controls.Add(panel5);
             Name = "V_Configuracion";
             ShowIcon = false;
             ShowInTaskbar = false;
@@ -673,6 +711,8 @@
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            panel5.ResumeLayout(false);
+            panel5.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -730,5 +770,8 @@
         private Label label12;
         private ProgressBar progressBar1;
         private Label lblEstado;
+        private Panel panel5;
+        private Label label16;
+        private TextBox textBox9;
     }
 }

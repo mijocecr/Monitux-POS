@@ -23,6 +23,7 @@
     <Product>Monitux-POS</Product>
     <Description>Monitux-POS es un sistema moderno de punto de venta desarrollado en .NET C#, diseñado para pequeñas y medianas empresas. Ofrece una interfaz intuitiva y herramientas robustas para la gestión eficiente de ventas, inventario y productos, optimizando las operaciones comerciales de forma ágil y confiable.</Description>
     <Copyright>© 2025 Miguel Cerrato. Todos los derechos reservados.</Copyright>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -428,6 +429,7 @@
     <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.26" />
     <PackageReference Include="ReportViewerCore.WinForms" Version="15.1.26" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.11" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.7" />
     <PackageReference Include="System.Management" Version="9.0.8" />
     <PackageReference Include="System.ServiceModel.Syndication" Version="9.0.6" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="9.0.8" />

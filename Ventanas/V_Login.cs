@@ -418,6 +418,8 @@ namespace Monitux_POS.Ventanas
                 isAdmin = false; // Cambia el estado a no administrador
                 label11.ForeColor = Color.White; // Cambia el}
             }
+
+            
         }
 
         private void pictureBox6_Click(object sender, EventArgs e)
@@ -649,10 +651,26 @@ namespace Monitux_POS.Ventanas
 
         private void pictureBox5_Click(object sender, EventArgs e)
         {
-            //Properties.Settings.Default.Reset(); // Reinicia la configuración de la aplicación
-           // Properties.Settings.Default.Primer_Arranque=true;
-           // Properties.Settings.Default.Save(); 
-            // Reinicia la configuración de la aplicación
+
+            if (isAdmin == true) { 
+            
+                suma+= 1; 
+
+                if (suma >=20)
+                {
+
+                    //Properties.Settings.Default.Reset(); // Reinicia la configuración de la aplicación
+                    Properties.Settings.Default.Primer_Arranque = true;
+                    Properties.Settings.Default.Save();
+                    V_Menu_Principal.MSG.ShowMSG("La configuración de la aplicación ha sido reiniciada. Por favor, reinicie la aplicación.", "Reinicio de Configuración");
+                    // Reinicia la configuración de la aplicación
+
+
+                }
+
+            }
+
+           
         }
     }// namespace Ventanas
 }// namespace Monitux_POS.Ventanas

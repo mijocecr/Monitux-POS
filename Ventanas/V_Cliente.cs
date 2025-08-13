@@ -64,7 +64,7 @@ namespace Monitux_POS.Ventanas
             dataGridView1.Columns["Email"].Width = 100;
 
             dataGridView1.Columns.Add("Activo", "Activo");
-            dataGridView1.Columns.Add("Imagen", "Imagen");
+         
 
             foreach (var item in cliente)
             {
@@ -75,8 +75,8 @@ namespace Monitux_POS.Ventanas
                     item.Telefono,
                     item.Direccion,
                     item.Email,
-                    item.Activo == true ? "Sí" : "No",
-                    item.Imagen != null && item.Imagen.Length > 0 ? "Imagen cargada" : "Sin imagen"
+                    item.Activo == true ? "Sí" : "No"
+                   
                 );
             }
         }

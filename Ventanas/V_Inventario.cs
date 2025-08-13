@@ -11,6 +11,8 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -853,17 +855,41 @@ namespace Monitux_POS.Ventanas
 
 
 
+            string ccampo = campo;
+            string vvalor = valor;
+            int ssecuencial_empresa = secuencial_empresa;
 
+            // Detectar tipo de propiedad
+            var tipoPropiedad = typeof(Producto).GetProperty(campo, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.PropertyType;
 
+            if (tipoPropiedad == null)
+                throw new ArgumentException($"El campo '{campo}' no existe en Producto.");
 
+            string filtro;
 
+            if (tipoPropiedad == typeof(string))
+            {
+                filtro = $"{campo}.Contains(@0) && Secuencial_Empresa == @1";
+            }
+            else
+            {
+                filtro = $"{campo} == @0 && Secuencial_Empresa == @1";
+            }
 
+            // Ejecutar consulta
             var productos = context.Productos
-                    .Where(c => EF.Property<string>(c, campo).Contains(valor) && c.Secuencial_Empresa == secuencial_empresa)
-                    .ToList();
+                .Where(filtro, valor, secuencial_empresa).ToList();
 
-            dataGridView1.Rows.Clear();
-            Configurar_DataGridView_Inventario();
+
+
+
+
+            //var productos = context.Productos
+            //        .Where(c => EF.Property<string>(c, campo).Contains(valor) && c.Secuencial_Empresa == secuencial_empresa)
+            //        .ToList();
+
+            //dataGridView1.Rows.Clear();
+            //Configurar_DataGridView_Inventario();
 
 
 
@@ -1307,10 +1333,37 @@ namespace Monitux_POS.Ventanas
             using var context = new Monitux_DB_Context();
             context.Database.EnsureCreated(); // Crea la base de datos si no existe
 
+        
 
+
+            string ccampo = campo;
+            string vvalor = valor;
+            int ssecuencial_empresa = secuencial_empresa;
+
+            // Detectar tipo de propiedad
+            var tipoPropiedad = typeof(Producto).GetProperty(campo, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)?.PropertyType;
+
+            if (tipoPropiedad == null)
+                throw new ArgumentException($"El campo '{campo}' no existe en Producto.");
+
+            string filtro;
+
+            if (tipoPropiedad == typeof(string))
+            {
+                filtro = $"{campo}.Contains(@0) && Secuencial_Empresa == @1";
+            }
+            else
+            {
+                filtro = $"{campo} == @0 && Secuencial_Empresa == @1";
+            }
+
+            // Ejecutar consulta
             var productos = context.Productos
-                    .Where(c => EF.Property<string>(c, campo).Contains(valor) && c.Secuencial_Empresa == secuencial_empresa)
-                    .ToList();
+                .Where(filtro, valor, secuencial_empresa).ToList();
+
+
+
+
 
             flowLayoutPanel1.Controls.Clear();
 

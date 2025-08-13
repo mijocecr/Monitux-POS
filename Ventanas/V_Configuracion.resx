@@ -127,7 +127,8 @@
     <value>156, 17</value>
   </metadata>
   <data name="label3.Text" xml:space="preserve">
-    <value>⚠ Atención: operación sensible
+    <value>
+⚠ Atención: operación sensible
 
 Este procedimiento afecta directamente la integridad de los datos del sistema. Si no está completamente seguro de lo que está por hacer, se recomienda cerrar esta ventana y consultar con el administrador o soporte técnico.
 
@@ -4600,6 +4601,9 @@ Una acción incorrecta podría ocasionar la pérdida de información importante.
         A+F/G7WB8L+dQBwlRBrItER4vodfGwj/vNSGwP9qao3ANhC2URv9h+g98JrTPn4KQkjD+AOoDYRt1EYf
         cL82TthGbfT/Hf0/CNU5DBgcKbUAAAAASUVORK5CYII=
 </value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Se recomienda crear una carpeta llamada "Respaldo" en [Disco Local C:]  para crear los respaldos. Algunos servidores tienen conflictos de permisos para escribir sus respaldos en carpetas especiales del sistema.</value>
   </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>25</value>

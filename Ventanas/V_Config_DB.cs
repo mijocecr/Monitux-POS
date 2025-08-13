@@ -232,6 +232,16 @@ namespace Monitux_POS.Ventanas
         private void button2_Click(object sender, EventArgs e)
         {
 
+            if (checkBox1.Checked)
+            {
+             Properties.Settings.Default.Empresa_Creada = true;
+                Properties.Settings.Default.Primer_Arranque = false;
+            }
+            else
+            {
+                Properties.Settings.Default.Primer_Arranque = true;
+                Properties.Settings.Default.Empresa_Creada = false;
+            }
 
 
 
@@ -405,89 +415,127 @@ namespace Monitux_POS.Ventanas
                 if (proveedor == "mysql")
                 {
                     string serverConnection = $"Server={server};Uid={user};Pwd={password};";
-
-                    using (var conn = new MySqlConnection(serverConnection))
+                    if (!checkBox1.Checked)
                     {
-                        conn.Open();
-                        new MySqlCommand($"DROP DATABASE IF EXISTS `{dbName}`;", conn).ExecuteNonQuery();
-                        new MySqlCommand($"CREATE DATABASE `{dbName}` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;", conn).ExecuteNonQuery();
+                        using (var conn = new MySqlConnection(serverConnection))
+                        {
+                            conn.Open();
+                            new MySqlCommand($"DROP DATABASE IF EXISTS `{dbName}`;", conn).ExecuteNonQuery();
+                            new MySqlCommand($"CREATE DATABASE `{dbName}` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;", conn).ExecuteNonQuery();
+                        }
+
+                        string script = File.ReadAllText(archivo);
+                        string dbConnection = $"Server=localhost;Database={dbName};Uid={user};Pwd={password};";
+
+                        using (var conn = new MySqlConnection(dbConnection))
+                        {
+                            conn.Open();
+                            new MySqlCommand(script, conn).ExecuteNonQuery();
+                        }
                     }
-
-                    string script = File.ReadAllText(archivo);
-                    string dbConnection = $"Server=localhost;Database={dbName};Uid={user};Pwd={password};";
-
-                    using (var conn = new MySqlConnection(dbConnection))
-                    {
-                        conn.Open();
-                        new MySqlCommand(script, conn).ExecuteNonQuery();
-                    }
-
                     V_Menu_Principal.MSG.ShowMSG("Base de datos MySQL configurada exitosamente.", "Éxito");
                 }
                 else if (proveedor == "sqlserver")
                 {
+
                     string serverConnection = $"Server={server};User Id={user};Password={password};Encrypt=False;TrustServerCertificate=True;";
 
-                    using (var conn = new SqlConnection(serverConnection))
+                    if (!checkBox1.Checked)
                     {
-                        conn.Open();
 
-                        string killConnections = $@"
+                        using (var conn = new SqlConnection(serverConnection))
+                        {
+                            conn.Open();
+
+                            string killConnections = $@"
                 DECLARE @kill varchar(8000) = '';
                 SELECT @kill = @kill + 'KILL ' + CONVERT(varchar(5), session_id) + ';'
                 FROM sys.dm_exec_sessions
                 WHERE database_id = DB_ID('{dbName}');
                 EXEC(@kill);";
 
-                        new SqlCommand(killConnections, conn).ExecuteNonQuery();
-                        new SqlCommand($"IF EXISTS (SELECT name FROM sys.databases WHERE name = N'{dbName}') DROP DATABASE [{dbName}];", conn).ExecuteNonQuery();
-                        new SqlCommand($"CREATE DATABASE [{dbName}];", conn).ExecuteNonQuery();
-                    }
+                            new SqlCommand(killConnections, conn).ExecuteNonQuery();
+                            new SqlCommand($"IF EXISTS (SELECT name FROM sys.databases WHERE name = N'{dbName}') DROP DATABASE [{dbName}];", conn).ExecuteNonQuery();
+                            new SqlCommand($"CREATE DATABASE [{dbName}];", conn).ExecuteNonQuery();
+                        }
 
-                    string script = File.ReadAllText(archivo);
-                    string[] bloques = Regex.Split(script, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-                    string dbConnection = $"Server={server};Database={dbName};User Id={user};Password={password};Encrypt=False;TrustServerCertificate=True;";
+                        string script = File.ReadAllText(archivo);
+                        string[] bloques = Regex.Split(script, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+                        string dbConnection = $"Server={server};Database={dbName};User Id={user};Password={password};Encrypt=False;TrustServerCertificate=True;";
 
-                    using (var conn = new SqlConnection(dbConnection))
-                    {
-                        conn.Open();
-                        foreach (string bloque in bloques)
+                        using (var conn = new SqlConnection(dbConnection))
                         {
-                            if (string.IsNullOrWhiteSpace(bloque)) continue;
+                            conn.Open();
+                            foreach (string bloque in bloques)
+                            {
+                                if (string.IsNullOrWhiteSpace(bloque)) continue;
 
-                            try
-                            {
-                                new SqlCommand(bloque, conn).ExecuteNonQuery();
-                            }
-                            catch (Exception ex)
-                            {
-                                V_Menu_Principal.MSG.ShowMSG($"Error en bloque SQL:\n{bloque}\n\nMensaje: {ex.Message}", "Error");
+                                try
+                                {
+                                    new SqlCommand(bloque, conn).ExecuteNonQuery();
+                                }
+                                catch (Exception ex)
+                                {
+                                    V_Menu_Principal.MSG.ShowMSG($"Error en bloque SQL:\n{bloque}\n\nMensaje: {ex.Message}", "Error");
+                                }
                             }
                         }
+
                     }
 
                     V_Menu_Principal.MSG.ShowMSG("Base de datos SQL configurada correctamente.", "Éxito");
-                }
+                    
+                    }
+
                 else if (proveedor == "postgres")
                 {
                     string serverConnection = $"Host={server};Port=5432;Username={user};Password={password};Database=postgres";
 
-                    using (var conn = new Npgsql.NpgsqlConnection(serverConnection))
+                    if (!checkBox1.Checked)
                     {
-                        conn.Open();
-                        new Npgsql.NpgsqlCommand($"DROP DATABASE IF EXISTS \"{dbName}\";", conn).ExecuteNonQuery();
-                        new Npgsql.NpgsqlCommand($"CREATE DATABASE \"{dbName}\" WITH ENCODING='UTF8';", conn).ExecuteNonQuery();
+
+
+                        //////////
+
+                        using (var conn = new Npgsql.NpgsqlConnection(serverConnection))
+                        {
+                            conn.Open();
+
+                            // Terminar conexiones activas
+                            var terminateCmd = new Npgsql.NpgsqlCommand($@"
+        SELECT pg_terminate_backend(pid)
+        FROM pg_stat_activity
+        WHERE datname = '{dbName}' AND pid <> pg_backend_pid();", conn);
+                            terminateCmd.ExecuteNonQuery();
+
+                            // Ahora puedes eliminar y crear la base
+                            new Npgsql.NpgsqlCommand($"DROP DATABASE IF EXISTS \"{dbName}\";", conn).ExecuteNonQuery();
+                            new Npgsql.NpgsqlCommand($"CREATE DATABASE \"{dbName}\" WITH ENCODING='UTF8';", conn).ExecuteNonQuery();
+                        }
+
+
+
+                        /////////
+
+
+
+
+                        using (var conn = new Npgsql.NpgsqlConnection(serverConnection))
+                        {
+                            conn.Open();
+                            new Npgsql.NpgsqlCommand($"DROP DATABASE IF EXISTS \"{dbName}\";", conn).ExecuteNonQuery();
+                            new Npgsql.NpgsqlCommand($"CREATE DATABASE \"{dbName}\" WITH ENCODING='UTF8';", conn).ExecuteNonQuery();
+                        }
+
+                        string script = File.ReadAllText(archivo);
+                        string dbConnection = $"Host={server};Port=5432;Username={user};Password={password};Database={dbName};";
+
+                        using (var conn = new Npgsql.NpgsqlConnection(dbConnection))
+                        {
+                            conn.Open();
+                            new Npgsql.NpgsqlCommand(script, conn).ExecuteNonQuery();
+                        }
                     }
-
-                    string script = File.ReadAllText(archivo);
-                    string dbConnection = $"Host={server};Port=5432;Username={user};Password={password};Database={dbName};";
-
-                    using (var conn = new Npgsql.NpgsqlConnection(dbConnection))
-                    {
-                        conn.Open();
-                        new Npgsql.NpgsqlCommand(script, conn).ExecuteNonQuery();
-                    }
-
                     V_Menu_Principal.MSG.ShowMSG("Base de datos PostgreSQL configurada exitosamente.", "Éxito");
                 }
 
@@ -511,135 +559,11 @@ namespace Monitux_POS.Ventanas
 
 
 
-        private void Cargar_Instalacion_SQL()
-        {
-            var installer = new SqlServerInstaller();
-            var progressForm = new ProgressForm();
 
-            if (!installer.IsSqlServerInstalled())
-            {
-                var result = MessageBox.Show("No se detectó SQL Server Express. ¿Desea instalarlo automáticamente?", "Instalación", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    progressForm.Show();
-                    string ruta = Path.Combine(Path.GetTempPath(), "SQLEXPRESS2022.exe");
-
-                    progressForm.UpdateStatus("Descargando instalador...", 10);
-                    installer.DownloadInstaller(ruta);
-
-                    progressForm.UpdateStatus("Ejecutando instalación...", 50);
-                    installer.RunSilentInstall(ruta);
-
-                    progressForm.UpdateStatus("Verificando instalación...", 90);
-                    System.Threading.Thread.Sleep(10000); // Espera opcional
-
-                    if (installer.IsSqlServerInstalled())
-                    {
-                        progressForm.UpdateStatus("Instalación completada.", 100);
-                        MessageBox.Show("SQL Server Express ha sido instalado correctamente.");
-                    }
-                    else
-                    {
-                        progressForm.UpdateStatus("Error en la instalación.", 100);
-                        MessageBox.Show("Hubo un problema al instalar SQL Server Express.");
-                    }
-
-                    progressForm.Close();
-                }
-            }
-            else
-            {
-                MessageBox.Show("SQL Server Express ya está instalado.", "Monitux-POS");
-            }
-        }
+      
 
 
-
-        private void Cargar_Instalacion_MySQL()
-        {
-            var installer = new MySQLInstaller();
-            var progressForm = new ProgressForm();
-
-            if (!installer.IsMySQLInstalled())
-            {
-                var result = MessageBox.Show("No se detectó MySQL Server. ¿Desea instalarlo automáticamente?", "Instalación", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    progressForm.Show();
-                    string ruta = Path.Combine(Path.GetTempPath(), "mysql-installer.msi");
-
-                    progressForm.UpdateStatus("Descargando instalador...", 10);
-                    installer.DownloadInstaller(ruta);
-
-                    progressForm.UpdateStatus("Ejecutando instalación...", 50);
-                    installer.RunSilentInstall(ruta);
-
-                    progressForm.UpdateStatus("Configurando servidor...", 80);
-                    installer.ConfigureServer();
-
-                    System.Threading.Thread.Sleep(10000); // Espera opcional
-
-                    if (installer.IsMySQLInstalled())
-                    {
-                        progressForm.UpdateStatus("Instalación completada.", 100);
-                        MessageBox.Show("MySQL Server ha sido instalado correctamente.");
-                    }
-                    else
-                    {
-                        progressForm.UpdateStatus("Error en la instalación.", 100);
-                        MessageBox.Show("Hubo un problema al instalar MySQL Server.");
-                    }
-
-                    progressForm.Close();
-                }
-            }
-            else
-            {
-                MessageBox.Show("MySQL Server ya está instalado.", "Monitux-POS");
-            }
-        }
-
-        private void Cargar_Instalacion_PostgreSQL()
-        {
-            var installer = new PostgreSQLInstaller();
-            var progressForm = new ProgressForm();
-
-            if (!installer.IsPostgreSQLInstalled())
-            {
-                var result = MessageBox.Show("No se detectó PostgreSQL Server. ¿Desea instalarlo automáticamente?", "Instalación", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    progressForm.Show();
-                    string ruta = Path.Combine(Path.GetTempPath(), "postgres-installer.exe");
-
-                    progressForm.UpdateStatus("Descargando instalador...", 10);
-                    PostgreSQLInstaller.DescargarInstalador(ruta);
-
-                    progressForm.UpdateStatus("Ejecutando instalación...", 50);
-                    PostgreSQLInstaller.EjecutarInstalador(ruta);
-
-                    progressForm.UpdateStatus("Finalizando configuración...", 80);
-                    System.Threading.Thread.Sleep(10000); // Espera opcional
-
-                    if (installer.IsPostgreSQLInstalled())
-                    {
-                        progressForm.UpdateStatus("Instalación completada.", 100);
-                        MessageBox.Show("PostgreSQL Server ha sido instalado correctamente.");
-                    }
-                    else
-                    {
-                        progressForm.UpdateStatus("Error en la instalación.", 100);
-                        MessageBox.Show("Hubo un problema al instalar PostgreSQL Server.");
-                    }
-
-                    progressForm.Close();
-                }
-            }
-            else
-            {
-                MessageBox.Show("PostgreSQL Server ya está instalado.", "Monitux-POS");
-            }
-        }
+      
 
 
 
@@ -660,26 +584,12 @@ namespace Monitux_POS.Ventanas
 
         private void obtenerCadenaDeConexionDeInstanciaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SqlServerInstaller sqlServerInstaller = new SqlServerInstaller();
-            textBox1.Text = sqlServerInstaller.GetConnectionString();
+           
         }
 
-        private void instalarSQLServerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Cargar_Instalacion_SQL();
-        }
-
-        private void instalarMySQLToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Cargar_Instalacion_MySQL();
-        }
-
-        private void datosDeConexionAInstanciaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MySQLInstaller mysqlInstaller = new MySQLInstaller();
-            textBox1.Text = mysqlInstaller.GetMySqlConnectionString();
-
-        }
+     
+       
+      
 
         private void pictureBox1_MouseEnter(object sender, EventArgs e)
         {
@@ -717,16 +627,9 @@ namespace Monitux_POS.Ventanas
 
         }
 
-        private void ffToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Cargar_Instalacion_PostgreSQL();
-        }
+       
 
-        private void datosDeConexionAInstanciaToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            PostgreSQLInstaller postgreSQLInstaller = new PostgreSQLInstaller();
-            textBox1.Text = postgreSQLInstaller.GetPostgresConnectionString();
-        }
+       
 
         private void toolTip1_Popup(object sender, PopupEventArgs e)
         {

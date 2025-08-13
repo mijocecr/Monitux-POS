@@ -23,6 +23,7 @@ namespace Monitux_POS.Ventanas
 
         private void V_Configuracion_Load(object sender, EventArgs e)
         {
+            textBox9.Text = Properties.Settings.Default.DB_CONNECTION;
             this.Text = "Configuración del Sistema";
             switch (Properties.Settings.Default.DB_PROVIDER)
             {
@@ -111,7 +112,7 @@ namespace Monitux_POS.Ventanas
             {
                 try
                 {
-                    string rutaBaseDatosOriginal = Path.Combine(Application.StartupPath, "Resources", "Database", "monitux.db");
+                    string rutaBaseDatosOriginal = Path.Combine(Application.StartupPath, "Resources", "Database", "Sqlite-DB.db");
                     string nombreRespaldoSQLite = $"{DateTime.Today:dd-MM-yyyy}-Monitux.db";
                     string rutaRespaldoSQLite = Path.Combine(textBox2.Text.Trim(), nombreRespaldoSQLite);
 
@@ -180,7 +181,7 @@ namespace Monitux_POS.Ventanas
                     try
                     {
                         string sourceDatabase = textBox1.Text.Trim(); // Ruta del archivo de respaldo
-                        string targetDatabase = Path.Combine(Application.StartupPath, "Resources", "Database", "monitux.db");
+                        string targetDatabase = Path.Combine(Application.StartupPath, "Resources", "Database", "Sqlite-DB.db");
 
                         if (!File.Exists(sourceDatabase))
                             throw new FileNotFoundException("El archivo de respaldo no existe. Verifica la ruta.");
