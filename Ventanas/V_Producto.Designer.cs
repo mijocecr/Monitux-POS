@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(V_Producto));
             panel1 = new Panel();
             pictureBox6 = new PictureBox();
@@ -70,6 +71,7 @@
             toolStripSeparator1 = new ToolStripSeparator();
             salirToolStripMenuItem = new ToolStripMenuItem();
             label13 = new Label();
+            toolTip1 = new ToolTip(components);
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -385,7 +387,9 @@
             pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox3.TabIndex = 7;
             pictureBox3.TabStop = false;
+            toolTip1.SetToolTip(pictureBox3, "Doble click para copiar al portapapeles");
             pictureBox3.Click += pictureBox3_Click;
+            pictureBox3.DoubleClick += pictureBox3_DoubleClick;
             // 
             // pictureBox2
             // 
@@ -395,7 +399,9 @@
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 6;
             pictureBox2.TabStop = false;
+            toolTip1.SetToolTip(pictureBox2, "Doble click para copiar al portapapeles");
             pictureBox2.Click += pictureBox2_Click;
+            pictureBox2.DoubleClick += pictureBox2_DoubleClick;
             // 
             // label5
             // 
@@ -469,7 +475,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(418, 24);
+            menuStrip1.Size = new Size(404, 24);
             menuStrip1.TabIndex = 1;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -560,7 +566,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(11, 8, 20);
-            ClientSize = new Size(418, 537);
+            ClientSize = new Size(404, 518);
             ControlBox = false;
             Controls.Add(label13);
             Controls.Add(panel1);
@@ -629,5 +635,6 @@
         private ComboBox comboBox1;
         private Label label13;
         private PictureBox pictureBox6;
+        private ToolTip toolTip1;
     }
 }

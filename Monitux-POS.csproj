@@ -15,7 +15,6 @@
     <UseWPF>False</UseWPF>
     <NeutralLanguage>es-HN</NeutralLanguage>
     <SignAssembly>True</SignAssembly>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
     <AssemblyVersion>1.5.0.0</AssemblyVersion>
     <FileVersion>1.5.0.0</FileVersion>
     <Authors>Miguel Josue Cerrato Cruz</Authors>
@@ -23,7 +22,7 @@
     <Product>Monitux-POS</Product>
     <Description>Monitux-POS es un sistema moderno de punto de venta desarrollado en .NET C#, diseñado para pequeñas y medianas empresas. Ofrece una interfaz intuitiva y herramientas robustas para la gestión eficiente de ventas, inventario y productos, optimizando las operaciones comerciales de forma ágil y confiable.</Description>
     <Copyright>© 2025 Miguel Cerrato. Todos los derechos reservados.</Copyright>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -33,6 +32,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <IsPublishable>True</IsPublishable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Properties\DataSources\**" />
+    <EmbeddedResource Remove="Properties\DataSources\**" />
+    <None Remove="Properties\DataSources\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Clases\Monitux_DB_Context - Copia.cs" />
@@ -506,10 +511,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\DataSources\" />
   </ItemGroup>
 
 </Project>

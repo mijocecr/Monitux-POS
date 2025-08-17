@@ -251,7 +251,7 @@ namespace Monitux_POS.Ventanas
                 acceso = false;
                 txtPassword.Clear(); // Limpia el campo de contraseña si el acceso es incorrecto
 
-                V_Menu_Principal.MSG.ShowMSG("Error al validar el usuario. "+ex.Message, "Error");
+                V_Menu_Principal.MSG.ShowMSG("Error al validar el usuario.", "Error");
 
                 return;
             }

@@ -82,7 +82,7 @@ namespace Monitux_POS.Ventanas
                 llenar_Combo_Proveedor();
                 llenar_Combo_Categoria();
 
-               
+
 
                 Imagen = Vista_producto.Imagen; // byte[]
 
@@ -680,7 +680,7 @@ namespace Monitux_POS.Ventanas
 
                     if (producto != null)
                     {
-                       
+
 
                         Util.Registrar_Actividad(Secuencial_Usuario, $"Ha eliminado el producto: {producto.Codigo}", V_Menu_Principal.Secuencial_Empresa);
 
@@ -959,5 +959,33 @@ namespace Monitux_POS.Ventanas
             pictureBox2.Image = Util.Generar_Codigo_QR(Secuencial, mensaje_QR, V_Menu_Principal.Secuencial_Empresa);
 
         }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            Clipboard.SetImage(pictureBox2.Image); // Copia la imagen del PictureBox al portapapeles
+        }
+
+        private void copiarAlPortapapelesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox2_DoubleClick(object sender, EventArgs e)
+        {
+            if (pictureBox2.Image != null)
+            {
+                Clipboard.SetImage(pictureBox2.Image); // Copia la imagen del PictureBox al portapapeles
+            }
+            
+        }
+
+        private void pictureBox3_DoubleClick(object sender, EventArgs e)
+        {
+            if (pictureBox3.Image != null)
+            {
+                Clipboard.SetImage(pictureBox3.Image); // Copia la imagen del PictureBox al portapapeles
+            }
+        }
+          
     }
 }

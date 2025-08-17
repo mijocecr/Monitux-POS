@@ -1158,7 +1158,7 @@ namespace Monitux_POS.Ventanas
 
             V_Menu_Principal.MSG.ShowMSG("Orden registrada correctamente.", "Éxito");
             // Limpiar los campos y controles después de registrar la venta
-            Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una orden de compra segun Numero: " + secuencial + "\nPor valor de: " + Math.Round(total, 2), V_Menu_Principal.Secuencial_Empresa);
+            Util.Registrar_Actividad(Secuencial_Usuario, "Ha registrado una orden de compra con Numero: " + secuencial + " Por valor de: " + Math.Round(total, 2), V_Menu_Principal.Secuencial_Empresa);
             Limpiar_Factura(); // Llama al método para limpiar la factura después de registrar la venta
 
             pictureBox1.Visible = false; // Ocultar el PictureBox de carga después de registrar la venta

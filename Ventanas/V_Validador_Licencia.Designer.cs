@@ -40,7 +40,9 @@
             label3 = new Label();
             label4 = new Label();
             panel1 = new Panel();
+            pictureBox1 = new PictureBox();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // lblTitulo
@@ -147,6 +149,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(35, 32, 40);
+            panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(lblTitulo);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(txtLicencia);
@@ -161,6 +164,17 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(255, 214);
             panel1.TabIndex = 10;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(3, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(48, 43);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 51;
+            pictureBox1.TabStop = false;
+            pictureBox1.Visible = false;
             // 
             // V_Validador_Licencia
             // 
@@ -181,6 +195,7 @@
             Load += V_Validador_Licencia_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -197,5 +212,6 @@
         private Label label3;
         private Label label4;
         private Panel panel1;
+        private PictureBox pictureBox1;
     }
 }

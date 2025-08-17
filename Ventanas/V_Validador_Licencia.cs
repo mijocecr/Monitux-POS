@@ -25,8 +25,8 @@ namespace Monitux_POS.Ventanas
 
             ////////////////////////////////////////////////////////
 
+            pictureBox1.Visible = true;
 
-        
             var gestor = new Gestor_Licencia();
             bool ok = await gestor.ValidarYActivarLicenciaAsync(txtLicencia.Text.Trim());
 
@@ -85,7 +85,7 @@ namespace Monitux_POS.Ventanas
 
             */
 
-
+            pictureBox1.Visible = false;
 
         }
 
