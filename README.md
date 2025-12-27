@@ -36,4 +36,4 @@ Tambien decir que existe una version de este programa que parte de este diseño 
 de sus componentes y logica pero en codigo Java. El cual es similar (Salvo algunas partes que han sido reescritas completamente)
 
 La experiencia de uso, la interfaz grafica y el comportamiento es exactamente el mismo. 
-Y lo he escrito en Java, nada mas que para actaulizar/refrescar mi competencia en ese lenguaje.
+Y lo he escrito en Java, solo para actaulizar/refrescar mi competencia en ese lenguaje.
