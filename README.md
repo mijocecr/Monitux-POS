@@ -1,6 +1,6 @@
 # 🛒 Monitux-POS
 
-**Monitux-POS** es un sistema de punto de venta desarrollado en **C#** y **SQLite**, diseñado para pequeñas y medianas empresas que necesitan gestionar sus operaciones comerciales de forma ágil, segura y centralizada. Evoluciona desde el proyecto original *Monitux* en Java, ahora con enfoque moderno, panel de control y múltiples funcionalidades.
+**Monitux-POS** es un sistema de punto de venta desarrollado en **C#**, diseñado para pequeñas y medianas empresas que necesitan gestionar sus operaciones comerciales de forma ágil, segura y centralizada. Evoluciona desde el proyecto original *Monitux* en Java, ahora con enfoque moderno, panel de control y múltiples funcionalidades.
 
 ## 🚀 Características Principales
 
@@ -28,11 +28,12 @@ Descargar: https://drive.google.com/file/d/1ddrx65-LAKsb_JSXvUYHsnvlISMvgtlx/vie
 
 Nota: Este proyecto, ha sido creado con el fin de mostrar el desarrollo de un sistema real. 
 Su desarrollo por mi parte fue para validar mi certificacion con Microsoft del lenguaje C#
-por lo tanto, existen errores menores y no hay ninguna garantia en su uso.
+
 La razon de existir de este repositorio es que sirva como ejemplo ilustrativo para futuros alumnos
-si es que alguna vez vuelvo a ser docente universitario.
+si es que alguna vez vuelvo a enseñar programacion.
 
 Tambien decir que existe una version de este programa que parte de este diseño e incluye la mayoria
 de sus componentes y logica pero en codigo Java. El cual es similar (Salvo algunas partes que han sido reescritas completamente)
 
-La experiencia de uso, la interfaz grafica y el comportamiento es exactamente el mismo.
+La experiencia de uso, la interfaz grafica y el comportamiento es exactamente el mismo. 
+Y lo he escrito en Java, nada mas que para actaulizar/refrescar mi competencia en ese lenguaje.
