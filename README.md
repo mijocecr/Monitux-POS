@@ -25,3 +25,14 @@
 - Administración de roles y permisos por tipo de usuario
 
 Descargar: https://drive.google.com/file/d/1ddrx65-LAKsb_JSXvUYHsnvlISMvgtlx/view?usp=sharing
+
+Nota: Este proyecto, ha sido creado con el fin de mostrar el desarrollo de un sistema real. 
+Su desarrollo por mi parte fue para validar mi certificacion con Microsoft del lenguaje C#
+por lo tanto, existen errores menores y no hay ninguna garantia en su uso.
+La razon de existir de este repositorio es que sirva como ejemplo ilustrativo para futuros alumnos
+si es que alguna vez vuelvo a ser docente universitario.
+
+Tambien decir que existe una version de este programa que parte de este diseño e incluye la mayoria
+de sus componentes y logica pero en codigo Java. El cual es similar (Salvo algunas partes que han sido reescritas completamente)
+
+La experiencia de uso, la interfaz grafica y el comportamiento es exactamente el mismo.
